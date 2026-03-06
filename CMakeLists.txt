@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.16)
-project(Just_Shapes_And_Beats)
+project(JUST_SHAPES_AND_BEATS)
 
 set(CMAKE_CXX_STANDARD 17)
 
