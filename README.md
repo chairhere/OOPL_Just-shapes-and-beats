@@ -11,7 +11,7 @@
 
 音樂節奏結合有序彈幕閃避生存遊戲，透過移動和衝刺來閃避隨著音樂節奏出現的各種障礙並撐到音樂或關卡結束，其中的障礙不只有四處飛來的尖刺或方塊，也有貫穿畫面的雷射。
 
-- [遊戲連結] (https://store.steampowered.com/app/531510/Just_Shapes__Beats/)
+- [遊戲連結](https://store.steampowered.com/app/531510/Just_Shapes__Beats/)
 - [遊戲示範連結](https://www.youtube.com/watch?v=s7eeyq6aVkQ) 
 
 # Development timeline
@@ -75,6 +75,10 @@
 ![image](https://hackmd.io/_uploads/Bk_dsjrYZl.png)
 
 # 長頸鹿大冒險通關證明
+
+113590026 江柏勳
+![image](https://hackmd.io/_uploads/BJ4cV2wFWl.png)
+![image](https://hackmd.io/_uploads/r1D9E2vF-e.png)
 
 113590027 余政澤
 ![螢幕擷取畫面 2026-03-06 093225](https://hackmd.io/_uploads/rk17f3PKZg.png)
