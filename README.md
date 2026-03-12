@@ -63,8 +63,7 @@
 - Week 16：改善關卡與障礙
   - [ ] 偵錯與優化
 - Week 17：成果展示
-  - [ ] final_project
-- Week 18：final_project
+  - [ ] 最後檢查
 
 # OOP 修課證明
 
