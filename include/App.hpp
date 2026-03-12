@@ -2,6 +2,8 @@
 #define APP_HPP
 
 #include "pch.hpp" // IWYU pragma: export
+#include "Util/TransformUtils.hpp"
+#include "Util/Renderer.hpp"
 
 class App {
 public:
@@ -23,6 +25,9 @@ private:
     void ValidTask();
 
 private:
+
+    Util::Renderer m_Root;
+
     State m_CurrentState = State::START;
 };
 
