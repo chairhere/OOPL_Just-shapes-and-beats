@@ -36,7 +36,7 @@ add_executable(${PROJECT_NAME}
     ${SRC_FILES}
     ${HEADER_FILES}
         "src/Time_Line.cpp"
-        "include/Time_Line.h"
+        "include/Time_Line.hpp"
 )
 
 if(MSVC)

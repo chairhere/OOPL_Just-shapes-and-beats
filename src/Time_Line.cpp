@@ -1,16 +1,22 @@
 //
 // Created by jerry on 2026/3/12.
 //
-#include "Time_Line.h"
+#include "Time_Line.hpp"
 
 TimeLine::TimeLine(std::string &path, int BPM){
     this->BPM = BPM;
     BGM_Player = std::make_unique<Util::BGM>(path);
-    current_state = State::Load;
+    Current_State = State::Load;
 }
 
 void TimeLine::Start() {
-    current_state = State::Update;
+    Current_State = State::Update;
     BGM_Player->Play();
     Start_Time = SDL_GetPerformanceCounter();
+}
+
+void TimeLine::Update() {
+    Current_Time = static_cast<float>(SDL_GetPerformanceCounter() - Start_Time) / static_cast<float>(SDL_GetPerformanceFrequency()) * 1000.0F;
+    Current_Beat = static_cast<int>(Current_Time * (BPM / 60));
+    Delay_Time = Current_Time - static_cast<float>(Current_Beat) * (BPM/60);
 }
