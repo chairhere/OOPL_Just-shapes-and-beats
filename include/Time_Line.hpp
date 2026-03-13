@@ -33,13 +33,19 @@ public:
     void Stop();
 
 private:
-    Util::Time timer;
+    Util::Time Timer;
     std::unique_ptr<Util::BGM> BGM_Player;
-    int BPM = 0;
+
+    float BPM = 0.0f;
     int Current_Beat = 0;
+
     Uint64 Start_Time = 0;
-    Uint64 Current_Time = 0;
-    State current_state = State::Load;
+
+    float Current_Time = 0;
+    float Delay_Time = 0.0f;
+
+
+    State Current_State = State::Load;
 
 
 };

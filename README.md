@@ -17,10 +17,10 @@
 # Development timeline
 
 - Week 1：準備proposal
-  - [ ] 想題目
+  - [x] 想題目
 - Week 2：收集遊戲素材
-  - [ ] 處理遊戲素材
-  - [ ] 基本架構確認
+  - [x] 處理遊戲素材
+  - [x] 基本架構確認
 - Week 3：玩家設計
   - [ ] W, A, S, D移動
   - [ ] space衝刺
