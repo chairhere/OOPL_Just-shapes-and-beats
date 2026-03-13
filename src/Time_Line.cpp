@@ -16,7 +16,16 @@ void TimeLine::Start() {
 }
 
 void TimeLine::Update() {
-    Current_Time = static_cast<float>(SDL_GetPerformanceCounter() - Start_Time) / static_cast<float>(SDL_GetPerformanceFrequency()) * 1000.0F;
-    Current_Beat = static_cast<int>(Current_Time * (BPM / 60));
-    Delay_Time = Current_Time - static_cast<float>(Current_Beat) * (BPM/60);
+    if (Current_State == State::Update) {
+        Current_Time = static_cast<float>(SDL_GetPerformanceCounter() - Start_Time) / static_cast<float>(SDL_GetPerformanceFrequency()) * 1000.0F;
+        Current_Beat = static_cast<int>(Current_Time * (BPM / 60));
+        Delay_Time = Current_Time - static_cast<float>(Current_Beat) * (BPM/60);
+        Current_State = State::Update;
+    }
+}
+
+void TimeLine::Pause() {
+    Current_State = State::Pause;
+    BGM_Player->Pause();
+
 }
