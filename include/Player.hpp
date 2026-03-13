@@ -12,7 +12,7 @@ class Player : public Util::GameObject {
 public:
     Player() {
         m_Drawable =std::make_shared<Util::Image>("../Resources/Image/Player/player1.png");
-        m_Transform.scale = glm::vec2(50.0f, 50.0f);
+        m_Transform.scale = glm::vec2(0.3f, 0.3f);
     };
 
     [[nodiscard]] glm::vec2 GetPosition() {return m_Transform.translation;}

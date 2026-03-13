@@ -21,6 +21,8 @@ void App::Update() {
     
     m_Player->Moving();
 
+    // Render all game objects managed by the root renderer.
+    m_Root.Update();
 
     /*
      * Do not touch the code below as they serve the purpose for
