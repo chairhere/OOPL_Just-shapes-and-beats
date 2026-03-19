@@ -40,6 +40,7 @@ add_executable(${PROJECT_NAME}
         "include/Player.hpp"
         "src/Player.cpp"
         "include/Spawn_Event.hpp"
+        "include/Songs_BPM.hpp"
 )
 
 if(MSVC)

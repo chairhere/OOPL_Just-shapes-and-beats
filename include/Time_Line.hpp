@@ -11,7 +11,7 @@
 #include "Util/Time.hpp"
 #include "Util/BGM.hpp"
 
-class TimeLine{
+class Time_Line{
 public:
     enum class State {
         Load,
@@ -21,8 +21,8 @@ public:
         Stop
     };
 
-    TimeLine(std::string &path, float BPM);
-    ~TimeLine() = default;
+    Time_Line(const std::string &path, float BPM);
+    ~Time_Line() = default;
 
     void Start();
 

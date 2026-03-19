@@ -1,6 +1,8 @@
 #include "App.hpp"
 
 #include "Player.hpp"
+#include "Time_Line.hpp"
+#include "Songs_BPM.hpp"
 #include "Util/Image.hpp"
 #include "Util/Input.hpp"
 #include "Util/Keycode.hpp"
@@ -14,12 +16,16 @@ void App::Start() {
     m_Player->SetZIndex(50);
     m_Root.AddChild(m_Player);
 
+    Main_Menu_Music = std::make_shared<Time_Line>("../Resources/Audio/Main_Menu.mp3", static_cast<float>(Songs_BPM::Main_Menu));
+    Main_Menu_Music->Start();
+
     m_CurrentState = State::UPDATE;
 }
 
 void App::Update() {
     
     m_Player->Moving();
+    Main_Menu_Music->Update();
 
     // Render all game objects managed by the root renderer.
     m_Root.Update();
