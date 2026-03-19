@@ -39,6 +39,7 @@ add_executable(${PROJECT_NAME}
         "include/Time_Line.hpp"
         "include/Player.hpp"
         "src/Player.cpp"
+        "include/Spawn_Event.hpp"
 )
 
 if(MSVC)

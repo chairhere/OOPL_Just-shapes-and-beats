@@ -21,7 +21,7 @@ public:
         Stop
     };
 
-    TimeLine(std::string &path, int BPM);
+    TimeLine(std::string &path, float BPM);
     ~TimeLine() = default;
 
     void Start();
@@ -37,13 +37,11 @@ private:
     std::unique_ptr<Util::BGM> BGM_Player;
 
     float BPM = 0.0f;
-    int Current_Beat = 0;
+    float Current_Beat = 0.0f;
 
     Uint64 Start_Time = 0;
 
     float Current_Time = 0;
-    float Delay_Time = 0.0f;
-
 
     State Current_State = State::Load;
 
