@@ -11,11 +11,9 @@ class Screen {
 public:
     virtual ~Screen() = default;
 
-    // 每個畫面都必須實作自己的 Update 邏輯
     virtual void Update() = 0;
 
 protected:
-    // 每個畫面都有專屬的渲染器，用來管理跟繪製自己的物件
     Util::Renderer m_Renderer;
 };
 
