@@ -41,9 +41,10 @@ add_executable(${PROJECT_NAME}
         "src/Player.cpp"
         "include/SpawnEvent.hpp"
         "include/SongsBPM.hpp"
-        src/Button.cpp
-        include/Button.hpp
-        include/Obstacle.hpp
+        "src/Button.cpp"
+        "include/Button.hpp"
+        "include/Obstacle.hpp"
+        src/Obstacle.cpp
 )
 
 if(MSVC)
