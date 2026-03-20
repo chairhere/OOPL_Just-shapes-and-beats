@@ -50,6 +50,8 @@ add_executable(${PROJECT_NAME}
         include/Screen.hpp
         src/MainMenuScreen.cpp
         include/MainMenuScreen.hpp
+        src/LevelSpawner.cpp
+        include/LevelSpawner.hpp
 )
 
 if(MSVC)
