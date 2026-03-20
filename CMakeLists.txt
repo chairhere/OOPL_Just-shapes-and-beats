@@ -45,6 +45,7 @@ add_executable(${PROJECT_NAME}
         "include/Button.hpp"
         "include/Obstacle.hpp"
         src/Obstacle.cpp
+        include/Levels.hpp
 )
 
 if(MSVC)
