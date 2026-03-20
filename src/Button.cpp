@@ -8,6 +8,14 @@ void Button::SetOnClick(const std::function<void()> &onClickEvent) {
     m_OnClick = onClickEvent;
 }
 
+void Button::SetOnHovering(const std::function<void()> &onHoverEvent) {
+    m_OnHover = onHoverEvent;
+}
+
+void Button::SetOnFocus(const std::function<void()> &onFocusEvent) {
+    m_OnFocus = onFocusEvent;
+}
+
 bool Button::isHovering() {
     // 1. 取得滑鼠當前位置
     glm::vec2 mousePos = Util::Input::GetCursorPosition();
@@ -25,3 +33,17 @@ bool Button::isHovering() {
     return hovering;
 }
 
+void Button::Update() {
+    if (isHovering()) {
+        m_OnHover();
+        if (Util::Input::IsKeyDown(Util::Keycode::MOUSE_LB)) {
+            m_OnClick();
+        }
+    }
+    if (isFocus()) {
+        m_OnFocus();
+        if (Util::Input::IsKeyDown(Util::Keycode::RETURN)) {
+            m_OnClick();
+        }
+    }
+}
