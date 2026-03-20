@@ -7,6 +7,8 @@
 
 enum class Levels {
     Main,
+    Settlement,
+    GameOver,
     Chronos
 };
 

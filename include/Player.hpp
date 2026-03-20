@@ -11,7 +11,7 @@
 class Player : public Util::GameObject {
 public:
     Player() {
-        m_Drawable =std::make_shared<Util::Image>("../Resources/Image/Player/Rectangle.png");
+        m_Drawable = std::make_shared<Util::Image>("../Resources/Image/Player/Rectangle.png");
         m_Transform.scale = glm::vec2(0.3f, 0.3f);
     }
 

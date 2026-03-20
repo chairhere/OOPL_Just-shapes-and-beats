@@ -1,5 +1,6 @@
 #include "App.hpp"
 
+#include "MainMenuScreen.hpp"
 #include "Player.hpp"
 #include "TimeLine.hpp"
 #include "SongsBPM.hpp"
@@ -10,6 +11,8 @@
 
 void App::Start() {
     LOG_TRACE("Start");
+
+    m_CurrentScreen = std::make_shared<MainMenuScreen>();
 
     m_Player = std::make_shared<Player>();
     m_Player->SetPosition(glm::vec2(0.0f, 0.0f));
@@ -30,6 +33,9 @@ void App::Update() {
     Main_Menu_Music->Update();
 
     // Render all game objects managed by the root renderer.
+    if (m_CurrentScreen) {
+        m_CurrentScreen->Update();
+    }
     m_Root.Update();
 
     /*

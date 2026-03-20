@@ -3,6 +3,7 @@
 
 #include "pch.hpp" // IWYU pragma: export
 #include "Player.hpp"
+#include "Screen.hpp"
 #include "TimeLine.hpp"
 #include "Util/TransformUtils.hpp"
 #include "Util/Renderer.hpp"
@@ -29,6 +30,7 @@ private:
 private:
 
     Util::Renderer m_Root;
+    std::shared_ptr<Screen> m_CurrentScreen;
 
     std::shared_ptr<Player> m_Player;
     std::shared_ptr<TimeLine> Main_Menu_Music;
