@@ -11,7 +11,7 @@
 #include "Util/Time.hpp"
 #include "Util/BGM.hpp"
 
-class Time_Line{
+class TimeLine{
 public:
     enum class State {
         Load,
@@ -21,8 +21,8 @@ public:
         Stop
     };
 
-    Time_Line(const std::string &path, float BPM);
-    ~Time_Line() = default;
+    TimeLine(const std::string &path, float BPM);
+    ~TimeLine() = default;
 
     void Start();
 
@@ -37,13 +37,13 @@ private:
     std::unique_ptr<Util::BGM> BGM_Player;
 
     float BPM = 0.0f;
-    float Current_Beat = 0.0f;
+    float CurrentBeat = 0.0f;
 
-    Uint64 Start_Time = 0;
+    Uint64 StartTime = 0;
 
-    float Current_Time = 0;
+    float CurrentTime = 0;
 
-    State Current_State = State::Load;
+    State CurrentState = State::Load;
 
 
 };

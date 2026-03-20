@@ -5,7 +5,7 @@
 #ifndef JUST_SHAPES_AND_BEATS_SONGS_BPM_HPP
 #define JUST_SHAPES_AND_BEATS_SONGS_BPM_HPP
 
-enum class Songs_BPM {
+enum class SongsBPM {
     Main_Menu = 125,
     Chronos = 134
 };

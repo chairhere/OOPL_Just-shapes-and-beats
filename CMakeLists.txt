@@ -35,14 +35,15 @@ add_executable(${PROJECT_NAME}
     ${SRC_DIR}/main.cpp
     ${SRC_FILES}
     ${HEADER_FILES}
-        "src/Time_Line.cpp"
-        "include/Time_Line.hpp"
+        "src/TimeLine.cpp"
+        "include/TimeLine.hpp"
         "include/Player.hpp"
         "src/Player.cpp"
-        "include/Spawn_Event.hpp"
-        "include/Songs_BPM.hpp"
+        "include/SpawnEvent.hpp"
+        "include/SongsBPM.hpp"
         src/Button.cpp
         include/Button.hpp
+        include/Obstacle.hpp
 )
 
 if(MSVC)

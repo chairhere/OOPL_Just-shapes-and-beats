@@ -3,7 +3,7 @@
 
 #include "pch.hpp" // IWYU pragma: export
 #include "Player.hpp"
-#include "Time_Line.hpp"
+#include "TimeLine.hpp"
 #include "Util/TransformUtils.hpp"
 #include "Util/Renderer.hpp"
 
@@ -31,7 +31,7 @@ private:
     Util::Renderer m_Root;
 
     std::shared_ptr<Player> m_Player;
-    std::shared_ptr<Time_Line> Main_Menu_Music;
+    std::shared_ptr<TimeLine> Main_Menu_Music;
 
     State m_CurrentState = State::START;
 };
