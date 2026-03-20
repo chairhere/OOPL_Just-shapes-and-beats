@@ -23,32 +23,32 @@ void Player::SetRotation(float arc) {
 
 void Player::Moving() {
     if (Util::Input::IsKeyPressed(Util::Keycode::W) or Util::Input::IsKeyPressed(Util::Keycode::UP)) {
-        Moving_Direction += glm::vec2(0.0f, 3.0f);
+        m_MovingDirection += glm::vec2(0.0f, 3.0f);
     }
     if (Util::Input::IsKeyPressed(Util::Keycode::S) or Util::Input::IsKeyPressed(Util::Keycode::DOWN)) {
-        Moving_Direction += glm::vec2(0.0f, -3.0f);
+        m_MovingDirection += glm::vec2(0.0f, -3.0f);
     }
     if (Util::Input::IsKeyPressed(Util::Keycode::A) or Util::Input::IsKeyPressed(Util::Keycode::LEFT)) {
-        Moving_Direction += glm::vec2(-3.0f, 0.0f);
+        m_MovingDirection += glm::vec2(-3.0f, 0.0f);
     }
     if (Util::Input::IsKeyPressed(Util::Keycode::D) or Util::Input::IsKeyPressed(Util::Keycode::RIGHT)) {
-        Moving_Direction += glm::vec2(3.0f, 0.0f);
+        m_MovingDirection += glm::vec2(3.0f, 0.0f);
     }
     if (Util::Input::IsKeyPressed(Util::Keycode::SPACE)) {
         Dash();
     }
-    if (Dashing) {
-        Moving_Direction *= 3;
-        Dash_Time_Left -= Util::Time::GetDeltaTimeMs();
-        if (Dash_Time_Left <= 0) {
-            Dashing = false;
+    if (m_Dashing) {
+        m_MovingDirection *= 3;
+        m_DashTimeLeft -= Util::Time::GetDeltaTimeMs();
+        if (m_DashTimeLeft <= 0) {
+            m_Dashing = false;
         }
     }
-    MovePosition(Moving_Direction);
-    Moving_Direction = glm::vec2(0.0f, 0.0f);
+    MovePosition(m_MovingDirection);
+    m_MovingDirection = glm::vec2(0.0f, 0.0f);
 }
 
 void Player::Dash() {
-    Dashing = true;
-    Dash_Time_Left = 100.0f;
+    m_Dashing = true;
+    m_DashTimeLeft = 100.0f;
 }

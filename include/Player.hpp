@@ -13,7 +13,7 @@ public:
     Player() {
         m_Drawable =std::make_shared<Util::Image>("../Resources/Image/Player/Rectangle.png");
         m_Transform.scale = glm::vec2(0.3f, 0.3f);
-    };
+    }
 
     [[nodiscard]] glm::vec2 GetPosition() {return m_Transform.translation;}
 
@@ -32,11 +32,13 @@ public:
     void Dash();
 
 protected:
-    int Max_Health = 3;
-    int Health = Max_Health;
-    glm::vec2 Moving_Direction = glm::vec2(0.0f, 0.0f);
-    bool Dashing = false;
-    float Dash_Time_Left = 0;
+    int m_MaxHealth = 3;
+    int m_Health = m_MaxHealth;
+    int m_MaxResurrection = 3;
+    int m_Resurrection_Times = m_MaxResurrection;
+    glm::vec2 m_MovingDirection = glm::vec2(0.0f, 0.0f);
+    bool m_Dashing = false;
+    float m_DashTimeLeft = 0;
 
 private:
 };
