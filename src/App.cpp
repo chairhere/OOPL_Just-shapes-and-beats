@@ -16,7 +16,7 @@ void App::Start() {
     m_Player->SetZIndex(50);
     m_Root.AddChild(m_Player);
 
-    Main_Menu_Music = std::make_shared<TimeLine>("../Resources/Audio/Main_Menu.mp3", static_cast<float>(SongsBPM::Main_Menu));
+    Main_Menu_Music = std::make_shared<TimeLine>("../Resources/Audio/MainMenu.wav", static_cast<float>(SongsBPM::Main_Menu));
     Main_Menu_Music->Start();
 
     SDL_StopTextInput();
