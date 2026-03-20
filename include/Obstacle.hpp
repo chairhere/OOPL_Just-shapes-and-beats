@@ -14,7 +14,7 @@ public:
     SpawnEvent m_Event;
     bool m_IsDead = false; // 標記是否已經超過 endBeat，準備被銷毀
 
-    Obstacle(const SpawnEvent& event) : m_Event(event) {
+    explicit Obstacle(const SpawnEvent& event) : m_Event(event) {
         m_Transform.translation = event.startPos;
         m_Transform.rotation = event.startRot;
         m_Transform.scale = glm::vec2(1.0f, 1.0f);

@@ -15,10 +15,10 @@ void Obstacle::UpdateStateByBeat(float currentBeat) {
     t = std::clamp(t, 0.0f, 1.0f);
 
     // 根據節拍進度，利用線性插值 (Lerp) 計算當前的位移與旋轉 [5]
-    m_Transform.translation = m_Event.startPos + (m_Event.endPos - m_Event.startPos) * t; [1]
-    m_Transform.rotation = m_Event.startRot + (m_Event.endRot - m_Event.startRot) * t;    [1]
+    m_Transform.translation = m_Event.startPos + (m_Event.endPos - m_Event.startPos) * t;
+    m_Transform.rotation = m_Event.startRot + (m_Event.endRot - m_Event.startRot) * t;
 
     // 若需要隨節拍縮放跳動的特效，可以在此處疊加計算給 m_Transform.scale [5]
     // float beatPulse = 1.0f + 0.2f * sin(currentBeat * glm::pi<float>());
     // m_Transform.scale = glm::vec2(beatPulse);
-};
+}
