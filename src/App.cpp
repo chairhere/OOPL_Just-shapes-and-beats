@@ -19,6 +19,8 @@ void App::Start() {
     Main_Menu_Music = std::make_shared<TimeLine>("../Resources/Audio/Main_Menu.mp3", static_cast<float>(SongsBPM::Main_Menu));
     Main_Menu_Music->Start();
 
+    SDL_StopTextInput();
+
     m_CurrentState = State::UPDATE;
 }
 

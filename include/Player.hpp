@@ -39,6 +39,7 @@ protected:
     glm::vec2 m_MovingDirection = glm::vec2(0.0f, 0.0f);
     bool m_Dashing = false;
     float m_DashTimeLeft = 0;
+    bool m_DashCoolDown = false;
 
 private:
 };

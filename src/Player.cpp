@@ -34,14 +34,20 @@ void Player::Moving() {
     if (Util::Input::IsKeyPressed(Util::Keycode::D) or Util::Input::IsKeyPressed(Util::Keycode::RIGHT)) {
         m_MovingDirection += glm::vec2(3.0f, 0.0f);
     }
-    if (Util::Input::IsKeyPressed(Util::Keycode::SPACE)) {
+    if (Util::Input::IsKeyDown(Util::Keycode::SPACE)) {
         Dash();
     }
     if (m_Dashing) {
-        m_MovingDirection *= 3;
+        m_MovingDirection *= 10;
         m_DashTimeLeft -= Util::Time::GetDeltaTimeMs();
         if (m_DashTimeLeft <= 0) {
             m_Dashing = false;
+        }
+    }else if (m_DashCoolDown) {  //not m_Dashing but m_DashCoolDown
+        m_DashTimeLeft -= Util::Time::GetDeltaTimeMs();
+        //0.4s cooldown time
+        if (m_DashTimeLeft <= -400.0f and not Util::Input::IsKeyPressed(Util::Keycode::SPACE)) {
+            m_DashCoolDown = false;
         }
     }
     MovePosition(m_MovingDirection);
@@ -49,6 +55,9 @@ void Player::Moving() {
 }
 
 void Player::Dash() {
-    m_Dashing = true;
-    m_DashTimeLeft = 100.0f;
+    if (not m_DashCoolDown) {
+        m_Dashing = true;
+        m_DashTimeLeft = 100.0f;
+        m_DashCoolDown = true;
+    }
 }
