@@ -5,19 +5,21 @@
 #ifndef JUST_SHAPES_AND_BEATS_MAINMENUSCREEN_HPP
 #define JUST_SHAPES_AND_BEATS_MAINMENUSCREEN_HPP
 #include "Button.hpp"
+#include "Levels.hpp"
 #include "Screen.hpp"
 
 class MainMenuScreen : public Screen{
-
+public:
     ~MainMenuScreen() = default;
 
-    MainMenuScreen() {
-        std::shared_ptr<Button> m_button_play, m_button_option, m_button_exit;
-        //setting
-        m_Renderer.AddChild(m_button_play);
-        m_Renderer.AddChild(m_button_option);
-        m_Renderer.AddChild(m_button_exit);
-    }
+    MainMenuScreen();
+
+    Levels Update() override;
+
+private:
+    bool playlist = false;
+    bool exit = false;
+    std::shared_ptr<Button> m_button_play, m_button_exit;
 };
 
 #endif //JUST_SHAPES_AND_BEATS_MAINMENUSCREEN_HPP

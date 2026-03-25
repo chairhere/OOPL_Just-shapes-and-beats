@@ -1,6 +1,7 @@
 #ifndef APP_HPP
 #define APP_HPP
 
+#include "Levels.hpp"
 #include "pch.hpp" // IWYU pragma: export
 #include "Player.hpp"
 #include "Screen.hpp"
@@ -31,6 +32,8 @@ private:
 
     Util::Renderer m_Root;
     std::shared_ptr<Screen> m_CurrentScreen;
+    Levels m_CurrentLevel;
+    void ChangeLevel(Levels newLevel);
 
     std::shared_ptr<Player> m_Player;
     std::shared_ptr<TimeLine> Main_Menu_Music;

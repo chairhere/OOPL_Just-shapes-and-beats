@@ -13,10 +13,12 @@ void App::Start() {
     LOG_TRACE("Start");
 
     m_CurrentScreen = std::make_shared<MainMenuScreen>();
+    m_CurrentLevel = Levels::Main;
 
     m_Player = std::make_shared<Player>();
     m_Player->SetPosition(glm::vec2(0.0f, 0.0f));
     m_Player->SetZIndex(50);
+    m_Player->SetVisible(false);
     m_Root.AddChild(m_Player);
 
     Main_Menu_Music = std::make_shared<TimeLine>("../Resources/Audio/MainMenu.wav", static_cast<float>(SongsBPM::Main_Menu));
@@ -34,7 +36,11 @@ void App::Update() {
 
     // Render all game objects managed by the root renderer.
     if (m_CurrentScreen) {
-        m_CurrentScreen->Update();
+        Levels newLevel = m_CurrentScreen->Update();
+
+        if (newLevel != m_CurrentLevel) {
+            ChangeLevel(newLevel);
+        }
     }
     m_Root.Update();
 
@@ -50,4 +56,19 @@ void App::Update() {
 
 void App::End() { // NOLINT(this method will mutate members in the future)
     LOG_TRACE("End");
+}
+
+void App::ChangeLevel(Levels newLevel) {
+    m_CurrentLevel = newLevel;
+    switch (m_CurrentLevel) {
+        case Levels::Main:
+            m_CurrentScreen = std::make_shared<MainMenuScreen>();
+            break;
+        case Levels::LevelList:
+            // m_CurrentScreen = std::make_shared<>()
+            break;
+        case Levels::Settlement:
+            // m_CurrentScreen = std::make_shared<>()
+            break;
+    }
 }

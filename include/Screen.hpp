@@ -11,7 +11,7 @@ class Screen {
 public:
     virtual ~Screen() = default;
 
-    virtual void Update() = 0;
+    virtual Levels Update() = 0;
 
 protected:
     Util::Renderer m_Renderer;

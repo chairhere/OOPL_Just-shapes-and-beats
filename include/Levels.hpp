@@ -7,10 +7,21 @@
 
 enum class Levels {
     Main,  //主畫面
-    Setting,  //設定畫面
+    LevelList,  //歌曲清單
     Settlement,  //結算畫面
     GameOver,  //死亡畫面
-    Chronos
+    Barracuda,
+    CheatCode,
+    Chronos,
+    FinalBoss,
+    FTW,
+    HYPE,
+    NewGame,
+    OnceAgain,
+    Rainbow,
+    SugarRush,
+    TillItsOver,
+    TryThis
 };
 
 #endif //JUST_SHAPES_AND_BEATS_LEVELS_HPP
