@@ -3,7 +3,7 @@
 //
 
 /**
- * Time_Line是用來播放歌曲與呼叫障礙產生器的主程式，歌曲的暫停播放與校正皆由此程式完成
+ * Time_Line是用來播放歌曲的主程式，歌曲的暫停播放與校正皆由此程式完成
  */
 #ifndef JUST_SHAPES_AND_BEATS_TIME_LINE_H
 #define JUST_SHAPES_AND_BEATS_TIME_LINE_H
@@ -32,9 +32,11 @@ public:
 
     void Stop();
 
+    void ChangeBGM(const std::string &path);
+
 private:
     Util::Time Timer;
-    std::unique_ptr<Util::BGM> BGM_Player;
+    std::unique_ptr<Util::BGM> BGMPlayer;
 
     float BPM = 0.0f;
     float CurrentBeat = 0.0f;

@@ -22,6 +22,12 @@ public:
     };
     ~LevelSpawner();
 
+    void Update(float currentBeat);
+
+    [[nodiscard]] const std::vector<std::shared_ptr<Obstacle>>& GetActiveObstacles() const {
+        return m_ActiveObstacles;
+    }
+
 
 
 };

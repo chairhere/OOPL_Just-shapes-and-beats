@@ -5,13 +5,14 @@
 
 TimeLine::TimeLine(const std::string &path, float BPM){
     this->BPM = BPM;
-    BGM_Player = std::make_unique<Util::BGM>(path);
+    BGMPlayer = std::make_unique<Util::BGM>(path);
     CurrentState = State::Load;
 }
 
 void TimeLine::Start() {
     CurrentState = State::Update;
-    BGM_Player->Play();
+    BGMPlayer->SetVolume(3);
+    BGMPlayer->Play();
     StartTime = SDL_GetPerformanceCounter();
 }
 
@@ -25,10 +26,15 @@ void TimeLine::Update() {
 
 void TimeLine::Pause() {
     CurrentState = State::Pause;
-    BGM_Player->Pause();
+    BGMPlayer->Pause();
 
 }
 
 void TimeLine::Stop() {
+    CurrentState = State::Stop;
+    BGMPlayer.reset();
+}
 
+void TimeLine::ChangeBGM(const std::string &path) {
+    BGMPlayer->LoadMedia(path);
 }
