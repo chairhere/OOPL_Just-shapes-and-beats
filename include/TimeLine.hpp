@@ -34,6 +34,8 @@ public:
 
     void ChangeBGM(const std::string &path);
 
+    float GetBeats();
+
 private:
     Util::Time Timer;
     std::unique_ptr<Util::BGM> BGMPlayer;

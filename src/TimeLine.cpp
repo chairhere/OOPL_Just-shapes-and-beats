@@ -38,3 +38,7 @@ void TimeLine::Stop() {
 void TimeLine::ChangeBGM(const std::string &path) {
     BGMPlayer->LoadMedia(path);
 }
+
+float TimeLine::GetBeats() {
+    return CurrentBeat;
+}

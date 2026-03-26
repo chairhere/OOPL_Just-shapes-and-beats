@@ -7,6 +7,8 @@
 #include "glm/vec2.hpp"
 #include "Util/GameObject.hpp"
 #include "Util/Image.hpp"
+#include "Util/Input.hpp"
+#include "Util/Time.hpp"
 
 class Player : public Util::GameObject {
 public:
