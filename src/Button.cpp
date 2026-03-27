@@ -33,6 +33,8 @@ void Button::SetHoverImage(const std::string& hoverImagePath) {
 void Button::SetOnClick(const std::function<void()> &onClickEvent) { m_OnClick = onClickEvent; }
 void Button::SetOnHovering(const std::function<void()> &onHoverEvent) { m_OnHover = onHoverEvent; }
 void Button::SetOnFocus(const std::function<void()> &onFocusEvent) { m_OnFocus = onFocusEvent; }
+void Button::SetOffEvent(const std::function<void()> &offEvent) { m_OffEvent = offEvent; }
+
 
 // --- 邏輯判斷 ---
 bool Button::isHovering() {
@@ -82,6 +84,9 @@ void Button::Update() {
             m_Transform = m_NormalTransform;
             if (!m_NormalImagePath.empty() && !m_HoverImagePath.empty()) {
                 SetImage(m_NormalImagePath);
+            }
+            if (!m_OffEvent) {
+              m_OffEvent();
             }
             m_WasActive = false;
         }
