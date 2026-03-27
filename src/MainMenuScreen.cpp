@@ -63,6 +63,7 @@ Levels MainMenuScreen::Update() {
         SDL_Event quitEvent;
         quitEvent.type = SDL_QUIT;
         SDL_PushEvent(&quitEvent);
+        return Levels::Exit;
     }
 
     return Levels::Main;

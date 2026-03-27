@@ -61,6 +61,8 @@ void App::End() { // NOLINT(this method will mutate members in the future)
 void App::ChangeLevel(Levels newLevel) {
     m_CurrentLevel = newLevel;
     switch (m_CurrentLevel) {
+        case Levels::Exit:
+            m_CurrentState = State::END;
         case Levels::Main:
             m_CurrentScreen = std::make_shared<MainMenuScreen>();
             break;

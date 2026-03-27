@@ -6,6 +6,7 @@
 #define JUST_SHAPES_AND_BEATS_LEVELS_HPP
 
 enum class Levels {
+    Exit,  //退出回傳
     Main,  //主畫面
     LevelList,  //歌曲清單
     Settlement,  //結算畫面
