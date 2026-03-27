@@ -19,7 +19,8 @@ public:
 private:
     bool playlist = false;
     bool exit = false;
-    std::shared_ptr<Button> m_button_play, m_button_exit;
+    std::shared_ptr<Button> m_ButtonPlay, m_ButtonExit;
+    std::shared_ptr<Button> m_Title, m_Hint;  //Icon
 };
 
 #endif //JUST_SHAPES_AND_BEATS_MAINMENUSCREEN_HPP
