@@ -67,7 +67,7 @@ void CustomColorShape::ApplyColorToTexture() {
 
 void CustomColorShape::SetAlpha(float alpha) {
     // 將 0.0~1.0 轉回 0~255
-    m_Color.a = static_cast<float>(alpha * 255.0f);
+    m_Color.a = alpha;
     ApplyColorToTexture(); // 更新那 1 個像素的透明度
 }
 

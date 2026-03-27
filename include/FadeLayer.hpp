@@ -18,6 +18,7 @@ private:
     float m_ElapsedTime = 0.0f;   // 已經經過的時間
 
     float m_CurrentAlpha = 0.0f;
+    float m_FinishedAlpha = 0.0f;
 
     bool m_IsFinished = false;    // 標記是否已經完全透明
     bool m_reverse = false;
