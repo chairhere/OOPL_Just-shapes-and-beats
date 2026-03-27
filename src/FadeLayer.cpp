@@ -3,10 +3,18 @@
 //
 #include "FadeLayer.hpp"
 
+#include "spdlog/fmt/bundled/color.h"
+
 FadeLayer::FadeLayer(Util::Color Color, float DurationMs, bool reverse) {
     m_Color = Color;
     m_DurationMs = DurationMs;
     m_reverse = reverse;
+    if (reverse) {
+        m_FinishedAlpha = 255.0f;
+    }
+    else {
+        m_FinishedAlpha = 0.0f;
+    }
     // 1. 實例化新版的 CustomColorShape，並設定初始為不透明的純黑
     // 利用框架內建的 Util::Color (r, g, b, a)
     m_FadeShape = std::make_shared<CustomColorShape>(m_Color);
@@ -30,20 +38,16 @@ void FadeLayer::Update() {
 
     // 2. 計算時間進度比例 (介於 0.0 到 1.0 之間)
     float progress = m_ElapsedTime / m_DurationMs;
-    progress = std::clamp(progress, m_Color.a/255, 1.0f);
+    m_CurrentAlpha = glm::mix(m_Color.a, m_FinishedAlpha, progress);
+    //progress = std::clamp(progress, m_Color.a, m_FinishedAlpha);
+    LOG_DEBUG(progress);
 
     // 3. 計算透明度：progress 越大，Alpha 越接近 0.0f (完全透明)
-    if (m_reverse) {
-        m_CurrentAlpha = progress;
-    }
-    else {
-        m_CurrentAlpha = 1.0f - progress;
-    }
     // 4. 呼叫新版 CustomColorShape 的專屬函式，高效更新 GPU 裡的紋理透明度
     m_FadeShape->SetAlpha(m_CurrentAlpha);
 
     // 5. 判斷 1.5 秒是否已經結束
-    if (progress >= 1.0f) {
+    if (m_ElapsedTime >= m_DurationMs) {
         m_IsFinished = true;
     }
 }
