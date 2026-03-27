@@ -51,6 +51,10 @@ add_executable(${PROJECT_NAME}
         include/MainMenuScreen.hpp
         src/LevelSpawner.cpp
         include/LevelSpawner.hpp
+        include/CustomColorShape.hpp
+        src/CustomColorShape.cpp
+        include/FadeLayer.hpp
+        src/FadeLayer.cpp
 )
 
 if(MSVC)
