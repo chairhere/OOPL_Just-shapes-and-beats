@@ -11,6 +11,7 @@ enum class Levels {
     LevelList,  //歌曲清單
     Settlement,  //結算畫面
     GameOver,  //死亡畫面
+    Opening,
     Barracuda,
     CheatCode,
     Chronos,

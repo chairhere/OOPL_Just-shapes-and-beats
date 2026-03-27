@@ -21,9 +21,6 @@ void App::Start() {
     m_Player->SetVisible(false);
     m_Root.AddChild(m_Player);
 
-    Main_Menu_Music = std::make_shared<TimeLine>("../Resources/Audio/MainMenu.wav", static_cast<float>(SongsBPM::Main_Menu));
-    Main_Menu_Music->Start();
-
     SDL_StopTextInput();
 
     m_CurrentState = State::UPDATE;
@@ -32,8 +29,18 @@ void App::Start() {
 void App::Update() {
     
     m_Player->Moving();
-    Main_Menu_Music->Update();
-
+/*
+    if (m_FadeLayer && !m_FadeLayer->IsFinished()) {
+        m_FadeLayer->Update(); // 推進 1.5 秒的計時與透明度變化
+        LOG_DEBUG("Fade Layer Updated");
+    }
+    // 當動畫播完後，將其從渲染清單移除並釋放資源
+    else if (m_FadeLayer && m_FadeLayer->IsFinished()) {
+        //m_Root.RemoveChild(m_FadeLayer); // 從畫面中剔除 [5]
+        m_FadeLayer = nullptr;               // 清空指標，釋放記憶體
+        LOG_DEBUG("Fade Layer finished");
+    }
+*/
     // Render all game objects managed by the root renderer.
     if (m_CurrentScreen) {
         Levels newLevel = m_CurrentScreen->Update();

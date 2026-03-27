@@ -8,6 +8,7 @@
 #include "TimeLine.hpp"
 #include "Util/TransformUtils.hpp"
 #include "Util/Renderer.hpp"
+#include "FadeLayer.hpp"
 
 class App {
 public:
@@ -36,7 +37,8 @@ private:
     void ChangeLevel(Levels newLevel);
 
     std::shared_ptr<Player> m_Player;
-    std::shared_ptr<TimeLine> Main_Menu_Music;
+
+    std::shared_ptr<FadeLayer> m_FadeLayer;
 
     State m_CurrentState = State::START;
 };

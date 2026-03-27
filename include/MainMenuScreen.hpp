@@ -7,6 +7,7 @@
 #include "Button.hpp"
 #include "Levels.hpp"
 #include "Screen.hpp"
+#include "FadeLayer.hpp"
 
 class MainMenuScreen : public Screen{
 public:
@@ -21,6 +22,8 @@ private:
     bool exit = false;
     std::shared_ptr<Button> m_ButtonPlay, m_ButtonExit;
     std::shared_ptr<Button> m_Title, m_Hint;  //Icon
+    std::shared_ptr<FadeLayer> m_FadeLayerIn, m_FadeLayerOut;
+    std::shared_ptr<Util::GameObject> m_WarningImage;
 };
 
 #endif //JUST_SHAPES_AND_BEATS_MAINMENUSCREEN_HPP

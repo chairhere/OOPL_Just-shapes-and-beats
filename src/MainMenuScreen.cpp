@@ -41,6 +41,19 @@ MainMenuScreen::MainMenuScreen() {
     m_Hint->m_Transform.translation = glm::vec2(400, -370);
     m_Hint->SetZIndex(50);
     m_Renderer.AddChild(m_Hint);
+
+    m_FadeLayerIn = std::make_shared<FadeLayer>(Util::Color(0, 0, 0, 255), 5000, false);
+    m_FadeLayerIn->SetZIndex(50);
+    m_Renderer.AddChild(m_FadeLayerIn);
+
+    m_WarningImage = std::make_shared<Util::GameObject>();
+    m_WarningImage->SetDrawable(std::make_shared<Util::Image>("../Resources/Image/Others/Opening_Warning.png"));
+    m_WarningImage->SetZIndex(40);
+    m_Renderer.AddChild(m_WarningImage);
+
+    m_FadeLayerOut = std::make_shared<FadeLayer>(Util::Color(0, 0, 0, 0), 5000, true);
+    m_FadeLayerOut->SetZIndex(50);
+    m_Renderer.AddChild(m_FadeLayerOut);
 }
 
 Levels MainMenuScreen::Update() {
@@ -60,6 +73,28 @@ Levels MainMenuScreen::Update() {
         Button::s_IsKeyboardMode = true;
         SDL_ShowCursor(SDL_DISABLE);
     }
+
+    if (m_FadeLayerIn && !m_FadeLayerIn->IsFinished()) {
+        m_FadeLayerIn->Update(); // 推進 1.5 秒的計時與透明度變化
+        //LOG_DEBUG("Fade Layer Updated");
+    }
+    // 當動畫播完後，將其從渲染清單移除並釋放資源
+    else if (m_FadeLayerIn && m_FadeLayerIn->IsFinished()) {
+        m_Renderer.RemoveChild(m_FadeLayerIn); // 從畫面中剔除 [5]
+        m_FadeLayerIn = nullptr;               // 清空指標，釋放記憶體
+        //LOG_DEBUG("Fade Layer finished");
+    }
+    else if (m_FadeLayerOut && !m_FadeLayerOut->IsFinished()) {
+        m_FadeLayerOut->Update(); // 推進 1.5 秒的計時與透明度變化
+        //LOG_DEBUG("Fade Layer Updated");
+    }
+    // 當動畫播完後，將其從渲染清單移除並釋放資源
+    else if (m_FadeLayerOut && m_FadeLayerOut->IsFinished()) {
+        m_Renderer.RemoveChild(m_FadeLayerOut); // 從畫面中剔除 [5]
+        m_FadeLayerOut = nullptr;               // 清空指標，釋放記憶體
+        //LOG_DEBUG("Fade Layer finished");
+    }
+
 
     // 更新畫面與按鈕邏輯
     m_Renderer.Update();
