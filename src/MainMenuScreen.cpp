@@ -13,7 +13,18 @@ MainMenuScreen::MainMenuScreen() {
     // 【修改點 1】直接告訴按鈕 Hover 時要用哪張圖，不要在 Lambda 裡面自己 Call SetImage！
     m_ButtonPlay->SetHoverImage("../Resources/Image/MainScreenButton/SongListButton(Selected).png");
 
-    // (不用再設定 SetOnFocus，Button 內部會自動共用 HoverImage！)
+    m_ButtonPlay->SetOnHovering([this]() {
+        this->m_NowSelect = m_ButtonPlay;
+    });
+    m_ButtonPlay->SetOnFocus([this]() {
+        this->m_NowSelect = m_ButtonPlay;
+    });
+    m_ButtonPlay->SetOffEvent([this]() {
+        this->m_NowSelect = nullptr;
+    });
+    m_ButtonPlay->SetOnClick([this]() {
+        playlist = true;
+    });
 
     m_ButtonPlay->SetOnClick([this]() { playlist = true; });
     m_ButtonPlay->m_Transform.translation = glm::vec2(500, 10);
@@ -25,6 +36,23 @@ MainMenuScreen::MainMenuScreen() {
 
     // 【修改點 2】同樣直接設定 Hover 圖片
     m_ButtonExit->SetHoverImage("../Resources/Image/MainScreenButton/ExitButton(Selected).png");
+
+    m_ButtonExit->SetOnHovering([this]() {
+        this->m_NowSelect = m_ButtonExit;
+    });
+    m_ButtonExit->SetOnFocus([this]() {
+        this->m_NowSelect = m_ButtonExit;
+    });
+    m_ButtonExit->SetOffEvent([this]() {
+        this->m_NowSelect = nullptr;
+    });
+    m_ButtonExit->SetOnClick([this]() {
+        // 發送 SDL 退出事件
+        SDL_Event quitEvent;
+        quitEvent.type = SDL_QUIT;
+        SDL_PushEvent(&quitEvent);
+        exit = true;
+    });
 
     m_ButtonExit->SetOnClick([this]() { exit = true; });
     m_ButtonExit->m_Transform.translation = glm::vec2(600, -200);
@@ -48,6 +76,10 @@ Levels MainMenuScreen::Update() {
     if (Util::Input::IsMouseMoving()) {
         Button::s_IsKeyboardMode = false;
         SDL_ShowCursor(SDL_ENABLE);
+
+        if (m_NowSelect) {
+            m_NowSelect->Unfocus();
+        }
     }
 
     // 檢查導航鍵 (您原本註解掉的判斷)
@@ -59,6 +91,29 @@ Levels MainMenuScreen::Update() {
 
         Button::s_IsKeyboardMode = true;
         SDL_ShowCursor(SDL_DISABLE);
+
+        if (m_NowSelect) {
+            m_NowSelect->Unfocus();
+            if (Util::Input::IsKeyDown(Util::Keycode::W) ||
+                Util::Input::IsKeyDown(Util::Keycode::S) ||
+                Util::Input::IsKeyDown(Util::Keycode::UP) ||
+                Util::Input::IsKeyDown(Util::Keycode::DOWN)) {
+                if (m_NowSelect == m_ButtonPlay) {
+                    m_NowSelect = m_ButtonExit;
+                }else if (m_NowSelect == m_ButtonExit) {
+                    m_NowSelect = m_ButtonPlay;
+                }
+            }
+            m_NowSelect->Focus();
+        }else {
+            if (Util::Input::IsKeyDown(Util::Keycode::W) ||
+                Util::Input::IsKeyDown(Util::Keycode::S) ||
+                Util::Input::IsKeyDown(Util::Keycode::UP) ||
+                Util::Input::IsKeyDown(Util::Keycode::DOWN)) {
+                m_NowSelect = m_ButtonPlay;
+                m_NowSelect->Focus();
+            }
+        }
     }
 
     // 更新畫面與按鈕邏輯
@@ -66,14 +121,9 @@ Levels MainMenuScreen::Update() {
     m_ButtonPlay->Update();
     m_ButtonExit->Update();
 
-    // 狀態切換判斷
     if (playlist) {
         return Levels::LevelList;
-    } else if (exit) {
-        // 發送 SDL 退出事件
-        SDL_Event quitEvent;
-        quitEvent.type = SDL_QUIT;
-        SDL_PushEvent(&quitEvent);
+    }else if (exit) {
         return Levels::Exit;
     }
 

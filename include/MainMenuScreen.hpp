@@ -21,6 +21,7 @@ private:
     bool exit = false;
     std::shared_ptr<Button> m_ButtonPlay, m_ButtonExit;
     std::shared_ptr<Button> m_Title, m_Hint;  //Icon
+    std::shared_ptr<Button> m_NowSelect = nullptr;
 };
 
 #endif //JUST_SHAPES_AND_BEATS_MAINMENUSCREEN_HPP
