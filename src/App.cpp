@@ -3,6 +3,7 @@
 #include "MainMenuScreen.hpp"
 #include "Player.hpp"
 #include "PlaygroundScreen.hpp"
+#include "SongListScreen.hpp"
 #include "TimeLine.hpp"
 #include "SongsBPM.hpp"
 #include "Util/Image.hpp"
@@ -60,6 +61,17 @@ void App::Update() {
         Util::Input::IfExit()) {
         m_CurrentState = State::END;
     }
+
+    //滑鼠位置顯示
+    if (true && Util::Input::IsKeyDown(Util::Keycode::TAB)) {
+        glm::vec2 mousePos = Util::Input::GetCursorPosition();
+        std::string log = "mousePos(";
+        log.append(std::to_string(mousePos.x));
+        log.append(", ");
+        log.append(std::to_string(mousePos.y));
+        log.append(")");
+        LOG_DEBUG(log);
+    }
 }
 
 void App::End() { // NOLINT(this method will mutate members in the future)
@@ -71,14 +83,18 @@ void App::ChangeLevel(ScreenState newLevel) {
     switch (m_CurrentLevel) {
         case ScreenState::Exit:
             m_CurrentState = State::END;
+            break;
         case ScreenState::Main:
             m_CurrentScreen = std::make_shared<MainMenuScreen>();
             break;
         case ScreenState::LevelList:
-            // m_CurrentScreen = std::make_shared<>()
+            m_CurrentScreen = std::make_shared<SongListScreen>();
             break;
         case ScreenState::Settlement:
-            // m_CurrentScreen = std::make_shared<>()
+            // m_CurrentScreen = std::make_shared<>();
+            break;
+        case ScreenState::GameOver:
+            // m_CurrentScreen = std::make_shared<>();
             break;
         case ScreenState::Playground:
             m_CurrentScreen = std::make_shared<PlaygroundScreen>();
