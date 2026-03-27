@@ -3,7 +3,7 @@
 //
 
 #include "MainMenuScreen.hpp"
-#include "Levels.hpp"
+#include "ScreenState.hpp"
 #include <SDL_events.h>
 
 MainMenuScreen::MainMenuScreen() {
@@ -84,7 +84,7 @@ MainMenuScreen::MainMenuScreen() {
     m_Renderer.AddChild(m_FadeLayerOut);
 }
 
-Levels MainMenuScreen::Update() {
+ScreenState MainMenuScreen::Update() {
     // 【修改點 3】使用我們討論的最佳解：鍵盤模式防護 (完美取代隱藏滑鼠游標)
     if (Util::Input::IsMouseMoving()) {
         Button::s_IsKeyboardMode = false;
@@ -157,10 +157,10 @@ Levels MainMenuScreen::Update() {
     m_ButtonExit->Update();
 
     if (playlist) {
-        return Levels::LevelList;
+        return ScreenState::LevelList;
     }else if (exit) {
-        return Levels::Exit;
+        return ScreenState::Exit;
     }
 
-    return Levels::Main;
+    return ScreenState::Main;
 }

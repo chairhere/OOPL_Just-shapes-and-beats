@@ -2,6 +2,7 @@
 
 #include "MainMenuScreen.hpp"
 #include "Player.hpp"
+#include "PlaygroundScreen.hpp"
 #include "TimeLine.hpp"
 #include "SongsBPM.hpp"
 #include "Util/Image.hpp"
@@ -13,7 +14,7 @@ void App::Start() {
     LOG_TRACE("Start");
 
     m_CurrentScreen = std::make_shared<MainMenuScreen>();
-    m_CurrentLevel = Levels::Main;
+    m_CurrentLevel = ScreenState::Main;
 
     m_Player = std::make_shared<Player>();
     m_Player->SetPosition(glm::vec2(0.0f, 0.0f));
@@ -43,7 +44,7 @@ void App::Update() {
 */
     // Render all game objects managed by the root renderer.
     if (m_CurrentScreen) {
-        Levels newLevel = m_CurrentScreen->Update();
+        ScreenState newLevel = m_CurrentScreen->Update();
 
         if (newLevel != m_CurrentLevel) {
             ChangeLevel(newLevel);
@@ -65,19 +66,22 @@ void App::End() { // NOLINT(this method will mutate members in the future)
     LOG_TRACE("End");
 }
 
-void App::ChangeLevel(Levels newLevel) {
+void App::ChangeLevel(ScreenState newLevel) {
     m_CurrentLevel = newLevel;
     switch (m_CurrentLevel) {
-        case Levels::Exit:
+        case ScreenState::Exit:
             m_CurrentState = State::END;
-        case Levels::Main:
+        case ScreenState::Main:
             m_CurrentScreen = std::make_shared<MainMenuScreen>();
             break;
-        case Levels::LevelList:
+        case ScreenState::LevelList:
             // m_CurrentScreen = std::make_shared<>()
             break;
-        case Levels::Settlement:
+        case ScreenState::Settlement:
             // m_CurrentScreen = std::make_shared<>()
+            break;
+        case ScreenState::Playground:
+            m_CurrentScreen = std::make_shared<PlaygroundScreen>();
             break;
     }
 }

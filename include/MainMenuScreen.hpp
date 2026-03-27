@@ -5,7 +5,7 @@
 #ifndef JUST_SHAPES_AND_BEATS_MAINMENUSCREEN_HPP
 #define JUST_SHAPES_AND_BEATS_MAINMENUSCREEN_HPP
 #include "Button.hpp"
-#include "Levels.hpp"
+#include "ScreenState.hpp"
 #include "Screen.hpp"
 #include "FadeLayer.hpp"
 
@@ -15,7 +15,7 @@ public:
 
     MainMenuScreen();
 
-    Levels Update() override;
+    ScreenState Update() override;
 
 private:
     bool playlist = false;

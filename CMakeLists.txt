@@ -45,7 +45,7 @@ add_executable(${PROJECT_NAME}
         "include/Button.hpp"
         "include/Obstacle.hpp"
         src/Obstacle.cpp
-        include/Levels.hpp
+        include/ScreenState.hpp
         include/Screen.hpp
         src/MainMenuScreen.cpp
         include/MainMenuScreen.hpp
@@ -55,6 +55,9 @@ add_executable(${PROJECT_NAME}
         src/CustomColorShape.cpp
         include/FadeLayer.hpp
         src/FadeLayer.cpp
+        include/PlaygroundScreen.hpp
+        src/PlaygroundScreen.cpp
+        include/Levels.hpp
 )
 
 if(MSVC)

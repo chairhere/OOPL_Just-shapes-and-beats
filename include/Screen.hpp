@@ -6,12 +6,13 @@
 #define JUST_SHAPES_AND_BEATS_SCREEN_HPP
 #include "Util/AssetStore.hpp"
 #include "Util/Renderer.hpp"
+#include "ScreenState.hpp"
 
 class Screen {
 public:
     virtual ~Screen() = default;
 
-    virtual Levels Update() = 0;
+    virtual ScreenState Update() = 0;
 
 protected:
     Util::Renderer m_Renderer;
