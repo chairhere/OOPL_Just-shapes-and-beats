@@ -58,6 +58,8 @@ add_executable(${PROJECT_NAME}
         include/PlaygroundScreen.hpp
         src/PlaygroundScreen.cpp
         include/Levels.hpp
+        src/SongListScreen.cpp
+        include/SongListScreen.hpp
 )
 
 if(MSVC)
