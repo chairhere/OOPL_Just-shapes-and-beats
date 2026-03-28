@@ -62,6 +62,7 @@ add_executable(${PROJECT_NAME}
         include/SongListScreen.hpp
         include/SongList.hpp
         include/SongData.hpp
+        include/TestShape.hpp
 )
 
 if(MSVC)
