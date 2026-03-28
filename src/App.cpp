@@ -3,7 +3,7 @@
 #include "MainMenuScreen.hpp"
 #include "Player.hpp"
 #include "PlaygroundScreen.hpp"
-#include "SongListScreen.hpp"
+#include "PlaygroundScreen.hpp"
 #include "TimeLine.hpp"
 #include "SongsBPM.hpp"
 #include "Util/Image.hpp"
@@ -88,7 +88,7 @@ void App::ChangeLevel(ScreenState newLevel) {
             m_CurrentScreen = std::make_shared<MainMenuScreen>();
             break;
         case ScreenState::LevelList:
-            m_CurrentScreen = std::make_shared<SongListScreen>();
+            m_CurrentScreen = std::make_shared<PlaygroundScreen>();
             break;
         case ScreenState::Settlement:
             // m_CurrentScreen = std::make_shared<>();

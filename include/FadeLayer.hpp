@@ -11,28 +11,44 @@
 #include "CustomColorShape.hpp" // 假設您的 CustomColorShape 存在此標頭檔中
 #include <algorithm>
 #include <memory>
+#include "imgui.h"
 
 class FadeLayer : public Util::GameObject {
 private:
-    float m_DurationMs = 5000.0f; // 動畫總時長 1.5 秒
-    float m_ElapsedTime = 0.0f;   // 已經經過的時間
+    std::vector<float> m_Durations;
+    std::vector<float> m_Vertices = {-0.5f, 0.5f, -0.5f, -0.5f, 0.5f, -0.5f, 0.5f, 0.5f};
+    std::vector<Util::Color> m_Colors;
+    std::vector<glm::vec2> m_Positions;
+    std::vector<glm::vec2> m_Scales;
 
-    float m_CurrentAlpha = 0.0f;
-    float m_FinishedAlpha = 0.0f;
+    float m_DurationMs = 5000.0f;
+    float m_ElapsedTime = 0.0f;
+
+    float m_H = 0.0f, m_S = 0.0f, m_V = 0.0f;
+    float m_CurrentH = 0.0f, m_CurrentS = 0.0f, m_CurrentV = 0.0f;
+    float m_FinishedH = 0.0f, m_FinishedS = 0.0f, m_FinishedV = 0.0f;
 
     bool m_IsFinished = false;    // 標記是否已經完全透明
-    bool m_reverse = false;
+    bool m_Loop = false;
 
-    Util::Color m_Color;
+    int m_Counter = 0;
+    int m_LoopSize = 0;
+
+    Util::Color m_Color{}, m_CurrentColor{}, m_FinishedColor{};
+
+    glm::vec2 m_Position{}, m_CurrentPosition{}, m_FinishedPosition{};
+    glm::vec2 m_Scale{}, m_CurrentScale{}, m_FinishedScale{};
 
 
     // 儲存明確型別的指標，方便我們稍後呼叫它獨有的 SetAlpha() 函式
     std::shared_ptr<CustomColorShape> m_FadeShape;
 
 public:
-    FadeLayer(Util::Color Color, float DurationMs, bool reverse);
+    FadeLayer(const std::vector<Util::Color> &Colors, const std::vector<float> &Durations,
+        const std::vector<glm::vec2> &Positions,const std::vector<glm::vec2> &Scales, bool loop);
 
     void Update();
+
 
     // 讓遊戲主迴圈判斷是否可以將其從 Renderer 中移除
     bool IsFinished() const { return m_IsFinished; }

@@ -11,6 +11,13 @@
 
 class MainMenuScreen : public Screen{
 public:
+
+    enum class OpeningState {
+        Warning,
+        Opening,
+        MainMenu
+    };
+
     ~MainMenuScreen() = default;
 
     MainMenuScreen();
@@ -25,6 +32,12 @@ private:
     std::shared_ptr<Button> m_NowSelect = nullptr;
     std::shared_ptr<FadeLayer> m_FadeLayerIn, m_FadeLayerOut;
     std::shared_ptr<Util::GameObject> m_WarningImage;
+    OpeningState m_OpeningState = OpeningState::Warning;
+
+    std::vector<Util::Color> m_Colors = {{0, 0, 0, 255}, {0, 0, 0, 0}};
+    std::vector<float> m_Duration = {0, 1500};
+    std::vector<glm::vec2> m_Position = {{0.0f, 0.0f}, {0.0f, 0.0f}};
+    std::vector<glm::vec2> m_Scale = {{WINDOW_WIDTH, WINDOW_HEIGHT}, {WINDOW_WIDTH, WINDOW_HEIGHT}};
 };
 
 #endif //JUST_SHAPES_AND_BEATS_MAINMENUSCREEN_HPP
