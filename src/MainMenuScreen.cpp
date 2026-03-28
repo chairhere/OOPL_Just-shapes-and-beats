@@ -69,8 +69,8 @@ MainMenuScreen::MainMenuScreen() {
     m_Hint->m_Transform.translation = glm::vec2(400, -370);
     m_Hint->SetZIndex(50);
     m_Renderer.AddChild(m_Hint);
-
-    m_FadeLayerIn = std::make_shared<FadeLayer>(Util::Color(0, 0, 0, 255), 1000, false);
+/*
+    m_FadeLayerIn = std::make_shared<FadeLayer>();
     m_FadeLayerIn->SetZIndex(70);
     m_Renderer.AddChild(m_FadeLayerIn);
 
@@ -79,9 +79,10 @@ MainMenuScreen::MainMenuScreen() {
     m_WarningImage->SetZIndex(60);
     m_Renderer.AddChild(m_WarningImage);
 
-    m_FadeLayerOut = std::make_shared<FadeLayer>(Util::Color(0, 0, 0, 0), 1000, true);
+    m_FadeLayerOut = std::make_shared<FadeLayer>(Util::Color(0, 0, 255, 0), 2000, true);
     m_FadeLayerOut->SetZIndex(70);
     m_Renderer.AddChild(m_FadeLayerOut);
+*/
 }
 
 ScreenState MainMenuScreen::Update() {
@@ -139,6 +140,7 @@ ScreenState MainMenuScreen::Update() {
         m_FadeLayerIn = nullptr;               // 清空指標，釋放記憶體
         //LOG_DEBUG("Fade Layer finished");
     }
+    /*
     else if (m_FadeLayerOut && !m_FadeLayerOut->IsFinished()) {
         m_FadeLayerOut->Update(); // 推進 1.5 秒的計時與透明度變化
         //LOG_DEBUG("Fade Layer Updated");
@@ -150,7 +152,7 @@ ScreenState MainMenuScreen::Update() {
         m_FadeLayerOut = nullptr;               // 清空指標，釋放記憶體
         //LOG_DEBUG("Fade Layer finished");
     }
-
+*/
 
     // 更新畫面與按鈕邏輯
     m_Renderer.Update();
