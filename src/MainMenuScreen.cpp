@@ -6,6 +6,8 @@
 #include "Levels.hpp"
 #include <SDL_events.h>
 
+#include "../PTSD/lib/sdl2/src/haptic/windows/SDL_dinputhaptic_c.h"
+
 MainMenuScreen::MainMenuScreen() {
     // === Play 按鈕 ===
     m_ButtonPlay = std::make_shared<Button>("../Resources/Image/MainScreenButton/SongListButton.png");
@@ -13,7 +15,18 @@ MainMenuScreen::MainMenuScreen() {
     // 【修改點 1】直接告訴按鈕 Hover 時要用哪張圖，不要在 Lambda 裡面自己 Call SetImage！
     m_ButtonPlay->SetHoverImage("../Resources/Image/MainScreenButton/SongListButton(Selected).png");
 
-    // (不用再設定 SetOnFocus，Button 內部會自動共用 HoverImage！)
+    m_ButtonPlay->SetOnHovering([this]() {
+        this->m_NowSelect = m_ButtonPlay;
+    });
+    m_ButtonPlay->SetOnFocus([this]() {
+        this->m_NowSelect = m_ButtonPlay;
+    });
+    m_ButtonPlay->SetOffEvent([this]() {
+        this->m_NowSelect = nullptr;
+    });
+    m_ButtonPlay->SetOnClick([this]() {
+        playlist = true;
+    });
 
     m_ButtonPlay->SetOnClick([this]() { playlist = true; });
     m_ButtonPlay->m_Transform.translation = glm::vec2(500, 10);
@@ -25,6 +38,23 @@ MainMenuScreen::MainMenuScreen() {
 
     // 【修改點 2】同樣直接設定 Hover 圖片
     m_ButtonExit->SetHoverImage("../Resources/Image/MainScreenButton/ExitButton(Selected).png");
+
+    m_ButtonExit->SetOnHovering([this]() {
+        this->m_NowSelect = m_ButtonExit;
+    });
+    m_ButtonExit->SetOnFocus([this]() {
+        this->m_NowSelect = m_ButtonExit;
+    });
+    m_ButtonExit->SetOffEvent([this]() {
+        this->m_NowSelect = nullptr;
+    });
+    m_ButtonExit->SetOnClick([this]() {
+        // 發送 SDL 退出事件
+        SDL_Event quitEvent;
+        quitEvent.type = SDL_QUIT;
+        //SDL_PushEvent(&quitEvent);
+        exit = true;
+    });
 
     m_ButtonExit->SetOnClick([this]() { exit = true; });
     m_ButtonExit->m_Transform.translation = glm::vec2(600, -200);
@@ -42,25 +72,34 @@ MainMenuScreen::MainMenuScreen() {
     m_Hint->SetZIndex(50);
     m_Renderer.AddChild(m_Hint);
 
-    m_FadeLayerIn = std::make_shared<FadeLayer>(Util::Color(0, 0, 0, 255), 5000, false);
-    m_FadeLayerIn->SetZIndex(50);
+
+
+
+
+    m_FadeLayerIn = std::make_shared<FadeLayer>(First_Color, First_Duration, First_Position, First_Rotation, First_Scale, First_Vertices, true);
+    m_FadeLayerIn->SetZIndex(70);
     m_Renderer.AddChild(m_FadeLayerIn);
 
     m_WarningImage = std::make_shared<Util::GameObject>();
     m_WarningImage->SetDrawable(std::make_shared<Util::Image>("../Resources/Image/Others/Opening_Warning.png"));
-    m_WarningImage->SetZIndex(40);
+    m_WarningImage->SetZIndex(60);
     m_Renderer.AddChild(m_WarningImage);
-
-    m_FadeLayerOut = std::make_shared<FadeLayer>(Util::Color(0, 0, 0, 0), 5000, true);
-    m_FadeLayerOut->SetZIndex(50);
+/*
+    m_FadeLayerOut = std::make_shared<FadeLayer>(Util::Color(0, 0, 255, 0), 2000, true);
+    m_FadeLayerOut->SetZIndex(70);
     m_Renderer.AddChild(m_FadeLayerOut);
+*/
 }
 
 Levels MainMenuScreen::Update() {
     // 【修改點 3】使用我們討論的最佳解：鍵盤模式防護 (完美取代隱藏滑鼠游標)
     if (Util::Input::IsMouseMoving()) {
         Button::s_IsKeyboardMode = false;
-        SDL_ShowCursor(SDL_ENABLE);
+        //SDL_ShowCursor(SDL_ENABLE);
+
+        if (m_NowSelect) {
+            m_NowSelect->Unfocus();
+        }
     }
 
     // 檢查導航鍵 (您原本註解掉的判斷)
@@ -71,7 +110,30 @@ Levels MainMenuScreen::Update() {
         Util::Input::IsKeyDown(Util::Keycode::RETURN)) {
 
         Button::s_IsKeyboardMode = true;
-        SDL_ShowCursor(SDL_DISABLE);
+        //SDL_ShowCursor(SDL_DISABLE);
+
+        if (m_NowSelect) {
+            m_NowSelect->Unfocus();
+            if (Util::Input::IsKeyDown(Util::Keycode::W) ||
+                Util::Input::IsKeyDown(Util::Keycode::S) ||
+                Util::Input::IsKeyDown(Util::Keycode::UP) ||
+                Util::Input::IsKeyDown(Util::Keycode::DOWN)) {
+                if (m_NowSelect == m_ButtonPlay) {
+                    m_NowSelect = m_ButtonExit;
+                }else if (m_NowSelect == m_ButtonExit) {
+                    m_NowSelect = m_ButtonPlay;
+                }
+            }
+            m_NowSelect->Focus();
+        }else {
+            if (Util::Input::IsKeyDown(Util::Keycode::W) ||
+                Util::Input::IsKeyDown(Util::Keycode::S) ||
+                Util::Input::IsKeyDown(Util::Keycode::UP) ||
+                Util::Input::IsKeyDown(Util::Keycode::DOWN)) {
+                m_NowSelect = m_ButtonPlay;
+                m_NowSelect->Focus();
+            }
+        }
     }
 
     if (m_FadeLayerIn && !m_FadeLayerIn->IsFinished()) {
@@ -84,6 +146,7 @@ Levels MainMenuScreen::Update() {
         m_FadeLayerIn = nullptr;               // 清空指標，釋放記憶體
         //LOG_DEBUG("Fade Layer finished");
     }
+    /*
     else if (m_FadeLayerOut && !m_FadeLayerOut->IsFinished()) {
         m_FadeLayerOut->Update(); // 推進 1.5 秒的計時與透明度變化
         //LOG_DEBUG("Fade Layer Updated");
@@ -91,24 +154,20 @@ Levels MainMenuScreen::Update() {
     // 當動畫播完後，將其從渲染清單移除並釋放資源
     else if (m_FadeLayerOut && m_FadeLayerOut->IsFinished()) {
         m_Renderer.RemoveChild(m_FadeLayerOut); // 從畫面中剔除 [5]
+        m_Renderer.RemoveChild(m_WarningImage);
         m_FadeLayerOut = nullptr;               // 清空指標，釋放記憶體
         //LOG_DEBUG("Fade Layer finished");
     }
-
+*/
 
     // 更新畫面與按鈕邏輯
     m_Renderer.Update();
     m_ButtonPlay->Update();
     m_ButtonExit->Update();
 
-    // 狀態切換判斷
     if (playlist) {
         return Levels::LevelList;
-    } else if (exit) {
-        // 發送 SDL 退出事件
-        SDL_Event quitEvent;
-        quitEvent.type = SDL_QUIT;
-        SDL_PushEvent(&quitEvent);
+    }else if (exit) {
         return Levels::Exit;
     }
 

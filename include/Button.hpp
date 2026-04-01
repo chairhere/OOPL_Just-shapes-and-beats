@@ -27,6 +27,7 @@ public:
     void SetOnClick(const std::function<void()> &onClickEvent);
     void SetOnHovering(const std::function<void()> &onHoverEvent);
     void SetOnFocus(const std::function<void()> &onFocusEvent);
+    void SetOffEvent(const std::function<void()> &OffEvent);
 
     bool isHovering();
 
@@ -41,6 +42,7 @@ private:
     std::function<void()> m_OnClick = nullptr;
     std::function<void()> m_OnHover = nullptr;
     std::function<void()> m_OnFocus = nullptr;
+    std::function<void()> m_OffEvent = nullptr;
 
     // --- 自動還原系統 (Snapshot) 變數 ---
     bool m_WasActive = false;
