@@ -20,10 +20,10 @@ CustomColorShape::CustomColorShape(const Util::Color& color, const std::vector<f
         // 2. 建立索引與 VertexArray
     std::vector<unsigned int> indices;
         for (int i = 0; i < static_cast<int>(positions.size()/2); ++i) {
-            indices.push_back(i);
-            // indices.push_back(0);
-            // indices.push_back(i + 1);
-            // indices.push_back(i + 2);
+            //indices.push_back(i);
+            indices.push_back(0);
+            indices.push_back(i + 1);
+            indices.push_back(i + 2);
         }
         std::vector<unsigned int> indices1 = { 0, 1, 2, 2, 3, 0 };
         m_IndexBuffer = std::make_unique<Core::IndexBuffer>(indices);
@@ -74,19 +74,19 @@ void CustomColorShape::Draw(const Core::Matrices &data){
     m_UniformBuffer->SetData(0, data);  // 將 GameObject 的矩陣變換送入 Shader [5]
     m_Texture->Bind(0);                 // 綁定我們的 1x1 純色紋理 [10]
 
-    glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     // (可選) 嘗試設定線條粗細，但現代許多顯卡驅動已不支援大於 1.0f 的線寬
-    glLineWidth(5.0f);
-    glPointSize(25.0f);
+    //glLineWidth(5.0f);
+    //glPointSize(25.0f);
 
     m_VertexArray->Bind();              // 綁定形狀 [12]
 
-    glDrawArrays(GL_POINTS, 0, 6);
+    //glDrawArrays(GL_POINTS, 0, 6);
+    //glDrawElements(GL_LINE_LOOP, 4, GL_UNSIGNED_INT, nullptr);
+    m_VertexArray->DrawTriangles();     // 畫出多邊形 [13]
 
-    //m_VertexArray->DrawTriangles();     // 畫出多邊形 [13]
-
-    glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    //glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
 }
 
 glm::vec2 CustomColorShape::GetSize() const{
