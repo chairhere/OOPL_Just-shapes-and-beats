@@ -6,23 +6,32 @@
 #include "spdlog/fmt/bundled/color.h"
 
 FadeLayer::FadeLayer(const std::vector<Util::Color> &Colors, const std::vector<float> &Durations,
-    const std::vector<glm::vec2> &Positions,const std::vector<glm::vec2> &Scales, const bool loop) {
+    const std::vector<glm::vec2> &Positions, const std::vector<float> &Rotation,
+    const std::vector<glm::vec2> &Scales, const std::vector<float> &Vertices = {-0.5f, 0.5f, -0.5f, -0.5f, 0.5f, -0.5f, 0.5f, 0.5f}, const bool loop = false) {
 
     m_Colors = Colors;
     m_Durations = Durations;
     m_Positions = Positions;
     m_Scales = Scales;
     m_Loop = loop;
+    m_Rotations = Rotation;
+    m_Vertices = Vertices;
 
     m_LoopSize = static_cast<int>(m_Durations.size());
 
     m_Color = Colors[0];
     m_FinishedColor = Colors[1];
+
     m_DurationMs = Durations[1] - Durations[0];
+
     m_Position = Positions[0];
-    m_Scale = Scales[0];
     m_FinishedPosition = Positions[1];
+
+    m_Scale = Scales[0];
     m_FinishedScale = Scales[1];
+
+    m_Rotation = Rotation[0];
+    m_FinishedRotation = Rotation[1];
 
     ImGui::ColorConvertRGBtoHSV(m_Color.r, m_Color.g, m_Color.b, m_H, m_S, m_V);
     ImGui::ColorConvertRGBtoHSV(m_FinishedColor.r, m_FinishedColor.g, m_FinishedColor.b, m_FinishedH, m_FinishedS, m_FinishedV);
@@ -41,6 +50,8 @@ FadeLayer::FadeLayer(const std::vector<Util::Color> &Colors, const std::vector<f
 
     // 4. 確保它在畫面的正中央
     m_Transform.translation = m_Position;
+
+    m_Transform.rotation = m_Rotation;
 }
 
 void FadeLayer::Update() {
@@ -60,9 +71,10 @@ void FadeLayer::Update() {
 
     m_CurrentPosition = glm::mix(m_Position, m_FinishedPosition, progress);
     m_CurrentScale = glm::mix(m_Scale, m_FinishedScale, progress);
+    m_CurrentRotation = glm::mix(m_Rotation, m_FinishedRotation, progress);
 
     ImGui::ColorConvertHSVtoRGB(m_CurrentH, m_CurrentS, m_CurrentV, m_CurrentColor.r, m_CurrentColor.g, m_CurrentColor.b);
-    LOG_DEBUG(progress);
+    //LOG_DEBUG(progress);
 
     // 3. 計算透明度：progress 越大，Alpha 越接近 0.0f (完全透明)
     // 4. 呼叫新版 CustomColorShape 的專屬函式，高效更新 GPU 裡的紋理透明度
@@ -71,41 +83,35 @@ void FadeLayer::Update() {
     m_Transform.scale = m_CurrentScale;
 
     m_Transform.translation = m_CurrentPosition;
+
+    m_Transform.rotation = m_CurrentRotation;
     // 5. 判斷整體是否已經結束
-    if (m_Loop) {
-        if (m_ElapsedTime >= m_DurationMs) {
-            m_Counter++;
-
-            m_Color = m_Colors[m_Counter % m_LoopSize];
-            m_FinishedColor = m_Colors[(m_Counter + 1) % m_LoopSize];
-
-            m_DurationMs = m_Durations[(m_Counter + 1) % m_LoopSize] - m_Durations[m_Counter % m_LoopSize];
-            m_ElapsedTime = 0.0f;
-
-            m_Scale = m_Scales[m_Counter % m_LoopSize];
-            m_FinishedScale = m_Scales[(m_Counter + 1) % m_LoopSize];
-
-            m_Position = m_Positions[m_Counter % m_LoopSize];
-            m_FinishedPosition = m_Positions[(m_Counter + 1) % m_LoopSize];
-        }
-    }else {
-        if (m_ElapsedTime >= m_DurationMs && m_Counter < (m_LoopSize - 2)) {
-            m_Counter++;
-
-            m_Color = m_Colors[m_Counter];
-            m_FinishedColor = m_Colors[m_Counter + 1];
-
-            m_DurationMs = m_Durations[m_Counter + 1] - m_Durations[m_Counter];
-            m_ElapsedTime = 0.0f;
-
-            m_Scale = m_Scales[m_Counter];
-            m_FinishedScale = m_Scales[m_Counter + 1];
-
-            m_Position = m_Positions[m_Counter];
-            m_FinishedPosition = m_Positions[m_Counter + 1];
-        }
-        else if (m_ElapsedTime >= m_DurationMs) {
-            m_IsFinished = true;
-        }
+    if (m_ElapsedTime >= m_DurationMs && m_Counter < (m_LoopSize - 2)) {
+        m_Counter++;
+        State_Update();
     }
+    else if (m_ElapsedTime >= m_DurationMs && m_Counter >= (m_LoopSize - 2) && m_Loop) {
+        m_Counter = 0;
+        State_Update();
+    }
+    else if (m_ElapsedTime >= m_DurationMs){
+        m_IsFinished = true;
+    }
+}
+
+void FadeLayer::State_Update() {
+    m_Color = m_Colors[m_Counter];
+    m_FinishedColor = m_Colors[m_Counter + 1];
+
+    m_DurationMs = m_Durations[m_Counter + 1] - m_Durations[m_Counter];
+    m_ElapsedTime = 0.0f;
+
+    m_Scale = m_Scales[m_Counter];
+    m_FinishedScale = m_Scales[m_Counter + 1];
+
+    m_Position = m_Positions[m_Counter];
+    m_FinishedPosition = m_Positions[m_Counter + 1];
+
+    m_Rotation = m_Rotations[m_Counter];
+    m_FinishedRotation = m_Rotations[m_Counter + 1];
 }

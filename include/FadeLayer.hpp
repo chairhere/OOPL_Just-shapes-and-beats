@@ -17,6 +17,7 @@ class FadeLayer : public Util::GameObject {
 private:
     std::vector<float> m_Durations;
     std::vector<float> m_Vertices = {-0.5f, 0.5f, -0.5f, -0.5f, 0.5f, -0.5f, 0.5f, 0.5f};
+    std::vector<float> m_Rotations;
     std::vector<Util::Color> m_Colors;
     std::vector<glm::vec2> m_Positions;
     std::vector<glm::vec2> m_Scales;
@@ -27,6 +28,8 @@ private:
     float m_H = 0.0f, m_S = 0.0f, m_V = 0.0f;
     float m_CurrentH = 0.0f, m_CurrentS = 0.0f, m_CurrentV = 0.0f;
     float m_FinishedH = 0.0f, m_FinishedS = 0.0f, m_FinishedV = 0.0f;
+
+    float m_Rotation = 0.0f, m_CurrentRotation = 0.0f, m_FinishedRotation = 0.0f;
 
     bool m_IsFinished = false;    // 標記是否已經完全透明
     bool m_Loop = false;
@@ -45,9 +48,12 @@ private:
 
 public:
     FadeLayer(const std::vector<Util::Color> &Colors, const std::vector<float> &Durations,
-        const std::vector<glm::vec2> &Positions,const std::vector<glm::vec2> &Scales, bool loop);
+        const std::vector<glm::vec2> &Positions, const std::vector<float> &Rotation,
+        const std::vector<glm::vec2> &Scales, const std::vector<float> &Vertices, bool loop);
 
     void Update();
+
+    void State_Update();
 
 
     // 讓遊戲主迴圈判斷是否可以將其從 Renderer 中移除

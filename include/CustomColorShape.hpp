@@ -37,8 +37,8 @@ public:
     void ApplyColorToTexture();
 
     // 專門為淡入淡出提供的動態透明度介面
-    void SetColors(Util::Color color);
 
+    void SetColors(Util::Color color);
 
     // 實作 Drawable 的 Draw，這一次把所有管線都串起來了！
     void Draw(const Core::Matrices &data) override;
