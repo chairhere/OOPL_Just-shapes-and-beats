@@ -83,7 +83,6 @@ void CustomColorShape::Draw(const Core::Matrices &data){
     m_VertexArray->Bind();              // 綁定形狀 [12]
 
     //glDrawArrays(GL_POINTS, 0, 6);
-    //glDrawElements(GL_LINE_LOOP, 4, GL_UNSIGNED_INT, nullptr);
     m_VertexArray->DrawTriangles();     // 畫出多邊形 [13]
 
     //glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);

@@ -53,6 +53,7 @@ void App::Update() {
     }
     m_Root.Update();
 
+
     /*
      * Do not touch the code below as they serve the purpose for
      * closing the window.
@@ -72,6 +73,7 @@ void App::Update() {
         log.append(")");
         LOG_DEBUG(log);
     }
+
 }
 
 void App::End() { // NOLINT(this method will mutate members in the future)
