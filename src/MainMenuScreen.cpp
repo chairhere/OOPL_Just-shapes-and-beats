@@ -76,6 +76,7 @@ MainMenuScreen::MainMenuScreen() {
 
     m_WarningImage = std::make_shared<Util::GameObject>();
     m_WarningImage->SetDrawable(std::make_shared<Util::Image>("../Resources/Image/Others/Opening_Warning.png"));
+    m_WarningImage->m_Transform.scale = glm::vec2(0.8, 0.8);
     m_WarningImage->SetZIndex(60);
     m_Renderer.AddChild(m_WarningImage);
 }

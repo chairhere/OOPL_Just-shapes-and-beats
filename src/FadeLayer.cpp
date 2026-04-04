@@ -76,11 +76,12 @@ void FadeLayer::Update() {
     m_CurrentPosition = glm::mix(m_Position, m_FinishedPosition, progress);
     m_CurrentScale = glm::mix(m_Scale, m_FinishedScale, progress);
     m_CurrentRotation = glm::mix(m_Rotation, m_FinishedRotation, progress);
-
+/*
     ImGui::Begin("test");
     ImGui::SetWindowPos({200, 300});
     ImGui::Text("%d", m_Counter);
     ImGui::End();
+*/
     //ImGui::ShowDemoWindow();
 
     ImGui::ColorConvertHSVtoRGB(m_CurrentH, m_CurrentS, m_CurrentV, m_CurrentColor.r, m_CurrentColor.g, m_CurrentColor.b);

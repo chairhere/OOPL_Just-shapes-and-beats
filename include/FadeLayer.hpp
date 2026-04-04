@@ -54,6 +54,7 @@ public:
     FadeLayer(const std::vector<Util::Color> &Colors, const std::vector<float> &Durations,
         const std::vector<glm::vec2> &Positions, const std::vector<float> &Rotation,
         const std::vector<glm::vec2> &Scales, const std::vector<float> &Vertices, bool loop);
+    ~FadeLayer() override = default;
 
     void Update();
 
