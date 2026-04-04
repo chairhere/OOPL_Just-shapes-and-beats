@@ -7,18 +7,18 @@ TimeLine::TimeLine(const std::string &path, float BPM){
     this->BPM = BPM;
     BGMPlayer = std::make_unique<Util::BGM>(path);
     CurrentState = State::Load;
+    StartTime = 0.0f;
 }
 
 void TimeLine::Start() {
     CurrentState = State::Update;
     BGMPlayer->SetVolume(3);
     BGMPlayer->Play();
-    StartTime = SDL_GetPerformanceCounter();
 }
 
 void TimeLine::Update() {
     if (CurrentState == State::Update) {
-        CurrentTime = static_cast<float>(SDL_GetPerformanceCounter() - StartTime) / static_cast<float>(SDL_GetPerformanceFrequency()) * 1000.0f;
+        CurrentTime += Util::Time::GetDeltaTimeMs();
         CurrentBeat = (CurrentTime * (BPM / 60));
         CurrentState = State::Update;
     }

@@ -2,8 +2,8 @@
 // Created by cheese on 2026/3/20.
 //
 
-#ifndef JUST_SHAPES_AND_BEATS_LEVELS_HPP
-#define JUST_SHAPES_AND_BEATS_LEVELS_HPP
+#ifndef JUST_SHAPES_AND_BEATS_SCREENSTATE_HPP
+#define JUST_SHAPES_AND_BEATS_SCREENSTATE_HPP
 
 enum class ScreenState {
     Exit,  //退出回傳
@@ -14,4 +14,4 @@ enum class ScreenState {
     Playground  //遊玩畫面
 };
 
-#endif //JUST_SHAPES_AND_BEATS_LEVELS_HPP
+#endif //JUST_SHAPES_AND_BEATS_SCREENSTATE_HPP

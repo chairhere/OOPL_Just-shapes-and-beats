@@ -10,26 +10,43 @@
 #include <memory>
 #include "Obstacle.hpp"
 #include "SpawnEvent.hpp"
+#include "./lib/json.hpp"
+#include <fstream>           // 用來讀取檔案
+#include <iostream>
+#include "Util/Logger.hpp"   // 沿用你的 Log 系統
+#include "TimeLine.hpp"
+
+using json = nlohmann::json;
 
 class LevelSpawner {
 private:
+    json m_LevelData;
     std::vector<SpawnEvent> m_PendingEvents; // 尚未生成的事件清單 (需依 startBeat 排序)
     std::vector<std::shared_ptr<Obstacle>> m_ActiveObstacles; // 畫面上存活的障礙物
 
-public:
-    explicit LevelSpawner(std::vector<SpawnEvent> pendingEvents) {
-        m_PendingEvents = std::move(pendingEvents);
-    };
-    ~LevelSpawner();
+    std::shared_ptr<TimeLine> m_TimeLine;
 
-    void Update(float currentBeat);
+    std::string m_BeatMap;
+    std::string m_SongPath;
+
+    bool m_IsFinished = false;
+
+public:
+    explicit LevelSpawner(const std::string& filepath, const std::string& SongPath) {
+        m_BeatMap = filepath;
+        m_SongPath = SongPath;
+    };
+    ~LevelSpawner() = default;
+
+    void Update();
+
+    void Start();
 
     [[nodiscard]] const std::vector<std::shared_ptr<Obstacle>>& GetActiveObstacles() const {
         return m_ActiveObstacles;
     }
 
-
-
+    bool IsFinished() const {return m_IsFinished;}
 };
 
 #endif //JUST_SHAPES_AND_BEATS_LEVELSPAWNER_HPP

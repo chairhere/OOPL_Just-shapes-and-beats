@@ -4,8 +4,22 @@
 
 #include "LevelSpawner.hpp"
 
+void LevelSpawner::Start() {
+    std::ifstream file(m_BeatMap);
+    if (!file.is_open()) {
+        LOG_DEBUG("找不到譜面檔案：{}", m_BeatMap);
+        return;
+    }
+
+    file >> m_LevelData;
+
+    for (const auto& item : m_LevelData) {
+
+    }
+}
+
 //能實作在AppUpdate裡，利用levels來去開啟予與關閉這部分的update
-void LevelSpawner::Update(float currentBeat) {
+void LevelSpawner::Update() {
     // 1. 檢查是否有新障礙物需要生成
     while (!m_PendingEvents.empty() && currentBeat >= m_PendingEvents.front().startBeat) {
         auto newObstacle = std::make_shared<Obstacle>(m_PendingEvents.front());

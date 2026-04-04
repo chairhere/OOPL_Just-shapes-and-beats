@@ -42,9 +42,7 @@ private:
 
     float BPM = 0.0f;
     float CurrentBeat = 0.0f;
-
-    Uint64 StartTime = 0;
-
+    float StartTime = 0;
     float CurrentTime = 0;
 
     State CurrentState = State::Load;
