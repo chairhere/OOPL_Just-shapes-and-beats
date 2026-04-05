@@ -8,6 +8,7 @@
 #include "Util/Image.hpp"
 
 class ImageObject : public Util::GameObject {
+public:
     ImageObject(const std::string& imagePath) {
         m_Drawable = std::make_shared<Util::Image>(imagePath);
     }
