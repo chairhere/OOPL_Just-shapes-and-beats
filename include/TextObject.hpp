@@ -9,8 +9,8 @@
 
 class TextObject : public Util::GameObject {
 public:
-    TextObject(const std::string& fontPath, int fontSize, const std::string& text, const Util::Color& color) {
-        m_Drawable = std::make_shared<Util::Text>(fontPath, fontSize, text, color);
+    TextObject(int fontSize, const std::string& text, const Util::Color& color) {
+        m_Drawable = std::make_shared<Util::Text>("../Resources/Font/TSTC.ttf", fontSize, text, color);
     }
 
     void SetText(const std::string& text);
