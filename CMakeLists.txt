@@ -63,6 +63,19 @@ add_executable(${PROJECT_NAME}
         include/SongList.hpp
         include/SongData.hpp
         include/TestShape.hpp
+        src/MusicPlayerManager.cpp
+        include/MusicPlayerManager.hpp
+        src/Label.cpp
+        include/Label.hpp
+        include/Label.hpp
+        src/TextObject.cpp
+        include/TextObject.hpp
+        src/ImageObject.cpp
+        include/ImageObject.hpp
+        src/EventObject.cpp
+        include/EventObject.hpp
+        src/SongListItem.cpp
+        include/SongListItem.hpp
 )
 
 if(MSVC)
