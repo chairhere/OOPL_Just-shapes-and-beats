@@ -14,6 +14,13 @@
 void App::Start() {
     LOG_TRACE("Start");
 
+    SDL_Window* window = SDL_GL_GetCurrentWindow();
+    if (window != nullptr) {
+        SDL_SetWindowBordered(window, SDL_FALSE);  //無框
+        SDL_SetWindowSize(window, 1920, 1080);  //1920*1080
+        SDL_SetWindowPosition(window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
+    }
+
     m_CurrentScreen = std::make_shared<MainMenuScreen>();
     m_CurrentLevel = ScreenState::Main;
 
