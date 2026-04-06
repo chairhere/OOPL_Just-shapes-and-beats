@@ -18,11 +18,15 @@ public:
 
     Levels GetLevel();
 
+    void Update() override;
+
 private:
     std::shared_ptr<ImageObject> m_Background, m_Checker;
     std::shared_ptr<TextObject> m_Title, m_Composer;
 
     Levels m_WhoAmI;
+    bool m_Checked = false;
+    int m_Order = -1;  //not checked
 
     std::string m_NormalBackground = "../Resources/Image/OptionBackground/None.png";
     std::string m_FocusBackground = "../Resources/Image/OptionBackground/Selected.png";
