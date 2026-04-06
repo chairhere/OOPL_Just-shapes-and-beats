@@ -7,6 +7,7 @@
 
 #include "Button.hpp"
 #include "Screen.hpp"
+#include "SongListItem.hpp"
 
 //this also name as LevelList
 
@@ -18,9 +19,13 @@ public:
 
     ScreenState Update() override;
 private:
-    std::vector<std::shared_ptr<Button>> m_ButtonLevels;
-    std::shared_ptr<Button> m_NowSelect;
-    int m_SelectedIndex = -1;
+    std::shared_ptr<Button> m_RandomOrder;
+    std::vector<std::shared_ptr<SongListItem>> m_Items;
+    std::shared_ptr<SongListItem> m_NowSelect;
+    int m_SelectedIndex = 0;
+    std::vector<Levels> m_SongsOrder = {
+        Levels::Chronos
+    };
 };
 
 #endif //JUST_SHAPES_AND_BEATS_SONGLISTSCREEN_HPP
