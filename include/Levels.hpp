@@ -6,10 +6,10 @@
 #define JUST_SHAPES_AND_BEATS_LEVELS_HPP
 
 enum class Levels {
+    Chronos/*,
     Opening,
     Barracuda,
     CheatCode,
-    Chronos,
     FinalBoss,
     FTW,
     HYPE,
@@ -18,7 +18,15 @@ enum class Levels {
     Rainbow,
     SugarRush,
     TillItsOver,
-    TryThis
+    TryThis*/
 };
+
+constexpr std::string_view to_string(Levels L) {
+    switch (L) {
+        case Levels::Chronos:
+            return "Chronos";
+    }
+    return "Unknown*";
+}
 
 #endif //JUST_SHAPES_AND_BEATS_LEVELS_HPP
