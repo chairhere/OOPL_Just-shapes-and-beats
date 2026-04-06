@@ -11,7 +11,7 @@ MainMenuScreen::MainMenuScreen() {
     m_ButtonPlay = std::make_shared<Button>("../Resources/Image/MainScreenButton/SongListButton.png");
 
     // 【修改點 1】直接告訴按鈕 Hover 時要用哪張圖，不要在 Lambda 裡面自己 Call SetImage！
-    m_ButtonPlay->SetHoverImage("../Resources/Image/MainScreenButton/SongListButton(Selected).png");
+    m_ButtonPlay->SetFocusImage("../Resources/Image/MainScreenButton/SongListButton(Selected).png");
 
     m_ButtonPlay->SetOnHovering([this]() {
         this->m_NowSelect = m_ButtonPlay;
@@ -35,7 +35,7 @@ MainMenuScreen::MainMenuScreen() {
     m_ButtonExit = std::make_shared<Button>("../Resources/Image/MainScreenButton/ExitButton.png");
 
     // 【修改點 2】同樣直接設定 Hover 圖片
-    m_ButtonExit->SetHoverImage("../Resources/Image/MainScreenButton/ExitButton(Selected).png");
+    m_ButtonExit->SetFocusImage("../Resources/Image/MainScreenButton/ExitButton(Selected).png");
 
     m_ButtonExit->SetOnHovering([this]() {
         this->m_NowSelect = m_ButtonExit;
