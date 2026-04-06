@@ -17,8 +17,8 @@ public:
 
 
     explicit Obstacle(const SpawnEvent& event) : m_Event(event) {
-        m_Transform.translation = event.startPos;
-        m_Transform.rotation = event.startRot;
+        m_Transform.translation = event.StartPos;
+        m_Transform.rotation = event.StartRot;
         m_Transform.scale = glm::vec2(1.0f, 1.0f);
     }
 

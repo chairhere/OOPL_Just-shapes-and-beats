@@ -39,7 +39,7 @@ FadeLayer::FadeLayer(const std::vector<Util::Color> &Colors, const std::vector<f
 
     // 1. 實例化新版的 CustomColorShape，並設定初始為不透明的純黑
     // 利用框架內建的 Util::Color (r, g, b, a)
-    m_FadeShape = std::make_shared<CustomColorShape>(m_CurrentColor, m_LocalVertices);
+    m_FadeShape = std::make_shared<CustomColorShape>(m_Color, m_LocalVertices);
 
     // 2. 將其指定給繼承自 GameObject 的 m_Drawable [1]
     m_Drawable = m_FadeShape;
@@ -96,8 +96,37 @@ void FadeLayer::Update() {
     m_Transform.translation = m_CurrentPosition;
 
     m_Transform.rotation = m_CurrentRotation;
+/*
+    auto data = Util::ConvertToUniformBufferData(
+        m_Transform, m_Drawable->GetSize(), m_ZIndex);
+    data.m_Model = glm::translate(
+        data.m_Model, glm::vec3{m_Pivot / m_Drawable->GetSize(), 0} * -1.0F);
 
+    m_FadeShape->Draw(data);
 
+    ImGui::Begin("test");
+    ImGui::SetWindowPos({200, 300});
+    ImGui::Text("%d", m_Counter);
+    ImGui::Text("%f", m_ElapsedTime);
+    ImGui::Separator();
+    ImGui::Text("r%f", m_Color.r);
+    ImGui::Text("g%f", m_Color.g);
+    ImGui::Text("b%f", m_Color.b);
+    ImGui::Text("a%f", m_Color.a);
+    ImGui::Separator();
+    ImGui::Text("r%f", m_CurrentColor.r);
+    ImGui::Text("g%f", m_CurrentColor.g);
+    ImGui::Text("b%f", m_CurrentColor.b);
+    ImGui::Text("a%f", m_CurrentColor.a);
+    ImGui::Separator();
+    ImGui::Text("r%f", m_FinishedColor.r);
+    ImGui::Text("g%f", m_FinishedColor.g);
+    ImGui::Text("b%f", m_FinishedColor.b);
+    ImGui::Text("a%f", m_FinishedColor.a);
+    ImGui::Separator();
+    ImGui::Text("a%f", m_FadeShape->GetColor());
+    ImGui::End();
+*/
     // 5. 判斷整體是否已經結束
     if (m_ElapsedTime >= m_DurationMs && m_Counter < (m_LoopSize - 2)) {
         m_Counter++;
@@ -127,4 +156,7 @@ void FadeLayer::State_Update() {
 
     m_Rotation = m_Rotations[m_Counter];
     m_FinishedRotation = m_Rotations[m_Counter + 1];
+
+    ImGui::ColorConvertRGBtoHSV(m_Color.r, m_Color.g, m_Color.b, m_H, m_S, m_V);
+    ImGui::ColorConvertRGBtoHSV(m_FinishedColor.r, m_FinishedColor.g, m_FinishedColor.b, m_FinishedH, m_FinishedS, m_FinishedV);
 }

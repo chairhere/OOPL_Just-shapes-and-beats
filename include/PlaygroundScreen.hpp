@@ -12,6 +12,8 @@
 #include "Levels.hpp"
 #include "Util/Color.hpp"
 #include "SongsBPM.hpp"
+#include "FadeLayer.hpp"
+#include "TimeLine.hpp"
 
 
 class PlaygroundScreen : public Screen {
@@ -26,8 +28,10 @@ private:
     std::string m_BeatMap = "../Resources/BeatMap/";
     std::string m_SongPath = "../Resources/Audio/";
     std::shared_ptr<LevelSpawner> m_LevelSpawner;
+    std::vector<std::shared_ptr<FadeLayer>> m_TestingPower;
+    std::shared_ptr<TimeLine> m_TimeLine;
 
-    SongsBPM BPM;
+    int BPM;
 };
 
 #endif //JUST_SHAPES_AND_BEATS_PLAYGROUNDSCREEN_HPP

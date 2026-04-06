@@ -34,7 +34,9 @@ public:
 
     void ChangeBGM(const std::string &path);
 
-    float GetBeats();
+    float GetBeats() const;
+
+    [[nodiscard]] State GetState() const {return CurrentState;}
 
 private:
     Util::Time Timer;

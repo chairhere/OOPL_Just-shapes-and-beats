@@ -7,19 +7,30 @@
 
 #include <glm/glm.hpp>
 #include <string>
+#include <variant>
 
+//using BulletSpec = std::variant<TrackingData, WaveData, LinearData>;
 // 紀錄譜面中一個障礙物的生成與行為資訊 [4]
 struct SpawnEvent {
-    float startBeat;       // 出現的節拍點
-    float endBeat;         // 消失的節拍點
+    float StartBeat;       // 出現的節拍點
+    float EndBeat;         // 消失的節拍點
 
-    glm::vec2 startPos;    // 初始位置
-    glm::vec2 endPos;      // 結束位置 (若與初始相同代表不移動)
+    glm::vec2 StartPos;    // 初始位置
+    glm::vec2 EndPos;      // 結束位置 (若與初始相同代表不移動)
 
-    float startRot;        // 初始旋轉角度 (弧度) [1]
-    float endRot;          // 結束旋轉角度 (弧度)
+    float StartRot;        // 初始旋轉角度 (弧度) [1]
+    float EndRot;          // 結束旋轉角度 (弧度)
 
-    std::string shapeType; // 障礙物形狀 (例如 "Square", "Laser")
+    std::string ShapeType; // 障礙物形狀 (例如 "Square", "Laser")
+
+    struct SpecialEvent {
+        float SpawnBeat;
+        float Angular;
+
+        glm::vec2 PausePos;
+        glm::vec2 Velocity;
+
+    } SpecialData;
 };
 
 #endif //JUST_SHAPES_AND_BEATS_SPAWN_EVENT_HPP

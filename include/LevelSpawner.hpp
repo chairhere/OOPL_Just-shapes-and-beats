@@ -15,30 +15,32 @@
 #include <iostream>
 #include "Util/Logger.hpp"   // 沿用你的 Log 系統
 #include "TimeLine.hpp"
+#include "config.hpp"
 
 using json = nlohmann::json;
 
 class LevelSpawner {
 private:
     json m_LevelData;
+    SpawnEvent m_SpawnEvent;
     std::vector<SpawnEvent> m_PendingEvents; // 尚未生成的事件清單 (需依 startBeat 排序)
     std::vector<std::shared_ptr<Obstacle>> m_ActiveObstacles; // 畫面上存活的障礙物
 
     std::shared_ptr<TimeLine> m_TimeLine;
-
     std::string m_BeatMap;
     std::string m_SongPath;
 
     bool m_IsFinished = false;
 
 public:
-    explicit LevelSpawner(const std::string& filepath, const std::string& SongPath) {
+    explicit LevelSpawner(const std::string& filepath, const std::string& SongPath, const float BPM){
         m_BeatMap = filepath;
         m_SongPath = SongPath;
+        m_TimeLine = std::make_shared<TimeLine>(m_SongPath, BPM);
     };
     ~LevelSpawner() = default;
 
-    void Update();
+    void Update(float currentBeat);
 
     void Start();
 

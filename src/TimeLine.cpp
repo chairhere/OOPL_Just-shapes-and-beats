@@ -31,14 +31,18 @@ void TimeLine::Pause() {
 }
 
 void TimeLine::Stop() {
+    StartTime = 0.0f;
+    CurrentTime = 0.0f;
     CurrentState = State::Stop;
     BGMPlayer.reset();
 }
 
 void TimeLine::ChangeBGM(const std::string &path) {
+    StartTime = 0.0f;
+    CurrentTime = 0.0f;
     BGMPlayer->LoadMedia(path);
 }
 
-float TimeLine::GetBeats() {
+float TimeLine::GetBeats() const {
     return CurrentBeat;
 }
