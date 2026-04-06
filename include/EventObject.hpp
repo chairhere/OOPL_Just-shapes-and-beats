@@ -16,9 +16,10 @@ public:
     void SetOnClick(const std::function<void()> &onClickEvent);
     void SetOnHovering(const std::function<void()> &onHoverEvent);
     void SetOnFocus(const std::function<void()> &onFocusEvent);
-    void SetOffEvent(const std::function<void()> &OffEvent);
+    void SetOffEvent(const std::function<void()> &offEvent);
 
-    bool isHovering();
+    void HoverEnable(const bool enable);
+    bool isHovering() const;
 
     void Focus() { m_Focus = true; }
     void Unfocus() { m_Focus = false; }
@@ -27,6 +28,7 @@ public:
     virtual void Update() = 0;
 
 protected:
+    bool m_HoverEnable = true;
     bool m_Focus = false;
     std::function<void()> m_OnClick = nullptr;
     std::function<void()> m_OnHover = nullptr;
@@ -36,8 +38,6 @@ protected:
     // --- 自動還原系統 (Snapshot) 變數 ---
     bool m_WasActive = false;
     Util::Transform m_NormalTransform;   // 備份位移、縮放、旋轉
-    std::string m_NormalImagePath = "";  // 備份原始圖片路徑
-    std::string m_FocusImagePath = "";   // 觸發時的圖片路徑
 };
 
 #endif //JUST_SHAPES_AND_BEATS_EVENTOBJECT_HPP

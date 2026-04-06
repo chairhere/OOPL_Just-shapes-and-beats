@@ -23,14 +23,14 @@ void Button::SetImage(const std::string& imagePath) {
     }
 }
 
-void Button::SetHoverImage(const std::string& hoverImagePath) {
+void Button::SetFocusImage(const std::string& hoverImagePath) {
     m_FocusImagePath = hoverImagePath;
 }
 
 void Button::Update() {
-    bool hovering = isHovering();
-    bool focused = isFocus();
-    bool isCurrentlyActive = hovering || focused;
+    const bool hovering = isHovering();
+    const bool focused = isFocus();
+    const bool isCurrentlyActive = hovering || focused;
 
     if (isCurrentlyActive) {
         // 【剛碰到的第一幀】進行狀態快照與自動換圖
