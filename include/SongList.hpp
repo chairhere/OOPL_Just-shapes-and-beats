@@ -16,7 +16,7 @@ class SongList {
 public:
     static const std::unordered_map<Levels, SongData>& GetAllSong() {
         static const std::unordered_map<Levels, SongData> s_Songs = {
-            {Levels::Chronos, SongData{"Chronos", "Danimal Cannon & Zef", SongsBPM::Chronos, "../Resources/Audio/Chronos.mp3"}}
+            {Levels::Chronos, SongData{Levels::Chronos, "Chronos", "Danimal Cannon & Zef", SongsBPM::Chronos, "../Resources/Audio/Chronos.mp3"}}
         };
         return s_Songs;
     };

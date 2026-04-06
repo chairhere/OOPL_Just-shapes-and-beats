@@ -21,7 +21,7 @@ enum class Levels {
     TryThis*/
 };
 
-constexpr std::string_view to_string(Levels L) {
+constexpr std::string_view to_string(const Levels L) {
     switch (L) {
         case Levels::Chronos:
             return "Chronos";

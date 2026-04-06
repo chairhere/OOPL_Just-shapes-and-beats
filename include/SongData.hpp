@@ -10,6 +10,7 @@
 
 struct SongData {
 public:
+    Levels Level;
     std::string Title;
     std::string Composer;
     SongsBPM BPM;
