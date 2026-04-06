@@ -36,8 +36,6 @@ public:
 protected:
     int m_MaxHealth = 3;
     int m_Health = m_MaxHealth;
-    int m_MaxResurrection = 3;
-    int m_Resurrection_Times = m_MaxResurrection;
     glm::vec2 m_MovingDirection = glm::vec2(0.0f, 0.0f);
     bool m_Dashing = false;
     float m_DashTimeLeft = 0;
