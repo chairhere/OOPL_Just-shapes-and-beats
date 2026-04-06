@@ -66,14 +66,14 @@ void Template::Update() {
         // 觸發自定義的特效或點擊事件
         if (hovering) {
             if (m_OnHover) m_OnHover();
-
-            //!Hover發生時才會觸發的事情
-
+            if (Util::Input::IsKeyDown(Util::Keycode::MOUSE_LB)) {
+                if (m_OnClick) m_OnClick();
+            }
         } else if (focused) {
             if (m_OnFocus) m_OnFocus();
-
-            //!Focus發生時才會觸發的事情
-
+            if (Util::Input::IsKeyDown(Util::Keycode::RETURN)) {
+                if (m_OnClick) m_OnClick();
+            }
         }
     } else {
         // 【離開的第一幀】還原所有狀態
