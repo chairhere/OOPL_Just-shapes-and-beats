@@ -16,6 +16,12 @@ SongListItem::SongListItem(SongData data, float startX, float startY) {
     m_Background->m_Transform.scale = glm::vec2(50,20);
     m_Children.push_back(m_Background);
 
+    m_Checker = std::make_shared<ImageObject>("../Resources/Image/Obstacles/Obstacle_Circle.png");
+    float ImageWidth = m_Checker->GetScaledSize().x;
+    float ImageAnchorX = -300.0f;
+    m_Checker->m_Transform.translation = glm::vec2(ImageAnchorX - (ImageWidth / 2.0f), 0.0f);
+    m_Children.push_back(m_Checker);
+
     m_Title = std::make_shared<TextObject>(16, data.Title);
     float textWidth = m_Title->GetScaledSize().x;
     float textAnchorX = -300.0f;
@@ -29,6 +35,7 @@ SongListItem::SongListItem(SongData data, float startX, float startY) {
     m_Children.push_back(m_Composer);
 
     m_WhoAmI = data.Level;
+    HoverEnable(false);
 
 }
 
@@ -40,10 +47,15 @@ Levels SongListItem::GetLevel() {
     return m_WhoAmI;
 }
 
+glm::vec2 SongListItem::GetSize() {
+    return m_Background->GetScaledSize();
+}
+
+
 void SongListItem::Update() {
     const bool hovering = isHovering();
     const bool focused = isFocus();
-    const bool isCurrentlyActive = hovering || focused;
+    const bool isCurrentlyActive = isActive();
 
     if (isCurrentlyActive) {
         // 【剛碰到的第一幀】進行狀態快照與自動換圖

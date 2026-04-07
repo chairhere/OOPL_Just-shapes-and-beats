@@ -18,6 +18,8 @@ public:
 
     Levels GetLevel();
 
+    glm::vec2 GetSize();
+
     void Update() override;
 
 private:

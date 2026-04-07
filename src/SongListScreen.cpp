@@ -7,6 +7,7 @@
 #include "SongList.hpp"
 
 SongListScreen::SongListScreen() {
+    //==歌曲清單==
     int listLenth = m_SongsOrder.size();
     float currentX = 0.0f;
     float currentY = 50.0f;
@@ -19,13 +20,81 @@ SongListScreen::SongListScreen() {
             m_SelectedIndex = i;
             this->m_NowSelect = this->m_Items.at(m_SelectedIndex);
         });
+        m_Items.at(i)->SetOnFocus([this, i]() {
+            m_SelectedIndex = i;
+            this->m_NowSelect = this->m_Items.at(m_SelectedIndex);
+        });
+        m_Items.at(i)->SetOffEvent([this, i]() {
+            this->m_NowSelect = nullptr;
+        });
         m_Renderer.AddChild(m_Items.at(i));
-        currentY -= item->GetScaledSize().y;
+        currentY -= m_Items.at(i)->GetSize().y;
     }
     m_SelectedIndex = 0;
     m_Items.at(0)->Focus();
+
+    //==隨機按鈕==
+    m_RandomOrder = std::make_shared<Button>("");
+    m_RandomOrder->HoverEnable(false);
+    m_Renderer.AddChild(m_RandomOrder);
 }
 
 ScreenState SongListScreen::Update() {
+    int listLenth = m_SongsOrder.size();
+
+    //防Hover與Focus衝突(沒有Hover效果，純控制鼠標顯示)
+    if (Util::Input::IsMouseMoving()) {
+        Button::s_IsKeyboardMode = false;
+        SDL_ShowCursor(SDL_ENABLE);
+    }
+
+    // 檢查導航鍵
+    if (Util::Input::IsKeyDown(Util::Keycode::W) ||
+        Util::Input::IsKeyDown(Util::Keycode::S) ||
+        Util::Input::IsKeyDown(Util::Keycode::UP) ||
+        Util::Input::IsKeyDown(Util::Keycode::DOWN) ||
+        Util::Input::IsKeyDown(Util::Keycode::RETURN)) {
+
+        Button::s_IsKeyboardMode = true;
+        SDL_ShowCursor(SDL_DISABLE);
+
+        if (m_NowSelect) {
+            m_NowSelect->Unfocus();
+            if (Util::Input::IsKeyDown(Util::Keycode::W) ||
+                Util::Input::IsKeyDown(Util::Keycode::UP)) {
+                if (m_SelectedIndex == 0) {
+                    m_SelectedIndex = -1;
+                    m_NowSelect = m_RandomOrder;
+                }else if (m_SelectedIndex > 0) {
+                    m_SelectedIndex -= 1;
+                    m_NowSelect = m_Items.at(m_SelectedIndex);
+                }
+            }else if (Util::Input::IsKeyDown(Util::Keycode::S) ||
+                    Util::Input::IsKeyDown(Util::Keycode::DOWN)) {
+                if (m_SelectedIndex == -1) {
+                    m_SelectedIndex = 0;
+                    m_NowSelect = m_Items.at(0);
+                }else if (m_SelectedIndex < listLenth-1) {
+                    m_SelectedIndex += 1;
+                    m_NowSelect = m_Items.at(m_SelectedIndex);
+                }
+            }
+            m_NowSelect->Focus();
+        }else {
+            LOG_ERROR("觸發空白項目");
+            throw std::invalid_argument("The list should NOT be without selected items.");
+        }
+
+        if (((m_SelectedIndex == -1) ^ (m_NowSelect == m_RandomOrder)) or (m_NowSelect != m_Items.at(m_SelectedIndex))) {
+            LOG_WARN("SelectedIndex doesn't match NowSelect");
+        }
+    }
+
+    m_Renderer.Update();
+    m_RandomOrder->Update();
+    for (int i = 0 ; i < listLenth ; i++) {
+        m_Items.at(i)->Update();
+    }
+
     return ScreenState::LevelList;
 }

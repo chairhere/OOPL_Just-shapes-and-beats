@@ -84,6 +84,7 @@ MainMenuScreen::MainMenuScreen() {
 }
 
 ScreenState MainMenuScreen::Update() {
+    //防Hover與Focus衝突
     if (Util::Input::IsMouseMoving()) {
         Button::s_IsKeyboardMode = false;
         SDL_ShowCursor(SDL_ENABLE);

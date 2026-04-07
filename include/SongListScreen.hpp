@@ -21,7 +21,7 @@ public:
 private:
     std::shared_ptr<Button> m_RandomOrder;
     std::vector<std::shared_ptr<SongListItem>> m_Items;
-    std::shared_ptr<SongListItem> m_NowSelect;
+    std::shared_ptr<EventObject> m_NowSelect;
     int m_SelectedIndex = 0;
     std::vector<Levels> m_SongsOrder = {
         Levels::Chronos
