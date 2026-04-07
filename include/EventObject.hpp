@@ -21,14 +21,18 @@ public:
     void HoverEnable(const bool enable);
     bool isHovering() const;
 
-    void Focus() { m_Focus = true; }
-    void Unfocus() { m_Focus = false; }
-    bool isFocus() { return m_Focus; }
+    void FocusEnable(const bool enable);
+    void Focus();
+    void Unfocus();
+    bool isFocus() const;
+
+    bool isActive() const;
 
     virtual void Update() = 0;
 
 protected:
     bool m_HoverEnable = true;
+    bool m_FocusEnable = true;
     bool m_Focus = false;
     std::function<void()> m_OnClick = nullptr;
     std::function<void()> m_OnHover = nullptr;

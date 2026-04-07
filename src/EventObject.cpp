@@ -29,9 +29,6 @@ void EventObject::HoverEnable(const bool enable) {
 }
 
 bool EventObject::isHovering() const {
-    //  不允許 Hover
-    if (!m_HoverEnable) return false;
-
     if (m_Drawable == nullptr) return false;
 
     // 【防護】如果是鍵盤模式，一律無視滑鼠 Hover
@@ -46,6 +43,28 @@ bool EventObject::isHovering() const {
             mousePos.y >= pos.y - size.y / 2.0f &&
             mousePos.y <= pos.y + size.y / 2.0f);
 }
+
+void EventObject::FocusEnable(const bool enable) {
+    m_FocusEnable = enable;
+}
+
+void EventObject::Focus() {
+    m_Focus = true;
+}
+
+void EventObject::Unfocus() {
+    m_Focus = false;
+}
+
+bool EventObject::isFocus() const {
+    return m_Focus;
+}
+
+
+bool EventObject::isActive() const {
+    return (m_HoverEnable && isHovering()) || (m_FocusEnable && m_Focus);
+}
+
 
 /* Update 基礎格式
 void Template::Update() {

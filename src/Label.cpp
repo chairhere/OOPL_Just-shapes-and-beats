@@ -35,7 +35,7 @@ void Label::SetFocusImage(const std::string &imagePath) {
 void Label::Update() {
     const bool hovering = isHovering();
     const bool focused = isFocus();
-    const bool isCurrentlyActive = hovering || focused;
+    const bool isCurrentlyActive = isActive();
 
     if (isCurrentlyActive) {
         // 【剛碰到的第一幀】進行狀態快照與自動換圖
