@@ -10,7 +10,6 @@ MainMenuScreen::MainMenuScreen() {
     // === Play 按鈕 ===
     m_ButtonPlay = std::make_shared<Button>("../Resources/Image/MainScreenButton/SongListButton.png");
 
-    // 【修改點 1】直接告訴按鈕 Hover 時要用哪張圖，不要在 Lambda 裡面自己 Call SetImage！
     m_ButtonPlay->SetFocusImage("../Resources/Image/MainScreenButton/SongListButton(Selected).png");
 
     m_ButtonPlay->SetOnHovering([this]() {
@@ -34,7 +33,6 @@ MainMenuScreen::MainMenuScreen() {
     // === Exit 按鈕 ===
     m_ButtonExit = std::make_shared<Button>("../Resources/Image/MainScreenButton/ExitButton.png");
 
-    // 【修改點 2】同樣直接設定 Hover 圖片
     m_ButtonExit->SetFocusImage("../Resources/Image/MainScreenButton/ExitButton(Selected).png");
 
     m_ButtonExit->SetOnHovering([this]() {
@@ -86,7 +84,6 @@ MainMenuScreen::MainMenuScreen() {
 }
 
 ScreenState MainMenuScreen::Update() {
-    // 【修改點 3】使用我們討論的最佳解：鍵盤模式防護 (完美取代隱藏滑鼠游標)
     if (Util::Input::IsMouseMoving()) {
         Button::s_IsKeyboardMode = false;
         SDL_ShowCursor(SDL_ENABLE);
@@ -96,7 +93,7 @@ ScreenState MainMenuScreen::Update() {
         }
     }
 
-    // 檢查導航鍵 (您原本註解掉的判斷)
+    // 檢查導航鍵
     if (Util::Input::IsKeyDown(Util::Keycode::W) ||
         Util::Input::IsKeyDown(Util::Keycode::S) ||
         Util::Input::IsKeyDown(Util::Keycode::UP) ||
