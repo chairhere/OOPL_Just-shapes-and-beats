@@ -22,3 +22,44 @@ void Obstacle::UpdateStateByBeat(float currentBeat) {
     // float beatPulse = 1.0f + 0.2f * sin(currentBeat * glm::pi<float>());
     // m_Transform.scale = glm::vec2(beatPulse);
 }
+
+void Obstacle::UpdateWorldVertices() {
+    // 每次更新前清空上一幀的資料，並預留足夠的空間以優化效能
+    m_WorldVertices.clear();
+    m_WorldVertices.reserve(localVertices.size());
+
+    // 1. 提取 Transform 的數值，並預先算出 sin 與 cos (只算一次，節省效能)
+    float scaleX = m_Transform.scale.x;
+    float scaleY = m_Transform.scale.y;
+    float transX = m_Transform.translation.x;
+    float transY = m_Transform.translation.y;
+
+    // 框架的 rotation 單位是弧度(rad)，直接丟入三角函數即可
+    float cosTheta = std::cos(m_Transform.rotation);
+    float sinTheta = std::sin(m_Transform.rotation);
+
+    // 2. 遍歷 localVertices 中的每一個頂點 (每 2 個 float 是一組 X, Y)
+    for (size_t i = 0; i < localVertices.size(); i += 2) {
+        float localX = localVertices[i];
+        float localY = localVertices[i + 1];
+
+        // 步驟 A：縮放 (Scale)
+        // 先把 1x1 的形狀拉伸成我們設定的寬高
+        float scaledX = localX * scaleX;
+        float scaledY = localY * scaleY;
+
+        // 步驟 B：旋轉 (Rotate)
+        // 套用 2D 旋轉矩陣公式
+        float rotatedX = scaledX * cosTheta - scaledY * sinTheta;
+        float rotatedY = scaledX * sinTheta + scaledY * cosTheta;
+
+        // 步驟 C：位移 (Translate)
+        // 最後加上物件在遊戲世界中的實際位置
+        float worldX = rotatedX + transX;
+        float worldY = rotatedY + transY;
+
+        // 將算好的絕對座標存入 worldVertices
+        m_WorldVertices.push_back(worldX);
+        m_WorldVertices.push_back(worldY);
+    }
+}

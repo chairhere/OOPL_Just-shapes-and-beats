@@ -12,7 +12,13 @@ CustomColorShape::CustomColorShape(const Util::Color& color, const std::vector<f
         std::vector<float> positions = Positions;
 
         std::vector<float> uvs(Positions.size(), 0.0f);
-
+    /*
+        std::vector<float> uvs{
+        0.25f, 0.5f,
+        0.25f, 0.5f,
+        0.75f, 0.5f,
+        0.75f, 0.5f,};
+*/
         m_VertexArray = std::make_unique<Core::VertexArray>();
         m_VertexArray->AddVertexBuffer(std::make_unique<Core::VertexBuffer>(positions, 2));
         m_VertexArray->AddVertexBuffer(std::make_unique<Core::VertexBuffer>(uvs, 2));
@@ -53,13 +59,20 @@ void CustomColorShape::ApplyColorToTexture() {
         static_cast<Uint8>(m_Color.b),
         static_cast<Uint8>(m_Color.a)
     };
-
+/*
+    Uint8 paletteData[] = {
+        255,   0,   0, 255, // 左邊像素：紅色 (Red)
+        255, 255, 255, 255  // 右邊像素：白色 (White)
+    };
+*/
     if (!m_Texture) {
         // GL_RGBA 格式建立紋理 [8, 9]
         m_Texture = std::make_unique<Core::Texture>(GL_RGBA, 1, 1, data);
+        //m_Texture = std::make_unique<Core::Texture>(GL_RGBA, 2, 1, paletteData);
     } else {
         // 如果紋理已存在，直接利用 UpdateData 覆寫這 1 個像素的顏色 (效能極高) [10]
         m_Texture->UpdateData(GL_RGBA, 1, 1, data);
+        //m_Texture->UpdateData(GL_RGBA, 2, 1, paletteData);
     }
 }
 

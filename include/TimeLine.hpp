@@ -13,13 +13,6 @@
 
 class TimeLine{
 public:
-    enum class State {
-        Load,
-        Start,
-        Update,
-        Pause,
-        Stop
-    };
 
     TimeLine(const std::string &path, float BPM);
     ~TimeLine() = default;
@@ -27,6 +20,8 @@ public:
     void Start();
 
     void Update();
+
+    void Resume();
 
     void Pause();
 
@@ -36,7 +31,10 @@ public:
 
     float GetBeats() const;
 
-    [[nodiscard]] State GetState() const {return CurrentState;}
+    [[nodiscard]] bool IsPlaying() const{return m_Isplaying;}
+
+    void SetVolume(float volume);
+
 
 private:
     Util::Time Timer;
@@ -44,10 +42,12 @@ private:
 
     float BPM = 0.0f;
     float CurrentBeat = 0.0f;
-    float StartTime = 0;
-    float CurrentTime = 0;
+    float StartTime = 0.0f;
+    float CurrentTime = 0.0f;
+    float PauseTime = 0.0f;
+    float PauseDuration = 0.0f;
 
-    State CurrentState = State::Load;
+    bool m_Isplaying = false;
 
 
 };

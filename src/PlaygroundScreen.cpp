@@ -10,19 +10,44 @@ PlaygroundScreen::PlaygroundScreen(Levels level){
             m_BeatMap += "Chronos.json";
             m_SongPath += "Chronos.mp3";
             BPM = static_cast<float>(SongsBPM::Chronos);
+            m_TimeLine = std::make_shared<TimeLine>(m_SongPath, BPM);
             break;
         default:
             m_BeatMap += "Chronos.json";
             m_SongPath += "Chronos.mp3";
             BPM = static_cast<float>(SongsBPM::Chronos);
+            m_TimeLine = std::make_shared<TimeLine>(m_SongPath, BPM);
             break;
     }
 
     m_LevelSpawner = std::make_shared<LevelSpawner>(m_BeatMap, m_SongPath, BPM);
+    m_TimeLine->Start();
+    m_TimeLine->SetVolume(50);
 }
 
 ScreenState PlaygroundScreen::Update() {
 
+    if (Util::Input::IsKeyDown(Util::Keycode::SPACE)) {
+        if (m_TimeLine->IsPlaying()) {
+            m_TimeLine->Pause();
+        }
+        else{
+            m_TimeLine->Resume();
+        }
+    }
+    if (Util::Input::IsKeyDown(Util::Keycode::P)) {
+        m_TimeLine->Stop();
+    }
+
+    m_TimeLine->Update();
+
+    ImGui::Begin("test");
+    ImGui::SetWindowPos({200, 300});
+    ImGui::Text("Beats:%f", m_TimeLine->GetBeats());
+    ImGui::End();
+
+
+    /*
     for (int i = 0; i < static_cast<int>(m_TestingPower.size()); i++) {
         if (!m_TestingPower[i]->IsFinished()) {
             m_TestingPower[i]->Update();
@@ -31,6 +56,7 @@ ScreenState PlaygroundScreen::Update() {
             m_TestingPower.erase(m_TestingPower.begin() + i);
         }
     }
+    */
 
 /*
     if (m_LevelSpawner && !m_LevelSpawner->IsFinished()) {

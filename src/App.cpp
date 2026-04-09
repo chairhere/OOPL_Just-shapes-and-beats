@@ -13,8 +13,9 @@
 void App::Start() {
     LOG_TRACE("Start");
 
-    m_CurrentScreen = std::make_shared<MainMenuScreen>();
-    m_CurrentLevel = ScreenState::Main;
+    //m_CurrentScreen = std::make_shared<MainMenuScreen>();
+    m_CurrentScreen = std::make_shared<PlaygroundScreen>(Levels::Chronos);
+    m_CurrentLevel = ScreenState::Playground;
 
     m_Player = std::make_shared<Player>();
     m_Player->SetPosition(glm::vec2(0.0f, 0.0f));
@@ -98,7 +99,7 @@ void App::ChangeLevel(ScreenState newLevel) {
             // m_CurrentScreen = std::make_shared<>();
             break;
         case ScreenState::Playground:
-            //m_CurrentScreen = std::make_shared<PlaygroundScreen>();
+            m_CurrentScreen = std::make_shared<PlaygroundScreen>(Levels::Chronos);
             break;
     }
 }

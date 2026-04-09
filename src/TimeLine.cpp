@@ -6,38 +6,54 @@
 TimeLine::TimeLine(const std::string &path, float BPM){
     this->BPM = BPM;
     BGMPlayer = std::make_unique<Util::BGM>(path);
-    CurrentState = State::Load;
     StartTime = 0.0f;
 }
 
 void TimeLine::Start() {
-    CurrentState = State::Update;
-    BGMPlayer->SetVolume(3);
-    BGMPlayer->Play();
+    if (!m_Isplaying && CurrentTime == 0.0f) {
+        m_Isplaying = true;
+        BGMPlayer->SetVolume(3);
+        BGMPlayer->Play();
+        StartTime = Util::Time::GetElapsedTimeMs();
+    }
 }
 
 void TimeLine::Update() {
-    if (CurrentState == State::Update) {
-        CurrentTime += Util::Time::GetDeltaTimeMs();
-        CurrentBeat = (CurrentTime * (BPM / 60));
-        CurrentState = State::Update;
+    if (m_Isplaying) {
+        CurrentTime = Util::Time::GetElapsedTimeMs() - StartTime - PauseDuration;
+        CurrentBeat = ((CurrentTime / 1000.0f)* (BPM / 60));
+    }
+}
+
+void TimeLine::Resume() {
+    if (!m_Isplaying && CurrentTime != 0.0f) {
+        m_Isplaying = true;
+        PauseDuration += Util::Time::GetElapsedTimeMs() - PauseTime;
+        BGMPlayer->Resume();
     }
 }
 
 void TimeLine::Pause() {
-    CurrentState = State::Pause;
-    BGMPlayer->Pause();
-
+    if (m_Isplaying) {
+        m_Isplaying = false;
+        PauseTime = Util::Time::GetElapsedTimeMs();
+        BGMPlayer->Pause();
+    }
 }
 
 void TimeLine::Stop() {
-    StartTime = 0.0f;
+    PauseDuration = 0.0f;
     CurrentTime = 0.0f;
-    CurrentState = State::Stop;
+    m_Isplaying = false;
     BGMPlayer.reset();
 }
 
 void TimeLine::ChangeBGM(const std::string &path) {
+    if (m_Isplaying) {
+        m_Isplaying = false;
+        BGMPlayer->Pause();
+        BGMPlayer.reset();
+    }
     StartTime = 0.0f;
     CurrentTime = 0.0f;
     BGMPlayer->LoadMedia(path);
@@ -45,4 +61,8 @@ void TimeLine::ChangeBGM(const std::string &path) {
 
 float TimeLine::GetBeats() const {
     return CurrentBeat;
+}
+
+void TimeLine::SetVolume(float volume) {
+    BGMPlayer->SetVolume(volume);
 }
