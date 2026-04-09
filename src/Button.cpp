@@ -59,8 +59,8 @@ void Button::Update() {
             if (!m_NormalImagePath.empty() && !m_FocusImagePath.empty()) {
                 SetImage(m_NormalImagePath);
             }
-            if (!m_OffEvent) {
-              m_OffEvent();
+            if (m_OffEvent) {
+                m_OffEvent();
             }
             m_WasActive = false;
         }

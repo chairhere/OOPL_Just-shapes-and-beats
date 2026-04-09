@@ -19,7 +19,7 @@ public:
     void SetOffEvent(const std::function<void()> &offEvent);
 
     void HoverEnable(const bool enable);
-    bool isHovering() const;
+    virtual bool isHovering() const;
 
     void FocusEnable(const bool enable);
     void Focus();

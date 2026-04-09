@@ -17,6 +17,8 @@ public:
     void SetText(const std::string &text);
     void SetImage(const std::string &imagePath);
 
+    bool isHovering() const override;
+
     void SetFocusText(const std::string &text);
     void SetFocusImage(const std::string &imagePath);
 

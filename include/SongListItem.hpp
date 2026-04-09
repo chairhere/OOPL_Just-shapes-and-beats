@@ -18,6 +18,7 @@ public:
 
     Levels GetLevel();
 
+    bool isHovering() const override;
     glm::vec2 GetSize();
 
     void Update() override;

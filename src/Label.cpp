@@ -24,6 +24,23 @@ void Label::SetImage(const std::string &imagePath) {
     m_BackgroundImage->SetImage(imagePath);
 }
 
+bool Label::isHovering() const {
+    if (m_Drawable == nullptr) return false;
+
+    // 【防護】如果是鍵盤模式，一律無視滑鼠 Hover
+    if (s_IsKeyboardMode) return false;
+
+    glm::vec2 mousePos = Util::Input::GetCursorPosition();
+    glm::vec2 size = m_BackgroundImage->GetScaledSize();
+    glm::vec2 pos = m_Transform.translation;
+
+    return (mousePos.x >= pos.x - size.x / 2.0f &&
+            mousePos.x <= pos.x + size.x / 2.0f &&
+            mousePos.y >= pos.y - size.y / 2.0f &&
+            mousePos.y <= pos.y + size.y / 2.0f);
+}
+
+
 void Label::SetFocusText(const std::string &text) {
     m_FocusText = text;
 }
@@ -64,7 +81,7 @@ void Label::Update() {
             m_Transform = m_NormalTransform;
             if (!m_NormalText.empty() && !m_FocusText.empty()) SetText(m_NormalText);
             if (!m_NormalImagePath.empty() && !m_FocusImagePath.empty()) SetImage(m_NormalImagePath);
-            if (!m_OffEvent) {
+            if (m_OffEvent) {
                 m_OffEvent();
             }
             m_WasActive = false;
