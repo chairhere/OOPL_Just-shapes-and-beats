@@ -30,6 +30,23 @@ list(TRANSFORM INCLUDE_FILES PREPEND ${INCLUDE_DIR}/)
 
 # file(GLOB_RECURSE SRC_FILES src/*)
 # file(GLOB_RECURSE HEADER_FILES include/*)
+# ================= [ SoLoud 音訊引擎設定開始 ] =================
+
+# 1. 告訴編譯器 SoLoud 的標頭檔 (.h) 在哪裡
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/libs/soloud/include)
+
+# 2. 收集 SoLoud 必須編譯的原始碼 (精準抓取，不搞花招)
+file(GLOB SOLOUD_SOURCES
+        "${CMAKE_CURRENT_SOURCE_DIR}/libs/soloud/src/core/*.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/libs/soloud/src/audiosource/wav/*.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/libs/soloud/src/backend/miniaudio/*.cpp"
+        "${CMAKE_CURRENT_SOURCE_DIR}/libs/soloud/src/backend/miniaudio/*.c"
+)
+
+# 3. 定義巨集：告訴 SoLoud 我們要用 Miniaudio 作為底層
+add_definitions(-DWITH_MINIAUDIO)
+
+# ================= [ SoLoud 音訊引擎設定結束 ] =================
 
 add_executable(${PROJECT_NAME}
     ${SRC_DIR}/main.cpp
@@ -76,6 +93,7 @@ add_executable(${PROJECT_NAME}
         include/EventObject.hpp
         src/SongListItem.cpp
         include/SongListItem.hpp
+    ${SOLOUD_SOURCES}
 )
 
 if(MSVC)
