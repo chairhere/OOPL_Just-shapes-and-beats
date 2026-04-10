@@ -60,7 +60,6 @@ bool EventObject::isFocus() const {
     return m_Focus;
 }
 
-
 bool EventObject::isActive() const {
     return (m_HoverEnable && isHovering()) || (m_FocusEnable && m_Focus);
 }
@@ -70,38 +69,42 @@ bool EventObject::isActive() const {
 void Template::Update() {
     const bool hovering = isHovering();
     const bool focused = isFocus();
-    const bool isCurrentlyActive = hovering || focused;
 
-    if (isCurrentlyActive) {
-        // 【剛碰到的第一幀】進行狀態快照與自動換圖
+    // ==========================================
+    // 1. 處理互動邏輯 (獨立於視覺狀態之外！)
+    // ==========================================
+    if (hovering) {
+        if (m_OnHover) m_OnHover();
+        // 只要滑鼠在上面，不管 HoverEnable 是不是 false，都可以點擊！
+        if (Util::Input::IsKeyDown(Util::Keycode::MOUSE_LB)) {
+            if (m_OnClick) m_OnClick();
+        }
+    } else if (focused) {
+        if (m_OnFocus) m_OnFocus();
+        if (Util::Input::IsKeyDown(Util::Keycode::RETURN)) {
+            if (m_OnClick) m_OnClick();
+        }
+    }
+
+    // ==========================================
+    // 2. 處理視覺狀態 (這裡才套用 HoverEnable / FocusEnable 的限制)
+    // ==========================================
+    // 重新定義：這個物件「視覺上」是否該呈現亮起狀態？
+    const bool shouldShowVisualActive = (m_HoverEnable && hovering) || (m_FocusEnable && focused);
+
+    if (shouldShowVisualActive) {
+        // 【該亮起時】進行狀態快照與自動換圖
         if (!m_WasActive) {
             m_NormalTransform = m_Transform;
-
-            //!備份
-
+            m_Background->SetImage(m_FocusBackground);
             m_WasActive = true;
         }
-
-        // 觸發自定義的特效或點擊事件
-        if (hovering) {
-            if (m_OnHover) m_OnHover();
-            if (Util::Input::IsKeyDown(Util::Keycode::MOUSE_LB)) {
-                if (m_OnClick) m_OnClick();
-            }
-        } else if (focused) {
-            if (m_OnFocus) m_OnFocus();
-            if (Util::Input::IsKeyDown(Util::Keycode::RETURN)) {
-                if (m_OnClick) m_OnClick();
-            }
-        }
     } else {
-        // 【離開的第一幀】還原所有狀態
+        // 【該熄滅時】還原所有狀態
         if (m_WasActive) {
             m_Transform = m_NormalTransform;
-
-            //!還原
-
-            if (!m_OffEvent) {
+            m_Background->SetImage(m_NormalBackground);
+            if (m_OffEvent) {
                 m_OffEvent();
             }
             m_WasActive = false;
