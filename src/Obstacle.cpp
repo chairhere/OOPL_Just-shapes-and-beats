@@ -10,6 +10,8 @@ void Obstacle::UpdateStateByBeat(float currentBeat) {
         return;
     }
 
+    m_Transform.scale = {200, 200};
+
     // 計算生命週期進度比例 t (0.0 到 1.0 之間)
     float t = (currentBeat - m_Event.StartBeat) / (m_Event.EndBeat - m_Event.StartBeat);
     t = std::clamp(t, 0.0f, 1.0f);
@@ -26,7 +28,7 @@ void Obstacle::UpdateStateByBeat(float currentBeat) {
 void Obstacle::UpdateWorldVertices() {
     // 每次更新前清空上一幀的資料，並預留足夠的空間以優化效能
     m_WorldVertices.clear();
-    m_WorldVertices.reserve(localVertices.size());
+    m_WorldVertices.reserve(m_LocalVertices.size());
 
     // 1. 提取 Transform 的數值，並預先算出 sin 與 cos (只算一次，節省效能)
     float scaleX = m_Transform.scale.x;
@@ -38,10 +40,10 @@ void Obstacle::UpdateWorldVertices() {
     float cosTheta = std::cos(m_Transform.rotation);
     float sinTheta = std::sin(m_Transform.rotation);
 
-    // 2. 遍歷 localVertices 中的每一個頂點 (每 2 個 float 是一組 X, Y)
-    for (size_t i = 0; i < localVertices.size(); i += 2) {
-        float localX = localVertices[i];
-        float localY = localVertices[i + 1];
+    // 2. 遍歷 m_LocalVertices 中的每一個頂點 (每 2 個 float 是一組 X, Y)
+    for (size_t i = 0; i < m_LocalVertices.size(); i += 2) {
+        float localX = m_LocalVertices[i];
+        float localY = m_LocalVertices[i + 1];
 
         // 步驟 A：縮放 (Scale)
         // 先把 1x1 的形狀拉伸成我們設定的寬高
@@ -62,4 +64,5 @@ void Obstacle::UpdateWorldVertices() {
         m_WorldVertices.push_back(worldX);
         m_WorldVertices.push_back(worldY);
     }
+    m_WorldUVs = {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
 }

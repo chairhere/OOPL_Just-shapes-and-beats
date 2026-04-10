@@ -15,13 +15,17 @@
 class Obstacle{
 private:
     bool m_IsDead = false; // 標記是否已經超過 endBeat，準備被銷毀
-    Util::Transform m_Transform;
+
     std::vector<float> m_LocalVertices;
     std::vector<float> m_WorldVertices;
     std::vector<float> m_WorldUVs;
-    std::function<void(Obstacle&, float)> customBehavior = nullptr;
-    SpawnEvent m_Event;
+
 public:
+
+    Util::Transform m_Transform;
+    SpawnEvent m_Event;
+
+    std::function<void(Obstacle&, float)> customBehavior = nullptr;
 
     explicit Obstacle(const SpawnEvent& event) : m_Event(event) {
         m_Transform.translation = event.StartPos;
@@ -32,6 +36,14 @@ public:
     void UpdateStateByBeat(float currentBeat);
 
     void UpdateWorldVertices();
+
+    std::vector<float> GetWorldVertices(){return m_WorldVertices;}
+
+    std::vector<float> GetWorldUVs(){return m_WorldUVs;}
+
+    bool IsDead(){return m_IsDead;}
+
+
 };
 
 #endif //JUST_SHAPES_AND_BEATS_OBSTACLE_HPP

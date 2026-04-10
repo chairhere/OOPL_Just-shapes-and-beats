@@ -65,6 +65,7 @@ add_executable(${PROJECT_NAME}
         include/TestShape.hpp
         include/BatchedColorShape.hpp
         src/BatchedColorShape.cpp
+        include/BulletType.hpp
 )
 
 if(MSVC)

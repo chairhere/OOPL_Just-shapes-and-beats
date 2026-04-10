@@ -5,6 +5,7 @@
 #include "../include/PlaygroundScreen.hpp"
 PlaygroundScreen::PlaygroundScreen(Levels level){
     SDL_ShowCursor(SDL_DISABLE);
+    LOG_DEBUG("PlaygroundScreen::PlaygroundScreen");
     switch (level) {
         case Levels::Chronos:
             m_BeatMap += "Chronos.json";
@@ -21,6 +22,10 @@ PlaygroundScreen::PlaygroundScreen(Levels level){
     }
 
     m_LevelSpawner = std::make_shared<LevelSpawner>(m_BeatMap, m_SongPath, BPM);
+    m_LevelSpawner->SetZIndex(40);
+    m_LevelSpawner->Start();
+    m_Renderer.AddChild(m_LevelSpawner);
+
     m_TimeLine->Start();
     m_TimeLine->SetVolume(50);
 }
@@ -41,10 +46,19 @@ ScreenState PlaygroundScreen::Update() {
 
     m_TimeLine->Update();
 
+
+    // ==========================================
+    // 3. 節拍顯示debug用
+    // ==========================================
+
     ImGui::Begin("test");
     ImGui::SetWindowPos({200, 300});
     ImGui::Text("Beats:%f", m_TimeLine->GetBeats());
     ImGui::End();
+
+    m_LevelSpawner->Update(m_TimeLine->GetBeats());
+
+    m_Renderer.Update();
 
 
     /*

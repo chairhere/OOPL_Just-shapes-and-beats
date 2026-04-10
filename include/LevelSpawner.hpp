@@ -15,17 +15,19 @@
 #include "./lib/json.hpp"
 #include <fstream>           // 用來讀取檔案
 #include <iostream>
+#include <queue>
 #include "Util/Logger.hpp"   // 沿用你的 Log 系統
 #include "config.hpp"
+#include "Util/GameObject.hpp"
+#include "BulletType.hpp"
 
 using json = nlohmann::json;
 
-class LevelSpawner {
+class LevelSpawner : public Util::GameObject{
 private:
-    json m_LevelData;
-    SpawnEvent m_SpawnEvent;
-    std::vector<SpawnEvent> m_PendingEvents; // 尚未生成的事件清單 (需依 startBeat 排序)
-    std::vector<std::shared_ptr<Obstacle>> m_ActiveObstacles; // 畫面上存活的障礙物
+
+    std::queue<SpawnEvent> m_PendingEvents; // 尚未生成的事件清單 (需依 startBeat 排序)
+    std::vector<Obstacle> m_ActiveObstacles; // 畫面上存活的障礙物
     std::shared_ptr<BatchedColorShape> m_Batcher;
 
     std::shared_ptr<TimeLine> m_TimeLine;
@@ -36,19 +38,18 @@ private:
 
 public:
     explicit LevelSpawner(const std::string& filepath, const std::string& SongPath, const float BPM){
+        m_Batcher = std::make_shared<BatchedColorShape>(Util::Color{255, 33, 111, 255});
         m_BeatMap = filepath;
         m_SongPath = SongPath;
         m_TimeLine = std::make_shared<TimeLine>(m_SongPath, BPM);
+        m_Drawable = m_Batcher;
     };
-    ~LevelSpawner() = default;
+    ~LevelSpawner() override = default;
 
     void Update(float currentBeat);
 
     void Start();
 
-    [[nodiscard]] const std::vector<std::shared_ptr<Obstacle>>& GetActiveObstacles() const {
-        return m_ActiveObstacles;
-    }
 
     bool IsFinished() const {return m_IsFinished;}
 };
