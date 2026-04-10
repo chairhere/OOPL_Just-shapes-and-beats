@@ -41,6 +41,7 @@ file(GLOB SOLOUD_SOURCES
         "${CMAKE_CURRENT_SOURCE_DIR}/libs/soloud/src/audiosource/wav/*.cpp"
         "${CMAKE_CURRENT_SOURCE_DIR}/libs/soloud/src/backend/miniaudio/*.cpp"
         "${CMAKE_CURRENT_SOURCE_DIR}/libs/soloud/src/backend/miniaudio/*.c"
+        "${CMAKE_CURRENT_SOURCE_DIR}/libs/soloud/src/audiosource/wav/stb_vorbis.c"
 )
 
 # 3. 定義巨集：告訴 SoLoud 我們要用 Miniaudio 作為底層

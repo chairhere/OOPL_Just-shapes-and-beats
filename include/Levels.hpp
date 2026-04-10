@@ -26,6 +26,10 @@ constexpr std::string_view to_string(const Levels L) {
     switch (L) {
         case Levels::Chronos:
             return "Chronos";
+        case Levels::MilkyWay:
+            return "Milky Way";
+        case Levels::CheatCodes:
+            return "Cheat Codes";
     }
     return "Unknown*";
 }
