@@ -6,10 +6,11 @@
 #define JUST_SHAPES_AND_BEATS_LEVELS_HPP
 
 enum class Levels {
-    Chronos/*,
+    Chronos,
+    MilkyWay,
+    CheatCodes/*,
     Opening,
     Barracuda,
-    CheatCode,
     FinalBoss,
     FTW,
     HYPE,
