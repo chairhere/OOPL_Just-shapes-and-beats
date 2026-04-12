@@ -5,7 +5,10 @@
 #ifndef JUST_SHAPES_AND_BEATS_LEVELS_HPP
 #define JUST_SHAPES_AND_BEATS_LEVELS_HPP
 
+#include <string_view>
+
 enum class Levels {
+    MainMenu,
     Chronos,
     MilkyWay,
     CheatCodes/*,
@@ -24,6 +27,8 @@ enum class Levels {
 
 constexpr std::string_view to_string(const Levels L) {
     switch (L) {
+        case Levels::MainMenu:
+            return "MainMenu";
         case Levels::Chronos:
             return "Chronos";
         case Levels::MilkyWay:

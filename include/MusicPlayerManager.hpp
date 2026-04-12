@@ -5,20 +5,78 @@
 #ifndef JUST_SHAPES_AND_BEATS_MUSICPLAYERMANAGER_HPP
 #define JUST_SHAPES_AND_BEATS_MUSICPLAYERMANAGER_HPP
 #include <memory>
+#include <random>
 
+#include "Levels.hpp"
 #include "Screen.hpp"
+#include "soloud.h"
+#include "soloud_wav.h"
+#include "soloud_wavstream.h"
 
 class MusicPlayerManager {
 public:
-    static MusicPlayerManager& Get() {
+    //  對音樂操作時，請務必搭配清單操作一起食用，效果更佳
+    static MusicPlayerManager& Setting() {
         static MusicPlayerManager my_self;
         return my_self;
     }
 
-private:
-    MusicPlayerManager() = default;
-    std::shared_ptr<Screen> LastOperScreen = nullptr;
+    //  音樂操作
+    void Pause();  //暫停
+    void Play();  //播放
+    void Stop();  //停止
+    void ShunDown();  //關閉撥放器
 
+    void Next();  //下一首
+    void PlayAt(float beats);  //中途播放
+    void ReverseAt(float beats);  //倒放
+    void Switch(Levels music);  //切換目前歌曲
+
+    void SetSFXVolume(float volume);  //調整音效音量
+    void SetBGMVolume(float volume);  //調整音樂音量
+    void SetSpeed(float speed);  //調整播放速度
+    void InfLoop(bool inf);  //調整循環撥放
+
+    float GetBeats();  //取得播放進度
+
+    //  清單操作
+    void AddMusic(Levels music);  //新增音樂
+    void RemoveMusic(Levels music);  //移出音樂
+    void CleanList();  //清除待放清單
+
+    void RandomTheList();  //打亂清單
+
+    bool IsEmpty();  //確認音樂撥放完畢
+
+    //  音效操作
+    enum Effect {
+        BtClick,
+        BtSelect,
+        Cancel,
+        Choose,
+        PlrDie,
+        PlrHit,
+        PlrHit1,
+        PlrHit2,
+        PlrReturn,
+        PlrRevive
+    };
+    void PlayEffect(Effect effect);
+
+private:
+    MusicPlayerManager();
+    std::shared_ptr<Screen> dm_LastOperScreen = nullptr;  //最後呼叫的畫面是誰 (debug)
+
+    std::vector<Levels> m_MusicList;  //音樂清單
+
+    SoLoud::Soloud m_MusicPlayer;  //引擎本體
+    std::unordered_map<Effect, SoLoud::Wav> m_SFXLibrary;
+    SoLoud::WavStream m_BGM;  //長音樂物件
+    SoLoud::handle m_BGMHandler;  //音樂處理ID
+
+    std::random_device rd;  //隨機種子
+    std::mt19937 g = std::mt19937(rd());  //取亂數
+    std::bernoulli_distribution dist = std::bernoulli_distribution(0.5);  //0 or 1, 50%機率
 };
 
 #endif //JUST_SHAPES_AND_BEATS_MUSICPLAYERMANAGER_HPP

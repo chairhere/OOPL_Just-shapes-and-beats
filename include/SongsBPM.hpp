@@ -6,7 +6,7 @@
 #define JUST_SHAPES_AND_BEATS_SONGS_BPM_HPP
 
 enum class SongsBPM {
-    Main_Menu = 125,
+    MainMenu = 125,
     Chronos = 134,
     MilkyWay = 183,
     CheatCodes = 128

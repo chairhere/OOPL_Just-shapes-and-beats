@@ -16,9 +16,10 @@ class SongList {
 public:
     static const std::unordered_map<Levels, SongData>& GetAllSong() {
         static const std::unordered_map<Levels, SongData> s_Songs = {
-            {Levels::Chronos, SongData{Levels::Chronos, "Chronos", "Danimal Cannon & Zef", SongsBPM::Chronos, "../Resources/Audio/Chronos.ogg"}},
-            {Levels::MilkyWay, SongData{Levels::MilkyWay, "Milky Way", "Bossfight", SongsBPM::MilkyWay, "../Resources/Audio/Milky Way.ogg"}},
-            {Levels::CheatCodes, SongData{Levels::CheatCodes, "Cheat Codes", "Nitro Fun", SongsBPM::CheatCodes, "../Resources/Audio/Cheat Codes.ogg"}}
+            {Levels::MainMenu, SongData{Levels::MainMenu, "MainMenu", "-", SongsBPM::MainMenu, "../Resources/Audio/MainMenu.wav", ""}},
+            {Levels::Chronos, SongData{Levels::Chronos, "Chronos", "Danimal Cannon & Zef", SongsBPM::Chronos, "../Resources/Audio/Chronos.ogg", ""}},
+            {Levels::MilkyWay, SongData{Levels::MilkyWay, "Milky Way", "Bossfight", SongsBPM::MilkyWay, "../Resources/Audio/Milky Way.ogg", ""}},
+            {Levels::CheatCodes, SongData{Levels::CheatCodes, "Cheat Codes", "Nitro Fun", SongsBPM::CheatCodes, "../Resources/Audio/Cheat Codes.ogg", ""}}
         };
         return s_Songs;
     };
