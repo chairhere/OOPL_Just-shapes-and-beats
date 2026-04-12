@@ -38,4 +38,12 @@ struct SpawnEvent {
     } SpecialData;
 };
 
+struct RR {
+    SpawnEvent SpawnEvent;
+
+    glm::vec2 Velocity;
+    float AngularVelocity;
+};
+
+
 #endif //JUST_SHAPES_AND_BEATS_SPAWN_EVENT_HPP

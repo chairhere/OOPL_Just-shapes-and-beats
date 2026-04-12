@@ -27,10 +27,11 @@ public:
 
     std::function<void(Obstacle&, float)> customBehavior = nullptr;
 
-    explicit Obstacle(const SpawnEvent& event) : m_Event(event) {
+    explicit Obstacle(const SpawnEvent& event, const std::vector<float> LocalVertices) : m_Event(event) {
         m_Transform.translation = event.StartPos;
         m_Transform.rotation = event.StartRot;
-        m_Transform.scale = glm::vec2(1.0f, 1.0f);
+        m_Transform.scale = glm::vec2(20.0f, 20.0f);
+        m_LocalVertices = LocalVertices;
     }
 
     void UpdateStateByBeat(float currentBeat);

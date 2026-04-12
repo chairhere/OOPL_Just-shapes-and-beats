@@ -27,7 +27,7 @@ PlaygroundScreen::PlaygroundScreen(Levels level){
     m_Renderer.AddChild(m_LevelSpawner);
 
     m_TimeLine->Start();
-    m_TimeLine->SetVolume(50);
+    m_TimeLine->SetVolume(5);
 }
 
 ScreenState PlaygroundScreen::Update() {

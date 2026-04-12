@@ -34,6 +34,8 @@ private:
     std::string m_BeatMap;
     std::string m_SongPath;
 
+    std::vector<float> m_SpawnVertices;
+
     bool m_IsFinished = false;
 
 public:

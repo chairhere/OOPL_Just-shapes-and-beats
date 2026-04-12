@@ -10,7 +10,7 @@ void LevelSpawner::Start() {
         LOG_DEBUG("找不到譜面檔案：{}", m_BeatMap);
         return;
     }
-    LOG_DEBUG("進入LevelSpawner_Start");
+    LOG_DEBUG("LoginLevelSpawner_Start");
     json m_LevelData;
     file >> m_LevelData;
 
@@ -40,45 +40,54 @@ void LevelSpawner::Start() {
         //else if (item["ObstacleType"] == "Spline") {}
         m_PendingEvents.push(m_LoadEvent);
     }
+    LOG_DEBUG("finishedbuild");
 
 }
 
 //能實作在AppUpdate裡，利用levels來去開啟予與關閉這部分的update
 void LevelSpawner::Update(float currentBeat) {
+    LOG_DEBUG("LevelSpawner_Update", currentBeat);
     // 1. 檢查是否有新障礙物需要生成
 
     while (!m_PendingEvents.empty() && currentBeat >= m_PendingEvents.front().StartBeat) {
         SpawnEvent m_SpawnEvent;
         m_SpawnEvent = m_PendingEvents.front();
-        Obstacle newObstacle(m_SpawnEvent);
 
         if (m_SpawnEvent.ShapeType == BulletType::RotatingRectangle) {
+            m_SpawnVertices = {-0.5f, 0.5f, -0.5f, -0.5f, 0.5f, -0.5f, 0.5f, 0.5f};
+            Obstacle newObstacle(m_SpawnEvent, m_SpawnVertices);
             newObstacle.customBehavior = [](Obstacle& self, float beat) {
                 // 覆寫 X 軸位移，以原設定的 X 軸為基準，加上 Sin 波形
-                self.m_Transform.rotation += beat * self.m_Event.SpecialData.AngularVelocity;
+                self.m_Transform.rotation = beat * self.m_Event.SpecialData.AngularVelocity;
+                self.m_Transform.translation = {self.m_Event.StartPos.x + self.m_Event.SpecialData.Velocity.x * (beat - self.m_Event.StartBeat), self.m_Event.StartPos.y + self.m_Event.SpecialData.Velocity.y * (beat - self.m_Event.StartBeat)};
             };
+            m_ActiveObstacles.push_back(newObstacle);
         }
         else if (m_SpawnEvent.ShapeType == BulletType::Laser) {
+            m_SpawnVertices = {-0.5f, 0.5f, -0.5f, -0.5f, 0.5f, -0.5f, 0.5f, 0.5f};
+            Obstacle newObstacle(m_SpawnEvent, m_SpawnVertices);
             newObstacle.customBehavior = [](Obstacle& self, float beat) {
                 // 覆寫 X 軸位移，以原設定的 X 軸為基準，加上 Sin 波形
                 if (beat >= self.m_Event.SpecialData.SpawnBeat && beat < (self.m_Event.SpecialData.SpawnBeat + 1)) {
-                    self.m_Transform.scale = {2000 * (beat - self.m_Event.SpecialData.SpawnBeat), 50 * (beat - self.m_Event.SpecialData.SpawnBeat)};
+                    self.m_Transform.scale = {2000 * (beat - self.m_Event.SpecialData.SpawnBeat), 200};
                 }else if (beat > (self.m_Event.SpecialData.SpawnBeat + 1)) {
-                    self.m_Transform.scale = {2000, 50 * (self.m_Event.EndBeat - beat)};
+                    self.m_Transform.scale = {2000, 200};
                 }
             };
+            m_ActiveObstacles.push_back(newObstacle);
         }
 
-        m_ActiveObstacles.push_back(newObstacle);
+        //m_ActiveObstacles.push_back(newObstacle);
 
         // 將 newObstacle 加入您的 Util::Renderer 準備渲染 [6]
         // renderer.AddChild(newObstacle);
 
         m_PendingEvents.pop(); // 移除已生成的事件
     }
-
+    m_Batcher->BeginBatch();
     // 2. 更新所有存活的障礙物狀態，並清理過期的障礙物
     for (auto it = m_ActiveObstacles.begin(); it != m_ActiveObstacles.end(); ) {
+
 
         it->UpdateStateByBeat(currentBeat);
 

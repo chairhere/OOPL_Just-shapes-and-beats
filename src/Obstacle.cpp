@@ -10,7 +10,7 @@ void Obstacle::UpdateStateByBeat(float currentBeat) {
         return;
     }
 
-    m_Transform.scale = {200, 200};
+    //m_Transform.scale = {200, 200};
 
     // 計算生命週期進度比例 t (0.0 到 1.0 之間)
     float t = (currentBeat - m_Event.StartBeat) / (m_Event.EndBeat - m_Event.StartBeat);
@@ -18,7 +18,7 @@ void Obstacle::UpdateStateByBeat(float currentBeat) {
 
     // 根據節拍進度，利用線性插值 (Lerp) 計算當前的位移與旋轉 [5]
     m_Transform.translation = m_Event.StartPos + (m_Event.EndPos - m_Event.StartPos) * t;
-    m_Transform.rotation = m_Event.StartRot + (m_Event.EndRot - m_Event.StartRot) * t;
+    //m_Transform.rotation = m_Event.StartRot + (m_Event.EndRot - m_Event.StartRot) * t;
 
     // 若需要隨節拍縮放跳動的特效，可以在此處疊加計算給 m_Transform.scale [5]
     // float beatPulse = 1.0f + 0.2f * sin(currentBeat * glm::pi<float>());
@@ -64,5 +64,5 @@ void Obstacle::UpdateWorldVertices() {
         m_WorldVertices.push_back(worldX);
         m_WorldVertices.push_back(worldY);
     }
-    m_WorldUVs = {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
+    m_WorldUVs = {0.25f, 0.5f, 0.25f, 0.5f, 0.25f, 0.5f, 0.25f, 0.5f};
 }

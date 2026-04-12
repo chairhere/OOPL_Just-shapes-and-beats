@@ -25,7 +25,7 @@ void BatchedColorShape::AddQuad(const std::vector<float> &worldVertices, const s
 
     m_Positions.insert(m_Positions.end(), worldVertices.begin(), worldVertices.end());
     m_UVs.insert(m_UVs.end(), worldUVs.begin(), worldUVs.end());
-    for (int i = 0; i < static_cast<int>(worldVertices.size()/2); ++i) {
+    for (int i = 0; i < static_cast<int>(worldVertices.size()/4); ++i) {
         //indices.push_back(i);
         m_Indices.push_back(offset + 0);
         m_Indices.push_back(offset + i + 1);
@@ -46,6 +46,7 @@ void BatchedColorShape::EndBatch() {
 }
 
 void BatchedColorShape::Draw(const Core::Matrices &data) {
+    LOG_DEBUG("start draw");
     // 如果這幀沒有任何東西要畫，或者 VertexArray 還沒建好，就直接跳過
     if (m_Positions.empty() || !m_VertexArray) return;
 
