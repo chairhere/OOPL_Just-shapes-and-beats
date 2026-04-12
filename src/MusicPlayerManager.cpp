@@ -83,10 +83,11 @@ void MusicPlayerManager::ReverseAt(float beats) {
 }
 
 void MusicPlayerManager::Switch(Levels music) {
-    Stop();
     if (IsEmpty()) {
         m_MusicList.push_back(music);
     }else {
+        if (music == m_MusicList[0]) return;
+        Stop();
         m_MusicList[0] = music;
     }
     SongData data = SongList::GetSongByName(music);
