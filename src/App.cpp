@@ -1,6 +1,7 @@
 #include "App.hpp"
 
 #include "MainMenuScreen.hpp"
+#include "MusicPlayerManager.hpp"
 #include "Player.hpp"
 #include "PlaygroundScreen.hpp"
 #include "PlaygroundScreen.hpp"
@@ -51,6 +52,7 @@ void App::Update() {
         LOG_DEBUG("Fade Layer finished");
     }
 */
+
     // Render all game objects managed by the root renderer.
     if (m_CurrentScreen) {
         ScreenState newLevel = m_CurrentScreen->Update();
@@ -65,9 +67,46 @@ void App::Update() {
      * Do not touch the code below as they serve the purpose for
      * closing the window.
      */
-    if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE) ||
-        Util::Input::IfExit()) {
+    if (Util::Input::IfExit()) {
         m_CurrentState = State::END;
+    }
+
+    if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE)) {
+        if (setting) {
+            // m_Root.RemoveChild(SettingScreen);
+            setting = false;
+        }else {
+            switch (m_CurrentLevel) {
+                case ScreenState::Main:
+                    ChangeLevel(ScreenState::Exit);
+                    break;
+                case ScreenState::LevelList:
+                    ChangeLevel(ScreenState::Main);
+                    break;
+                case ScreenState::Playground:
+                    // pause game
+                    // Root.AddChild(SettingScreen);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+    }
+
+    if (Util::Input::IsKeyUp(Util::Keycode::O)) {
+        switch (m_CurrentLevel) {
+            case ScreenState::Main:
+                // Root.AddChild(SettingScreen);
+                // setting = true;
+                break;
+            case ScreenState::LevelList:
+                // Root.AddChild(SettingScreen);
+                // setting = true;
+                break;
+            default:
+                break;
+        }
     }
 
     //滑鼠位置顯示

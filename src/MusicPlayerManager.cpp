@@ -19,6 +19,8 @@ MusicPlayerManager::MusicPlayerManager() {
     m_SFXLibrary[PlrHit2].load("../Resources/Audio/Effect/Hit2.wav");
     m_SFXLibrary[PlrReturn].load("../Resources/Audio/Effect/Return.wav");
     m_SFXLibrary[PlrRevive].load("../Resources/Audio/Effect/Revive.wav");
+    SetBGMVolume(0.2f);
+    SetSFXVolume(0.7f);
 }
 
 void MusicPlayerManager::Pause() {

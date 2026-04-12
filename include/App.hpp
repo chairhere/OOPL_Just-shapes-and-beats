@@ -35,6 +35,7 @@ private:
     std::shared_ptr<Screen> m_CurrentScreen;
     ScreenState m_CurrentLevel;
     void ChangeLevel(ScreenState newLevel);
+    bool setting = false;
 
     std::shared_ptr<Player> m_Player;
 

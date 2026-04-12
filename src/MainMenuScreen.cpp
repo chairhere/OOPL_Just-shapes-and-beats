@@ -6,26 +6,36 @@
 #include "ScreenState.hpp"
 #include <SDL_events.h>
 
+#include "MusicPlayerManager.hpp"
+
 MainMenuScreen::MainMenuScreen() {
+    // === 音樂 ===
+    MusicPlayerManager::Setting().Switch(Levels::MainMenu);
+    MusicPlayerManager::Setting().InfLoop(true);
+
     // === Play 按鈕 ===
     m_ButtonPlay = std::make_shared<Button>("../Resources/Image/MainScreenButton/SongListButton.png");
 
     m_ButtonPlay->SetFocusImage("../Resources/Image/MainScreenButton/SongListButton(Selected).png");
 
     m_ButtonPlay->SetOnHovering([this]() {
+        if (m_NowSelect != m_ButtonPlay)
+            MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::BtSelect);
         this->m_NowSelect = m_ButtonPlay;
     });
     m_ButtonPlay->SetOnFocus([this]() {
+        if (m_NowSelect != m_ButtonPlay)
+            MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::BtSelect);
         this->m_NowSelect = m_ButtonPlay;
     });
     m_ButtonPlay->SetOffEvent([this]() {
         this->m_NowSelect = nullptr;
     });
     m_ButtonPlay->SetOnClick([this]() {
+        MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::BtClick);
         playlist = true;
     });
 
-    m_ButtonPlay->SetOnClick([this]() { playlist = true; });
     m_ButtonPlay->m_Transform.translation = glm::vec2(500, 10);
     m_ButtonPlay->SetZIndex(50);
     m_Renderer.AddChild(m_ButtonPlay);
@@ -36,15 +46,20 @@ MainMenuScreen::MainMenuScreen() {
     m_ButtonExit->SetFocusImage("../Resources/Image/MainScreenButton/ExitButton(Selected).png");
 
     m_ButtonExit->SetOnHovering([this]() {
+        if (m_NowSelect != m_ButtonExit)
+            MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::BtSelect);
         this->m_NowSelect = m_ButtonExit;
     });
     m_ButtonExit->SetOnFocus([this]() {
+        if (m_NowSelect != m_ButtonExit)
+            MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::BtSelect);
         this->m_NowSelect = m_ButtonExit;
     });
     m_ButtonExit->SetOffEvent([this]() {
         this->m_NowSelect = nullptr;
     });
     m_ButtonExit->SetOnClick([this]() {
+        MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::BtClick);
         // 發送 SDL 退出事件
         SDL_Event quitEvent;
         quitEvent.type = SDL_QUIT;
@@ -52,7 +67,6 @@ MainMenuScreen::MainMenuScreen() {
         exit = true;
     });
 
-    m_ButtonExit->SetOnClick([this]() { exit = true; });
     m_ButtonExit->m_Transform.translation = glm::vec2(600, -200);
     m_ButtonExit->SetZIndex(50);
     m_Renderer.AddChild(m_ButtonExit);
@@ -67,7 +81,7 @@ MainMenuScreen::MainMenuScreen() {
     m_Hint->m_Transform.translation = glm::vec2(400, -370);
     m_Hint->SetZIndex(50);
     m_Renderer.AddChild(m_Hint);
-/*
+    /*
     m_FadeLayerIn = std::make_shared<FadeLayer>();
     m_FadeLayerIn->SetZIndex(70);
     m_Renderer.AddChild(m_FadeLayerIn);
@@ -80,7 +94,7 @@ MainMenuScreen::MainMenuScreen() {
     m_FadeLayerOut = std::make_shared<FadeLayer>(Util::Color(0, 0, 255, 0), 2000, true);
     m_FadeLayerOut->SetZIndex(70);
     m_Renderer.AddChild(m_FadeLayerOut);
-*/
+// */
 }
 
 ScreenState MainMenuScreen::Update() {
@@ -138,19 +152,19 @@ ScreenState MainMenuScreen::Update() {
         m_FadeLayerIn = nullptr;               // 清空指標，釋放記憶體
         //LOG_DEBUG("Fade Layer finished");
     }
-    /*
-    else if (m_FadeLayerOut && !m_FadeLayerOut->IsFinished()) {
-        m_FadeLayerOut->Update(); // 推進 1.5 秒的計時與透明度變化
-        //LOG_DEBUG("Fade Layer Updated");
-    }
-    // 當動畫播完後，將其從渲染清單移除並釋放資源
-    else if (m_FadeLayerOut && m_FadeLayerOut->IsFinished()) {
-        m_Renderer.RemoveChild(m_FadeLayerOut); // 從畫面中剔除 [5]
-        m_Renderer.RemoveChild(m_WarningImage);
-        m_FadeLayerOut = nullptr;               // 清空指標，釋放記憶體
-        //LOG_DEBUG("Fade Layer finished");
-    }
-*/
+     /*
+     else if (m_FadeLayerOut && !m_FadeLayerOut->IsFinished()) {
+         m_FadeLayerOut->Update(); // 推進 1.5 秒的計時與透明度變化
+         //LOG_DEBUG("Fade Layer Updated");
+     }
+     // 當動畫播完後，將其從渲染清單移除並釋放資源
+     else if (m_FadeLayerOut && m_FadeLayerOut->IsFinished()) {
+         m_Renderer.RemoveChild(m_FadeLayerOut); // 從畫面中剔除 [5]
+         m_Renderer.RemoveChild(m_WarningImage);
+         m_FadeLayerOut = nullptr;               // 清空指標，釋放記憶體
+         //LOG_DEBUG("Fade Layer finished");
+     }
+// */
 
     // 更新畫面與按鈕邏輯
     m_Renderer.Update();
