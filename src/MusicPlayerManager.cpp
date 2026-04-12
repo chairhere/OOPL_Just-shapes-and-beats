@@ -71,7 +71,7 @@ void MusicPlayerManager::ReverseAt(float beats) {
     if (data.ReverseAudioPath.empty()) return;
 
     Stop();
-    m_BGM.load(data.AudioPath.c_str());
+    m_BGM.load(data.ReverseAudioPath.c_str());
     m_BGMHandler = m_MusicPlayer.play(m_BGM);
 
     float totalLen = (float)m_BGM.getLength();
