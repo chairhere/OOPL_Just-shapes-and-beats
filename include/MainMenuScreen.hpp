@@ -30,6 +30,7 @@ private:
     std::shared_ptr<Button> m_ButtonPlay, m_ButtonExit;
     std::shared_ptr<Button> m_Title, m_Hint;  //Icon
     std::shared_ptr<Button> m_NowSelect = nullptr;
+    std::shared_ptr<Button> m_SFXSelect = nullptr;
     std::shared_ptr<FadeLayer> m_FadeLayerIn, m_FadeLayerOut;
     std::shared_ptr<Util::GameObject> m_WarningImage;
     OpeningState m_OpeningState = OpeningState::Warning;

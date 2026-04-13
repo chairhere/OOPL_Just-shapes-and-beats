@@ -79,15 +79,16 @@ void MusicPlayerManager::ReverseAt(float beats) {
     float totalLen = (float)m_BGM.getLength();
     float times = beats * 60.0f / static_cast<float>(data.BPM);
     float reverseStartTime = totalLen - times;
+    Play();
     m_MusicPlayer.seek(m_BGMHandler, reverseStartTime);
 }
 
-void MusicPlayerManager::Switch(Levels music) {
+void MusicPlayerManager::Switch(Levels music) {;
+    Stop();
     if (IsEmpty()) {
         m_MusicList.push_back(music);
     }else {
         if (music == m_MusicList[0]) return;
-        Stop();
         m_MusicList[0] = music;
     }
     SongData data = SongList::GetSongByName(music);
