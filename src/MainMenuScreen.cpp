@@ -10,7 +10,7 @@
 
 MainMenuScreen::MainMenuScreen() {
     // === 音樂 ===
-    MusicPlayerManager::Setting().Switch(Levels::Chronos);
+    MusicPlayerManager::Setting().Switch(Levels::MainMenu);
     MusicPlayerManager::Setting().InfLoop(true);
 
     // === Play 按鈕 ===
@@ -19,16 +19,21 @@ MainMenuScreen::MainMenuScreen() {
     m_ButtonPlay->SetFocusImage("../Resources/Image/MainScreenButton/SongListButton(Selected).png");
 
     m_ButtonPlay->SetOnHovering([this]() {
-        if (m_NowSelect != m_ButtonPlay)
+        if (m_SFXSelect != m_ButtonPlay) {
             MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::BtSelect);
+            this->m_SFXSelect = m_ButtonPlay;
+        }
         this->m_NowSelect = m_ButtonPlay;
     });
     m_ButtonPlay->SetOnFocus([this]() {
-        if (m_NowSelect != m_ButtonPlay)
+        if (m_SFXSelect != m_ButtonPlay) {
             MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::BtSelect);
+            this->m_SFXSelect = m_ButtonPlay;
+        }
         this->m_NowSelect = m_ButtonPlay;
     });
     m_ButtonPlay->SetOffEvent([this]() {
+        this->m_SFXSelect = nullptr;
         this->m_NowSelect = nullptr;
     });
     m_ButtonPlay->SetOnClick([this]() {
@@ -46,16 +51,21 @@ MainMenuScreen::MainMenuScreen() {
     m_ButtonExit->SetFocusImage("../Resources/Image/MainScreenButton/ExitButton(Selected).png");
 
     m_ButtonExit->SetOnHovering([this]() {
-        if (m_NowSelect != m_ButtonExit)
+        if (m_SFXSelect != m_ButtonExit) {
             MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::BtSelect);
+            this->m_SFXSelect = m_ButtonExit;
+        }
         this->m_NowSelect = m_ButtonExit;
     });
     m_ButtonExit->SetOnFocus([this]() {
-        if (m_NowSelect != m_ButtonExit)
+        if (m_SFXSelect != m_ButtonExit) {
             MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::BtSelect);
+            this->m_SFXSelect = m_ButtonExit;
+        }
         this->m_NowSelect = m_ButtonExit;
     });
     m_ButtonExit->SetOffEvent([this]() {
+        this->m_SFXSelect = nullptr;
         this->m_NowSelect = nullptr;
     });
     m_ButtonExit->SetOnClick([this]() {
@@ -136,8 +146,7 @@ ScreenState MainMenuScreen::Update() {
                 Util::Input::IsKeyDown(Util::Keycode::S) ||
                 Util::Input::IsKeyDown(Util::Keycode::UP) ||
                 Util::Input::IsKeyDown(Util::Keycode::DOWN)) {
-                m_NowSelect = m_ButtonPlay;
-                m_NowSelect->Focus();
+                m_ButtonPlay->Focus();
             }
         }
     }

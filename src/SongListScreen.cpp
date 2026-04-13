@@ -18,16 +18,24 @@ SongListScreen::SongListScreen() {
         std::shared_ptr<SongListItem> item = std::make_shared<SongListItem>(data, currentX, currentY);
         m_Items.push_back(item);
         m_Items.at(i)->SetOnClick([this, i]() {
-            m_NowSelect->Unfocus();
+            if (m_SFXSelect != m_Items.at(i)) {
+                MusicPlayerManager::Setting().Switch(m_SongsOrder.at(i).first);
+                MusicPlayerManager::Setting().PlayAtTime(m_SongsOrder.at(i).second);
+                this->m_SFXSelect = m_Items.at(i);
+            }
+            this->m_NowSelect->Unfocus();
             this->m_SelectedIndex = i;
             this->m_NowSelect = this->m_Items.at(m_SelectedIndex);
-            m_NowSelect->Focus();
+            this->m_NowSelect->Focus();
         });
         m_Items.at(i)->SetOnFocus([this, i]() {
+            if (m_SFXSelect != m_Items.at(i)) {
+                MusicPlayerManager::Setting().Switch(m_SongsOrder.at(i).first);
+                MusicPlayerManager::Setting().PlayAtTime(m_SongsOrder.at(i).second);
+                this->m_SFXSelect = m_Items.at(i);
+            }
             this->m_SelectedIndex = i;
             this->m_NowSelect = this->m_Items.at(m_SelectedIndex);
-            MusicPlayerManager::Setting().Switch(Levels::Chronos);
-            MusicPlayerManager::Setting().PlayAtTime(m_SongsOrder.at(i).second);
         });
         m_Renderer.AddChild(m_Items.at(i));
         currentY -= m_Items.at(i)->GetSize().y;
@@ -41,12 +49,20 @@ SongListScreen::SongListScreen() {
     m_RandomOrder->SetFocusImage("../Resources/Image/OptionBackground/Selected.png");
     m_RandomOrder->m_Transform.translation = glm::vec2(0, 250);
     m_RandomOrder->SetOnClick([this]() {
-        m_NowSelect->Unfocus();
+        if (m_SFXSelect != m_RandomOrder) {
+            MusicPlayerManager::Setting().CleanList();
+            this->m_SFXSelect = m_RandomOrder;
+        }
+        this->m_NowSelect->Unfocus();
         this->m_SelectedIndex = -1;
         this->m_NowSelect = m_RandomOrder;
-        m_NowSelect->Focus();
+        this->m_NowSelect->Focus();
     });
     m_RandomOrder->SetOnFocus([this]() {
+        if (m_SFXSelect != m_RandomOrder) {
+            MusicPlayerManager::Setting().CleanList();
+            this->m_SFXSelect = m_RandomOrder;
+        }
         this->m_SelectedIndex = -1;
         this->m_NowSelect = m_RandomOrder;
     });
