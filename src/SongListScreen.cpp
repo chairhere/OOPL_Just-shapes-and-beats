@@ -4,6 +4,7 @@
 
 #include "../include/SongListScreen.hpp"
 
+#include "MusicPlayerManager.hpp"
 #include "SongList.hpp"
 
 SongListScreen::SongListScreen() {
@@ -13,7 +14,7 @@ SongListScreen::SongListScreen() {
     float currentY = 200.0f;
 
     for (int i = 0 ; i < listLenth ; i++) {
-        SongData data = SongList::GetSongByName(m_SongsOrder.at(i));
+        SongData data = SongList::GetSongByName(m_SongsOrder.at(i).first);
         std::shared_ptr<SongListItem> item = std::make_shared<SongListItem>(data, currentX, currentY);
         m_Items.push_back(item);
         m_Items.at(i)->SetOnClick([this, i]() {
@@ -25,6 +26,8 @@ SongListScreen::SongListScreen() {
         m_Items.at(i)->SetOnFocus([this, i]() {
             this->m_SelectedIndex = i;
             this->m_NowSelect = this->m_Items.at(m_SelectedIndex);
+            MusicPlayerManager::Setting().Switch(Levels::Chronos);
+            MusicPlayerManager::Setting().PlayAtTime(m_SongsOrder.at(i).second);
         });
         m_Renderer.AddChild(m_Items.at(i));
         currentY -= m_Items.at(i)->GetSize().y;

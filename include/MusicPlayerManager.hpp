@@ -28,9 +28,10 @@ public:
     void ShunDown();  //關閉撥放器
 
     void Next();  //下一首
-    void PlayAt(float beats);  //中途播放
-    void ReverseAt(float beats);  //倒放
+    void PlayAt(float beats);  //中途播放(拍)
+    void ReverseAt(float beats);  //倒放(拍)
     void Switch(Levels music);  //切換目前歌曲
+    void PlayAtTime(float sec);  //中途播放(秒)
 
     void SetSFXVolume(float volume);  //調整音效音量 0.0~1.0
     void SetBGMVolume(float volume);  //調整音樂音量 0.0~1.0

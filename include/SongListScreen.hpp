@@ -23,8 +23,8 @@ private:
     std::vector<std::shared_ptr<SongListItem>> m_Items;
     std::shared_ptr<EventObject> m_NowSelect;
     int m_SelectedIndex = 0;
-    std::vector<Levels> m_SongsOrder = {
-        Levels::Chronos
+    std::vector<std::pair<Levels, float>> m_SongsOrder = {
+        {Levels::Chronos, 58.0f}
     };
 };
 

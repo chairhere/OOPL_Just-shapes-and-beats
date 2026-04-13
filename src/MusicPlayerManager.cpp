@@ -95,6 +95,13 @@ void MusicPlayerManager::Switch(Levels music) {
     Play();
 }
 
+void MusicPlayerManager::PlayAtTime(float sec) {
+    if (IsEmpty()) return;
+
+    m_MusicPlayer.seek(m_BGMHandler, sec);
+}
+
+
 void MusicPlayerManager::SetSFXVolume(float volume) {
     // 0.0 ~ 1.0
     for (auto& pair : m_SFXLibrary) {

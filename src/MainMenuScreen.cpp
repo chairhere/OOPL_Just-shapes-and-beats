@@ -10,7 +10,7 @@
 
 MainMenuScreen::MainMenuScreen() {
     // === 音樂 ===
-    MusicPlayerManager::Setting().Switch(Levels::MainMenu);
+    MusicPlayerManager::Setting().Switch(Levels::Chronos);
     MusicPlayerManager::Setting().InfLoop(true);
 
     // === Play 按鈕 ===
