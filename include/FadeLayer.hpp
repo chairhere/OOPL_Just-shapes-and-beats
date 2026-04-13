@@ -12,11 +12,13 @@
 #include <algorithm>
 #include <memory>
 #include "imgui.h"
+#include "Util/Text.hpp"
 
 class FadeLayer : public Util::GameObject {
 private:
     std::vector<float> m_Durations;
-    std::vector<float> m_Vertices = {-0.5f, 0.5f, -0.5f, -0.5f, 0.5f, -0.5f, 0.5f, 0.5f};
+    std::vector<float> m_LocalVertices = {-0.5f, 0.5f, -0.5f, -0.5f, 0.5f, -0.5f, 0.5f, 0.5f};
+    std::vector<float> m_WorldVertices;
     std::vector<float> m_Rotations;
     std::vector<Util::Color> m_Colors;
     std::vector<glm::vec2> m_Positions;
@@ -46,10 +48,13 @@ private:
     // 儲存明確型別的指標，方便我們稍後呼叫它獨有的 SetAlpha() 函式
     std::shared_ptr<CustomColorShape> m_FadeShape;
 
+    std::shared_ptr<Util::Text> m_Text;
+
 public:
     FadeLayer(const std::vector<Util::Color> &Colors, const std::vector<float> &Durations,
         const std::vector<glm::vec2> &Positions, const std::vector<float> &Rotation,
         const std::vector<glm::vec2> &Scales, const std::vector<float> &Vertices, bool loop);
+    ~FadeLayer() override = default;
 
     void Update();
 

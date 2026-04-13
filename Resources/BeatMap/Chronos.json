@@ -1,0 +1,79 @@
+[
+  {
+    "StartBeat" : 10.0,"EndBeat" : 40.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 100.0, "Y" : 0.0},
+    "EndPos" : {"X" : 900.0, "Y" : 0.0},
+    "Velocity" : {"X" : 10.0, "Y" :  7.0},
+    "StartRotation" : 0.0,
+    "EndRotation" : 314.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 10.0,"EndBeat" : 40.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 100.0, "Y" : 0.0},
+    "EndPos" : {"X" : 900.0, "Y" : 50.0},
+    "Velocity" : {"X" : 10.0, "Y" :  3.0},
+    "StartRotation" : 0.0,
+    "EndRotation" : 314.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 10.0,"EndBeat" : 40.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 100.0, "Y" : 0.0},
+    "EndPos" : {"X" : 900.0, "Y" : 200.0},
+    "Velocity" : {"X" : 10.0, "Y" :  1.0},
+    "StartRotation" : 0.0,
+    "EndRotation" : 314.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 10.0,"EndBeat" : 40.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 100.0, "Y" : 0.0},
+    "EndPos" : {"X" : 900.0, "Y" : -200.0},
+    "Velocity" : {"X" : 10.0, "Y" :  0.0},
+    "StartRotation" : 0.0,
+    "EndRotation" : 314.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 10.0,"EndBeat" : 40.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 100.0, "Y" : 0.0},
+    "EndPos" : {"X" : 900.0, "Y" : -200.0},
+    "Velocity" : {"X" : 10.0, "Y" :  8.0},
+    "StartRotation" : 0.0,
+    "EndRotation" : 314.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 15.0,"EndBeat" : 25.0,
+    "ObstacleType" : "Laser",
+    "StartPos" : {"X" : 200.0, "Y" : 200.0},
+    "EndPos" : {"X" : 200.0, "Y" : 200.0},
+    "StartRotation" : 0.0,
+    "EndRotation" : 0.0,
+    "SpawnBeat" : 19.0
+  },
+  {
+    "StartBeat" : 16.0,"EndBeat" : 26.0,
+    "ObstacleType" : "Laser",
+    "StartPos" : {"X" : 200.0, "Y" : -200.0},
+    "EndPos" : {"X" : 200.0, "Y" : -200.0},
+    "StartRotation" : 0.0,
+    "EndRotation" : 0.0,
+    "SpawnBeat" : 20.0
+  },
+  {
+    "StartBeat" : 17.0,"EndBeat" : 27.0,
+    "ObstacleType" : "Laser",
+    "StartPos" : {"X" : 100.0, "Y" : 0.0},
+    "EndPos" : {"X" : 100.0, "Y" : 0.0},
+    "StartRotation" : 0.0,
+    "EndRotation" : 0.0,
+    "SpawnBeat" : 21.0
+  }
+]

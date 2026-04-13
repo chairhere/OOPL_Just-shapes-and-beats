@@ -9,6 +9,7 @@
 #include "Util/TransformUtils.hpp"
 #include "Util/Renderer.hpp"
 #include "FadeLayer.hpp"
+#include "PlaygroundScreen.hpp"
 
 class App {
 public:
