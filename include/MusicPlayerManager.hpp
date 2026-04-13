@@ -38,6 +38,7 @@ public:
     void InfLoop(bool inf);  //調整循環撥放
 
     float GetBeats();  //取得播放進度
+    Levels GetCurrentLevel();  //取得當前歌曲(關卡)
 
     //  清單操作
     void AddMusic(Levels music);  //新增音樂

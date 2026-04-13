@@ -123,6 +123,13 @@ float MusicPlayerManager::GetBeats() {
     return static_cast<float>(m_MusicPlayer.getStreamTime(m_BGMHandler)) / 60.0f * static_cast<float>(data.BPM);
 }
 
+Levels MusicPlayerManager::GetCurrentLevel() {
+    if (IsEmpty()) throw std::invalid_argument("No level running");
+
+    return m_MusicList[0];
+}
+
+
 void MusicPlayerManager::AddMusic(Levels music) {
     auto it = std::find(m_MusicList.begin(), m_MusicList.end(), music);
     if (it == m_MusicList.end()) {
