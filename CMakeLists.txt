@@ -94,6 +94,9 @@ add_executable(${PROJECT_NAME}
         include/EventObject.hpp
         src/SongListItem.cpp
         include/SongListItem.hpp
+        include/BatchedColorShape.hpp
+        src/BatchedColorShape.cpp
+        include/BulletType.hpp
     ${SOLOUD_SOURCES}
 )
 
