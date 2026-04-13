@@ -12,40 +12,37 @@ PlaygroundScreen::PlaygroundScreen(Levels level){
             m_SongPath += "Chronos.mp3";
             BPM = static_cast<float>(SongsBPM::Chronos);
             m_TimeLine = std::make_shared<TimeLine>(m_SongPath, BPM);
+            MusicPlayerManager::Setting().InfLoop(false);
             break;
         default:
             m_BeatMap += "Chronos.json";
             m_SongPath += "Chronos.mp3";
             BPM = static_cast<float>(SongsBPM::Chronos);
             m_TimeLine = std::make_shared<TimeLine>(m_SongPath, BPM);
+            MusicPlayerManager::Setting().InfLoop(false);
             break;
     }
 
-    m_LevelSpawner = std::make_shared<LevelSpawner>(m_BeatMap, m_SongPath, BPM);
+    m_LevelSpawner = std::make_shared<LevelSpawner>(m_BeatMap);
     m_LevelSpawner->SetZIndex(40);
     m_LevelSpawner->Start();
     m_Renderer.AddChild(m_LevelSpawner);
 
-    m_TimeLine->Start();
-    m_TimeLine->SetVolume(5);
+    //m_TimeLine->Start();
+    //m_TimeLine->SetVolume(5);
+    MusicPlayerManager::Setting().Play();
 }
 
 ScreenState PlaygroundScreen::Update() {
 
     if (Util::Input::IsKeyDown(Util::Keycode::SPACE)) {
-        if (m_TimeLine->IsPlaying()) {
-            m_TimeLine->Pause();
-        }
-        else{
-            m_TimeLine->Resume();
-        }
+        MusicPlayerManager::Setting().Pause();
     }
     if (Util::Input::IsKeyDown(Util::Keycode::P)) {
-        m_TimeLine->Stop();
+        MusicPlayerManager::Setting().Play();
     }
 
-    m_TimeLine->Update();
-
+    //m_TimeLine->Update();
 
     // ==========================================
     // 3. 節拍顯示debug用
@@ -53,10 +50,10 @@ ScreenState PlaygroundScreen::Update() {
 
     ImGui::Begin("test");
     ImGui::SetWindowPos({200, 300});
-    ImGui::Text("Beats:%f", m_TimeLine->GetBeats());
+    ImGui::Text("Beats:%f", MusicPlayerManager::Setting().GetBeats());
     ImGui::End();
 
-    m_LevelSpawner->Update(m_TimeLine->GetBeats());
+    m_LevelSpawner->Update(MusicPlayerManager::Setting().GetBeats());
 
     m_Renderer.Update();
 

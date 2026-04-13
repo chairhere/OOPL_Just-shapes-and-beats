@@ -12,7 +12,7 @@
 #include "SpawnEvent.hpp"
 #include "TimeLine.hpp"
 #include "BatchedColorShape.hpp"
-#include "./lib/json.hpp"
+#include "./Lib_json/json.hpp"
 #include <fstream>           // 用來讀取檔案
 #include <iostream>
 #include <queue>
@@ -30,20 +30,16 @@ private:
     std::vector<Obstacle> m_ActiveObstacles; // 畫面上存活的障礙物
     std::shared_ptr<BatchedColorShape> m_Batcher;
 
-    std::shared_ptr<TimeLine> m_TimeLine;
     std::string m_BeatMap;
-    std::string m_SongPath;
 
     std::vector<float> m_SpawnVertices;
 
     bool m_IsFinished = false;
 
 public:
-    explicit LevelSpawner(const std::string& filepath, const std::string& SongPath, const float BPM){
+    explicit LevelSpawner(const std::string& filepath){
         m_Batcher = std::make_shared<BatchedColorShape>(Util::Color{255, 33, 111, 255});
         m_BeatMap = filepath;
-        m_SongPath = SongPath;
-        m_TimeLine = std::make_shared<TimeLine>(m_SongPath, BPM);
         m_Drawable = m_Batcher;
     };
     ~LevelSpawner() override = default;

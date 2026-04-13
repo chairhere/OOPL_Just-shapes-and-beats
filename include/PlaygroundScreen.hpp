@@ -15,6 +15,7 @@
 #include "FadeLayer.hpp"
 #include "TimeLine.hpp"
 #include "Util/Input.hpp"
+#include "MusicPlayerManager.hpp"
 
 
 class PlaygroundScreen : public Screen {
