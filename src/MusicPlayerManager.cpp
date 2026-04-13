@@ -10,17 +10,17 @@
 
 MusicPlayerManager::MusicPlayerManager() {
     m_MusicPlayer.init();
-    m_SFXLibrary[BtClick].load("../Resources/Audio/Effect/ButtonClick.wav");
-    m_SFXLibrary[BtSelect].load("../Resources/Audio/Effect/ButtonSelect.wav");
-    m_SFXLibrary[Cancel].load("../Resources/Audio/Effect/Cancel.wav");
-    m_SFXLibrary[Choose].load("../Resources/Audio/Effect/Choose.wav");
-    m_SFXLibrary[PlrDie].load("../Resources/Audio/Effect/Die.wav");
-    m_SFXLibrary[PlrHit1].load("../Resources/Audio/Effect/Hit1.wav");
-    m_SFXLibrary[PlrHit2].load("../Resources/Audio/Effect/Hit2.wav");
-    m_SFXLibrary[PlrReturn].load("../Resources/Audio/Effect/Return.wav");
-    m_SFXLibrary[PlrRevive].load("../Resources/Audio/Effect/Revive.wav");
+    m_SFXLibrary[BtClick].load("../Resources/Audio/Effect/ButtonClick.ogg");
+    m_SFXLibrary[BtSelect].load("../Resources/Audio/Effect/ButtonSelect.ogg");
+    m_SFXLibrary[Cancel].load("../Resources/Audio/Effect/Cancel.ogg");
+    m_SFXLibrary[Choose].load("../Resources/Audio/Effect/Choose.ogg");
+    m_SFXLibrary[PlrDie].load("../Resources/Audio/Effect/Die.ogg");
+    m_SFXLibrary[PlrHit1].load("../Resources/Audio/Effect/Hit1.ogg");
+    m_SFXLibrary[PlrHit2].load("../Resources/Audio/Effect/Hit2.ogg");
+    m_SFXLibrary[PlrReturn].load("../Resources/Audio/Effect/Return.ogg");
+    m_SFXLibrary[PlrRevive].load("../Resources/Audio/Effect/Revive.ogg");
     SetBGMVolume(0.2f);
-    SetSFXVolume(0.7f);
+    SetSFXVolume(0.2f);
 }
 
 void MusicPlayerManager::Pause() {

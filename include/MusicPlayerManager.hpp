@@ -32,8 +32,8 @@ public:
     void ReverseAt(float beats);  //倒放
     void Switch(Levels music);  //切換目前歌曲
 
-    void SetSFXVolume(float volume);  //調整音效音量
-    void SetBGMVolume(float volume);  //調整音樂音量
+    void SetSFXVolume(float volume);  //調整音效音量 0.0~1.0
+    void SetBGMVolume(float volume);  //調整音樂音量 0.0~1.0
     void SetSpeed(float speed);  //調整播放速度
     void InfLoop(bool inf);  //調整循環撥放
 
