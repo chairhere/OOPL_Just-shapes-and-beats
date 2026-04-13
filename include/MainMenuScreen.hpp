@@ -34,10 +34,13 @@ private:
     std::shared_ptr<Util::GameObject> m_WarningImage;
     OpeningState m_OpeningState = OpeningState::Warning;
 
-    std::vector<Util::Color> m_Colors = {{0, 0, 0, 255}, {0, 0, 0, 0}};
-    std::vector<float> m_Duration = {0, 1500};
-    std::vector<glm::vec2> m_Position = {{0.0f, 0.0f}, {0.0f, 0.0f}};
-    std::vector<glm::vec2> m_Scale = {{WINDOW_WIDTH, WINDOW_HEIGHT}, {WINDOW_WIDTH, WINDOW_HEIGHT}};
+    std::vector<Util::Color> First_Color = {{0, 0, 0, 255}, {0, 0, 0, 255}, {0, 0, 0, 0}, {0, 0, 0, 0}, {0, 0, 0, 255}, {0, 0, 0, 255}};
+    std::vector<float> First_Duration = {0.0f, 5000.0f, 7500.0f, 10500.0f, 13000.0f, 16000.0f};
+    std::vector<float> First_Rotation = {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
+    std::vector<float> First_Vertices = {-0.5f, 0.5f, -0.5f, -0.5f, 0.5f, -0.5f, 0.5f, 0.5f};
+    //std::vector<float> First_Vertices = {-0.288f, 0.5f, -0.577f, -0.0f, -0.288f, -0.5f, 0.288f, -0.5f, 0.577f, 0.0f, 0.288f, 0.5f};
+    std::vector<glm::vec2> First_Position = {{0.0f, 0.0f}, {0.0f, 0.0f}, {0.0f, 0.0f}, {0.0f, 0.0f}, {0.0f, 0.0f}, {0.0f, 0.0f}};
+    std::vector<glm::vec2> First_Scale = {{WINDOW_WIDTH, WINDOW_HEIGHT}, {WINDOW_WIDTH, WINDOW_HEIGHT}, {WINDOW_WIDTH, WINDOW_HEIGHT}, {WINDOW_WIDTH, WINDOW_HEIGHT}, {WINDOW_WIDTH, WINDOW_HEIGHT}, {WINDOW_WIDTH, WINDOW_HEIGHT}};
 };
 
 #endif //JUST_SHAPES_AND_BEATS_MAINMENUSCREEN_HPP

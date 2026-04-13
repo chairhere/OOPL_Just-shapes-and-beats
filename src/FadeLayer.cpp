@@ -15,7 +15,7 @@ FadeLayer::FadeLayer(const std::vector<Util::Color> &Colors, const std::vector<f
     m_Scales = Scales;
     m_Loop = loop;
     m_Rotations = Rotation;
-    m_Vertices = Vertices;
+    m_LocalVertices = Vertices;
 
     m_LoopSize = static_cast<int>(m_Durations.size());
 
@@ -39,7 +39,7 @@ FadeLayer::FadeLayer(const std::vector<Util::Color> &Colors, const std::vector<f
 
     // 1. 實例化新版的 CustomColorShape，並設定初始為不透明的純黑
     // 利用框架內建的 Util::Color (r, g, b, a)
-    m_FadeShape = std::make_shared<CustomColorShape>(m_CurrentColor, m_Vertices);
+    m_FadeShape = std::make_shared<CustomColorShape>(m_Color, m_LocalVertices);
 
     // 2. 將其指定給繼承自 GameObject 的 m_Drawable [1]
     m_Drawable = m_FadeShape;
@@ -52,6 +52,8 @@ FadeLayer::FadeLayer(const std::vector<Util::Color> &Colors, const std::vector<f
     m_Transform.translation = m_Position;
 
     m_Transform.rotation = m_Rotation;
+
+
 }
 
 void FadeLayer::Update() {
@@ -59,7 +61,9 @@ void FadeLayer::Update() {
 
     // 1. 利用框架的計時器獲取這一幀經過的毫秒數並累加 [4]
     m_ElapsedTime += Util::Time::GetDeltaTimeMs();
-
+    if (m_ElapsedTime >= m_DurationMs) {
+        m_ElapsedTime = m_DurationMs;
+    }
     // 2. 計算時間進度比例 (介於 0.0 到 1.0 之間)
     float progress = m_ElapsedTime / m_DurationMs;
 
@@ -72,6 +76,13 @@ void FadeLayer::Update() {
     m_CurrentPosition = glm::mix(m_Position, m_FinishedPosition, progress);
     m_CurrentScale = glm::mix(m_Scale, m_FinishedScale, progress);
     m_CurrentRotation = glm::mix(m_Rotation, m_FinishedRotation, progress);
+/*
+    ImGui::Begin("test");
+    ImGui::SetWindowPos({200, 300});
+    ImGui::Text("%d", m_Counter);
+    ImGui::End();
+*/
+    //ImGui::ShowDemoWindow();
 
     ImGui::ColorConvertHSVtoRGB(m_CurrentH, m_CurrentS, m_CurrentV, m_CurrentColor.r, m_CurrentColor.g, m_CurrentColor.b);
     //LOG_DEBUG(progress);
@@ -85,6 +96,37 @@ void FadeLayer::Update() {
     m_Transform.translation = m_CurrentPosition;
 
     m_Transform.rotation = m_CurrentRotation;
+/*
+    auto data = Util::ConvertToUniformBufferData(
+        m_Transform, m_Drawable->GetSize(), m_ZIndex);
+    data.m_Model = glm::translate(
+        data.m_Model, glm::vec3{m_Pivot / m_Drawable->GetSize(), 0} * -1.0F);
+
+    m_FadeShape->Draw(data);
+
+    ImGui::Begin("test");
+    ImGui::SetWindowPos({200, 300});
+    ImGui::Text("%d", m_Counter);
+    ImGui::Text("%f", m_ElapsedTime);
+    ImGui::Separator();
+    ImGui::Text("r%f", m_Color.r);
+    ImGui::Text("g%f", m_Color.g);
+    ImGui::Text("b%f", m_Color.b);
+    ImGui::Text("a%f", m_Color.a);
+    ImGui::Separator();
+    ImGui::Text("r%f", m_CurrentColor.r);
+    ImGui::Text("g%f", m_CurrentColor.g);
+    ImGui::Text("b%f", m_CurrentColor.b);
+    ImGui::Text("a%f", m_CurrentColor.a);
+    ImGui::Separator();
+    ImGui::Text("r%f", m_FinishedColor.r);
+    ImGui::Text("g%f", m_FinishedColor.g);
+    ImGui::Text("b%f", m_FinishedColor.b);
+    ImGui::Text("a%f", m_FinishedColor.a);
+    ImGui::Separator();
+    ImGui::Text("a%f", m_FadeShape->GetColor());
+    ImGui::End();
+*/
     // 5. 判斷整體是否已經結束
     if (m_ElapsedTime >= m_DurationMs && m_Counter < (m_LoopSize - 2)) {
         m_Counter++;
@@ -114,4 +156,7 @@ void FadeLayer::State_Update() {
 
     m_Rotation = m_Rotations[m_Counter];
     m_FinishedRotation = m_Rotations[m_Counter + 1];
+
+    ImGui::ColorConvertRGBtoHSV(m_Color.r, m_Color.g, m_Color.b, m_H, m_S, m_V);
+    ImGui::ColorConvertRGBtoHSV(m_FinishedColor.r, m_FinishedColor.g, m_FinishedColor.b, m_FinishedH, m_FinishedS, m_FinishedV);
 }

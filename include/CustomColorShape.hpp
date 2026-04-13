@@ -32,6 +32,7 @@ private:
 
 public:
     explicit CustomColorShape(const Util::Color& color, const std::vector<float> &Positions);
+    ~CustomColorShape() override = default;
 
     // 將當前的 Util::Color 轉為 1x1 紋理寫入 GPU
     void ApplyColorToTexture();
