@@ -79,9 +79,11 @@ void App::Update() {
             switch (m_CurrentLevel) {
                 case ScreenState::Main:
                     ChangeLevel(ScreenState::Exit);
+                    MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::Return);
                     break;
                 case ScreenState::LevelList:
                     ChangeLevel(ScreenState::Main);
+                    MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::Return);
                     break;
                 case ScreenState::Playground:
                     // pause game
