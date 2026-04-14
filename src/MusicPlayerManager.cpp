@@ -30,8 +30,10 @@ void MusicPlayerManager::Pause() {
 
 void MusicPlayerManager::Play() {
     if (IsEmpty()) return;
-    if (m_MusicPlayer.isValidVoiceHandle(m_BGMHandler) && m_MusicPlayer.getPause(m_BGMHandler)) {
-        m_MusicPlayer.setPause(m_BGMHandler, false);
+    if (m_MusicPlayer.isValidVoiceHandle(m_BGMHandler)) {
+        if (m_MusicPlayer.getPause(m_BGMHandler)) {
+            m_MusicPlayer.setPause(m_BGMHandler, false);
+        }
     }else {  //並非暫停處理
         m_BGMHandler = m_MusicPlayer.play(m_BGM);
     }
@@ -122,6 +124,9 @@ void MusicPlayerManager::SetSpeed(float speed) {
 
 void MusicPlayerManager::InfLoop(bool inf) {
     m_BGM.setLooping(inf);
+    if (m_MusicPlayer.isValidVoiceHandle(m_BGMHandler)) {
+        m_MusicPlayer.setLooping(m_BGMHandler, true);
+    }
 }
 
 float MusicPlayerManager::GetBeats() {
