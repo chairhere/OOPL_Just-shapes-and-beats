@@ -38,12 +38,15 @@ public:
 
     void UpdateWorldVertices();
 
+    bool CheckCollision(glm::vec2 PlayerPos) const;
+
     std::vector<float> GetWorldVertices(){return m_WorldVertices;}
 
     std::vector<float> GetWorldUVs(){return m_WorldUVs;}
 
-    bool IsDead(){return m_IsDead;}
+    std::vector<float> GetLocalVertices(){return m_LocalVertices;}
 
+    bool IsDead(){return m_IsDead;}
 
 };
 

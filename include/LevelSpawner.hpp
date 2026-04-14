@@ -12,6 +12,7 @@
 #include "SpawnEvent.hpp"
 #include "TimeLine.hpp"
 #include "BatchedColorShape.hpp"
+#include "BatchedCircleShape.hpp"
 #include "./Lib_json/json.hpp"
 #include <fstream>           // 用來讀取檔案
 #include <iostream>
@@ -29,6 +30,7 @@ private:
     std::queue<SpawnEvent> m_PendingEvents; // 尚未生成的事件清單 (需依 startBeat 排序)
     std::vector<Obstacle> m_ActiveObstacles; // 畫面上存活的障礙物
     std::shared_ptr<BatchedColorShape> m_Batcher;
+    std::shared_ptr<BatchedCircleShape> m_CircleBatcher;
 
     std::string m_BeatMap;
 
@@ -39,8 +41,9 @@ private:
 public:
     explicit LevelSpawner(const std::string& filepath){
         m_Batcher = std::make_shared<BatchedColorShape>(Util::Color{255, 33, 111, 255});
+        m_CircleBatcher = std::make_shared<BatchedCircleShape>(Util::Color{255, 33, 111, 255});
         m_BeatMap = filepath;
-        m_Drawable = m_Batcher;
+        m_Drawable = m_CircleBatcher;
     };
     ~LevelSpawner() override = default;
 

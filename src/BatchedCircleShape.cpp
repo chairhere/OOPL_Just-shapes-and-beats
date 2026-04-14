@@ -1,24 +1,28 @@
 //
-// Created by jerry on 2026/4/9.
+// Created by jerry on 2026/4/14.
 //
-#include "BatchedColorShape.hpp"
+#include "BatchedCircleShape.hpp"
 
-BatchedColorShape::BatchedColorShape(const Util::Color &color) :m_Color(color){
-    m_Program = std::make_unique<Core::Program>("../PTSD/assets/shaders/Base.vert", "../PTSD/assets/shaders/Base.frag");
+BatchedCircleShape::BatchedCircleShape(const Util::Color &color) :m_Color(color){
+    // 核心關鍵：在這裡載入您剛剛寫好的圓形 Shader！
+    m_Program = std::make_unique<Core::Program>(
+        "../Resources/shaders/Circle.vert",
+        "../Resources/shaders/Circle.frag"
+    );
     m_UniformBuffer = std::make_unique<Core::UniformBuffer<Core::Matrices>>(*m_Program, "Matrices", 0);
-
-    // 2. 生成 1x1 純色紋理 (只需要做一次)
     Uint8 data[] = { static_cast<Uint8>(m_Color.r), static_cast<Uint8>(m_Color.g), static_cast<Uint8>(m_Color.b), static_cast<Uint8>(m_Color.a), 255, 255, 255, 255 };
     m_Texture = std::make_unique<Core::Texture>(GL_RGBA, 2, 1, data);
+    // 初始化 VBO，傳入 (-1, -1) 到 (1, 1) 的 Quad 頂點
+    // ...
 }
 
-void BatchedColorShape::BeginBatch() {
+void BatchedCircleShape::BeginBatch() {
     m_Positions.clear();
     m_UVs.clear();
     m_Indices.clear();
 }
 
-void BatchedColorShape::AddQuad(const std::vector<float> &worldVertices, const std::vector<float> &worldUVs) {
+void BatchedCircleShape::AddQuad(const std::vector<float> &worldVertices, const std::vector<float> &worldUVs, const std::vector<float>& localVertices) {
     if (worldVertices.empty()) return;
 
     unsigned int offset = m_Positions.size() / 2;
@@ -33,7 +37,7 @@ void BatchedColorShape::AddQuad(const std::vector<float> &worldVertices, const s
     }
 }
 
-void BatchedColorShape::EndBatch() {
+void BatchedCircleShape::EndBatch() {
     if (m_Positions.empty()) return;
 
     // 當 std::make_unique 覆寫舊指標時，框架底層會自動觸發 glDeleteBuffers 清理顯示卡記憶體
@@ -45,16 +49,25 @@ void BatchedColorShape::EndBatch() {
     m_VertexArray->SetIndexBuffer(std::make_unique<Core::IndexBuffer>(m_Indices));
 }
 
-void BatchedColorShape::Draw(const Core::Matrices &data) {
-    LOG_DEBUG("start draw_Color");
+void BatchedCircleShape::Draw(const Core::Matrices &data){
+    LOG_DEBUG("start draw");
     // 如果這幀沒有任何東西要畫，或者 VertexArray 還沒建好，就直接跳過
     if (m_Positions.empty() || !m_VertexArray) return;
 
+    m_Program->Bind();
+
+    // 更新矩陣 (框架底層機制)
+    //m_UniformBuffer->SetData(0, data);
+
+    GLint colorLoc = glGetUniformLocation(m_Program->GetId(), "textColor");
+    glUniform4f(colorLoc, 1.0f, 0.0f, 0.0f, 1.0f);
+
     Core::Matrices identityMatrix = { glm::mat4(1.0f), data.m_Projection };
 
-    m_Program->Bind();
+     //m_Program->Bind();
     m_UniformBuffer->SetData(0, identityMatrix);
-    m_Texture->Bind(0);
-    m_VertexArray->Bind();
+    m_Texture->Bind(0);//不影響
+    m_VertexArray->Bind();//不影響
+    // 畫出 Quad
     m_VertexArray->DrawTriangles();
 }

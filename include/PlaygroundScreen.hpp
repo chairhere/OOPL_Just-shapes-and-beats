@@ -8,13 +8,14 @@
 #include "Screen.hpp"
 #include "ScreenState.hpp"
 #include "LevelSpawner.hpp"
-#include "imgui.h"
 #include "Levels.hpp"
+#include "Player.hpp"
 #include "Util/Color.hpp"
 #include "SongsBPM.hpp"
 #include "FadeLayer.hpp"
 #include "TimeLine.hpp"
 #include "Util/Input.hpp"
+#include "imgui.h"
 #include "MusicPlayerManager.hpp"
 
 
@@ -31,8 +32,7 @@ private:
     std::string m_SongPath = "../Resources/Audio/";
     std::shared_ptr<LevelSpawner> m_LevelSpawner;
     std::vector<std::shared_ptr<FadeLayer>> m_TestingPower;
-    std::shared_ptr<TimeLine> m_TimeLine;
-
+    std::shared_ptr<Player> m_Player;
 
     int BPM;
 };

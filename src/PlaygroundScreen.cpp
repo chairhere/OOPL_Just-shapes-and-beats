@@ -9,17 +9,17 @@ PlaygroundScreen::PlaygroundScreen(Levels level){
     switch (level) {
         case Levels::Chronos:
             m_BeatMap += "Chronos.json";
-            m_SongPath += "Chronos.mp3";
+            m_SongPath += "Chronos.wav";
             BPM = static_cast<float>(SongsBPM::Chronos);
-            m_TimeLine = std::make_shared<TimeLine>(m_SongPath, BPM);
             MusicPlayerManager::Setting().InfLoop(false);
+            MusicPlayerManager::Setting().SetBGMVolume(0.5);
             break;
         default:
             m_BeatMap += "Chronos.json";
-            m_SongPath += "Chronos.mp3";
+            m_SongPath += "Chronos.wav";
             BPM = static_cast<float>(SongsBPM::Chronos);
-            m_TimeLine = std::make_shared<TimeLine>(m_SongPath, BPM);
             MusicPlayerManager::Setting().InfLoop(false);
+            MusicPlayerManager::Setting().SetBGMVolume(1);
             break;
     }
 
@@ -28,12 +28,16 @@ PlaygroundScreen::PlaygroundScreen(Levels level){
     m_LevelSpawner->Start();
     m_Renderer.AddChild(m_LevelSpawner);
 
-    //m_TimeLine->Start();
-    //m_TimeLine->SetVolume(5);
-    MusicPlayerManager::Setting().Play();
+    m_Player = std::make_shared<Player>();
+    m_Player->SetPosition(glm::vec2(0.0f, 0.0f));
+    m_Player->SetZIndex(50);
+    //m_Player->SetVisible(false);
+    m_Renderer.AddChild(m_Player);
+    //MusicPlayerManager::Setting().Play();
 }
 
 ScreenState PlaygroundScreen::Update() {
+    m_Player->Moving();
 
     if (Util::Input::IsKeyDown(Util::Keycode::SPACE)) {
         MusicPlayerManager::Setting().Pause();
@@ -41,8 +45,6 @@ ScreenState PlaygroundScreen::Update() {
     if (Util::Input::IsKeyDown(Util::Keycode::P)) {
         MusicPlayerManager::Setting().Play();
     }
-
-    //m_TimeLine->Update();
 
     // ==========================================
     // 3. 節拍顯示debug用
@@ -54,6 +56,7 @@ ScreenState PlaygroundScreen::Update() {
     ImGui::End();
 
     m_LevelSpawner->Update(MusicPlayerManager::Setting().GetBeats());
+    //m_LevelSpawner->Draw();
 
     m_Renderer.Update();
 

@@ -10,7 +10,7 @@ void Obstacle::UpdateStateByBeat(float currentBeat) {
         return;
     }
 
-    //m_Transform.scale = {200, 200};
+    //m_Transform.scale = {200, 500};
 
     // 計算生命週期進度比例 t (0.0 到 1.0 之間)
     float t = (currentBeat - m_Event.StartBeat) / (m_Event.EndBeat - m_Event.StartBeat);
@@ -64,5 +64,65 @@ void Obstacle::UpdateWorldVertices() {
         m_WorldVertices.push_back(worldX);
         m_WorldVertices.push_back(worldY);
     }
-    m_WorldUVs = {0.25f, 0.5f, 0.25f, 0.5f, 0.25f, 0.5f, 0.25f, 0.5f};
+    m_WorldUVs = {0.0f, 0.0f, 0.0f, 0.5f, 0.5f, 0.5f, 0.5f, 0.0f};
 }
+
+bool Obstacle::CheckCollision(glm::vec2 PlayerPos) const {
+    // ==========================================
+    // 第一階段：粗略檢查 (Broad Phase)
+    // ==========================================
+    // 這裡我們取 scale 的最大值當作外接圓半徑的粗估值
+    float maxRadius = std::max(m_Transform.scale.x, m_Transform.scale.y) * 1.5f;
+    float dx = PlayerPos.x - m_Transform.translation.x;
+    float dy = PlayerPos.y - m_Transform.translation.y;
+
+    // 若距離平方大於半徑平方，代表玩家離這顆子彈還很遠
+    if ((dx * dx + dy * dy) > (maxRadius * maxRadius)) {
+        return false;
+    }
+
+
+    // ==========================================
+    // 第二階段：精確檢查 (Narrow Phase - 邊緣叉積判定)
+    // ==========================================
+    // 因為 worldVertices 是一維陣列 [x1, y1, x2, y2...]，頂點數為 size / 2
+    size_t vertexCount = m_WorldVertices.size() / 2;
+    if (vertexCount < 3) return false; // 形狀不完整無法判定
+
+    bool hasPositive = false;
+    bool hasNegative = false;
+
+    for (size_t i = 0; i < vertexCount; ++i) {
+        // 取得當前邊緣的「起點」
+        float startX = m_WorldVertices[i * 2];
+        float startY = m_WorldVertices[i * 2 + 1];
+
+        // 取得當前邊緣的「終點」(如果是最後一個點，終點就是第一個點，形成封閉迴圈)
+        size_t nextIdx = (i + 1) % vertexCount;
+        float endX = m_WorldVertices[nextIdx * 2];
+        float endY = m_WorldVertices[nextIdx * 2 + 1];
+
+        // 計算「邊緣向量 (Edge Vector)」
+        float edgeX = endX - startX;
+        float edgeY = endY - startY;
+
+        // 計算「起點到玩家的向量 (Player Vector)」
+        float toPlayerX = PlayerPos.x - startX;
+        float toPlayerY = PlayerPos.y - startY;
+
+        // 2D 叉積 (Cross Product) 公式：判斷左右側
+        float crossProduct = (edgeX * toPlayerY) - (edgeY * toPlayerX);
+
+        // 紀錄叉積的正負號
+        if (crossProduct > 0) hasPositive = true;
+        if (crossProduct < 0) hasNegative = true;
+
+        // 如果同時出現正號與負號，代表玩家在某些邊的左側、某些邊的右側，
+        // 意味著玩家絕對不在多邊形「內部」，可以直接提早 return false！
+        if (hasPositive && hasNegative) {
+            return false;
+        }
+    }
+    // 如果全部檢查完，符號都完全一致，代表玩家完美落入子彈內部！
+    return true;
+};
