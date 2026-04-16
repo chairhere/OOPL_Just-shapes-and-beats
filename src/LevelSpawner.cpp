@@ -54,8 +54,7 @@ void LevelSpawner::Update(float currentBeat, glm::vec2 PlayerPos) {
         m_SpawnEvent = m_PendingEvents.front();
 
         if (m_SpawnEvent.ShapeType == BulletType::RotatingRectangle) {
-            //m_SpawnVertices = {-0.5f, 0.5f, -0.5f, -0.5f, 0.5f, -0.5f, 0.5f, 0.5f};
-            m_SpawnVertices = {-1.0f, 1.0f, -1.0f, -1.0f, 1.0f, -1.0f, 1.0f, 1.0f};
+            m_SpawnVertices = {-0.5f, 0.5f, -0.5f, -0.5f, 0.5f, -0.5f, 0.5f, 0.5f};
             Obstacle newObstacle(m_SpawnEvent, m_SpawnVertices);
             newObstacle.customBehavior = [](Obstacle& self, float beat) {
                 // 覆寫 X 軸位移，以原設定的 X 軸為基準，加上 Sin 波形
@@ -65,8 +64,7 @@ void LevelSpawner::Update(float currentBeat, glm::vec2 PlayerPos) {
             m_ActiveObstacles.push_back(newObstacle);
         }
         else if (m_SpawnEvent.ShapeType == BulletType::Laser) {
-            //m_SpawnVertices = {-0.5f, 0.5f, -0.5f, -0.5f, 0.5f, -0.5f, 0.5f, 0.5f};
-            m_SpawnVertices = {-1.0f, 1.0f, -1.0f, -1.0f, 1.0f, -1.0f, 1.0f, 1.0f};
+            m_SpawnVertices = {-0.5f, 0.5f, -0.5f, -0.5f, 0.5f, -0.5f, 0.5f, 0.5f};
             Obstacle newObstacle(m_SpawnEvent, m_SpawnVertices);
             newObstacle.customBehavior = [](Obstacle& self, float beat) {
                 // 覆寫 X 軸位移，以原設定的 X 軸為基準，加上 Sin 波形
@@ -90,14 +88,20 @@ void LevelSpawner::Update(float currentBeat, glm::vec2 PlayerPos) {
     // 2. 更新所有存活的障礙物狀態，並清理過期的障礙物
     for (auto it = m_ActiveObstacles.begin(); it != m_ActiveObstacles.end(); ) {
 
+        if (it->m_Event.EndBeat < currentBeat) {
+            it = m_ActiveObstacles.erase(it);
+            continue;
+        }
 
         it->UpdateStateByBeat(currentBeat, PlayerPos);
 
         // 生命週期管理：如果音樂已經超過了它的存活時間，立刻將其刪除
+        /*
         if (it->IsDead()) {
             it = m_ActiveObstacles.erase(it);
             continue;
         }
+        */
 
         // 執行客製化行為 (例如：隨機抖動、追蹤)
         if (it->customBehavior != nullptr) {
@@ -111,7 +115,7 @@ void LevelSpawner::Update(float currentBeat, glm::vec2 PlayerPos) {
 
 
         // 彙整到批次渲染器中 (假設您的 batcher 吃頂點與顏色) [6]
-        m_Batcher->AddQuad(it->GetWorldVertices(), it->GetWorldUVs());
+        m_Batcher->AddQuad(it->GetWorldVertices(), it->GetWorldUVs(), it->GetLocalVertices());
 
         ++it;
     }
