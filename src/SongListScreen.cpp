@@ -22,6 +22,8 @@ SongListScreen::SongListScreen() {
                 MusicPlayerManager::Setting().Switch(m_SongsOrder.at(i).first);
                 MusicPlayerManager::Setting().PlayAtTime(m_SongsOrder.at(i).second);
                 this->m_SFXSelect = m_Items.at(i);
+            }else {
+                play = true;
             }
             this->m_NowSelect->Unfocus();
             this->m_SelectedIndex = i;
@@ -115,14 +117,18 @@ ScreenState SongListScreen::Update() {
             throw std::invalid_argument("The list should NOT be without selected items.");
         }
 
-        if (Util::Input::IsKeyDown(Util::Keycode::RETURN)) {
-            Button::s_IsKeyboardMode = true;
-            SDL_ShowCursor(SDL_DISABLE);
-        }
-
         if (((m_SelectedIndex == -1) ^ (m_NowSelect == m_RandomOrder)) or (m_SelectedIndex != -1 and m_NowSelect != m_Items.at(m_SelectedIndex))) {
             LOG_WARN("SelectedIndex doesn't match NowSelect");
         }
+    }
+
+    if (play || Util::Input::IsKeyDown(Util::Keycode::RETURN)) {
+        if (m_NowSelect != m_RandomOrder) {
+            return ScreenState::Playground;
+        }
+        MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::PlrHit);
+        Button::s_IsKeyboardMode = true;
+        SDL_ShowCursor(SDL_DISABLE);
     }
 
     m_Renderer.Update();

@@ -19,8 +19,8 @@ MusicPlayerManager::MusicPlayerManager() {
     m_SFXLibrary[PlrHit2].load("../Resources/Audio/Effect/Hit2.ogg");
     m_SFXLibrary[Return].load("../Resources/Audio/Effect/Return.ogg");
     m_SFXLibrary[PlrRevive].load("../Resources/Audio/Effect/Revive.ogg");
-    SetBGMVolume(0.2f);
-    SetSFXVolume(0.2f);
+    SetBGMVolume(BGMVolume);
+    SetSFXVolume(SFXVolume);
 }
 
 void MusicPlayerManager::Pause() {
@@ -95,6 +95,7 @@ void MusicPlayerManager::Switch(Levels music) {;
     }
     SongData data = SongList::GetSongByName(music);
     m_BGM.load(data.AudioPath.c_str());
+    SetBGMVolume(BGMVolume);
     Play();
 }
 
@@ -133,7 +134,7 @@ float MusicPlayerManager::GetBeats() {
     if (IsEmpty()) throw std::invalid_argument("List is empty");
 
     SongData data = SongList::GetSongByName(m_MusicList[0]);
-    return static_cast<float>(m_MusicPlayer.getStreamTime(m_BGMHandler)) / 60.0f * static_cast<float>(data.BPM);
+    return static_cast<float>(m_MusicPlayer.getStreamPosition(m_BGMHandler)) / 60.0f * static_cast<float>(data.BPM);
 }
 
 Levels MusicPlayerManager::GetCurrentLevel() {

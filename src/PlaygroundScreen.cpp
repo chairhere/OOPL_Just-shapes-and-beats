@@ -11,15 +11,14 @@ PlaygroundScreen::PlaygroundScreen(Levels level){
             m_BeatMap += "Chronos.json";
             m_SongPath += "Chronos.wav";
             BPM = static_cast<float>(SongsBPM::Chronos);
+            MusicPlayerManager::Setting().Switch(Levels::Chronos);
             MusicPlayerManager::Setting().InfLoop(false);
-            MusicPlayerManager::Setting().SetBGMVolume(0.5);
             break;
         default:
             m_BeatMap += "Chronos.json";
             m_SongPath += "Chronos.wav";
             BPM = static_cast<float>(SongsBPM::Chronos);
             MusicPlayerManager::Setting().InfLoop(false);
-            MusicPlayerManager::Setting().SetBGMVolume(1);
             break;
     }
 
@@ -33,7 +32,7 @@ PlaygroundScreen::PlaygroundScreen(Levels level){
     m_Player->SetZIndex(50);
     //m_Player->SetVisible(false);
     m_Renderer.AddChild(m_Player);
-    //MusicPlayerManager::Setting().Play();
+    MusicPlayerManager::Setting().Play();
 }
 
 ScreenState PlaygroundScreen::Update() {
@@ -53,6 +52,11 @@ ScreenState PlaygroundScreen::Update() {
     ImGui::Begin("test");
     ImGui::SetWindowPos({200, 300});
     ImGui::Text("Beats:%f", MusicPlayerManager::Setting().GetBeats());
+    float v;
+    ImGui::SliderFloat("Beats", &v, 0.0f, 100.0f);
+    if (ImGui::Button("Play at", ImVec2(50, 20))) {
+        MusicPlayerManager::Setting().PlayAt(v);
+    }
     ImGui::End();
 
     m_LevelSpawner->Update(MusicPlayerManager::Setting().GetBeats(), m_Player->GetPosition());

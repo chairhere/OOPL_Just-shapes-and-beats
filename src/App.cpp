@@ -23,17 +23,11 @@ void App::Start() {
         SDL_SetWindowPosition(window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
     }
 
-    //m_CurrentScreen = std::make_shared<MainMenuScreen>();
-    //m_CurrentLevel = ScreenState::Main;
-    MusicPlayerManager::Setting().Switch(Levels::Chronos);
+    // m_CurrentScreen = std::make_shared<MainMenuScreen>();
+    // m_CurrentLevel = ScreenState::Main;
+    MusicPlayerManager::Setting().AddMusic(Levels::Chronos);
     m_CurrentScreen = std::make_shared<PlaygroundScreen>(MusicPlayerManager::Setting().GetCurrentLevel());
     m_CurrentLevel = ScreenState::Playground;
-
-    m_Player = std::make_shared<Player>();
-    m_Player->SetPosition(glm::vec2(0.0f, 0.0f));
-    m_Player->SetZIndex(50);
-    m_Player->SetVisible(false);
-    m_Root.AddChild(m_Player);
 
     SDL_StopTextInput();
 
@@ -41,8 +35,6 @@ void App::Start() {
 }
 
 void App::Update() {
-    
-    m_Player->Moving();
 /*
     if (m_FadeLayer && !m_FadeLayer->IsFinished()) {
         m_FadeLayer->Update(); // 推進 1.5 秒的計時與透明度變化

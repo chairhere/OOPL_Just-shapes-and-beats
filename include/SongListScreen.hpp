@@ -27,6 +27,8 @@ private:
     std::vector<std::pair<Levels, float>> m_SongsOrder = {
         {Levels::Chronos, 74.3f}
     };
+
+    bool play = false;
 };
 
 #endif //JUST_SHAPES_AND_BEATS_SONGLISTSCREEN_HPP
