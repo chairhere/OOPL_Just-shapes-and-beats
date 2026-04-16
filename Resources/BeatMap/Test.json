@@ -78,7 +78,7 @@
   },
   {
     "Beat" : 15.0,
-    "ObstacleType" : "BiggerBall",
+    "ObstacleType" : "ExpandingBall",
     "StartPos" : {"X" : 0.0, "Y" : 200.0},
     "EndPos" : {"X" : 0.0, "Y" : 200.0}
   },

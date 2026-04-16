@@ -5,7 +5,7 @@
     "StartPos" : {"X" : 100.0, "Y" : 0.0},
     "StartRotation" : 0.0,
     "Velocity" : 20.0,
-    "radius" : 2.618,
+    "radian" : 2.618,
     "AngularVelocity" : 3.14
   },
   {
@@ -14,7 +14,7 @@
     "StartPos" : {"X" : 100.0, "Y" : 0.0},
     "StartRotation" : 0.0,
     "Velocity" : 20.0,
-    "radius" : 2.618,
+    "radian" : 2.618,
     "AngularVelocity" : 3.14
   },
   {
@@ -23,7 +23,7 @@
     "StartPos" : {"X" : 100.0, "Y" : 20.0},
     "StartRotation" : 0.0,
     "Velocity" : 20.0,
-    "radius" : 2.618,
+    "radian" : 2.618,
     "AngularVelocity" : 3.14
   },
   {
@@ -32,7 +32,7 @@
     "StartPos" : {"X" : 100.0, "Y" : 30.0},
     "StartRotation" : 0.0,
     "Velocity" : 20.0,
-    "radius" : 2.618,
+    "radian" : 2.618,
     "AngularVelocity" : 3.14
   },
   {
@@ -41,7 +41,7 @@
     "StartPos" : {"X" : 100.0, "Y" : 100.0},
     "StartRotation" : 0.0,
     "Velocity" : 20.0,
-    "radius" : 2.618,
+    "radian" : 2.618,
     "AngularVelocity" : 3.14
   },
   {
@@ -50,7 +50,7 @@
     "StartPos" : {"X" : 100.0, "Y" : -50.0},
     "StartRotation" : 0.0,
     "Velocity" : 20.0,
-    "radius" : 2.618,
+    "radian" : 2.618,
     "AngularVelocity" : 3.14
   },
   {
@@ -79,5 +79,48 @@
     "StartRotation" : 0.0,
     "EndRotation" : 0.0,
     "SpawnBeat" : 21.0
+  },
+  {
+    "StartBeat" : 17.0,"EndBeat" : 27.0,
+    "ObstacleType" : "SpawnerTriangle",
+    "StartPos" : {"X" : 100.0, "Y" : 0.0},
+    "PausePos" : {"X" : 0.0, "Y" : 0.0},
+    "StartRotation" : 0.0,
+    "EndRotation" : 0.0,
+    "FireBeat" : 21.0
+  },
+  {
+    "StartBeat" : 17.0,"EndBeat" : 27.0,
+    "ObstacleType" : "BiggerLaser",
+    "StartPos" : {"X" : 100.0, "Y" : 0.0},
+    "EndPos" : {"X" : 100.0, "Y" : 0.0},
+    "StartRotation" : 0.0,
+    "EndRotation" : 0.0,
+    "SpawnBeat" : 21.0
+  },
+  {
+    "StartBeat" : 17.0,"EndBeat" : 27.0,
+    "ObstacleType" : "ExpandingBall",
+    "StartPos" : {"X" : 100.0, "Y" : 0.0},
+    "EndPos" : {"X" : 100.0, "Y" : 0.0},
+    "StartRotation" : 0.0,
+    "EndRotation" : 0.0,
+    "SpawnBeat" : 21.0
+  },
+  {
+    "StartBeat" : 17.0,"EndBeat" : 27.0,
+    "ObstacleType" : "Ball",
+    "StartPos" : {"X" : 100.0, "Y" : 0.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 20.0,
+    "radian" : 2.618
+  },
+  {
+    "StartBeat" : 3.0,"EndBeat" : 40.0,
+    "ObstacleType" : "SpikeBall",
+    "StartPos" : {"X" : 100.0, "Y" : 0.0},
+    "PausePos" : {"X" : 100.0, "Y" : 0.0},
+    "StartRotation" : 0.0,
+    "AngularVelocity" : 3.14
   }
 ]
