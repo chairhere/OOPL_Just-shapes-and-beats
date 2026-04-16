@@ -145,6 +145,18 @@ Levels MusicPlayerManager::GetCurrentLevel() {
     return m_MusicList[0];
 }
 
+float MusicPlayerManager::GetTotalBeats() {
+    if (IsEmpty()) throw std::invalid_argument("No music can get beats");
+
+    SongData data = SongList::GetSongByName(m_MusicList[0]);
+    return static_cast<float>(m_BGM.getLength()) / 60.0f * static_cast<float>(data.BPM);
+}
+
+float MusicPlayerManager::GetTotalLength() {
+    if (IsEmpty()) throw std::invalid_argument("No music can get length");
+
+    return static_cast<float>(m_BGM.getLength());
+}
 
 void MusicPlayerManager::AddMusic(Levels music) {
     auto it = std::find(m_MusicList.begin(), m_MusicList.end(), music);

@@ -45,7 +45,7 @@ void LevelSpawner::Start() {
 }
 
 //能實作在AppUpdate裡，利用levels來去開啟予與關閉這部分的update
-void LevelSpawner::Update(float currentBeat, glm::vec2 PlayerPos) {
+void LevelSpawner::Update(const float currentBeat, glm::vec2 PlayerPos) {
     LOG_DEBUG("LevelSpawner_Update", currentBeat);
     // 1. 檢查是否有新障礙物需要生成
 

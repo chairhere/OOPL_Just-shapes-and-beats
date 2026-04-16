@@ -3,6 +3,10 @@
 //
 
 #include "../include/PlaygroundScreen.hpp"
+
+#include "MusicPlayerManager.hpp"
+#include "SongsBPM.hpp"
+
 PlaygroundScreen::PlaygroundScreen(Levels level){
     SDL_ShowCursor(SDL_DISABLE);
     LOG_DEBUG("PlaygroundScreen::PlaygroundScreen");
@@ -52,8 +56,8 @@ ScreenState PlaygroundScreen::Update() {
     ImGui::Begin("test");
     ImGui::SetWindowPos({200, 300});
     ImGui::Text("Beats:%f", MusicPlayerManager::Setting().GetBeats());
-    float v;
-    ImGui::SliderFloat("Beats", &v, 0.0f, 100.0f);
+    static float v = 0.0f;
+    ImGui::SliderFloat("Beats", &v, 0.0f, MusicPlayerManager::Setting().GetTotalBeats());
     if (ImGui::Button("Play at", ImVec2(50, 20))) {
         MusicPlayerManager::Setting().PlayAt(v);
     }
