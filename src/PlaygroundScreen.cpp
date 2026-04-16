@@ -55,7 +55,7 @@ ScreenState PlaygroundScreen::Update() {
     ImGui::Text("Beats:%f", MusicPlayerManager::Setting().GetBeats());
     ImGui::End();
 
-    m_LevelSpawner->Update(MusicPlayerManager::Setting().GetBeats());
+    m_LevelSpawner->Update(MusicPlayerManager::Setting().GetBeats(), m_Player->GetPosition());
     //m_LevelSpawner->Draw();
 
     m_Renderer.Update();

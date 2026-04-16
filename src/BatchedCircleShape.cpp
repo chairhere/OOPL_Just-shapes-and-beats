@@ -18,6 +18,7 @@ BatchedCircleShape::BatchedCircleShape(const Util::Color &color) :m_Color(color)
 
 void BatchedCircleShape::BeginBatch() {
     m_Positions.clear();
+    m_Vertices.clear();
     m_UVs.clear();
     m_Indices.clear();
 }
@@ -28,6 +29,7 @@ void BatchedCircleShape::AddQuad(const std::vector<float> &worldVertices, const 
     unsigned int offset = m_Positions.size() / 2;
 
     m_Positions.insert(m_Positions.end(), worldVertices.begin(), worldVertices.end());
+    m_Vertices.insert(m_Vertices.end(), localVertices.begin(), localVertices.end());
     m_UVs.insert(m_UVs.end(), worldUVs.begin(), worldUVs.end());
     for (int i = 0; i < static_cast<int>(worldVertices.size()/4); ++i) {
         //indices.push_back(i);
@@ -46,6 +48,7 @@ void BatchedCircleShape::EndBatch() {
     // 利用框架現有的建構子，把收集好的龐大陣列一次塞進去
     m_VertexArray->AddVertexBuffer(std::make_unique<Core::VertexBuffer>(m_Positions, 2));
     m_VertexArray->AddVertexBuffer(std::make_unique<Core::VertexBuffer>(m_UVs, 2));
+    m_VertexArray->AddVertexBuffer(std::make_unique<Core::VertexBuffer>(m_Vertices, 2));
     m_VertexArray->SetIndexBuffer(std::make_unique<Core::IndexBuffer>(m_Indices));
 }
 
@@ -59,8 +62,6 @@ void BatchedCircleShape::Draw(const Core::Matrices &data){
     // 更新矩陣 (框架底層機制)
     //m_UniformBuffer->SetData(0, data);
 
-    GLint colorLoc = glGetUniformLocation(m_Program->GetId(), "textColor");
-    glUniform4f(colorLoc, 1.0f, 0.0f, 0.0f, 1.0f);
 
     Core::Matrices identityMatrix = { glm::mat4(1.0f), data.m_Projection };
 

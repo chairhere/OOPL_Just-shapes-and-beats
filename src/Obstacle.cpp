@@ -4,11 +4,12 @@
 
 #include "Obstacle.hpp"
 
-void Obstacle::UpdateStateByBeat(float currentBeat) {
+void Obstacle::UpdateStateByBeat(float currentBeat, glm::vec2 PlayerPos) {
     if (currentBeat > m_Event.EndBeat) {
         m_IsDead = true; // 標記為可銷毀
         return;
     }
+
 
     //m_Transform.scale = {200, 500};
 
@@ -23,6 +24,8 @@ void Obstacle::UpdateStateByBeat(float currentBeat) {
     // 若需要隨節拍縮放跳動的特效，可以在此處疊加計算給 m_Transform.scale [5]
     // float beatPulse = 1.0f + 0.2f * sin(currentBeat * glm::pi<float>());
     // m_Transform.scale = glm::vec2(beatPulse);
+    UpdateWorldVertices();
+    m_IsColliding = CheckCollision(PlayerPos);
 }
 
 void Obstacle::UpdateWorldVertices() {
@@ -64,7 +67,7 @@ void Obstacle::UpdateWorldVertices() {
         m_WorldVertices.push_back(worldX);
         m_WorldVertices.push_back(worldY);
     }
-    m_WorldUVs = {0.0f, 0.0f, 0.0f, 0.5f, 0.5f, 0.5f, 0.5f, 0.0f};
+    //m_WorldUVs = {0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.5f, 0.5f, 0.0f};
 }
 
 bool Obstacle::CheckCollision(glm::vec2 PlayerPos) const {
@@ -126,3 +129,20 @@ bool Obstacle::CheckCollision(glm::vec2 PlayerPos) const {
     // 如果全部檢查完，符號都完全一致，代表玩家完美落入子彈內部！
     return true;
 };
+
+bool Obstacle::CheckCircleCollision(glm::vec2 PlayerPos) const {
+
+    float dx = PlayerPos.x - m_Transform.translation.x;
+    float dy = PlayerPos.y - m_Transform.translation.y;
+
+    float circleRadius = glm::max(m_Transform.scale.x, m_Transform.scale.y);
+    float distance = glm::length(glm::vec2(dx, dy));
+
+    if (distance < circleRadius) {
+        return true;
+    }
+    else if (to_int(m_Event.ShapeType) == 4) {
+        //float a = glm::max()
+        //float diamondDist = 1.55 * a - 0.45 * b;
+    }
+}

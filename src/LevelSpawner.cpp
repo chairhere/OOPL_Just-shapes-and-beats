@@ -45,7 +45,7 @@ void LevelSpawner::Start() {
 }
 
 //能實作在AppUpdate裡，利用levels來去開啟予與關閉這部分的update
-void LevelSpawner::Update(float currentBeat) {
+void LevelSpawner::Update(float currentBeat, glm::vec2 PlayerPos) {
     LOG_DEBUG("LevelSpawner_Update", currentBeat);
     // 1. 檢查是否有新障礙物需要生成
 
@@ -91,7 +91,7 @@ void LevelSpawner::Update(float currentBeat) {
     for (auto it = m_ActiveObstacles.begin(); it != m_ActiveObstacles.end(); ) {
 
 
-        it->UpdateStateByBeat(currentBeat);
+        it->UpdateStateByBeat(currentBeat, PlayerPos);
 
         // 生命週期管理：如果音樂已經超過了它的存活時間，立刻將其刪除
         if (it->IsDead()) {

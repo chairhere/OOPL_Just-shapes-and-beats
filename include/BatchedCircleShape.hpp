@@ -26,6 +26,7 @@ private:
 
     // 累積頂點用的陣列
     std::vector<float> m_Positions;
+    std::vector<float> m_Vertices;
     std::vector<float> m_UVs;
     std::vector<unsigned int> m_Indices;
 

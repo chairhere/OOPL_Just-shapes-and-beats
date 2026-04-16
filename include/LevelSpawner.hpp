@@ -43,11 +43,11 @@ public:
         m_Batcher = std::make_shared<BatchedColorShape>(Util::Color{255, 33, 111, 255});
         m_CircleBatcher = std::make_shared<BatchedCircleShape>(Util::Color{255, 33, 111, 255});
         m_BeatMap = filepath;
-        m_Drawable = m_CircleBatcher;
+        m_Drawable = m_Batcher;
     };
     ~LevelSpawner() override = default;
 
-    void Update(float currentBeat);
+    void Update(float currentBeat, glm::vec2 PlayerPos);
 
     void Start();
 
