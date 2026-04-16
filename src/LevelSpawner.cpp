@@ -23,11 +23,11 @@ void LevelSpawner::Start() {
         m_LoadEvent.StartPos = {item["StartPos"]["X"], item["StartPos"]["Y"]};
         if (item["ObstacleType"] == "RotatingRectangle") {
             m_LoadEvent.ShapeType = BulletType::RotatingRectangle;
-            m_LoadEvent.SpecialData.Velocity.x = item["Velocity"]["X"];
-            m_LoadEvent.SpecialData.Velocity.y = item["Velocity"]["Y"];
+            m_LoadEvent.SpecialData.Velocity.x = item["Velocity"];
+            m_LoadEvent.SpecialData.Velocity.y = item["Velocity"];
             m_LoadEvent.SpecialData.AngularVelocity = item["AngularVelocity"];
-            m_LoadEvent.EndPos = {item["EndPos"]["X"], item["EndPos"]["Y"]};
-            m_LoadEvent.EndRot = item["EndRotation"];
+            //m_LoadEvent.EndPos = {item["EndPos"]["X"], item["EndPos"]["Y"]};
+            //m_LoadEvent.EndRot = item["EndRotation"];
             m_LoadEvent.EndBeat = item["EndBeat"];
         }
         else if (item["ObstacleType"] == "Laser") {
@@ -45,7 +45,7 @@ void LevelSpawner::Start() {
 }
 
 //能實作在AppUpdate裡，利用levels來去開啟予與關閉這部分的update
-void LevelSpawner::Update(float currentBeat) {
+void LevelSpawner::Update(float currentBeat, glm::vec2 PlayerPos) {
     LOG_DEBUG("LevelSpawner_Update", currentBeat);
     // 1. 檢查是否有新障礙物需要生成
 
@@ -54,7 +54,8 @@ void LevelSpawner::Update(float currentBeat) {
         m_SpawnEvent = m_PendingEvents.front();
 
         if (m_SpawnEvent.ShapeType == BulletType::RotatingRectangle) {
-            m_SpawnVertices = {-0.5f, 0.5f, -0.5f, -0.5f, 0.5f, -0.5f, 0.5f, 0.5f};
+            //m_SpawnVertices = {-0.5f, 0.5f, -0.5f, -0.5f, 0.5f, -0.5f, 0.5f, 0.5f};
+            m_SpawnVertices = {-1.0f, 1.0f, -1.0f, -1.0f, 1.0f, -1.0f, 1.0f, 1.0f};
             Obstacle newObstacle(m_SpawnEvent, m_SpawnVertices);
             newObstacle.customBehavior = [](Obstacle& self, float beat) {
                 // 覆寫 X 軸位移，以原設定的 X 軸為基準，加上 Sin 波形
@@ -64,7 +65,8 @@ void LevelSpawner::Update(float currentBeat) {
             m_ActiveObstacles.push_back(newObstacle);
         }
         else if (m_SpawnEvent.ShapeType == BulletType::Laser) {
-            m_SpawnVertices = {-0.5f, 0.5f, -0.5f, -0.5f, 0.5f, -0.5f, 0.5f, 0.5f};
+            //m_SpawnVertices = {-0.5f, 0.5f, -0.5f, -0.5f, 0.5f, -0.5f, 0.5f, 0.5f};
+            m_SpawnVertices = {-1.0f, 1.0f, -1.0f, -1.0f, 1.0f, -1.0f, 1.0f, 1.0f};
             Obstacle newObstacle(m_SpawnEvent, m_SpawnVertices);
             newObstacle.customBehavior = [](Obstacle& self, float beat) {
                 // 覆寫 X 軸位移，以原設定的 X 軸為基準，加上 Sin 波形
@@ -89,7 +91,7 @@ void LevelSpawner::Update(float currentBeat) {
     for (auto it = m_ActiveObstacles.begin(); it != m_ActiveObstacles.end(); ) {
 
 
-        it->UpdateStateByBeat(currentBeat);
+        it->UpdateStateByBeat(currentBeat, PlayerPos);
 
         // 生命週期管理：如果音樂已經超過了它的存活時間，立刻將其刪除
         if (it->IsDead()) {
@@ -105,6 +107,8 @@ void LevelSpawner::Update(float currentBeat) {
         // 物理與渲染更新 [3]
 
         it->UpdateWorldVertices();
+
+
 
         // 彙整到批次渲染器中 (假設您的 batcher 吃頂點與顏色) [6]
         m_Batcher->AddQuad(it->GetWorldVertices(), it->GetWorldUVs());

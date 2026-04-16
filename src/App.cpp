@@ -23,8 +23,11 @@ void App::Start() {
         SDL_SetWindowPosition(window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
     }
 
-    m_CurrentScreen = std::make_shared<MainMenuScreen>();
-    m_CurrentLevel = ScreenState::Main;
+    //m_CurrentScreen = std::make_shared<MainMenuScreen>();
+    //m_CurrentLevel = ScreenState::Main;
+    MusicPlayerManager::Setting().Switch(Levels::Chronos);
+    m_CurrentScreen = std::make_shared<PlaygroundScreen>(MusicPlayerManager::Setting().GetCurrentLevel());
+    m_CurrentLevel = ScreenState::Playground;
 
     m_Player = std::make_shared<Player>();
     m_Player->SetPosition(glm::vec2(0.0f, 0.0f));

@@ -26,6 +26,7 @@ struct SpawnEvent {
     float EndRot;          // 結束旋轉角度 (弧度)
 
     BulletType ShapeType; // 障礙物形狀 (例如 "Square", "Laser")
+    int DrawID;
 
     struct SpecialEvent {
         float SpawnBeat;
@@ -34,6 +35,8 @@ struct SpawnEvent {
 
         glm::vec2 PausePos;
         glm::vec2 Velocity;
+
+        bool Spawnable;
 
     } SpecialData;
 };
@@ -44,6 +47,7 @@ struct RR {
     glm::vec2 Velocity;
     float AngularVelocity;
 };
+
 
 
 #endif //JUST_SHAPES_AND_BEATS_SPAWN_EVENT_HPP

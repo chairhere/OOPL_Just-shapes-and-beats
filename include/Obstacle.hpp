@@ -15,6 +15,7 @@
 class Obstacle{
 private:
     bool m_IsDead = false; // 標記是否已經超過 endBeat，準備被銷毀
+    bool m_IsColliding = false;
 
     std::vector<float> m_LocalVertices;
     std::vector<float> m_WorldVertices;
@@ -32,18 +33,29 @@ public:
         m_Transform.rotation = event.StartRot;
         m_Transform.scale = glm::vec2(20.0f, 20.0f);
         m_LocalVertices = LocalVertices;
+        m_WorldUVs.reserve(m_LocalVertices.size());
+        for (int i = 0; i < m_LocalVertices.size()/2; i++) {
+            m_WorldUVs.push_back(0.25f);
+            m_WorldUVs.push_back(0.5f);
+        }
+
     }
 
-    void UpdateStateByBeat(float currentBeat);
+    void UpdateStateByBeat(float currentBeat, glm::vec2 PlayerPos);
 
     void UpdateWorldVertices();
+
+    bool CheckCollision(glm::vec2 PlayerPos) const;
+
+    bool CheckCircleCollision(glm::vec2 PlayerPos) const;
 
     std::vector<float> GetWorldVertices(){return m_WorldVertices;}
 
     std::vector<float> GetWorldUVs(){return m_WorldUVs;}
 
-    bool IsDead(){return m_IsDead;}
+    std::vector<float> GetLocalVertices(){return m_LocalVertices;}
 
+    bool IsDead(){return m_IsDead;}
 
 };
 
