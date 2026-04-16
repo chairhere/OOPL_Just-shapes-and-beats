@@ -1,56 +1,50 @@
 [
   {
-    "StartBeat" : 3.0,"EndBeat" : 40.0,
+    "StartBeat" : 3.0,"EndBeat" : 25.0,
     "ObstacleType" : "RotatingRectangle",
-    "StartPos" : {"X" : 100.0, "Y" : 0.0},
+    "StartPos" : {"X" : 1000.0, "Y" : 0.0},
     "StartRotation" : 0.0,
-    "Velocity" : 20.0,
-    "radius" : 2.618,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 8.0,"EndBeat" : 30.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 1000.0, "Y" : 0.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
     "AngularVelocity" : 3.14
   },
   {
     "StartBeat" : 10.0,"EndBeat" : 40.0,
     "ObstacleType" : "RotatingRectangle",
-    "StartPos" : {"X" : 100.0, "Y" : 0.0},
+    "StartPos" : {"X" : 1000.0, "Y" : 20.0},
     "StartRotation" : 0.0,
-    "Velocity" : 20.0,
-    "radius" : 2.618,
+    "Velocity" : 200.0,
     "AngularVelocity" : 3.14
   },
   {
-    "StartBeat" : 10.0,"EndBeat" : 40.0,
+    "StartBeat" : 12.0,"EndBeat" : 40.0,
     "ObstacleType" : "RotatingRectangle",
-    "StartPos" : {"X" : 100.0, "Y" : 20.0},
+    "StartPos" : {"X" : 1000.0, "Y" : 30.0},
     "StartRotation" : 0.0,
-    "Velocity" : 20.0,
-    "radius" : 2.618,
+    "Velocity" : 200.0,
     "AngularVelocity" : 3.14
   },
   {
-    "StartBeat" : 10.0,"EndBeat" : 40.0,
+    "StartBeat" : 15.0,"EndBeat" : 40.0,
     "ObstacleType" : "RotatingRectangle",
-    "StartPos" : {"X" : 100.0, "Y" : 30.0},
+    "StartPos" : {"X" : 1000.0, "Y" : 100.0},
     "StartRotation" : 0.0,
-    "Velocity" : 20.0,
-    "radius" : 2.618,
+    "Velocity" : 200.0,
     "AngularVelocity" : 3.14
   },
   {
-    "StartBeat" : 10.0,"EndBeat" : 40.0,
+    "StartBeat" : 17.0,"EndBeat" : 40.0,
     "ObstacleType" : "RotatingRectangle",
-    "StartPos" : {"X" : 100.0, "Y" : 100.0},
+    "StartPos" : {"X" : 1000.0, "Y" : -50.0},
     "StartRotation" : 0.0,
-    "Velocity" : 20.0,
-    "radius" : 2.618,
-    "AngularVelocity" : 3.14
-  },
-  {
-    "StartBeat" : 10.0,"EndBeat" : 40.0,
-    "ObstacleType" : "RotatingRectangle",
-    "StartPos" : {"X" : 100.0, "Y" : -50.0},
-    "StartRotation" : 0.0,
-    "Velocity" : 20.0,
-    "radius" : 2.618,
+    "Velocity" : 200.0,
     "AngularVelocity" : 3.14
   },
   {

@@ -13,7 +13,6 @@ void Obstacle::UpdateStateByBeat(float currentBeat, glm::vec2 PlayerPos) {
     if (this->customBehavior != nullptr) {
         customBehavior(*this, currentBeat, PlayerPos);
     }
-    UpdateWorldVertices();
 }
 
 void Obstacle::UpdateWorldVertices() {

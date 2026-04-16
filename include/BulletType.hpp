@@ -19,8 +19,9 @@ constexpr int  to_int(const BulletType S) {
             return 4;
         case BulletType::Triangle:
             return 5;
+        default:
+            return 0;
     }
-    return 0;
 }
 
 #endif //JUST_SHAPES_AND_BEATS_BULLETTYPE_HPP

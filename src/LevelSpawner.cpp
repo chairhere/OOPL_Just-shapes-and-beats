@@ -5,6 +5,8 @@
 #include "LevelSpawner.hpp"
 
 void LevelSpawner::Start() {
+    g = std::mt19937(rd());
+
     std::ifstream file(m_BeatMap);
     if (!file.is_open()) {
         LOG_DEBUG("找不到譜面檔案：{}", m_BeatMap);
@@ -23,12 +25,10 @@ void LevelSpawner::Start() {
         m_LoadEvent.StartPos = {item["StartPos"]["X"], item["StartPos"]["Y"]};
         if (item["ObstacleType"] == "RotatingRectangle") {
             m_LoadEvent.ShapeType = BulletType::RotatingRectangle;
-            m_LoadEvent.SpecialData.Velocity.x = item["Velocity"];
-            m_LoadEvent.SpecialData.Velocity.y = item["Velocity"];
+            m_LoadEvent.SpecialData.Velocity = item["Velocity"];
             m_LoadEvent.SpecialData.AngularVelocity = item["AngularVelocity"];
-            //m_LoadEvent.EndPos = {item["EndPos"]["X"], item["EndPos"]["Y"]};
-            //m_LoadEvent.EndRot = item["EndRotation"];
             m_LoadEvent.EndBeat = item["EndBeat"];
+            m_LoadEvent.Scale = glm::vec2{20.0f, 20.0f};
         }
         else if (item["ObstacleType"] == "Laser") {
             m_LoadEvent.ShapeType = BulletType::Laser;
@@ -55,18 +55,38 @@ void LevelSpawner::Update(float currentBeat, glm::vec2 PlayerPos) {
 
         if (m_SpawnEvent.ShapeType == BulletType::RotatingRectangle) {
             m_SpawnVertices = {-0.5f, 0.5f, -0.5f, -0.5f, 0.5f, -0.5f, 0.5f, 0.5f};
-            Obstacle newObstacle(m_SpawnEvent, m_SpawnVertices);
-            newObstacle.customBehavior = [](Obstacle& self, float beat) {
-                // 覆寫 X 軸位移，以原設定的 X 軸為基準，加上 Sin 波形
-                self.m_Transform.rotation = beat * self.m_Event.SpecialData.AngularVelocity;
-                self.m_Transform.translation = {self.m_Event.StartPos.x + self.m_Event.SpecialData.Velocity.x * (beat - self.m_Event.StartBeat), self.m_Event.StartPos.y + self.m_Event.SpecialData.Velocity.y * (beat - self.m_Event.StartBeat)};
-            };
-            m_ActiveObstacles.push_back(newObstacle);
+
+            float dist = glm::length(glm::vec2{(PlayerPos.x - m_SpawnEvent.StartPos.x), (PlayerPos.y - m_SpawnEvent.StartPos.y)});
+            float theta = glm::acos((PlayerPos.x - m_SpawnEvent.StartPos.x) / dist);
+            std::uniform_real_distribution<float> dis(0.1745f, 0.349f);
+            float thetaUp = theta + dis(g);
+            float thetaDown = theta - dis(g);
+            std::vector<float> thetas = {theta, thetaDown, thetaUp};
+            for (int i = 0; i < 3; i++) {
+                m_SpawnEvent.SpecialData.radian = glm::vec2{glm::cos(thetas[i]), glm::sin(thetas[i])};
+                Obstacle newObstacle(m_SpawnEvent, m_SpawnVertices);
+
+                newObstacle.customBehavior = [](Obstacle& self, float beat, glm::vec2 PlayerPos) {
+                    // 覆寫 X 軸位移，以原設定的 X 軸為基準，加上 Sin 波形
+
+                    self.m_Transform.rotation = beat * self.m_Event.SpecialData.AngularVelocity;
+
+                    self.m_Transform.translation = self.m_Event.StartPos +
+                        glm::vec2{self.m_Event.SpecialData.Velocity * self.m_Event.SpecialData.radian.x * (beat - self.m_Event.StartBeat),
+                            self.m_Event.SpecialData.Velocity * self.m_Event.SpecialData.radian.y * (beat - self.m_Event.StartBeat)};
+
+                    self.UpdateWorldVertices();
+
+                    self.m_IsColliding = self.CheckCollision(PlayerPos);
+                };
+                m_ActiveObstacles.push_back(newObstacle);
+            }
+
         }
         else if (m_SpawnEvent.ShapeType == BulletType::Laser) {
             m_SpawnVertices = {-0.5f, 0.5f, -0.5f, -0.5f, 0.5f, -0.5f, 0.5f, 0.5f};
             Obstacle newObstacle(m_SpawnEvent, m_SpawnVertices);
-            newObstacle.customBehavior = [](Obstacle& self, float beat) {
+            newObstacle.customBehavior = [](Obstacle& self, float beat, glm::vec2 PlayerPos) {
                 // 覆寫 X 軸位移，以原設定的 X 軸為基準，加上 Sin 波形
                 if (beat >= self.m_Event.SpecialData.SpawnBeat && beat < (self.m_Event.SpecialData.SpawnBeat + 1)) {
                     self.m_Transform.scale = {2000 * (beat - self.m_Event.SpecialData.SpawnBeat), 200};
@@ -105,17 +125,21 @@ void LevelSpawner::Update(float currentBeat, glm::vec2 PlayerPos) {
 
         // 執行客製化行為 (例如：隨機抖動、追蹤)
         if (it->customBehavior != nullptr) {
-            it->customBehavior(*it, currentBeat);
+            it->customBehavior(*it, currentBeat, PlayerPos);
         }
 
         // 物理與渲染更新 [3]
 
         it->UpdateWorldVertices();
 
-
+        if (it->m_IsColliding) {
+            m_IsColliding = true;
+        }else {
+            m_IsColliding = false;
+        }
 
         // 彙整到批次渲染器中 (假設您的 batcher 吃頂點與顏色) [6]
-        m_Batcher->AddQuad(it->GetWorldVertices(), it->GetWorldUVs(), it->GetLocalVertices());
+        m_Batcher->AddQuad(it->GetWorldVertices(), it->GetWorldUVs());
 
         ++it;
     }

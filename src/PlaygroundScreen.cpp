@@ -46,6 +46,10 @@ ScreenState PlaygroundScreen::Update() {
         MusicPlayerManager::Setting().Play();
     }
 
+
+    m_LevelSpawner->Update(MusicPlayerManager::Setting().GetBeats(), m_Player->GetPosition());
+    //m_LevelSpawner->Draw();
+
     // ==========================================
     // 3. 節拍顯示debug用
     // ==========================================
@@ -53,11 +57,11 @@ ScreenState PlaygroundScreen::Update() {
     ImGui::Begin("test");
     ImGui::SetWindowPos({200, 300});
     ImGui::Text("Beats:%f", MusicPlayerManager::Setting().GetBeats());
-    ImGui::Text("Beats:%f", MusicPlayerManager::Setting().GetBeats());
+    ImGui::Text("pos:%f, %f", m_Player->GetPosition().x, m_Player->GetPosition().y);
+    ImGui::Text("Iscollide:%d", m_LevelSpawner->IsColliding());
     ImGui::End();
 
-    m_LevelSpawner->Update(MusicPlayerManager::Setting().GetBeats(), m_Player->GetPosition());
-    //m_LevelSpawner->Draw();
+
 
     m_Renderer.Update();
 

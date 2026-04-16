@@ -15,7 +15,7 @@
 class Obstacle{
 private:
     bool m_IsDead = false; // 標記是否已經超過 endBeat，準備被銷毀
-    bool m_IsColliding = false;
+
 
     std::vector<float> m_LocalVertices;
     std::vector<float> m_WorldVertices;
@@ -26,12 +26,14 @@ public:
     Util::Transform m_Transform;
     SpawnEvent m_Event;
 
+    bool m_IsColliding = false;
+
     std::function<void(Obstacle&, float, glm::vec2)> customBehavior = nullptr;
 
     explicit Obstacle(const SpawnEvent& event, const std::vector<float> LocalVertices) : m_Event(event) {
         m_Transform.translation = event.StartPos;
         m_Transform.rotation = event.StartRot;
-        m_Transform.scale = glm::vec2(50.0f, 50.0f);
+        m_Transform.scale = event.Scale;
         m_LocalVertices = LocalVertices;
         m_WorldUVs.reserve(m_LocalVertices.size());
         for (int i = 0; i < m_LocalVertices.size()/2; i++) {
