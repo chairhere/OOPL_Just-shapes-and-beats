@@ -35,6 +35,8 @@ void MusicPlayerManager::Play() {
             m_MusicPlayer.setPause(m_BGMHandler, false);
         }
     }else {  //並非暫停處理
+        SongData data = SongList::GetSongByName(m_MusicList[0]);
+        m_BGM.load(data.AudioPath.c_str());
         m_BGMHandler = m_MusicPlayer.play(m_BGM);
     }
 }
