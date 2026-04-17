@@ -1,87 +1,647 @@
 [
   {
-    "StartBeat" : 3.0,"EndBeat" : 40.0,
-    "ObstacleType" : "RotatingRectangle",
-    "StartPos" : {"X" : 100.0, "Y" : 0.0},
-    "StartRotation" : 0.0,
-    "Velocity" : 20.0,
-    "radian" : 2.618,
-    "AngularVelocity" : 3.14
-  },
-  {
-    "StartBeat" : 10.0,"EndBeat" : 40.0,
-    "ObstacleType" : "RotatingRectangle",
-    "StartPos" : {"X" : 100.0, "Y" : 0.0},
-    "StartRotation" : 0.0,
-    "Velocity" : 20.0,
-    "radian" : 2.618,
-    "AngularVelocity" : 3.14
-  },
-  {
-    "StartBeat" : 10.0,"EndBeat" : 40.0,
-    "ObstacleType" : "RotatingRectangle",
-    "StartPos" : {"X" : 100.0, "Y" : 20.0},
-    "StartRotation" : 0.0,
-    "Velocity" : 20.0,
-    "radian" : 2.618,
-    "AngularVelocity" : 3.14
-  },
-  {
-    "StartBeat" : 10.0,"EndBeat" : 40.0,
-    "ObstacleType" : "RotatingRectangle",
-    "StartPos" : {"X" : 100.0, "Y" : 30.0},
-    "StartRotation" : 0.0,
-    "Velocity" : 20.0,
-    "radian" : 2.618,
-    "AngularVelocity" : 3.14
-  },
-  {
-    "StartBeat" : 10.0,"EndBeat" : 40.0,
-    "ObstacleType" : "RotatingRectangle",
-    "StartPos" : {"X" : 100.0, "Y" : 100.0},
-    "StartRotation" : 0.0,
-    "Velocity" : 20.0,
-    "radian" : 2.618,
-    "AngularVelocity" : 3.14
-  },
-  {
-    "StartBeat" : 10.0,"EndBeat" : 40.0,
-    "ObstacleType" : "RotatingRectangle",
-    "StartPos" : {"X" : 100.0, "Y" : -50.0},
-    "StartRotation" : 0.0,
-    "Velocity" : 20.0,
-    "radian" : 2.618,
-    "AngularVelocity" : 3.14
-  },
-  {
-    "StartBeat" : 15.0,"EndBeat" : 25.0,
+    "StartBeat" : 1,"EndBeat" : 6,
     "ObstacleType" : "Laser",
-    "StartPos" : {"X" : 200.0, "Y" : 200.0},
-    "EndPos" : {"X" : 200.0, "Y" : 200.0},
+    "StartPos" : {"X" : 1000.0, "Y" : 200.0},
+    "EndPos" : {"X" : 1000.0, "Y" : 200.0},
     "StartRotation" : 0.0,
     "EndRotation" : 0.0,
-    "SpawnBeat" : 19.0
+    "SpawnBeat" : 5
   },
   {
-    "StartBeat" : 16.0,"EndBeat" : 26.0,
+    "StartBeat" : 1.5,"EndBeat" : 40.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : -158.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 2.0,"EndBeat" : 40.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : -158.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 2,"EndBeat" : 7,
     "ObstacleType" : "Laser",
-    "StartPos" : {"X" : 200.0, "Y" : -200.0},
-    "EndPos" : {"X" : 200.0, "Y" : -200.0},
+    "StartPos" : {"X" : 1000.0, "Y" : -200.0},
+    "EndPos" : {"X" : 1000.0, "Y" : -200.0},
     "StartRotation" : 0.0,
     "EndRotation" : 0.0,
-    "SpawnBeat" : 20.0
+    "SpawnBeat" : 6
   },
   {
-    "StartBeat" : 17.0,"EndBeat" : 27.0,
+    "StartBeat" : 2.1,"EndBeat" : 40.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : -158.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 4.0,"EndBeat" : 40.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : -158.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 4.2,"EndBeat" : 40.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : -158.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 4.3,"EndBeat" : 40.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : -158.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 5.5,"EndBeat" : 40.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : -158.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 6.0,"EndBeat" : 40.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : -158.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 6.1,"EndBeat" : 40.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : -158.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 8.0,"EndBeat" : 40.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : -158.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 8.2,"EndBeat" : 40.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : 232.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 8.3,"EndBeat" : 40.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : 232.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 9.5,"EndBeat" : 40.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : -158.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 10.0,"EndBeat" : 40.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : -158.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 10.1,"EndBeat" : 40.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : -158.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 11,"EndBeat" : 16,
     "ObstacleType" : "Laser",
-    "StartPos" : {"X" : 100.0, "Y" : 0.0},
-    "EndPos" : {"X" : 100.0, "Y" : 0.0},
+    "StartPos" : {"X" : 1000.0, "Y" : 0.0},
+    "EndPos" : {"X" : 1000.0, "Y" : 0.0},
     "StartRotation" : 0.0,
     "EndRotation" : 0.0,
-    "SpawnBeat" : 21.0
+    "SpawnBeat" : 15
   },
   {
-    "StartBeat" : 17.0,"EndBeat" : 27.0,
+    "StartBeat" : 12.0,"EndBeat" : 40.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : -158.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 12.2,"EndBeat" : 40.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : -158.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 12.3,"EndBeat" : 40.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : -158.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 13.5,"EndBeat" : 40.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : -158.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 14.0,"EndBeat" : 40.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : -158.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 14.1,"EndBeat" : 40.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : -158.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 16.0,"EndBeat" : 40.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : -158.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 16.2,"EndBeat" : 40.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : 232.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 16.3,"EndBeat" : 40.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : 232.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 17.5,"EndBeat" : 40.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : -158.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 18.0,"EndBeat" : 40.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : -158.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 18.1,"EndBeat" : 40.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : -158.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 20.0,"EndBeat" : 50.0,
+    "ObstacleType" : "SpawnerTriangle",
+    "StartPos" : {"X" : 800.0, "Y" : 0.0},
+    "PausePos" : {"X" : 284.0, "Y" : -86.0},
+    "StartRotation" : 0.0,
+    "EndRotation" : 0.0,
+    "FireBeat" : 21.0
+  },
+  {
+    "StartBeat" : 20.0,"EndBeat" : 50.0,
+    "ObstacleType" : "SpawnerTriangle",
+    "StartPos" : {"X" : 800.0, "Y" : 0.0},
+    "PausePos" : {"X" : 484.0, "Y" : 172.0},
+    "StartRotation" : 0.0,
+    "EndRotation" : 0.0,
+    "FireBeat" : 21.0
+  },
+  {
+    "StartBeat" : 20.0,"EndBeat" : 40.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : -158.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 20.2,"EndBeat" : 40.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : -158.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 20.3,"EndBeat" : 40.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : -158.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 21.5,"EndBeat" : 40.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : -158.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 22.0,"EndBeat" : 40.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : -158.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 22.1,"EndBeat" : 40.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : -158.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 24.0,"EndBeat" : 40.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : -158.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 24.2,"EndBeat" : 40.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : 232.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 24.3,"EndBeat" : 40.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : 232.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 25.5,"EndBeat" : 40.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : -158.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 26.0,"EndBeat" : 40.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : -158.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 26.1,"EndBeat" : 40.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : -158.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 28.0,"EndBeat" : 70.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : -158.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 28.2,"EndBeat" : 70.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : -158.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 28.3,"EndBeat" : 70.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : -158.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 29.5,"EndBeat" : 70.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : -158.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 30.0,"EndBeat" : 70.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : -158.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 30.1,"EndBeat" : 70.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : -158.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 32.0,"EndBeat" : 70.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : -158.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 32.2,"EndBeat" : 70.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : 232.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 32.3,"EndBeat" : 70.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : 232.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 32.5,"EndBeat" : 38.5,
+    "ObstacleType" : "Laser",
+    "StartPos" : {"X" : 1000.0, "Y" : 200.0},
+    "EndPos" : {"X" : 1000.0, "Y" : 200.0},
+    "StartRotation" : 0.0,
+    "EndRotation" : 0.0,
+    "SpawnBeat" : 36.5
+  },
+  {
+    "StartBeat" : 33.5,"EndBeat" : 80.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : -158.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+
+  {
+    "StartBeat" : 34.0,"EndBeat" : 40.0,
+    "ObstacleType" : "Laser",
+    "StartPos" : {"X" : 1000.0, "Y" : -200.0},
+    "EndPos" : {"X" : 1000.0, "Y" : -200.0},
+    "StartRotation" : 0.0,
+    "EndRotation" : 0.0,
+    "SpawnBeat" : 38.0
+  },
+  {
+    "StartBeat" : 34.0,"EndBeat" : 80.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : -158.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 34.1,"EndBeat" : 80.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : -158.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 36.0,"EndBeat" : 80.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : -158.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 36.2,"EndBeat" : 80.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : -158.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 36.3,"EndBeat" : 80.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : -158.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 37.5,"EndBeat" : 80.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : -158.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 38.0,"EndBeat" : 80.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : -158.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 38.1,"EndBeat" : 80.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : -158.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 40.0,"EndBeat" : 80.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : -158.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 40.2,"EndBeat" : 80.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : 232.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 40.3,"EndBeat" : 80.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : 232.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 41.5,"EndBeat" : 80.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : -158.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 42.0,"EndBeat" : 80.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : -158.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 42.1,"EndBeat" : 80.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : -158.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 44.0,"EndBeat" : 80.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : -158.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 44.2,"EndBeat" : 80.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : -158.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 44.3,"EndBeat" : 80.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : -158.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 45.5,"EndBeat" : 80.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : -158.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 46.0,"EndBeat" : 80.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : -158.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 46.1,"EndBeat" : 80.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : -158.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 48.0,"EndBeat" : 80.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : -158.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 48.2,"EndBeat" : 80.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : 232.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+  {
+    "StartBeat" : 48.3,"EndBeat" : 80.0,
+    "ObstacleType" : "RotatingRectangle",
+    "StartPos" : {"X" : 757.0, "Y" : 232.0},
+    "StartRotation" : 0.0,
+    "Velocity" : 200.0,
+    "AngularVelocity" : 3.14
+  },
+
+  {
+    "StartBeat" : 100.0,"EndBeat" : 27.0,
     "ObstacleType" : "SpawnerTriangle",
     "StartPos" : {"X" : 100.0, "Y" : 0.0},
     "PausePos" : {"X" : 0.0, "Y" : 0.0},
@@ -90,7 +650,7 @@
     "FireBeat" : 21.0
   },
   {
-    "StartBeat" : 17.0,"EndBeat" : 27.0,
+    "StartBeat" : 100.0,"EndBeat" : 27.0,
     "ObstacleType" : "BiggerLaser",
     "StartPos" : {"X" : 100.0, "Y" : 0.0},
     "EndPos" : {"X" : 100.0, "Y" : 0.0},
@@ -99,8 +659,8 @@
     "SpawnBeat" : 21.0
   },
   {
-    "StartBeat" : 17.0,"EndBeat" : 27.0,
-    "ObstacleType" : "BiggerBall",
+    "StartBeat" : 100.0,"EndBeat" : 27.0,
+    "ObstacleType" : "ExpandingBall",
     "StartPos" : {"X" : 100.0, "Y" : 0.0},
     "EndPos" : {"X" : 100.0, "Y" : 0.0},
     "StartRotation" : 0.0,
@@ -108,7 +668,7 @@
     "SpawnBeat" : 21.0
   },
   {
-    "StartBeat" : 17.0,"EndBeat" : 27.0,
+    "StartBeat" : 100.0,"EndBeat" : 27.0,
     "ObstacleType" : "Ball",
     "StartPos" : {"X" : 100.0, "Y" : 0.0},
     "StartRotation" : 0.0,
@@ -116,7 +676,7 @@
     "radian" : 2.618
   },
   {
-    "StartBeat" : 3.0,"EndBeat" : 40.0,
+    "StartBeat" : 100.0,"EndBeat" : 40.0,
     "ObstacleType" : "SpikeBall",
     "StartPos" : {"X" : 100.0, "Y" : 0.0},
     "PausePos" : {"X" : 100.0, "Y" : 0.0},

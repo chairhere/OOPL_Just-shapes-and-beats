@@ -37,6 +37,12 @@ private:
 
     std::vector<float> m_SpawnVertices;
 
+    glm::vec2 m_ShakeOffset = {0.0f, 0.0f};
+
+    float m_StartShakeBeat = 0.0f;
+    const float s_ShakeDuration = 0.25f;
+    float m_CurrentOffset = 0.0f;
+
     bool m_IsFinished = false;
     bool m_IsColliding = false;
 
@@ -62,7 +68,7 @@ public:
 
     bool IsColliding() const {return m_IsColliding;}
 
-    void VisionShake(float value);
+    void VisionShake(glm::vec2 value, float currentBeat);
 };
 
 #endif //JUST_SHAPES_AND_BEATS_LEVELSPAWNER_HPP

@@ -29,6 +29,8 @@ void Obstacle::Spawn(const SpawnEvent &event, const std::vector<float>& LocalVer
     m_IsActive = true;
     m_IsDead = false;
 
+    m_LastBeat = event.StartBeat;
+
     m_Event = event;
     m_Transform.translation = event.StartPos;
     m_Transform.rotation = event.StartRot;
@@ -38,6 +40,13 @@ void Obstacle::Spawn(const SpawnEvent &event, const std::vector<float>& LocalVer
     for (int i = 0; i < m_LocalVertices.size()/2; i++) {
         m_WorldUVs.push_back(0.25f);
         m_WorldUVs.push_back(0.25f);
+    }
+
+    if (m_Event.ShapeType == BulletType::Laser || m_Event.ShapeType == BulletType::BiggerLaser) {
+        m_IsShaked = false;
+    }
+    else {
+        m_IsShaked = true;
     }
 }
 

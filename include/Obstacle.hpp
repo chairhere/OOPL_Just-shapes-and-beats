@@ -16,7 +16,10 @@ class Obstacle{
 private:
     bool m_IsActive = false;
     bool m_IsDead = false; // 標記是否已經超過 endBeat，準備被銷毀
+    bool m_Collidable = false;
+    bool m_IsShaked = true;
 
+    float m_LastBeat;
 
     std::vector<float> m_LocalVertices;
     std::vector<float> m_WorldVertices;
@@ -51,9 +54,18 @@ public:
 
     std::vector<float> GetLocalVertices(){return m_LocalVertices;}
 
+    float GetLastBeat(){return m_LastBeat;}
+
     bool IsDead(){return m_IsDead;}
 
     bool IsActive(){return m_IsActive;}
+
+    bool IsShaked(){return m_IsShaked;}
+
+    void HasShaked(){m_IsShaked = true;}
+
+    void TurnOnCollidable(){m_Collidable = true;}
+
 
 };
 

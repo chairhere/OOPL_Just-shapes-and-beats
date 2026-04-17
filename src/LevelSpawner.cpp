@@ -28,7 +28,7 @@ void LevelSpawner::Start() {
             m_LoadEvent.SpecialData.Velocity = item["Velocity"];
             m_LoadEvent.SpecialData.AngularVelocity = item["AngularVelocity"];
             m_LoadEvent.EndBeat = item["EndBeat"];
-            m_LoadEvent.Scale = glm::vec2{20.0f, 20.0f};
+            m_LoadEvent.Scale = glm::vec2{15.0f, 15.0f};
         }
         else if (item["ObstacleType"] == "Laser") {
             m_LoadEvent.ShapeType = BulletType::Laser;
@@ -57,11 +57,23 @@ Obstacle* LevelSpawner::GetActiveObstacle() {
     return nullptr;
 }
 
+void LevelSpawner::VisionShake(glm::vec2 value, float currentBeat) {
+    m_StartShakeBeat = currentBeat;
+    m_ShakeOffset = value;
+}
+
 
 //能實作在AppUpdate裡，利用levels來去開啟予與關閉這部分的update
 void LevelSpawner::Update(float currentBeat, glm::vec2 PlayerPos) {
     m_IsColliding = false;
     // 1. 檢查是否有新障礙物需要生成
+
+    if (m_StartShakeBeat + s_ShakeDuration * 2 >= currentBeat) {
+        m_CurrentOffset = (s_ShakeDuration - std::abs( 4 * s_ShakeDuration * (currentBeat - m_StartShakeBeat) - s_ShakeDuration));
+        m_Transform.translation = {m_ShakeOffset.x * m_CurrentOffset, m_ShakeOffset.y * m_CurrentOffset};
+    }else {
+        m_Transform.translation = {0.0f, 0.0f};
+    }
 
     while (!m_PendingEvents.empty() && currentBeat >= m_PendingEvents.front().StartBeat) {
         SpawnEvent m_SpawnEvent;
@@ -105,19 +117,34 @@ void LevelSpawner::Update(float currentBeat, glm::vec2 PlayerPos) {
         else if (m_SpawnEvent.ShapeType == BulletType::Laser) {
             m_SpawnVertices = {-0.5f, 0.5f, -0.5f, -0.5f, 0.5f, -0.5f, 0.5f, 0.5f};
             Obstacle* newObs = GetActiveObstacle();
-            newObs->customBehavior = [](Obstacle& self, float beat, glm::vec2 PlayerPos) {
+            newObs->customBehavior = [this](Obstacle& self, float beat, glm::vec2 PlayerPos) {
+                float m_DetlaBeat = beat - self.GetLastBeat();
+                float m_GapBeat = glm::abs(self.m_Event.SpecialData.SpawnBeat - beat);
                 // 覆寫 X 軸位移，以原設定的 X 軸為基準，加上 Sin 波形
                 if (beat <self.m_Event.SpecialData.SpawnBeat) {
-                    self.m_Transform.scale = {4000, 20};
-                    std::vector<float> warningUvs = {0.25f, 0.6f, 0.25f, 0.6f, 0.25f, 0.6f, 0.25f, 0.6f};
+
+                    self.m_Transform.scale = {4000, 20 * beat / self.m_Event.SpecialData.SpawnBeat};
+                    float m_ColorValue = 0.25f + std::fmod(beat, 0.25f);
+                    std::vector<float> warningUvs = {m_ColorValue, 0.7f - (4 - m_GapBeat) / 16, m_ColorValue, 0.7f - (4 - m_GapBeat) / 16, m_ColorValue, 0.7f - (4 - m_GapBeat) / 16, m_ColorValue, 0.7f - (4 - m_GapBeat) / 16};
                     self.SetUvs(warningUvs);
                 }
-                else if (beat >= self.m_Event.SpecialData.SpawnBeat && beat < (self.m_Event.SpecialData.SpawnBeat + 0.5)) {
-                    std::vector<float> warningUvs = {0.25f, 0.25f, 0.25f, 0.25f, 0.25f, 0.25f, 0.25f, 0.25f};
-                    self.SetUvs(warningUvs);
-                    self.m_Transform.scale = {4000 * (beat - self.m_Event.SpecialData.SpawnBeat) * 2, 20 * (beat - self.m_Event.SpecialData.SpawnBeat) * 2};
-                }else if (beat > (self.m_Event.SpecialData.SpawnBeat + 0.5)) {
+                else if (beat >= self.m_Event.SpecialData.SpawnBeat && beat < (self.m_Event.SpecialData.SpawnBeat + 0.25)) {
+                    self.TurnOnCollidable();
+                    if (!self.IsShaked()) {
+                        this->VisionShake({-100 * glm::cos(self.m_Event.StartRot), -100 * glm::sin(self.m_Event.StartRot)}, self.m_Event.SpecialData.SpawnBeat);
+                        self.HasShaked();
+                    }
+                    float m_TransferColor = 0.25f + ((0.5f + m_GapBeat * 2));
+                    std::vector<float> Uvs = {m_TransferColor, 0.25f, m_TransferColor, 0.25f, m_TransferColor, 0.25f, m_TransferColor, 0.25f};
+                    self.SetUvs(Uvs);
+                    self.m_Transform.scale = {4000 * (beat - self.m_Event.SpecialData.SpawnBeat) * 4, 20 * (beat - self.m_Event.SpecialData.SpawnBeat) * 4};
+                }else if (beat < (self.m_Event.SpecialData.SpawnBeat + 0.5)) {
                     self.m_Transform.scale = {4000, 20};
+                }else if ( beat >= (self.m_Event.SpecialData.SpawnBeat + 0.5) && beat < (self.m_Event.SpecialData.SpawnBeat + 1)){
+
+                    std::vector<float> Uvs = {0.25f, m_GapBeat - 0.25f, 0.25f, m_GapBeat - 0.25f, 0.25f, m_GapBeat - 0.25f, 0.25f, m_GapBeat - 0.25f};
+                    self.SetUvs(Uvs);
+                    self.m_Transform.scale = {4000, 20 * (2 - 2 * m_GapBeat)};
                 }
                 self.UpdateWorldVertices();
 
@@ -165,8 +192,19 @@ void LevelSpawner::Update(float currentBeat, glm::vec2 PlayerPos) {
             m_IsColliding = true;
         }
 
+        if (m_Transform.translation.x != 0.0f || m_Transform.translation.y != 0.0f) {
+            std::vector<float> ramVertices = it->GetWorldVertices();
+            for (int i = 0; i < it->GetWorldVertices().size() / 2; i++) {
+                ramVertices[2*i] = ramVertices[2*i] + m_Transform.translation.x;
+                ramVertices[2*i + 1] = ramVertices[2*i + 1] + m_Transform.translation.y;
+            }
+            m_Batcher->AddQuad(ramVertices, it->GetWorldUVs());
+        }
+        else {
+            m_Batcher->AddQuad(it->GetWorldVertices(), it->GetWorldUVs());
+        }
+
         // 彙整到批次渲染器中 (假設您的 batcher 吃頂點與顏色) [6]
-        m_Batcher->AddQuad(it->GetWorldVertices(), it->GetWorldUVs());
 
         ++it;
     }
