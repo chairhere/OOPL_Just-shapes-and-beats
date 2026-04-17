@@ -4,6 +4,7 @@
 
 #include "Player.hpp"
 
+#include "config.hpp"
 #include "MusicPlayerManager.hpp"
 
 
@@ -18,6 +19,22 @@ void Player::MovePosition(glm::vec2 movement) {
     //邊界偵測
     m_Transform.translation.x += movement.x;
     m_Transform.translation.y += movement.y;
+
+    // 2. 取得玩家自身的半寬與半高
+    // 這是為了防止玩家的中心點卡在螢幕邊緣，導致「半個身體掉到畫面外」
+    glm::vec2 size = m_Drawable->GetSize() * m_Transform.scale;
+    float halfWidth = size.x / 2.0f;
+    float halfHeight = size.y / 2.0f;
+
+    // 3. 計算螢幕的四大邊界 (原點在正中央)
+    float minX = -768.0f + halfWidth;  // 左邊界
+    float maxX = 768.0 - halfWidth;  // 右邊界
+    float minY = -433.0f + halfHeight; // 下邊界 (根據您的 Y 軸方向可能需要微調)
+    float maxY = 433.0f - halfHeight; // 上邊界
+
+    // 4. 【核心邏輯】將玩家的 X 與 Y 座標強制限制在邊界內
+    m_Transform.translation.x = std::clamp(m_Transform.translation.x, minX, maxX);
+    m_Transform.translation.y = std::clamp(m_Transform.translation.y, minY, maxY);
 }
 
 
@@ -57,14 +74,18 @@ bool Player::Moving() {
     }
     if (m_KnockBack) {
         m_InvincibleTimeLeft -= Util::Time::GetDeltaTimeMs();
-        if (m_MovingDirection == glm::vec2(0.0f, 0.0f)) {
-            m_MovingDirection = glm::vec2(-30.0, 0.0f);
-        }else {
-            m_MovingDirection *= -10.0f;
+        if (m_KnockBackDirection == glm::vec2(0.0f, 0.0f)) {
+            if (m_MovingDirection == glm::vec2(0.0f, 0.0f)) {
+                m_KnockBackDirection = glm::vec2(-30.0, 0.0f);
+            }else {
+                m_KnockBackDirection = m_MovingDirection * -10.0f;
+            }
         }
+        m_MovingDirection = m_KnockBackDirection;
         if (m_InvincibleTimeLeft <= 0) {
             m_KnockBack = false;
             m_Invincible = false;
+            m_KnockBackDirection = glm::vec2(0.0f, 0.0f);
         }
     }
     MovePosition(m_MovingDirection);
@@ -86,6 +107,6 @@ void Player::Hit() {
     MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::PlrHit);
     m_Health -= 1;
     m_Invincible = true;
-    m_InvincibleTimeLeft = 1000.0f;
+    m_InvincibleTimeLeft = 500.0f;
     m_KnockBack = true;
 }
