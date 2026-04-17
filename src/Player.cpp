@@ -86,6 +86,6 @@ void Player::Hit() {
     MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::PlrHit);
     m_Health -= 1;
     m_Invincible = true;
-    m_InvincibleTimeLeft = 300.0f;
+    m_InvincibleTimeLeft = 1000.0f;
     m_KnockBack = true;
 }
