@@ -40,6 +40,8 @@ public:
 
     float GetBeats();  //取得播放進度
     Levels GetCurrentLevel();  //取得當前歌曲(關卡)
+    float GetTotalBeats();  //取得總節奏長度
+    float GetTotalLength();  //取得總時長
 
     //  清單操作
     void AddMusic(Levels music);  //新增音樂
@@ -67,14 +69,15 @@ public:
 
 private:
     MusicPlayerManager();
-    std::shared_ptr<Screen> dm_LastOperScreen = nullptr;  //最後呼叫的畫面是誰 (debug)
 
     std::vector<Levels> m_MusicList;  //音樂清單
 
     SoLoud::Soloud m_MusicPlayer;  //引擎本體
     std::unordered_map<Effect, SoLoud::Wav> m_SFXLibrary;
-    SoLoud::WavStream m_BGM;  //長音樂物件
+    SoLoud::Wav m_BGM;  //長音樂物件
     SoLoud::handle m_BGMHandler;  //音樂處理ID
+    float BGMVolume = 0.2f;
+    float SFXVolume = 0.2f;
 
     std::random_device rd;  //隨機種子
     std::mt19937 g = std::mt19937(rd());  //取亂數

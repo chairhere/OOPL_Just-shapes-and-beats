@@ -3,8 +3,11 @@
 //
 
 #include "../include/PlaygroundScreen.hpp"
+
+#include "MusicPlayerManager.hpp"
+#include "SongsBPM.hpp"
+
 PlaygroundScreen::PlaygroundScreen(Levels level){
-    glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DEBUG_SEVERITY_NOTIFICATION, 0, nullptr, GL_FALSE);
     SDL_ShowCursor(SDL_DISABLE);
     LOG_DEBUG("PlaygroundScreen::PlaygroundScreen");
     switch (level) {
@@ -12,15 +15,14 @@ PlaygroundScreen::PlaygroundScreen(Levels level){
             m_BeatMap += "Chronos.json";
             m_SongPath += "Chronos.wav";
             BPM = static_cast<float>(SongsBPM::Chronos);
+            MusicPlayerManager::Setting().Switch(Levels::Chronos);
             MusicPlayerManager::Setting().InfLoop(false);
-            MusicPlayerManager::Setting().SetBGMVolume(0.5);
             break;
         default:
             m_BeatMap += "Chronos.json";
             m_SongPath += "Chronos.wav";
             BPM = static_cast<float>(SongsBPM::Chronos);
             MusicPlayerManager::Setting().InfLoop(false);
-            MusicPlayerManager::Setting().SetBGMVolume(1);
             break;
     }
 
@@ -34,7 +36,7 @@ PlaygroundScreen::PlaygroundScreen(Levels level){
     m_Player->SetZIndex(50);
     //m_Player->SetVisible(false);
     m_Renderer.AddChild(m_Player);
-    //MusicPlayerManager::Setting().Play();
+    MusicPlayerManager::Setting().Play();
 }
 
 ScreenState PlaygroundScreen::Update() {
@@ -47,10 +49,6 @@ ScreenState PlaygroundScreen::Update() {
         MusicPlayerManager::Setting().Play();
     }
 
-
-    m_LevelSpawner->Update(MusicPlayerManager::Setting().GetBeats(), m_Player->GetPosition());
-    //m_LevelSpawner->Draw();
-
     // ==========================================
     // 3. 節拍顯示debug用
     // ==========================================
@@ -58,11 +56,15 @@ ScreenState PlaygroundScreen::Update() {
     ImGui::Begin("test");
     ImGui::SetWindowPos({200, 300});
     ImGui::Text("Beats:%f", MusicPlayerManager::Setting().GetBeats());
-    ImGui::Text("pos:%f, %f", m_Player->GetPosition().x, m_Player->GetPosition().y);
-    ImGui::Text("Iscollide:%d", m_LevelSpawner->IsColliding());
+    static float v = 0.0f;
+    ImGui::SliderFloat("Beats", &v, 0.0f, MusicPlayerManager::Setting().GetTotalBeats());
+    if (ImGui::Button("Play at", ImVec2(50, 20))) {
+        MusicPlayerManager::Setting().PlayAt(v);
+    }
     ImGui::End();
 
-
+    m_LevelSpawner->Update(MusicPlayerManager::Setting().GetBeats(), m_Player->GetPosition());
+    //m_LevelSpawner->Draw();
 
     m_Renderer.Update();
 

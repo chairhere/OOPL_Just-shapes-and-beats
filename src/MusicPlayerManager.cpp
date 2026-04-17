@@ -19,8 +19,8 @@ MusicPlayerManager::MusicPlayerManager() {
     m_SFXLibrary[PlrHit2].load("../Resources/Audio/Effect/Hit2.ogg");
     m_SFXLibrary[Return].load("../Resources/Audio/Effect/Return.ogg");
     m_SFXLibrary[PlrRevive].load("../Resources/Audio/Effect/Revive.ogg");
-    SetBGMVolume(0.2f);
-    SetSFXVolume(0.2f);
+    SetBGMVolume(BGMVolume);
+    SetSFXVolume(SFXVolume);
 }
 
 void MusicPlayerManager::Pause() {
@@ -30,9 +30,13 @@ void MusicPlayerManager::Pause() {
 
 void MusicPlayerManager::Play() {
     if (IsEmpty()) return;
-    if (m_MusicPlayer.isValidVoiceHandle(m_BGMHandler) && m_MusicPlayer.getPause(m_BGMHandler)) {
-        m_MusicPlayer.setPause(m_BGMHandler, false);
+    if (m_MusicPlayer.isValidVoiceHandle(m_BGMHandler)) {
+        if (m_MusicPlayer.getPause(m_BGMHandler)) {
+            m_MusicPlayer.setPause(m_BGMHandler, false);
+        }
     }else {  //並非暫停處理
+        SongData data = SongList::GetSongByName(m_MusicList[0]);
+        m_BGM.load(data.AudioPath.c_str());
         m_BGMHandler = m_MusicPlayer.play(m_BGM);
     }
 }
@@ -93,6 +97,7 @@ void MusicPlayerManager::Switch(Levels music) {;
     }
     SongData data = SongList::GetSongByName(music);
     m_BGM.load(data.AudioPath.c_str());
+    SetBGMVolume(BGMVolume);
     Play();
 }
 
@@ -122,13 +127,16 @@ void MusicPlayerManager::SetSpeed(float speed) {
 
 void MusicPlayerManager::InfLoop(bool inf) {
     m_BGM.setLooping(inf);
+    if (m_MusicPlayer.isValidVoiceHandle(m_BGMHandler)) {
+        m_MusicPlayer.setLooping(m_BGMHandler, true);
+    }
 }
 
 float MusicPlayerManager::GetBeats() {
     if (IsEmpty()) throw std::invalid_argument("List is empty");
 
     SongData data = SongList::GetSongByName(m_MusicList[0]);
-    return static_cast<float>(m_MusicPlayer.getStreamTime(m_BGMHandler)) / 60.0f * static_cast<float>(data.BPM);
+    return static_cast<float>(m_MusicPlayer.getStreamPosition(m_BGMHandler)) / 60.0f * static_cast<float>(data.BPM);
 }
 
 Levels MusicPlayerManager::GetCurrentLevel() {
@@ -137,6 +145,18 @@ Levels MusicPlayerManager::GetCurrentLevel() {
     return m_MusicList[0];
 }
 
+float MusicPlayerManager::GetTotalBeats() {
+    if (IsEmpty()) throw std::invalid_argument("No music can get beats");
+
+    SongData data = SongList::GetSongByName(m_MusicList[0]);
+    return static_cast<float>(m_BGM.getLength()) / 60.0f * static_cast<float>(data.BPM);
+}
+
+float MusicPlayerManager::GetTotalLength() {
+    if (IsEmpty()) throw std::invalid_argument("No music can get length");
+
+    return static_cast<float>(m_BGM.getLength());
+}
 
 void MusicPlayerManager::AddMusic(Levels music) {
     auto it = std::find(m_MusicList.begin(), m_MusicList.end(), music);

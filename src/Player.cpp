@@ -4,6 +4,8 @@
 
 #include "Player.hpp"
 
+#include "MusicPlayerManager.hpp"
+
 
 void Player::SetPosition(glm::vec2 new_position) {
     m_Transform.translation = new_position;
@@ -11,6 +13,9 @@ void Player::SetPosition(glm::vec2 new_position) {
 
 
 void Player::MovePosition(glm::vec2 movement) {
+    float predict_x = m_Transform.translation.x;
+    float predict_y = m_Transform.translation.y;
+    //邊界偵測
     m_Transform.translation.x += movement.x;
     m_Transform.translation.y += movement.y;
 }
@@ -20,7 +25,7 @@ void Player::SetRotation(float arc) {
     m_Transform.rotation = arc;
 }
 
-void Player::Moving() {
+bool Player::Moving() {
     if (Util::Input::IsKeyPressed(Util::Keycode::W) or Util::Input::IsKeyPressed(Util::Keycode::UP)) {
         m_MovingDirection += glm::vec2(0.0f, 3.0f);
     }
@@ -41,6 +46,7 @@ void Player::Moving() {
         m_DashTimeLeft -= Util::Time::GetDeltaTimeMs();
         if (m_DashTimeLeft <= 0) {
             m_Dashing = false;
+            m_Invincible = false;
         }
     }else if (m_DashCoolDown) {  //not m_Dashing but m_DashCoolDown
         m_DashTimeLeft -= Util::Time::GetDeltaTimeMs();
@@ -49,14 +55,37 @@ void Player::Moving() {
             m_DashCoolDown = false;
         }
     }
+    if (m_KnockBack) {
+        m_InvincibleTimeLeft -= Util::Time::GetDeltaTimeMs();
+        if (m_MovingDirection == glm::vec2(0.0f, 0.0f)) {
+            m_MovingDirection = glm::vec2(-9.0, 0.0f);
+        }else {
+            m_MovingDirection *= -3.0f;
+        }
+        if (m_InvincibleTimeLeft <= 0) {
+            m_KnockBack = false;
+            m_Invincible = false;
+        }
+    }
     MovePosition(m_MovingDirection);
     m_MovingDirection = glm::vec2(0.0f, 0.0f);
+    return m_Health == 0;
 }
 
 void Player::Dash() {
     if (not m_DashCoolDown) {
         m_Dashing = true;
+        m_Invincible = true;
         m_DashTimeLeft = 100.0f;
         m_DashCoolDown = true;
     }
+}
+
+void Player::Hit() {
+    if (m_Invincible) return;
+    MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::PlrHit);
+    m_Health -= 1;
+    m_Invincible = true;
+    m_InvincibleTimeLeft = 100.0f;
+    m_KnockBack = true;
 }

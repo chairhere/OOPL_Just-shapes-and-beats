@@ -38,8 +38,6 @@ private:
     void ChangeLevel(ScreenState newLevel);
     bool setting = false;
 
-    std::shared_ptr<Player> m_Player;
-
     std::shared_ptr<FadeLayer> m_FadeLayer;
 
     State m_CurrentState = State::START;

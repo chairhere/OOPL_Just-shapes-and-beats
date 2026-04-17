@@ -29,9 +29,11 @@ public:
 
     void SetRotation(float arc);
 
-    void Moving();
+    bool Moving();  //回傳是否死亡
 
     void Dash();
+    void Hit();
+
 
 protected:
     int m_MaxHealth = 3;
@@ -40,8 +42,10 @@ protected:
     bool m_Dashing = false;
     float m_DashTimeLeft = 0;
     bool m_DashCoolDown = false;
+    bool m_Invincible = false;
+    float m_InvincibleTimeLeft = 0;
+    bool m_KnockBack = false;
 
-private:
 };
 
 #endif //JUST_SHAPES_AND_BEATS_PLAYER_HPP

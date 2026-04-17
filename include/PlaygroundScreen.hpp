@@ -11,12 +11,7 @@
 #include "Levels.hpp"
 #include "Player.hpp"
 #include "Util/Color.hpp"
-#include "SongsBPM.hpp"
 #include "FadeLayer.hpp"
-#include "TimeLine.hpp"
-#include "Util/Input.hpp"
-#include "imgui.h"
-#include "MusicPlayerManager.hpp"
 
 
 class PlaygroundScreen : public Screen {
