@@ -56,6 +56,7 @@ public:
 
     void Start();
 
+    Obstacle* GetActiveObstacle();
 
     bool IsFinished() const {return m_IsFinished;}
 

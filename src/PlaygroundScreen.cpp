@@ -4,6 +4,7 @@
 
 #include "../include/PlaygroundScreen.hpp"
 PlaygroundScreen::PlaygroundScreen(Levels level){
+    glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DEBUG_SEVERITY_NOTIFICATION, 0, nullptr, GL_FALSE);
     SDL_ShowCursor(SDL_DISABLE);
     LOG_DEBUG("PlaygroundScreen::PlaygroundScreen");
     switch (level) {

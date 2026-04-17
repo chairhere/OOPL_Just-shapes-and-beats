@@ -46,7 +46,6 @@ void BatchedColorShape::EndBatch() {
 }
 
 void BatchedColorShape::Draw(const Core::Matrices &data) {
-    LOG_DEBUG("start draw_Color");
     // 如果這幀沒有任何東西要畫，或者 VertexArray 還沒建好，就直接跳過
     if (m_Positions.empty() || !m_VertexArray) return;
 

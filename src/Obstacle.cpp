@@ -4,14 +4,40 @@
 
 #include "Obstacle.hpp"
 
+Obstacle::Obstacle() {
+    m_IsActive = false;
+}
+
 void Obstacle::UpdateStateByBeat(float currentBeat, glm::vec2 PlayerPos) {
+    if (!m_IsActive || m_IsDead) {
+        return;
+    }
+
     if (currentBeat > m_Event.EndBeat) {
         m_IsDead = true; // 標記為可銷毀
+        m_IsActive = false;
         return;
     }
 
     if (this->customBehavior != nullptr) {
         customBehavior(*this, currentBeat, PlayerPos);
+    }
+}
+
+void Obstacle::Spawn(const SpawnEvent &event, const std::vector<float>& LocalVertices) {
+
+    m_IsActive = true;
+    m_IsDead = false;
+
+    m_Event = event;
+    m_Transform.translation = event.StartPos;
+    m_Transform.rotation = event.StartRot;
+    m_Transform.scale = event.Scale;
+    m_LocalVertices = LocalVertices;
+    m_WorldUVs.reserve(m_LocalVertices.size());
+    for (int i = 0; i < m_LocalVertices.size()/2; i++) {
+        m_WorldUVs.push_back(0.25f);
+        m_WorldUVs.push_back(0.5f);
     }
 }
 

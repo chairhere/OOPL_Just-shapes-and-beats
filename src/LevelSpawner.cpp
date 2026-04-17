@@ -40,13 +40,26 @@ void LevelSpawner::Start() {
         //else if (item["ObstacleType"] == "Spline") {}
         m_PendingEvents.push(m_LoadEvent);
     }
+    m_ActiveObstacles.resize(200);
+    m_IsColliding =  m_ActiveObstacles[0].IsActive();
     LOG_DEBUG("finishedbuild");
 
 }
 
+Obstacle* LevelSpawner::GetActiveObstacle() {
+    for (auto& obs : m_ActiveObstacles) {
+        if (!obs.IsActive()) {
+            return &obs;
+        }
+    }
+    // 如果池子滿了，可以選擇擴充或是報錯 (通常建議把 m_PoolSize 設大一點)
+
+    return nullptr;
+}
+
+
 //能實作在AppUpdate裡，利用levels來去開啟予與關閉這部分的update
 void LevelSpawner::Update(float currentBeat, glm::vec2 PlayerPos) {
-    LOG_DEBUG("LevelSpawner_Update", currentBeat);
     // 1. 檢查是否有新障礙物需要生成
 
     while (!m_PendingEvents.empty() && currentBeat >= m_PendingEvents.front().StartBeat) {
@@ -64,9 +77,10 @@ void LevelSpawner::Update(float currentBeat, glm::vec2 PlayerPos) {
             std::vector<float> thetas = {theta, thetaDown, thetaUp};
             for (int i = 0; i < 3; i++) {
                 m_SpawnEvent.SpecialData.radian = glm::vec2{glm::cos(thetas[i]), glm::sin(thetas[i])};
-                Obstacle newObstacle(m_SpawnEvent, m_SpawnVertices);
+                Obstacle* newObs = GetActiveObstacle();
 
-                newObstacle.customBehavior = [](Obstacle& self, float beat, glm::vec2 PlayerPos) {
+
+                newObs->customBehavior = [](Obstacle& self, float beat, glm::vec2 PlayerPos) {
                     // 覆寫 X 軸位移，以原設定的 X 軸為基準，加上 Sin 波形
 
                     self.m_Transform.rotation = beat * self.m_Event.SpecialData.AngularVelocity;
@@ -79,14 +93,14 @@ void LevelSpawner::Update(float currentBeat, glm::vec2 PlayerPos) {
 
                     self.m_IsColliding = self.CheckCollision(PlayerPos);
                 };
-                m_ActiveObstacles.push_back(newObstacle);
+                newObs->Spawn(m_SpawnEvent, m_SpawnVertices);
             }
 
         }
         else if (m_SpawnEvent.ShapeType == BulletType::Laser) {
             m_SpawnVertices = {-0.5f, 0.5f, -0.5f, -0.5f, 0.5f, -0.5f, 0.5f, 0.5f};
-            Obstacle newObstacle(m_SpawnEvent, m_SpawnVertices);
-            newObstacle.customBehavior = [](Obstacle& self, float beat, glm::vec2 PlayerPos) {
+            Obstacle* newObs = GetActiveObstacle();
+            newObs->customBehavior = [](Obstacle& self, float beat, glm::vec2 PlayerPos) {
                 // 覆寫 X 軸位移，以原設定的 X 軸為基準，加上 Sin 波形
                 if (beat >= self.m_Event.SpecialData.SpawnBeat && beat < (self.m_Event.SpecialData.SpawnBeat + 1)) {
                     self.m_Transform.scale = {2000 * (beat - self.m_Event.SpecialData.SpawnBeat), 200};
@@ -94,7 +108,7 @@ void LevelSpawner::Update(float currentBeat, glm::vec2 PlayerPos) {
                     self.m_Transform.scale = {2000, 200};
                 }
             };
-            m_ActiveObstacles.push_back(newObstacle);
+            newObs->Spawn(m_SpawnEvent, m_SpawnVertices);
         }
 
         //m_ActiveObstacles.push_back(newObstacle);
@@ -108,8 +122,8 @@ void LevelSpawner::Update(float currentBeat, glm::vec2 PlayerPos) {
     // 2. 更新所有存活的障礙物狀態，並清理過期的障礙物
     for (auto it = m_ActiveObstacles.begin(); it != m_ActiveObstacles.end(); ) {
 
-        if (it->m_Event.EndBeat < currentBeat) {
-            it = m_ActiveObstacles.erase(it);
+        if (it->m_Event.EndBeat < currentBeat || it->IsDead() || !it->IsActive()) {
+            ++it;
             continue;
         }
 
@@ -129,13 +143,15 @@ void LevelSpawner::Update(float currentBeat, glm::vec2 PlayerPos) {
         }
 
         // 物理與渲染更新 [3]
-
+/*
         it->UpdateWorldVertices();
-
+*/
         if (it->m_IsColliding) {
             m_IsColliding = true;
+            LOG_DEBUG(m_IsColliding);
         }else {
             m_IsColliding = false;
+            LOG_DEBUG(m_IsColliding);
         }
 
         // 彙整到批次渲染器中 (假設您的 batcher 吃頂點與顏色) [6]

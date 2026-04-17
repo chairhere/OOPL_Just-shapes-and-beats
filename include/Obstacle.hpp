@@ -14,6 +14,7 @@
 
 class Obstacle{
 private:
+    bool m_IsActive = false;
     bool m_IsDead = false; // 標記是否已經超過 endBeat，準備被銷毀
 
 
@@ -24,24 +25,15 @@ private:
 public:
 
     Util::Transform m_Transform;
-    SpawnEvent m_Event;
+    SpawnEvent m_Event{};
 
     bool m_IsColliding = false;
 
     std::function<void(Obstacle&, float, glm::vec2)> customBehavior = nullptr;
 
-    explicit Obstacle(const SpawnEvent& event, const std::vector<float> LocalVertices) : m_Event(event) {
-        m_Transform.translation = event.StartPos;
-        m_Transform.rotation = event.StartRot;
-        m_Transform.scale = event.Scale;
-        m_LocalVertices = LocalVertices;
-        m_WorldUVs.reserve(m_LocalVertices.size());
-        for (int i = 0; i < m_LocalVertices.size()/2; i++) {
-            m_WorldUVs.push_back(0.25f);
-            m_WorldUVs.push_back(0.5f);
-        }
+    explicit Obstacle();
 
-    }
+    void Spawn(const SpawnEvent& event, const std::vector<float>& LocalVertices);
 
     void UpdateStateByBeat(float currentBeat, glm::vec2 PlayerPos);
 
@@ -58,6 +50,8 @@ public:
     std::vector<float> GetLocalVertices(){return m_LocalVertices;}
 
     bool IsDead(){return m_IsDead;}
+
+    bool IsActive(){return m_IsActive;}
 
 };
 
