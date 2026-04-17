@@ -40,7 +40,7 @@ void LevelSpawner::Start() {
         //else if (item["ObstacleType"] == "Spline") {}
         m_PendingEvents.push(m_LoadEvent);
     }
-    m_ActiveObstacles.resize(200);
+    m_ActiveObstacles.resize(2000);
     m_IsColliding =  m_ActiveObstacles[0].IsActive();
     LOG_DEBUG("finishedbuild");
 
@@ -60,6 +60,7 @@ Obstacle* LevelSpawner::GetActiveObstacle() {
 
 //能實作在AppUpdate裡，利用levels來去開啟予與關閉這部分的update
 void LevelSpawner::Update(float currentBeat, glm::vec2 PlayerPos) {
+    m_IsColliding = false;
     // 1. 檢查是否有新障礙物需要生成
 
     while (!m_PendingEvents.empty() && currentBeat >= m_PendingEvents.front().StartBeat) {
@@ -70,13 +71,17 @@ void LevelSpawner::Update(float currentBeat, glm::vec2 PlayerPos) {
             m_SpawnVertices = {-0.5f, 0.5f, -0.5f, -0.5f, 0.5f, -0.5f, 0.5f, 0.5f};
 
             float dist = glm::length(glm::vec2{(PlayerPos.x - m_SpawnEvent.StartPos.x), (PlayerPos.y - m_SpawnEvent.StartPos.y)});
-            float theta = glm::acos((PlayerPos.x - m_SpawnEvent.StartPos.x) / dist);
-            std::uniform_real_distribution<float> dis(0.1745f, 0.349f);
+            float theta = -glm::atan((PlayerPos.x - m_SpawnEvent.StartPos.x) / (PlayerPos.y - m_SpawnEvent.StartPos.y)) +
+                (glm::pi<float>() - glm::sign((PlayerPos.y - m_SpawnEvent.StartPos.y)) * (glm::pi<float>() / 2));
+            std::uniform_real_distribution<float> dis(0.1745f, 0.7854f);
+            std::uniform_real_distribution<float> val(0.9f, 1.1f);
             float thetaUp = theta + dis(g);
             float thetaDown = theta - dis(g);
+            float velocityWeight = val(g);
             std::vector<float> thetas = {theta, thetaDown, thetaUp};
             for (int i = 0; i < 3; i++) {
                 m_SpawnEvent.SpecialData.radian = glm::vec2{glm::cos(thetas[i]), glm::sin(thetas[i])};
+                m_SpawnEvent.SpecialData.Velocity = m_SpawnEvent.SpecialData.Velocity * velocityWeight;
                 Obstacle* newObs = GetActiveObstacle();
 
 
@@ -102,11 +107,21 @@ void LevelSpawner::Update(float currentBeat, glm::vec2 PlayerPos) {
             Obstacle* newObs = GetActiveObstacle();
             newObs->customBehavior = [](Obstacle& self, float beat, glm::vec2 PlayerPos) {
                 // 覆寫 X 軸位移，以原設定的 X 軸為基準，加上 Sin 波形
-                if (beat >= self.m_Event.SpecialData.SpawnBeat && beat < (self.m_Event.SpecialData.SpawnBeat + 1)) {
-                    self.m_Transform.scale = {2000 * (beat - self.m_Event.SpecialData.SpawnBeat), 200};
-                }else if (beat > (self.m_Event.SpecialData.SpawnBeat + 1)) {
-                    self.m_Transform.scale = {2000, 200};
+                if (beat <self.m_Event.SpecialData.SpawnBeat) {
+                    self.m_Transform.scale = {4000, 20};
+                    std::vector<float> warningUvs = {0.25f, 0.6f, 0.25f, 0.6f, 0.25f, 0.6f, 0.25f, 0.6f};
+                    self.SetUvs(warningUvs);
                 }
+                else if (beat >= self.m_Event.SpecialData.SpawnBeat && beat < (self.m_Event.SpecialData.SpawnBeat + 0.5)) {
+                    std::vector<float> warningUvs = {0.25f, 0.25f, 0.25f, 0.25f, 0.25f, 0.25f, 0.25f, 0.25f};
+                    self.SetUvs(warningUvs);
+                    self.m_Transform.scale = {4000 * (beat - self.m_Event.SpecialData.SpawnBeat) * 2, 20 * (beat - self.m_Event.SpecialData.SpawnBeat) * 2};
+                }else if (beat > (self.m_Event.SpecialData.SpawnBeat + 0.5)) {
+                    self.m_Transform.scale = {4000, 20};
+                }
+                self.UpdateWorldVertices();
+
+                self.m_IsColliding = self.CheckCollision(PlayerPos);
             };
             newObs->Spawn(m_SpawnEvent, m_SpawnVertices);
         }
@@ -148,10 +163,6 @@ void LevelSpawner::Update(float currentBeat, glm::vec2 PlayerPos) {
 */
         if (it->m_IsColliding) {
             m_IsColliding = true;
-            LOG_DEBUG(m_IsColliding);
-        }else {
-            m_IsColliding = false;
-            LOG_DEBUG(m_IsColliding);
         }
 
         // 彙整到批次渲染器中 (假設您的 batcher 吃頂點與顏色) [6]

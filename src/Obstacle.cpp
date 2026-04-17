@@ -37,8 +37,12 @@ void Obstacle::Spawn(const SpawnEvent &event, const std::vector<float>& LocalVer
     m_WorldUVs.reserve(m_LocalVertices.size());
     for (int i = 0; i < m_LocalVertices.size()/2; i++) {
         m_WorldUVs.push_back(0.25f);
-        m_WorldUVs.push_back(0.5f);
+        m_WorldUVs.push_back(0.25f);
     }
+}
+
+void Obstacle::SetUvs(const std::vector<float> &Uvs) {
+    m_WorldUVs = Uvs;
 }
 
 void Obstacle::UpdateWorldVertices() {

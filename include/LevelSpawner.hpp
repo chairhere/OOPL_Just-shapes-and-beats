@@ -61,6 +61,8 @@ public:
     bool IsFinished() const {return m_IsFinished;}
 
     bool IsColliding() const {return m_IsColliding;}
+
+    void VisionShake(float value);
 };
 
 #endif //JUST_SHAPES_AND_BEATS_LEVELSPAWNER_HPP

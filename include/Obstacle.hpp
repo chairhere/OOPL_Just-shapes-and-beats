@@ -39,6 +39,8 @@ public:
 
     void UpdateWorldVertices();
 
+    void SetUvs(const std::vector<float>& Uvs);
+
     bool CheckCollision(glm::vec2 PlayerPos) const;
 
     bool CheckCircleCollision(glm::vec2 PlayerPos) const;
