@@ -58,9 +58,9 @@ bool Player::Moving() {
     if (m_KnockBack) {
         m_InvincibleTimeLeft -= Util::Time::GetDeltaTimeMs();
         if (m_MovingDirection == glm::vec2(0.0f, 0.0f)) {
-            m_MovingDirection = glm::vec2(-9.0, 0.0f);
+            m_MovingDirection = glm::vec2(-30.0, 0.0f);
         }else {
-            m_MovingDirection *= -3.0f;
+            m_MovingDirection *= -10.0f;
         }
         if (m_InvincibleTimeLeft <= 0) {
             m_KnockBack = false;
@@ -86,6 +86,6 @@ void Player::Hit() {
     MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::PlrHit);
     m_Health -= 1;
     m_Invincible = true;
-    m_InvincibleTimeLeft = 100.0f;
+    m_InvincibleTimeLeft = 300.0f;
     m_KnockBack = true;
 }
