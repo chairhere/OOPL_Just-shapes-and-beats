@@ -51,6 +51,7 @@ ScreenState PlaygroundScreen::Update() {
     }
 
     m_LevelSpawner->Update(MusicPlayerManager::Setting().GetBeats(), m_Player->GetPosition());
+    m_Player->Shake(m_LevelSpawner->GetCurrentShakeOffset());
 
     if (m_LevelSpawner->IsColliding()) {
         //m_Player->Hit();

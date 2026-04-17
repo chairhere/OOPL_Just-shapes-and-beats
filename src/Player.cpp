@@ -88,6 +88,8 @@ bool Player::Moving() {
             m_KnockBackDirection = glm::vec2(0.0f, 0.0f);
         }
     }
+    m_Transform.translation -= m_LastOffset;
+    m_LastOffset = glm::vec2(0.0f, 0.0f);
     MovePosition(m_MovingDirection);
     m_MovingDirection = glm::vec2(0.0f, 0.0f);
     return m_Health == 0;
@@ -109,4 +111,12 @@ void Player::Hit() {
     m_Invincible = true;
     m_InvincibleTimeLeft = 500.0f;
     m_KnockBack = true;
+}
+
+void Player::Shake(glm::vec2 movement) {
+    if (movement == glm::vec2(0.0f, 0.0f)) {
+        return;
+    }
+    m_LastOffset = movement;
+    m_Transform.translation += movement;
 }

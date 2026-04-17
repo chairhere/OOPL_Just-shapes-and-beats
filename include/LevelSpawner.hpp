@@ -69,6 +69,8 @@ public:
     bool IsColliding() const {return m_IsColliding;}
 
     void VisionShake(glm::vec2 value, float currentBeat);
+
+    glm::vec2 GetCurrentShakeOffset() const {return m_Transform.translation;}
 };
 
 #endif //JUST_SHAPES_AND_BEATS_LEVELSPAWNER_HPP

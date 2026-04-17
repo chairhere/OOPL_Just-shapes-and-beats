@@ -33,6 +33,7 @@ public:
 
     void Dash();
     void Hit();
+    void Shake( glm::vec2 movement);
 
 
 protected:
@@ -46,6 +47,7 @@ protected:
     float m_InvincibleTimeLeft = 0;
     bool m_KnockBack = false;
     glm::vec2 m_KnockBackDirection = glm::vec2(0.0f, 0.0f);
+    glm::vec2 m_LastOffset = glm::vec2(0.0f, 0.0f);
 
 };
 
