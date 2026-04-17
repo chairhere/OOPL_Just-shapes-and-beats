@@ -11,24 +11,29 @@ uniform int BulletType;
 
 void main() {
     float circleDist = length(Pos);
-    float cirlceRadius = 1;
+    float circleRadius = 0.5;
+    float feather = 0.02;
     bool inCircle = (circleDist <= circleRadius);
 
-    float diamondRadius = 1;
-    float a = max(abx(Pos.x), abx(Pos.y));
-    float b = min(abx(Pos.x), abx(Pos.y));
+    float diamondRadius = 0.5;
+    float a = max(abs(Pos.x), abs(Pos.y));
+    float b = min(abs(Pos.x), abs(Pos.y));
     float diamondDist = 1.55 * a - 0.45 * b;
     bool inDiamond = (diamondDist <= diamondRadius);
 
     vec4 texColor = texture(surface, uv);
 
     // 利用 smoothstep 做反鋸齒
-    //float alpha = 1.0 - smoothstep(radius - feather, radius, dist);
-
-    if (!inCircle && (!inDiamond || BulletType == 3)) {
-        discard; // 剔除兩個形狀之外的空白區域
+    if(BulletType == 3){
+        float alpha = 1.0 - smoothstep(circleRadius - feather, circleRadius, circleDist);
+        fragColor = vec4(texColor.rgb, texColor.a *  alpha);
     }
-
+    else if (!inCircle && !inDiamond && BulletType == 4){
+        discard;
+    }
+    else{
+        fragColor = texColor;
+    }
+    //float alpha = 1.0 - smoothstep(radius - feather, radius, dist);
     // 輸出顏色
-    fragColor = texColor;
 }

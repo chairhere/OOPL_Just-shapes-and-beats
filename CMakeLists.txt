@@ -97,9 +97,10 @@ add_executable(${PROJECT_NAME}
         include/BatchedColorShape.hpp
         src/BatchedColorShape.cpp
         include/BulletType.hpp
-    ${SOLOUD_SOURCES}
         include/BatchedCircleShape.hpp
         src/BatchedCircleShape.cpp
+    ${SOLOUD_SOURCES}
+
 )
 
 if(MSVC)

@@ -5,7 +5,7 @@
 #ifndef JUST_SHAPES_AND_BEATS_BULLETTYPE_HPP
 #define JUST_SHAPES_AND_BEATS_BULLETTYPE_HPP
 
-enum class BulletType { RotatingRectangle = 1, Laser, Circle, Spike};
+enum class BulletType { RotatingRectangle = 1, Laser, Circle, Spike, Triangle, BiggerLaser};
 
 constexpr int  to_int(const BulletType S) {
     switch (S) {
@@ -17,8 +17,13 @@ constexpr int  to_int(const BulletType S) {
             return 3;
         case BulletType::Spike:
             return 4;
+        case BulletType::Triangle:
+            return 5;
+        case BulletType::BiggerLaser:
+            return 6;
+        default:
+            return 0;
     }
-    return 0;
 }
 
 #endif //JUST_SHAPES_AND_BEATS_BULLETTYPE_HPP

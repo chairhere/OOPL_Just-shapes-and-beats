@@ -8,18 +8,19 @@
 #include "SongsBPM.hpp"
 
 PlaygroundScreen::PlaygroundScreen(Levels level){
+    glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DEBUG_SEVERITY_NOTIFICATION, 0, nullptr, GL_FALSE);
     SDL_ShowCursor(SDL_DISABLE);
     LOG_DEBUG("PlaygroundScreen::PlaygroundScreen");
     switch (level) {
         case Levels::Chronos:
-            m_BeatMap += "Chronos.json";
+            m_BeatMap += "Test.json";
             m_SongPath += "Chronos.wav";
             BPM = static_cast<float>(SongsBPM::Chronos);
             MusicPlayerManager::Setting().Switch(Levels::Chronos);
             MusicPlayerManager::Setting().InfLoop(false);
             break;
         default:
-            m_BeatMap += "Chronos.json";
+            m_BeatMap += "Test.json";
             m_SongPath += "Chronos.wav";
             BPM = static_cast<float>(SongsBPM::Chronos);
             MusicPlayerManager::Setting().InfLoop(false);
@@ -49,6 +50,12 @@ ScreenState PlaygroundScreen::Update() {
         MusicPlayerManager::Setting().Play();
     }
 
+    m_LevelSpawner->Update(MusicPlayerManager::Setting().GetBeats(), m_Player->GetPosition());
+
+    if (m_LevelSpawner->IsColliding()) {
+        //m_Player->Hit();
+    }
+
     // ==========================================
     // 3. 節拍顯示debug用
     // ==========================================
@@ -63,9 +70,8 @@ ScreenState PlaygroundScreen::Update() {
     }
     ImGui::End();
 
-    m_LevelSpawner->Update(MusicPlayerManager::Setting().GetBeats(), m_Player->GetPosition());
-    //m_LevelSpawner->Draw();
 
+    //m_LevelSpawner->Draw();
     m_Renderer.Update();
 
 

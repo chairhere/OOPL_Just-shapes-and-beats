@@ -14,8 +14,12 @@
 
 class Obstacle{
 private:
+    bool m_IsActive = false;
     bool m_IsDead = false; // 標記是否已經超過 endBeat，準備被銷毀
-    bool m_IsColliding = false;
+    bool m_Collidable = false;
+    bool m_IsShaked = true;
+
+    float m_LastBeat;
 
     std::vector<float> m_LocalVertices;
     std::vector<float> m_WorldVertices;
@@ -24,26 +28,21 @@ private:
 public:
 
     Util::Transform m_Transform;
-    SpawnEvent m_Event;
+    SpawnEvent m_Event{};
 
-    std::function<void(Obstacle&, float)> customBehavior = nullptr;
+    bool m_IsColliding = false;
 
-    explicit Obstacle(const SpawnEvent& event, const std::vector<float> LocalVertices) : m_Event(event) {
-        m_Transform.translation = event.StartPos;
-        m_Transform.rotation = event.StartRot;
-        m_Transform.scale = glm::vec2(20.0f, 20.0f);
-        m_LocalVertices = LocalVertices;
-        m_WorldUVs.reserve(m_LocalVertices.size());
-        for (int i = 0; i < m_LocalVertices.size()/2; i++) {
-            m_WorldUVs.push_back(0.25f);
-            m_WorldUVs.push_back(0.5f);
-        }
+    std::function<void(Obstacle&, float, glm::vec2)> customBehavior = nullptr;
 
-    }
+    explicit Obstacle();
+
+    void Spawn(const SpawnEvent& event, const std::vector<float>& LocalVertices);
 
     void UpdateStateByBeat(float currentBeat, glm::vec2 PlayerPos);
 
     void UpdateWorldVertices();
+
+    void SetUvs(const std::vector<float>& Uvs);
 
     bool CheckCollision(glm::vec2 PlayerPos) const;
 
@@ -55,7 +54,18 @@ public:
 
     std::vector<float> GetLocalVertices(){return m_LocalVertices;}
 
+    float GetLastBeat(){return m_LastBeat;}
+
     bool IsDead(){return m_IsDead;}
+
+    bool IsActive(){return m_IsActive;}
+
+    bool IsShaked(){return m_IsShaked;}
+
+    void HasShaked(){m_IsShaked = true;}
+
+    void TurnOnCollidable(){m_Collidable = true;}
+
 
 };
 

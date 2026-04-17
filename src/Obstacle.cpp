@@ -4,28 +4,54 @@
 
 #include "Obstacle.hpp"
 
+Obstacle::Obstacle() {
+    m_IsActive = false;
+}
+
 void Obstacle::UpdateStateByBeat(float currentBeat, glm::vec2 PlayerPos) {
-    if (currentBeat > m_Event.EndBeat) {
-        m_IsDead = true; // 標記為可銷毀
+    if (!m_IsActive || m_IsDead) {
         return;
     }
 
+    if (currentBeat > m_Event.EndBeat) {
+        m_IsDead = true; // 標記為可銷毀
+        m_IsActive = false;
+        return;
+    }
 
-    //m_Transform.scale = {200, 500};
+    if (this->customBehavior != nullptr) {
+        customBehavior(*this, currentBeat, PlayerPos);
+    }
+}
 
-    // 計算生命週期進度比例 t (0.0 到 1.0 之間)
-    float t = (currentBeat - m_Event.StartBeat) / (m_Event.EndBeat - m_Event.StartBeat);
-    t = std::clamp(t, 0.0f, 1.0f);
+void Obstacle::Spawn(const SpawnEvent &event, const std::vector<float>& LocalVertices) {
 
-    // 根據節拍進度，利用線性插值 (Lerp) 計算當前的位移與旋轉 [5]
-    m_Transform.translation = m_Event.StartPos + (m_Event.EndPos - m_Event.StartPos) * t;
-    //m_Transform.rotation = m_Event.StartRot + (m_Event.EndRot - m_Event.StartRot) * t;
+    m_IsActive = true;
+    m_IsDead = false;
 
-    // 若需要隨節拍縮放跳動的特效，可以在此處疊加計算給 m_Transform.scale [5]
-    // float beatPulse = 1.0f + 0.2f * sin(currentBeat * glm::pi<float>());
-    // m_Transform.scale = glm::vec2(beatPulse);
-    UpdateWorldVertices();
-    m_IsColliding = CheckCollision(PlayerPos);
+    m_LastBeat = event.StartBeat;
+
+    m_Event = event;
+    m_Transform.translation = event.StartPos;
+    m_Transform.rotation = event.StartRot;
+    m_Transform.scale = event.Scale;
+    m_LocalVertices = LocalVertices;
+    m_WorldUVs.reserve(m_LocalVertices.size());
+    for (int i = 0; i < m_LocalVertices.size()/2; i++) {
+        m_WorldUVs.push_back(0.25f);
+        m_WorldUVs.push_back(0.25f);
+    }
+
+    if (m_Event.ShapeType == BulletType::Laser || m_Event.ShapeType == BulletType::BiggerLaser) {
+        m_IsShaked = false;
+    }
+    else {
+        m_IsShaked = true;
+    }
+}
+
+void Obstacle::SetUvs(const std::vector<float> &Uvs) {
+    m_WorldUVs = Uvs;
 }
 
 void Obstacle::UpdateWorldVertices() {
@@ -90,6 +116,7 @@ bool Obstacle::CheckCollision(glm::vec2 PlayerPos) const {
     // ==========================================
     // 因為 worldVertices 是一維陣列 [x1, y1, x2, y2...]，頂點數為 size / 2
     size_t vertexCount = m_WorldVertices.size() / 2;
+
     if (vertexCount < 3) return false; // 形狀不完整無法判定
 
     bool hasPositive = false;
@@ -135,14 +162,21 @@ bool Obstacle::CheckCircleCollision(glm::vec2 PlayerPos) const {
     float dx = PlayerPos.x - m_Transform.translation.x;
     float dy = PlayerPos.y - m_Transform.translation.y;
 
-    float circleRadius = glm::max(m_Transform.scale.x, m_Transform.scale.y);
-    float distance = glm::length(glm::vec2(dx, dy));
+    float circleRadius = m_Transform.translation.x;
+    float circleDistance = glm::length(glm::vec2(dx, dy));
 
-    if (distance < circleRadius) {
+    if (circleDistance <= circleRadius) {
         return true;
     }
-    else if (to_int(m_Event.ShapeType) == 4) {
-        //float a = glm::max()
-        //float diamondDist = 1.55 * a - 0.45 * b;
+    if (to_int(m_Event.ShapeType) == 4) {
+        float i = dx * glm::cos(m_Transform.rotation) - dy * glm::sin(m_Transform.rotation);
+        float j = dx * glm::sin(m_Transform.rotation) + dy * glm::cos(m_Transform.rotation);
+        float a = glm::max(glm::abs(i), glm::abs(j));
+        float b = glm::min(glm::abs(i), glm::abs(j));
+        float diamondDist = 1.55 * a - 0.45 * b;
+        if (diamondDist <= m_Transform.scale.x) {
+            return true;
+        }
     }
+    return false;
 }
