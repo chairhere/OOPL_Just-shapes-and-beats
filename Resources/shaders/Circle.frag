@@ -24,11 +24,11 @@ void main() {
     vec4 texColor = texture(surface, uv);
 
     // 利用 smoothstep 做反鋸齒
-    if(BulletType == 3){
+    if(BulletType == 3 || BulletType == 4){
         float alpha = 1.0 - smoothstep(circleRadius - feather, circleRadius, circleDist);
         fragColor = vec4(texColor.rgb, texColor.a *  alpha);
     }
-    else if (!inCircle && !inDiamond && BulletType == 4){
+    else if (!inCircle && !inDiamond && BulletType == 5){
         discard;
     }
     else{

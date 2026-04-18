@@ -9,6 +9,10 @@ Obstacle::Obstacle() {
 }
 
 void Obstacle::UpdateStateByBeat(float currentBeat, glm::vec2 PlayerPos) {
+    if (currentBeat < m_Event.StartBeat) {
+        return;
+    }
+
     if (!m_IsActive || m_IsDead) {
         return;
     }

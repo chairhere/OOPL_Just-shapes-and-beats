@@ -31,6 +31,7 @@ struct SpawnEvent {
     int DrawID;
 
     struct SpecialEvent {
+        int FireCount;
         float SpawnBeat;//召喚時機
         float PauseBeat;//停頓時機
         float Velocity;//速度
