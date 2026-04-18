@@ -11,7 +11,6 @@
 #include "CustomColorShape.hpp" // 假設您的 CustomColorShape 存在此標頭檔中
 #include <algorithm>
 #include <memory>
-#include "imgui.h"
 #include "Util/Text.hpp"
 
 class FadeLayer : public Util::GameObject {
