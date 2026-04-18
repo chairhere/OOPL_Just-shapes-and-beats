@@ -65,6 +65,8 @@ void MusicPlayerManager::Next() {
 void MusicPlayerManager::PlayAt(float beats) {
     if (IsEmpty()) return;
 
+    Stop();
+    Play();
     SongData data = SongList::GetSongByName(m_MusicList[0]);
     float times = beats * 60.0f / static_cast<float>(data.BPM);
     m_MusicPlayer.seek(m_BGMHandler, times);
