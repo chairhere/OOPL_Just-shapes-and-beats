@@ -27,19 +27,19 @@ struct SpawnEvent {
     float StartRot;        // 初始旋轉角度 (弧度) [1]
     float EndRot;          // 結束旋轉角度 (弧度)
 
-    BulletType ShapeType; // 障礙物形狀 (例如 "Square", "Laser")
+    BulletType Bullet; // 障礙物形狀 (例如 "Square", "Laser")
     int DrawID;
 
     struct SpecialEvent {
-        float SpawnBeat;
-        float PauseBeat;
-        float Velocity;
+        float SpawnBeat;//召喚時機
+        float PauseBeat;//停頓時機
+        float Velocity;//速度
         float AngularVelocity;//角速度
-        glm::vec2 radian;
+        glm::vec2 UnitVector;//單位向量
 
-        glm::vec2 PausePos;
+        glm::vec2 PausePos;//停頓位置
 
-        bool Spawnable;
+        bool Spawnable;//是否有召喚需求
 
     } SpecialData;
 };

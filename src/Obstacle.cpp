@@ -16,18 +16,22 @@ void Obstacle::UpdateStateByBeat(float currentBeat, glm::vec2 PlayerPos) {
     if (currentBeat > m_Event.EndBeat) {
         m_IsDead = true; // 標記為可銷毀
         m_IsActive = false;
+        m_Collidable = false;
         return;
     }
 
     if (this->customBehavior != nullptr) {
         customBehavior(*this, currentBeat, PlayerPos);
     }
+
+
 }
 
 void Obstacle::Spawn(const SpawnEvent &event, const std::vector<float>& LocalVertices) {
 
     m_IsActive = true;
     m_IsDead = false;
+    m_Collidable = true;
 
     m_LastBeat = event.StartBeat;
 
@@ -42,7 +46,7 @@ void Obstacle::Spawn(const SpawnEvent &event, const std::vector<float>& LocalVer
         m_WorldUVs.push_back(0.25f);
     }
 
-    if (m_Event.ShapeType == BulletType::Laser || m_Event.ShapeType == BulletType::BiggerLaser) {
+    if (m_Event.Bullet == BulletType::Laser || m_Event.Bullet == BulletType::BiggerLaser) {
         m_IsShaked = false;
     }
     else {
@@ -97,6 +101,10 @@ void Obstacle::UpdateWorldVertices() {
 }
 
 bool Obstacle::CheckCollision(glm::vec2 PlayerPos) const {
+
+    if (!m_Collidable) {
+        return false;
+    }
     // ==========================================
     // 第一階段：粗略檢查 (Broad Phase)
     // ==========================================
@@ -159,6 +167,10 @@ bool Obstacle::CheckCollision(glm::vec2 PlayerPos) const {
 
 bool Obstacle::CheckCircleCollision(glm::vec2 PlayerPos) const {
 
+    if (!m_Collidable) {
+        return false;
+    }
+
     float dx = PlayerPos.x - m_Transform.translation.x;
     float dy = PlayerPos.y - m_Transform.translation.y;
 
@@ -168,7 +180,7 @@ bool Obstacle::CheckCircleCollision(glm::vec2 PlayerPos) const {
     if (circleDistance <= circleRadius) {
         return true;
     }
-    if (to_int(m_Event.ShapeType) == 4) {
+    if (to_int(m_Event.Bullet) == 4) {
         float i = dx * glm::cos(m_Transform.rotation) - dy * glm::sin(m_Transform.rotation);
         float j = dx * glm::sin(m_Transform.rotation) + dy * glm::cos(m_Transform.rotation);
         float a = glm::max(glm::abs(i), glm::abs(j));

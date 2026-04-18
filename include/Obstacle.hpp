@@ -66,6 +66,8 @@ public:
 
     void TurnOnCollidable(){m_Collidable = true;}
 
+    void TurnOffCollidable(){m_Collidable = false;}
+
 
 };
 

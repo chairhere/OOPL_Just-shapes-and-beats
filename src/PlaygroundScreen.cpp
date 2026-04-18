@@ -31,7 +31,7 @@ PlaygroundScreen::PlaygroundScreen(Levels level){
     m_LevelSpawner = std::make_shared<LevelSpawner>(m_BeatMap);
     m_LevelSpawner->SetZIndex(40);
     m_LevelSpawner->Start();
-    m_Renderer.AddChild(m_LevelSpawner);
+    //m_Renderer.AddChild(m_LevelSpawner);
 
     m_Player = std::make_shared<Player>();
     m_Player->SetPosition(glm::vec2(0.0f, 0.0f));
@@ -53,6 +53,8 @@ ScreenState PlaygroundScreen::Update() {
 
     m_LevelSpawner->Update(MusicPlayerManager::Setting().GetBeats(), m_Player->GetPosition());
     m_Player->Shake(m_LevelSpawner->GetCurrentShakeOffset());
+
+    m_LevelSpawner->DrawAll();
 
     if (m_LevelSpawner->IsColliding()) {
         //m_Player->Hit();

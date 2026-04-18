@@ -21,6 +21,7 @@
 #include "Util/Logger.hpp"   // 沿用你的 Log 系統
 #include "config.hpp"
 #include "Util/GameObject.hpp"
+#include "Util/TransformUtils.hpp"
 #include "BulletType.hpp"
 
 using json = nlohmann::json;
@@ -70,7 +71,11 @@ public:
 
     void VisionShake(glm::vec2 value, float currentBeat);
 
+    void CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos);
+
     glm::vec2 GetCurrentShakeOffset() const {return m_Transform.translation;}
+
+    void DrawAll();
 };
 
 #endif //JUST_SHAPES_AND_BEATS_LEVELSPAWNER_HPP

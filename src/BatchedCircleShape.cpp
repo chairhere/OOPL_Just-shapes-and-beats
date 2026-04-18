@@ -53,7 +53,6 @@ void BatchedCircleShape::EndBatch() {
 }
 
 void BatchedCircleShape::Draw(const Core::Matrices &data){
-    LOG_DEBUG("start draw");
     // 如果這幀沒有任何東西要畫，或者 VertexArray 還沒建好，就直接跳過
     if (m_Positions.empty() || !m_VertexArray) return;
 
@@ -67,7 +66,7 @@ void BatchedCircleShape::Draw(const Core::Matrices &data){
     Core::Matrices identityMatrix = { glm::mat4(1.0f), data.m_Projection };
 
      //m_Program->Bind();
-    m_UniformBuffer->SetData(0, identityMatrix);
+    m_UniformBuffer->SetData(0, data);
     m_Texture->Bind(0);//不影響
     m_VertexArray->Bind();//不影響
     // 畫出 Quad
