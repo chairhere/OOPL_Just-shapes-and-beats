@@ -22,7 +22,9 @@ SongListScreen::SongListScreen() {
                 MusicPlayerManager::Setting().Switch(m_SongsOrder.at(i).first);
                 MusicPlayerManager::Setting().PlayAtTime(m_SongsOrder.at(i).second);
                 this->m_SFXSelect = m_Items.at(i);
+                MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::Choose);
             }else {
+                MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::BtClick);
                 play = true;
             }
             this->m_NowSelect->Unfocus();
@@ -35,6 +37,7 @@ SongListScreen::SongListScreen() {
                 MusicPlayerManager::Setting().Switch(m_SongsOrder.at(i).first);
                 MusicPlayerManager::Setting().PlayAtTime(m_SongsOrder.at(i).second);
                 this->m_SFXSelect = m_Items.at(i);
+                MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::BtSelect);
             }
             this->m_SelectedIndex = i;
             this->m_NowSelect = this->m_Items.at(m_SelectedIndex);
@@ -54,6 +57,7 @@ SongListScreen::SongListScreen() {
         if (m_SFXSelect != m_RandomOrder) {
             MusicPlayerManager::Setting().CleanList();
             this->m_SFXSelect = m_RandomOrder;
+            MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::Choose);
         }
         this->m_NowSelect->Unfocus();
         this->m_SelectedIndex = -1;
@@ -64,6 +68,7 @@ SongListScreen::SongListScreen() {
         if (m_SFXSelect != m_RandomOrder) {
             MusicPlayerManager::Setting().CleanList();
             this->m_SFXSelect = m_RandomOrder;
+            MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::BtSelect);
         }
         this->m_SelectedIndex = -1;
         this->m_NowSelect = m_RandomOrder;
