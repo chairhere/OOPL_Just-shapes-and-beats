@@ -8,8 +8,13 @@ BatchedColorShape::BatchedColorShape(const Util::Color &color) :m_Color(color){
     m_UniformBuffer = std::make_unique<Core::UniformBuffer<Core::Matrices>>(*m_Program, "Matrices", 0);
 
     // 2. 生成 1x1 純色紋理 (只需要做一次)
-    Uint8 data[] = { static_cast<Uint8>(m_Color.r), static_cast<Uint8>(m_Color.g), static_cast<Uint8>(m_Color.b), static_cast<Uint8>(m_Color.a), 255, 255, 255, 255 };
-    m_Texture = std::make_unique<Core::Texture>(GL_RGBA, 2, 1, data);
+    Uint8 data[] = {
+        static_cast<Uint8>(m_Color.r), static_cast<Uint8>(m_Color.g), static_cast<Uint8>(m_Color.b), static_cast<Uint8>(m_Color.a),
+        255, 255, 255, 255,
+        static_cast<Uint8>(m_Color.r), static_cast<Uint8>(m_Color.g), static_cast<Uint8>(m_Color.b), 0,
+        255, 255, 255, 0,
+    };
+    m_Texture = std::make_unique<Core::Texture>(GL_RGBA, 2, 2, data);
 }
 
 void BatchedColorShape::BeginBatch() {
@@ -46,7 +51,6 @@ void BatchedColorShape::EndBatch() {
 }
 
 void BatchedColorShape::Draw(const Core::Matrices &data) {
-    LOG_DEBUG("start draw_Color");
     // 如果這幀沒有任何東西要畫，或者 VertexArray 還沒建好，就直接跳過
     if (m_Positions.empty() || !m_VertexArray) return;
 

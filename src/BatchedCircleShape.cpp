@@ -62,7 +62,8 @@ void BatchedCircleShape::Draw(const Core::Matrices &data){
     // 更新矩陣 (框架底層機制)
     //m_UniformBuffer->SetData(0, data);
 
-
+    GLint BulletShape = glGetUniformLocation(m_Program->GetId(), "BulletType");
+    glUniform1i(BulletShape, 3);
     Core::Matrices identityMatrix = { glm::mat4(1.0f), data.m_Projection };
 
      //m_Program->Bind();

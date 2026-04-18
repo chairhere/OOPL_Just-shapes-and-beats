@@ -8,6 +8,7 @@
 #include <utility>
 #include <vector>
 #include <memory>
+#include <random>
 #include "Obstacle.hpp"
 #include "SpawnEvent.hpp"
 #include "TimeLine.hpp"
@@ -36,7 +37,17 @@ private:
 
     std::vector<float> m_SpawnVertices;
 
+    glm::vec2 m_ShakeOffset = {0.0f, 0.0f};
+
+    float m_StartShakeBeat = 0.0f;
+    const float s_ShakeDuration = 0.25f;
+    float m_CurrentOffset = 0.0f;
+
     bool m_IsFinished = false;
+    bool m_IsColliding = false;
+
+    std::random_device rd;  //隨機種子
+    std::mt19937 g = std::mt19937(rd());  //取亂數
 
 public:
     explicit LevelSpawner(const std::string& filepath){
@@ -51,8 +62,15 @@ public:
 
     void Start();
 
+    Obstacle* GetActiveObstacle();
 
     bool IsFinished() const {return m_IsFinished;}
+
+    bool IsColliding() const {return m_IsColliding;}
+
+    void VisionShake(glm::vec2 value, float currentBeat);
+
+    glm::vec2 GetCurrentShakeOffset() const {return m_Transform.translation;}
 };
 
 #endif //JUST_SHAPES_AND_BEATS_LEVELSPAWNER_HPP

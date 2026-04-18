@@ -22,6 +22,8 @@ struct SpawnEvent {
     glm::vec2 StartPos;    // 初始位置
     glm::vec2 EndPos;      // 結束位置 (若與初始相同代表不移動)
 
+    glm::vec2 Scale;
+
     float StartRot;        // 初始旋轉角度 (弧度) [1]
     float EndRot;          // 結束旋轉角度 (弧度)
 
@@ -31,10 +33,11 @@ struct SpawnEvent {
     struct SpecialEvent {
         float SpawnBeat;
         float PauseBeat;
+        float Velocity;
         float AngularVelocity;//角速度
+        glm::vec2 radian;
 
         glm::vec2 PausePos;
-        glm::vec2 Velocity;
 
         bool Spawnable;
 
