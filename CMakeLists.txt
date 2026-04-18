@@ -100,6 +100,8 @@ add_executable(${PROJECT_NAME}
     ${SOLOUD_SOURCES}
         include/BatchedCircleShape.hpp
         src/BatchedCircleShape.cpp
+        src/DiscreteSlider.cpp
+        include/DiscreteSlider.hpp
 )
 
 if(MSVC)
