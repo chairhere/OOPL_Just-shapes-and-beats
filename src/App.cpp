@@ -22,6 +22,9 @@ void App::Start() {
         SDL_SetWindowSize(window, 1920, 1080);  //1920*1080
         SDL_SetWindowPosition(window, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED);
     }
+    ImGuiIO &io = ImGui::GetIO();
+    io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;  // 防止ImGui改變游標狀態，讓專案控制
+    io.ConfigWindowsMoveFromTitleBarOnly = true;
 
     // m_CurrentScreen = std::make_shared<MainMenuScreen>();
     // m_CurrentLevel = ScreenState::Main;
