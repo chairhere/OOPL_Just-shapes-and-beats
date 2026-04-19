@@ -42,6 +42,7 @@ public:
     Levels GetCurrentLevel();  //取得當前歌曲(關卡)
     float GetTotalBeats();  //取得總節奏長度
     float GetTotalLength();  //取得總時長
+    bool IsPause(); //是否暫停
 
     //  清單操作
     void AddMusic(Levels music);  //新增音樂

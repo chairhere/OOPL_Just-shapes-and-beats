@@ -30,6 +30,8 @@ private:
     std::shared_ptr<Player> m_Player;
 
     int BPM;
+
+    bool debug = true;
 };
 
 #endif //JUST_SHAPES_AND_BEATS_PLAYGROUNDSCREEN_HPP
