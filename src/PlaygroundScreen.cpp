@@ -44,12 +44,22 @@ PlaygroundScreen::PlaygroundScreen(Levels level){
 ScreenState PlaygroundScreen::Update() {
     m_Player->Moving();
 
-    if (Util::Input::IsKeyDown(Util::Keycode::SPACE)) {
-        MusicPlayerManager::Setting().Pause();
+    if (Util::Input::IsKeyDown(Util::Keycode::TAB)) {
+        debug ^= 1;
     }
-    if (Util::Input::IsKeyDown(Util::Keycode::P)) {
-        MusicPlayerManager::Setting().Play();
+    if (debug) {
+        if (Util::Input::IsKeyDown(Util::Keycode::SPACE)) {
+            if (MusicPlayerManager::Setting().IsPause()) {
+                MusicPlayerManager::Setting().Play();
+            }else {
+                MusicPlayerManager::Setting().Pause();
+            }
+        }
+        if (Util::Input::IsKeyDown(Util::Keycode::P)) {
+            LOG_DEBUG("當前節拍數: ", MusicPlayerManager::Setting().GetBeats());
+        }
     }
+
 
     m_LevelSpawner->Update(MusicPlayerManager::Setting().GetBeats(), m_Player->GetPosition());
     m_Player->Shake(m_LevelSpawner->GetCurrentShakeOffset());
@@ -64,15 +74,17 @@ ScreenState PlaygroundScreen::Update() {
     // 3. 節拍顯示debug用
     // ==========================================
 
-    ImGui::Begin("test");
-    ImGui::SetWindowPos({200, 300});
-    ImGui::Text("Beats:%f", MusicPlayerManager::Setting().GetBeats());
-    static float v = 0.0f;
-    ImGui::SliderFloat("Beats", &v, 0.0f, MusicPlayerManager::Setting().GetTotalBeats());
-    if (ImGui::Button("Play at", ImVec2(50, 20))) {
-        MusicPlayerManager::Setting().PlayAt(v);
+    if (debug) {
+        ImGui::Begin("test");
+        ImGui::SetWindowPos({200, 300});
+        ImGui::Text("Beats:%f", MusicPlayerManager::Setting().GetBeats());
+        static float v = 0.0f;
+        ImGui::SliderFloat("Beats", &v, 0.0f, MusicPlayerManager::Setting().GetTotalBeats());
+        if (ImGui::Button("Play at", ImVec2(50, 20))) {
+            MusicPlayerManager::Setting().PlayAt(v);
+        }
+        ImGui::End();
     }
-    ImGui::End();
 
 
     //m_LevelSpawner->Draw();

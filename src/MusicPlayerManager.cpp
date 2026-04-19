@@ -160,6 +160,11 @@ float MusicPlayerManager::GetTotalLength() {
     return static_cast<float>(m_BGM.getLength());
 }
 
+bool MusicPlayerManager::IsPause() {
+    return m_MusicPlayer.getPause(m_BGMHandler);
+}
+
+
 void MusicPlayerManager::AddMusic(Levels music) {
     auto it = std::find(m_MusicList.begin(), m_MusicList.end(), music);
     if (it == m_MusicList.end()) {
