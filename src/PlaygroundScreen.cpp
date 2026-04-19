@@ -56,7 +56,9 @@ ScreenState PlaygroundScreen::Update() {
             }
         }
         if (Util::Input::IsKeyDown(Util::Keycode::P)) {
-            LOG_DEBUG("當前節拍數: ", MusicPlayerManager::Setting().GetBeats());
+            std::string log = "當前節拍數: ";
+            log.append(std::to_string(MusicPlayerManager::Setting().GetBeats()));
+            LOG_DEBUG(log);
         }
     }
 
