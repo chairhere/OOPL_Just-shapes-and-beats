@@ -76,10 +76,9 @@ bool Player::Moving() {
         m_InvincibleTimeLeft -= Util::Time::GetDeltaTimeMs();
         if (m_KnockBackDirection == glm::vec2(0.0f, 0.0f)) {
             if (m_MovingDirection == glm::vec2(0.0f, 0.0f)) {
-                m_KnockBackDirection = glm::vec2(-30.0, 0.0f);
-            }else {
-                m_KnockBackDirection = m_MovingDirection * -10.0f;
+                m_KnockBackDirection = glm::vec2(3.0, 0.0f);
             }
+            m_KnockBackDirection = m_MovingDirection * -10.0f;
         }
         m_MovingDirection = m_KnockBackDirection;
         if (m_InvincibleTimeLeft <= 0) {
@@ -97,6 +96,9 @@ bool Player::Moving() {
 
 void Player::Dash() {
     if (not m_DashCoolDown) {
+        if (m_MovingDirection == glm::vec2(0.0f, 0.0f)) {
+            m_MovingDirection = glm::vec2(3.0f, 0.0f);
+        }
         m_Dashing = true;
         m_Invincible = true;
         m_DashTimeLeft = 100.0f;
