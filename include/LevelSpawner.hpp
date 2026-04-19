@@ -33,6 +33,7 @@ private:
     std::vector<Obstacle> m_ActiveObstacles; // 畫面上存活的障礙物
     std::shared_ptr<BatchedColorShape> m_Batcher;
     std::shared_ptr<BatchedCircleShape> m_CircleBatcher;
+    std::shared_ptr<BatchedCircleShape> m_SpikeBatcher;
 
     std::string m_BeatMap;
 
@@ -54,6 +55,7 @@ public:
     explicit LevelSpawner(const std::string& filepath){
         m_Batcher = std::make_shared<BatchedColorShape>(Util::Color{255, 33, 111, 255});
         m_CircleBatcher = std::make_shared<BatchedCircleShape>(Util::Color{255, 33, 111, 255});
+        m_SpikeBatcher = std::make_shared<BatchedCircleShape>(Util::Color{255, 33, 111, 255});
         m_BeatMap = filepath;
         m_Drawable = m_Batcher;
     };

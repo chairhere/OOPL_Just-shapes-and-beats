@@ -28,6 +28,7 @@ void LevelSpawner::Start() {
             m_LoadEvent.SpecialData.Velocity = 180.0f;
             m_LoadEvent.SpecialData.AngularVelocity = glm::pi<float>();
             m_LoadEvent.Scale = glm::vec2{15.0f, 15.0f};
+            m_LoadEvent.DrawID = 3;
         }
         else if (item["ObstacleType"] == "Laser") {
             m_LoadEvent.Bullet = BulletType::Laser;
@@ -51,12 +52,20 @@ void LevelSpawner::Start() {
             m_LoadEvent.SpecialData.FireCount = 0;
         }
         else if (item["ObstacleType"] == "SpikeBall") {
-
+            m_LoadEvent.Bullet = BulletType::SpikeBall;
+            m_LoadEvent.StartBeat = item["StartBeat"];
+            m_LoadEvent.SpecialData.SpawnBeat = static_cast<float>(item["StartBeat"]) + 2.0f;
+            m_LoadEvent.EndBeat = static_cast<float>(item["StartBeat"]) + 2.0f;
+            m_LoadEvent.SpecialData.AngularVelocity = 3.14;
+            m_LoadEvent.SpecialData.FireCount = 0;
         }
         m_PendingEvents.push(m_LoadEvent);
     }
     m_ActiveObstacles.resize(2000);
     LOG_DEBUG("finishedbuild");
+
+    m_CircleBatcher->SetDrawID(3);
+    m_SpikeBatcher->SetDrawID(4);
 
 }
 
@@ -99,6 +108,7 @@ void LevelSpawner::Update(float currentBeat, glm::vec2 PlayerPos) {
     }
     m_Batcher->BeginBatch();
     m_CircleBatcher->BeginBatch();
+    m_SpikeBatcher->BeginBatch();
     // 2. 更新所有存活的障礙物狀態，並清理過期的障礙物
     for (auto it = m_ActiveObstacles.begin(); it != m_ActiveObstacles.end(); ) {
 
@@ -121,8 +131,11 @@ void LevelSpawner::Update(float currentBeat, glm::vec2 PlayerPos) {
             m_IsColliding = true;
         }
 
-        if (to_int(it->m_Event.Bullet) >= to_int(BulletType::EasingBall) && to_int(it->m_Event.Bullet) <= to_int(BulletType::SpikeBall)) {
+        if (to_int(it->m_Event.Bullet) == to_int(BulletType::EasingBall) || to_int(it->m_Event.Bullet) == to_int(BulletType::EffectBall)) {
             m_CircleBatcher->AddQuad(it->GetWorldVertices(), it->GetWorldUVs(), it->GetLocalVertices());
+        }
+        else if (to_int(it->m_Event.Bullet) == to_int(BulletType::SpikeBall)) {
+            m_SpikeBatcher->AddQuad(it->GetWorldVertices(), it->GetWorldUVs(), it->GetLocalVertices());
         }
         else {
             m_Batcher->AddQuad(it->GetWorldVertices(), it->GetWorldUVs());
@@ -135,6 +148,7 @@ void LevelSpawner::Update(float currentBeat, glm::vec2 PlayerPos) {
 
     m_Batcher->EndBatch(); // 結束收集，交由 Renderer 自動呼叫 Draw()
     m_CircleBatcher->EndBatch();
+    m_SpikeBatcher->EndBatch();
 }
 
 void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) {
@@ -290,6 +304,8 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
         BallEvent.StartPos = m_SpawnEvent.SpecialData.PausePos - glm::vec2{m_SpawnEvent.Scale.x, 0.0f};
         BallEvent.Bullet = BulletType::EasingBall;
         BallEvent.SpecialData.Velocity = 450.0f;
+        BallEvent.SpecialData.UnitVector = glm::vec2{glm::cos(m_SpawnEvent.StartRot), glm::sin(m_SpawnEvent.StartRot)};
+        BallEvent.StartRot = m_SpawnEvent.StartRot;
 
         for (int i = 0; i < 7; i++) {
             BallEvent.StartBeat = m_SpawnEvent.SpecialData.SpawnBeat + i * 0.25f;
@@ -313,7 +329,9 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
 
         newObs->customBehavior = [this](Obstacle& self, float beat, glm::vec2 PlayerPos) {
             float Progress = (beat - self.m_Event.StartBeat);
-            self.m_Transform.translation = self.m_Event.StartPos - glm::vec2{Progress * self.m_Event.SpecialData.Velocity, 5 * glm::sin(2 * Progress * glm::pi<float>())};
+            float movementX = Progress * self.m_Event.SpecialData.Velocity;
+            float movementY = glm::sin(2 * Progress * glm::pi<float>());
+            self.m_Transform.translation = self.m_Event.StartPos - glm::vec2{(glm::cos(self.m_Event.StartRot) * movementX + glm::sin(self.m_Event.StartRot) * movementY), (glm::sin(self.m_Event.StartRot) * movementX + glm::cos(self.m_Event.StartRot) * movementY)};
 
             self.UpdateWorldVertices();
         };
@@ -322,6 +340,50 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
     }
     else if (m_SpawnEvent.Bullet == BulletType::SpikeBall) {
 
+        std::uniform_real_distribution<float> PosX(200, 500);
+        std::uniform_real_distribution<float> PosY(-(static_cast<float>(WINDOW_HEIGHT) / 2) + 200, static_cast<float>(WINDOW_HEIGHT) / 2 - 200);
+
+        m_SpawnVertices = {-0.5f, 0.5f, -0.5f, -0.5f, 0.5f, -0.5f, 0.5f, 0.5f};
+        m_SpawnEvent.Scale = {50.0f, 50.0f};
+        m_SpawnEvent.StartPos = {static_cast<float>(WINDOW_WIDTH) / 2 + 100, PosY(g)};
+        m_SpawnEvent.SpecialData.PausePos = glm::vec2{PosX(g), PosY(g)};
+
+        newObs->customBehavior = [this](Obstacle& self, float beat, glm::vec2 PlayerPos) {
+            float Progress = (beat - self.m_Event.StartBeat);
+            float UvTrans = std::fmod(Progress * 8, 0.5f);
+            std::vector<float> Uvs = {0.25f + UvTrans, 0.25f, 0.25f + UvTrans, 0.25f, 0.25f + UvTrans, 0.25f, 0.25f + UvTrans, 0.25f};
+            if (beat > self.m_Event.StartBeat && Progress < 1) {
+                self.m_Transform.translation = {glm::mix(self.m_Event.StartPos.x, self.m_Event.SpecialData.PausePos.x, glm::pow(Progress,0.25)), glm::mix(self.m_Event.StartPos.y, self.m_Event.SpecialData.PausePos.y, glm::pow(Progress,0.25))};
+                self.m_Transform.scale = {glm::mix(0.0f, 30.0f, Progress), glm::mix(0.0f, 30.0f, Progress)};
+                self.m_Transform.rotation = Progress * self.m_Event.SpecialData.AngularVelocity;
+                self.SetUvs(Uvs);
+            }
+            else if (beat > self.m_Event.StartBeat + 1.0f && Progress <= 2.0f) {
+                self.m_Transform.scale = {glm::mix(30.0f, self.m_Event.Scale.x, Progress - 1), glm::mix(30.0f, self.m_Event.Scale.y, Progress - 1)};
+                self.m_Transform.rotation = Progress * self.m_Event.SpecialData.AngularVelocity;
+                self.SetUvs(Uvs);
+                if (self.m_Event.SpecialData.FireCount == 0) {
+                    self.m_Event.SpecialData.FireCount += 8;
+                }
+            }
+            self.UpdateWorldVertices();
+        };
+
+        newObs->Spawn(m_SpawnEvent, m_SpawnVertices);
+
+        SpawnEvent BallEvent;
+        BallEvent.StartPos = m_SpawnEvent.SpecialData.PausePos;
+        BallEvent.Bullet = BulletType::EasingBall;
+        BallEvent.SpecialData.Velocity = 450.0f;
+        BallEvent.StartBeat = m_SpawnEvent.SpecialData.SpawnBeat;
+        BallEvent.EndBeat = m_SpawnEvent.SpecialData.SpawnBeat + 5.0f;
+
+        for (int i = 0; i < 8; i++) {
+            BallEvent.SpecialData.UnitVector = glm::vec2{glm::cos(static_cast<float>(i) * glm::pi<float>() / 4.0f), glm::sin(static_cast<float>(i) * glm::pi<float>() / 4.0f)};
+            BallEvent.StartPos = m_SpawnEvent.SpecialData.PausePos + BallEvent.SpecialData.UnitVector * glm::vec2{5.0f, 5.0f};
+            BallEvent.StartRot = static_cast<float>(i) * glm::pi<float>() / 4.0f;
+            this->CreateObstacle(BallEvent, PlayerPos);
+        }
     }
 
 }
@@ -333,11 +395,20 @@ void LevelSpawner::DrawAll() {
     this->SetZIndex(20);
 
     auto data = Util::ConvertToUniformBufferData(
-        m_Transform, m_Drawable->GetSize(), m_ZIndex);
+        m_Transform, m_CircleBatcher->GetSize(), m_ZIndex);
     data.m_Model = glm::translate(
-        data.m_Model, glm::vec3{m_Pivot / m_Drawable->GetSize(), 0} * -1.0F);
+        data.m_Model, glm::vec3{m_Pivot / m_CircleBatcher->GetSize(), 0} * -1.0F);
 
     m_CircleBatcher->Draw(data);
+
+    this->SetZIndex(25);
+
+    data = Util::ConvertToUniformBufferData(
+        m_Transform, m_SpikeBatcher->GetSize(), m_ZIndex);
+    data.m_Model = glm::translate(
+        data.m_Model, glm::vec3{m_Pivot / m_SpikeBatcher->GetSize(), 0} * -1.0F);
+
+    m_SpikeBatcher->Draw(data);
 
     this->SetZIndex(30);
 

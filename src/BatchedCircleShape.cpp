@@ -12,8 +12,12 @@ BatchedCircleShape::BatchedCircleShape(const Util::Color &color) :m_Color(color)
     m_UniformBuffer = std::make_unique<Core::UniformBuffer<Core::Matrices>>(*m_Program, "Matrices", 0);
     Uint8 data[] = { static_cast<Uint8>(m_Color.r), static_cast<Uint8>(m_Color.g), static_cast<Uint8>(m_Color.b), static_cast<Uint8>(m_Color.a), 255, 255, 255, 255 };
     m_Texture = std::make_unique<Core::Texture>(GL_RGBA, 2, 1, data);
-    // 初始化 VBO，傳入 (-1, -1) 到 (1, 1) 的 Quad 頂點
-    // ...
+
+    DrawID = 3;
+}
+
+void BatchedCircleShape::SetDrawID(const int drawID) {
+    DrawID = drawID;
 }
 
 void BatchedCircleShape::BeginBatch() {
@@ -62,7 +66,7 @@ void BatchedCircleShape::Draw(const Core::Matrices &data){
     //m_UniformBuffer->SetData(0, data);
 
     GLint BulletShape = glGetUniformLocation(m_Program->GetId(), "BulletType");
-    glUniform1i(BulletShape, 3);
+    glUniform1i(BulletShape, DrawID);
     Core::Matrices identityMatrix = { glm::mat4(1.0f), data.m_Projection };
 
      //m_Program->Bind();

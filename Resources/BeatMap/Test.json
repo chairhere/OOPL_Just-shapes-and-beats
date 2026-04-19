@@ -30,6 +30,11 @@
   },
   {
     "StartBeat" : 5,
+    "ObstacleType" : "SpikeBall",
+    "PausePos" : {"X" : 325.0, "Y" : 300.0}
+  },
+  {
+    "StartBeat" : 5,
     "ObstacleType" : "SpawnerTriangle",
     "PausePos" : {"X" : 325.0, "Y" : -158.0}
   },
@@ -38,23 +43,29 @@
     "ObstacleType" : "SpawnerTriangle",
     "PausePos" : {"X" : 325.0, "Y" : 158.0}
   },
-
   {
-    "StartBeat" : 8,
-    "ObstacleType" : "SpawnerTriangle",
-    "PausePos" : {"X" : 325.0, "Y" : 0.0}
-  },
-
-  {
-    "StartBeat" : 9,
-    "ObstacleType" : "SpawnerTriangle",
+    "StartBeat" : 14,
+    "ObstacleType" : "SpikeBall",
     "PausePos" : {"X" : 325.0, "Y" : 300.0}
   },
   {
-    "StartBeat" : 9,
+    "StartBeat" : 48.5,
+    "ObstacleType" : "SpikeBall",
+    "PausePos" : {"X" : 325.0, "Y" : 300.0}
+  },
+  {
+    "StartBeat" : 50.5,
+    "ObstacleType" : "SpikeBall",
+    "PausePos" : {"X" : 325.0, "Y" : 300.0}
+  },
+  {
+    "StartBeat" : 52.5,
+    "ObstacleType" : "SpikeBall",
+    "PausePos" : {"X" : 325.0, "Y" : 300.0}
+  },
+  {
+    "StartBeat" : 54.5,
     "ObstacleType" : "SpikeBall",
     "PausePos" : {"X" : 325.0, "Y" : 300.0}
   }
-
-
 ]

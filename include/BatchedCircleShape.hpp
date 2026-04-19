@@ -30,6 +30,8 @@ private:
     std::vector<float> m_UVs;
     std::vector<unsigned int> m_Indices;
 
+    int DrawID;
+
     Util::Color m_Color{};
     // ... VBO, VAO 等與您之前設計的 Quad 相同
 
@@ -43,6 +45,8 @@ public:
     void EndBatch();
 
     void Draw(const Core::Matrices &data) override;
+
+    void SetDrawID(int drawID);
 
     glm::vec2 GetSize() const override { return {1.0f, 1.0f}; }
 };
