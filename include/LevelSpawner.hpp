@@ -34,6 +34,7 @@ private:
     std::shared_ptr<BatchedColorShape> m_Batcher;
     std::shared_ptr<BatchedCircleShape> m_CircleBatcher;
     std::shared_ptr<BatchedCircleShape> m_SpikeBatcher;
+    std::shared_ptr<BatchedCircleShape> m_DottedCircleBatcher;
 
     std::string m_BeatMap;
 
@@ -56,6 +57,7 @@ public:
         m_Batcher = std::make_shared<BatchedColorShape>(Util::Color{255, 33, 111, 255});
         m_CircleBatcher = std::make_shared<BatchedCircleShape>(Util::Color{255, 33, 111, 255});
         m_SpikeBatcher = std::make_shared<BatchedCircleShape>(Util::Color{255, 33, 111, 255});
+        m_DottedCircleBatcher = std::make_shared<BatchedCircleShape>(Util::Color{255, 33, 111, 255});
         m_BeatMap = filepath;
         m_Drawable = m_Batcher;
     };

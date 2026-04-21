@@ -5,7 +5,7 @@
 int main(int, char**) {
     auto context = Core::Context::GetInstance();
     App app;
-
+    glDisable(GL_DEPTH_TEST);
     while (!context->GetExit()) {
         context->Setup();
         switch (app.GetCurrentState()) {

@@ -5,19 +5,37 @@
 
 BatchedCircleShape::BatchedCircleShape(const Util::Color &color) :m_Color(color){
     // 核心關鍵：在這裡載入您剛剛寫好的圓形 Shader！
-    m_Program = std::make_unique<Core::Program>(
-        "../Resources/shaders/Circle.vert",
-        "../Resources/shaders/Circle.frag"
-    );
-    m_UniformBuffer = std::make_unique<Core::UniformBuffer<Core::Matrices>>(*m_Program, "Matrices", 0);
+
     Uint8 data[] = { static_cast<Uint8>(m_Color.r), static_cast<Uint8>(m_Color.g), static_cast<Uint8>(m_Color.b), static_cast<Uint8>(m_Color.a), 255, 255, 255, 255 };
     m_Texture = std::make_unique<Core::Texture>(GL_RGBA, 2, 1, data);
 
-    DrawID = 3;
+    m_DrawID = 3;
 }
 
 void BatchedCircleShape::SetDrawID(const int drawID) {
-    DrawID = drawID;
+    m_DrawID = drawID;
+
+    if (m_DrawID == 3) {
+        m_Program = std::make_unique<Core::Program>(
+    "../Resources/shaders/Circle.vert",
+    "../Resources/shaders/Circle.frag"
+        );
+        m_UniformBuffer = std::make_unique<Core::UniformBuffer<Core::Matrices>>(*m_Program, "Matrices", 0);
+    }
+    else if (m_DrawID == 4) {
+        m_Program = std::make_unique<Core::Program>(
+    "../Resources/shaders/Circle.vert",
+    "../Resources/shaders/Spike.frag"
+        );
+        m_UniformBuffer = std::make_unique<Core::UniformBuffer<Core::Matrices>>(*m_Program, "Matrices", 0);
+    }
+    else if (m_DrawID == 5) {
+        m_Program = std::make_unique<Core::Program>(
+    "../Resources/shaders/Circle.vert",
+    "../Resources/shaders/DottedCircle.frag"
+        );
+        m_UniformBuffer = std::make_unique<Core::UniformBuffer<Core::Matrices>>(*m_Program, "Matrices", 0);
+    }
 }
 
 void BatchedCircleShape::BeginBatch() {
@@ -66,7 +84,7 @@ void BatchedCircleShape::Draw(const Core::Matrices &data){
     //m_UniformBuffer->SetData(0, data);
 
     GLint BulletShape = glGetUniformLocation(m_Program->GetId(), "BulletType");
-    glUniform1i(BulletShape, DrawID);
+    glUniform1i(BulletShape, m_DrawID);
     Core::Matrices identityMatrix = { glm::mat4(1.0f), data.m_Projection };
 
      //m_Program->Bind();

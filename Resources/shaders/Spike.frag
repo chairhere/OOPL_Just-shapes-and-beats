@@ -21,16 +21,13 @@ void main() {
     float diamondDist = 1.55 * a - 0.45 * b;
     bool inDiamond = (diamondDist <= diamondRadius);
 
-    vec4 textColor = texture(surface, uv);
-
     // 利用 smoothstep 做反鋸齒
-    if(BulletType == 3){
-        float alpha = 1.0 - smoothstep(circleRadius - feather, circleRadius, circleDist);
-        fragColor = vec4(textColor.rgb, textColor.a *  alpha);
-    }
-    else if (!inCircle && !inDiamond && BulletType == 4){
+    if (!inCircle && !inDiamond){
         discard;
     }
+
+    vec4 textColor = texture(surface, uv);
+    fragColor = textColor;
     //float alpha = 1.0 - smoothstep(radius - feather, radius, dist);
     // 輸出顏色
 }

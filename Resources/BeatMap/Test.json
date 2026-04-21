@@ -1,13 +1,13 @@
 [
   {
     "StartBeat" : 1 , "SpawnBeat" : 5,
-    "ObstacleType" : "Laser",
+    "ObstacleType" : "BiggerLaser",
     "YIndex" : 200.0,
     "StartRotation" : 0.0
   },
   {
     "StartBeat" : 1 , "SpawnBeat" : 5,
-    "ObstacleType" : "Laser",
+    "ObstacleType" : "BiggerLaser",
     "YIndex" : -200.0,
     "StartRotation" : 0.0
   },
@@ -17,29 +17,29 @@
     "StartPos" : {"X" : 757.0, "Y" : -158.0}
   },
   {
-    "StartBeat" : 2 , "SpawnBeat" : 6,
+    "StartBeat" : 5,
     "ObstacleType" : "Laser",
-    "YIndex" : 0.0,
+    "YIndex" : 300.0,
     "StartRotation" : 0.0
   },
   {
-    "StartBeat" : 4 , "SpawnBeat" : 8,
+    "StartBeat" : 9 ,
     "ObstacleType" : "Laser",
     "YIndex" : -200.0,
     "StartRotation" : 0.0
   },
   {
-    "StartBeat" : 5,
+    "StartBeat" : 10,
     "ObstacleType" : "SpikeBall",
     "PausePos" : {"X" : 325.0, "Y" : 300.0}
   },
   {
-    "StartBeat" : 5,
+    "StartBeat" : 11,
     "ObstacleType" : "SpawnerTriangle",
     "PausePos" : {"X" : 325.0, "Y" : -158.0}
   },
   {
-    "StartBeat" : 7,
+    "StartBeat" : 12,
     "ObstacleType" : "SpawnerTriangle",
     "PausePos" : {"X" : 325.0, "Y" : 158.0}
   },

@@ -30,7 +30,7 @@ private:
     std::vector<float> m_UVs;
     std::vector<unsigned int> m_Indices;
 
-    int DrawID;
+    int m_DrawID;
 
     Util::Color m_Color{};
     // ... VBO, VAO 等與您之前設計的 Quad 相同

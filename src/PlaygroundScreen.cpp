@@ -13,7 +13,7 @@ PlaygroundScreen::PlaygroundScreen(Levels level){
     LOG_DEBUG("PlaygroundScreen::PlaygroundScreen");
     switch (level) {
         case Levels::Chronos:
-            m_BeatMap += "Chronos.json";
+            m_BeatMap += "Test.json";
             m_SongPath += "Chronos.wav";
             BPM = static_cast<float>(SongsBPM::Chronos);
             MusicPlayerManager::Setting().Switch(Levels::Chronos);
