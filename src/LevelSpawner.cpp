@@ -35,7 +35,7 @@ void LevelSpawner::Start() {
             m_LoadEvent.StartBeat = item["StartBeat"];
             m_LoadEvent.SpecialData.SpawnBeat = static_cast<float>(item["StartBeat"]) + 4.0f;
             m_LoadEvent.EndBeat = static_cast<float>(item["StartBeat"]) + 5.0f;
-            m_LoadEvent.StartPos = {WINDOW_WIDTH / 2, item["YIndex"]};
+            m_LoadEvent.StartPos = {WINDOW_WIDTH / 2, item["Offset"]};
             m_LoadEvent.StartRot = item["StartRotation"];
         }
         else if (item["ObstacleType"] == "SpawnerTriangle") {//4拍移動後射球，4拍持續射球
@@ -229,6 +229,16 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
     }
     else if (m_SpawnEvent.Bullet == BulletType::Laser) {//小型雷射
         m_SpawnVertices = {-0.5f, 0.5f, -0.5f, -0.5f, 0.5f, -0.5f, 0.5f, 0.5f};
+
+        if ((m_SpawnEvent.StartRot >= 3.0f && m_SpawnEvent.StartRot <= 3.2f)) {
+            m_SpawnEvent.StartPos = {-static_cast<float>(WINDOW_WIDTH) / 2, m_SpawnEvent.StartPos.y};
+        }
+        else if ((m_SpawnEvent.StartRot >= 1.5f && m_SpawnEvent.StartRot <= 1.6f)) {
+            m_SpawnEvent.StartPos = {m_SpawnEvent.StartPos.y, -static_cast<float>(WINDOW_WIDTH) / 2};
+        }
+        else if ((m_SpawnEvent.StartRot >= 4.6f && m_SpawnEvent.StartRot <= 4.8f)) {
+            m_SpawnEvent.StartPos = {m_SpawnEvent.StartPos.y, static_cast<float>(WINDOW_WIDTH) / 2};
+        }
 
         newObs->customBehavior = [this](Obstacle& self, float beat, glm::vec2 PlayerPos) {
             float m_DetlaBeat = beat - self.GetLastBeat();

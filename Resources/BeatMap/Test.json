@@ -2,13 +2,13 @@
   {
     "StartBeat" : 1 , "SpawnBeat" : 5,
     "ObstacleType" : "BiggerLaser",
-    "YIndex" : 200.0,
+    "Offset" : 200.0,
     "StartRotation" : 0.0
   },
   {
     "StartBeat" : 1 , "SpawnBeat" : 5,
     "ObstacleType" : "BiggerLaser",
-    "YIndex" : -200.0,
+    "Offset" : -200.0,
     "StartRotation" : 0.0
   },
   {
@@ -18,6 +18,24 @@
   },
   {
     "StartBeat" : 1.5,
+    "ObstacleType" : "Laser",
+    "Offset" : 300.0,
+    "StartRotation" : 1.57
+  },
+  {
+    "StartBeat" : 2 ,
+    "ObstacleType" : "Laser",
+    "Offset" : -200.0,
+    "StartRotation" : 4.71
+  },
+  {
+    "StartBeat" : 2 ,
+    "ObstacleType" : "Laser",
+    "Offset" : 300,
+    "StartRotation" : 3.14
+  },
+  {
+    "StartBeat" : 2.5,
     "ObstacleType" : "ExpendingBall"
   },
   {
@@ -31,13 +49,13 @@
   {
     "StartBeat" : 5,
     "ObstacleType" : "Laser",
-    "YIndex" : 300.0,
+    "Offset" : 300.0,
     "StartRotation" : 0.0
   },
   {
     "StartBeat" : 9 ,
     "ObstacleType" : "Laser",
-    "YIndex" : -200.0,
+    "Offset" : -200.0,
     "StartRotation" : 0.0
   },
   {
