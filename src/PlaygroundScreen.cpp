@@ -9,7 +9,8 @@
 
 PlaygroundScreen::PlaygroundScreen(Levels level){
     glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DEBUG_SEVERITY_NOTIFICATION, 0, nullptr, GL_FALSE);
-    // SDL_ShowCursor(SDL_DISABLE);
+    if (not debug)
+        SDL_ShowCursor(SDL_DISABLE);
     LOG_DEBUG("PlaygroundScreen::PlaygroundScreen");
     switch (level) {
         case Levels::Chronos:
@@ -46,6 +47,11 @@ ScreenState PlaygroundScreen::Update() {
 
     if (Util::Input::IsKeyDown(Util::Keycode::TAB)) {
         debug ^= 1;
+        if (debug) {
+            SDL_ShowCursor(SDL_ENABLE);
+        }else {
+            SDL_ShowCursor(SDL_DISABLE);
+        }
     }
     if (debug) {
         if (Util::Input::IsKeyDown(Util::Keycode::SPACE)) {
@@ -68,8 +74,8 @@ ScreenState PlaygroundScreen::Update() {
 
     m_LevelSpawner->DrawAll();
 
-    if (m_LevelSpawner->IsColliding()) {
-        //m_Player->Hit();
+    if (m_LevelSpawner->IsColliding() && not invincible) {
+        m_Player->Hit();
     }
 
     // ==========================================
@@ -85,6 +91,8 @@ ScreenState PlaygroundScreen::Update() {
         if (ImGui::Button("Play at", ImVec2(50, 20))) {
             MusicPlayerManager::Setting().PlayAt(v);
         }
+        ImGui::Checkbox("Undead", &undead);
+        ImGui::Checkbox("Invincible", &invincible);
         ImGui::End();
     }
 
