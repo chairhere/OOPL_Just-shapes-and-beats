@@ -79,7 +79,7 @@ void LevelSpawner::Start() {
             m_LoadEvent.StartBeat = item["StartBeat"];
             m_LoadEvent.SpecialData.SpawnBeat = static_cast<float>(item["StartBeat"]) + 4.0f;
             m_LoadEvent.EndBeat = static_cast<float>(item["StartBeat"]) + 8.5f;
-            m_LoadEvent.Scale = {0.0f, 0.0f};
+            m_LoadEvent.Scale = {75.0f, 75.0f};
         }
 
         m_PendingEvents.push(m_LoadEvent);
@@ -577,6 +577,7 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
 
         std::uniform_real_distribution<float> PosX(-(static_cast<float>(WINDOW_WIDTH) / 2) + 200, static_cast<float>(WINDOW_WIDTH) / 2 - 200);
         std::uniform_real_distribution<float> PosY(-(static_cast<float>(WINDOW_HEIGHT) / 2) + 200, static_cast<float>(WINDOW_HEIGHT) / 2 - 200);
+        m_SpawnEvent.StartPos = {PosX, PosY};
 
         newObs->customBehavior = [this](Obstacle& self, float beat, glm::vec2 PlayerPos) {
 
@@ -606,9 +607,32 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
         };
 
         newObs->Spawn(m_SpawnEvent, m_SpawnVertices);
-    }
-    else if (m_SpawnEvent.Bullet == BulletType::ExpendingBall) {
 
+        SpawnEvent WarningBall;
+        WarningBall.StartPos = m_SpawnEvent.StartPos;
+        WarningBall.Bullet = BulletType::WarningExpendingBall;
+        WarningBall.StartBeat = m_SpawnEvent.StartBeat;
+        WarningBall.EndBeat = m_SpawnEvent.EndBeat;
+        WarningBall.Scale = m_SpawnEvent.Scale;
+
+        CreateObstacle(WarningBall, PlayerPos);
+    }
+    else if (m_SpawnEvent.Bullet == BulletType::WarningExpendingBall) {
+
+        m_SpawnVertices = {-0.5f, 0.5f, -0.5f, -0.5f, 0.5f, -0.5f, 0.5f, 0.5f};
+
+        newObs->customBehavior = [this](Obstacle& self, float beat, glm::vec2 PlayerPos) {
+
+            float Progress = (beat - self.m_Event.StartBeat);
+            if(beat > = self.m_Event.StartBeat){
+                self.m_Transform.rotation = Progress / 8 * glm::pi<float>();
+            }
+            
+            self.UpdateWorldVertices();
+        };
+
+        newObs->Spawn(m_SpawnEvent, m_SpawnVertices);
+        newObs->TurnOffCollidable();
     }
 
 }
