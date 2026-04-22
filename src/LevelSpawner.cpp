@@ -79,7 +79,7 @@ void LevelSpawner::Start() {
             m_LoadEvent.StartBeat = item["StartBeat"];
             m_LoadEvent.SpecialData.SpawnBeat = static_cast<float>(item["StartBeat"]) + 4.0f;
             m_LoadEvent.EndBeat = static_cast<float>(item["StartBeat"]) + 8.5f;
-            m_LoadEvent.Scale = {75.0f, 75.0f};
+            m_LoadEvent.Scale = {200.0f, 200.0f};
         }
 
         m_PendingEvents.push(m_LoadEvent);
@@ -133,6 +133,7 @@ void LevelSpawner::Update(float currentBeat, glm::vec2 PlayerPos) {
     m_Batcher->BeginBatch();
     m_CircleBatcher->BeginBatch();
     m_SpikeBatcher->BeginBatch();
+    m_DottedCircleBatcher->BeginBatch();
     // 2. 更新所有存活的障礙物狀態，並清理過期的障礙物
     for (auto it = m_ActiveObstacles.begin(); it != m_ActiveObstacles.end(); ) {
 
@@ -155,11 +156,14 @@ void LevelSpawner::Update(float currentBeat, glm::vec2 PlayerPos) {
             m_IsColliding = true;
         }
 
-        if (to_int(it->m_Event.Bullet) == to_int(BulletType::EasingBall) || to_int(it->m_Event.Bullet) == to_int(BulletType::EffectBall)) {
+        if (to_int(it->m_Event.Bullet) == to_int(BulletType::EasingBall) || to_int(it->m_Event.Bullet) == to_int(BulletType::EffectBall) || it->m_Event.Bullet == BulletType::ExpendingBall) {
             m_CircleBatcher->AddQuad(it->GetWorldVertices(), it->GetWorldUVs(), it->GetLocalVertices());
         }
         else if (to_int(it->m_Event.Bullet) == to_int(BulletType::SpikeBall) || to_int(it->m_Event.Bullet) == to_int(BulletType::BiggerSpikeBall)) {
             m_SpikeBatcher->AddQuad(it->GetWorldVertices(), it->GetWorldUVs(), it->GetLocalVertices());
+        }
+        else if (it->m_Event.Bullet == BulletType::WarningExpendingBall) {
+            m_DottedCircleBatcher->AddQuad(it->GetWorldVertices(), it->GetWorldUVs(), it->GetLocalVertices());
         }
         else {
             m_Batcher->AddQuad(it->GetWorldVertices(), it->GetWorldUVs());
@@ -173,6 +177,7 @@ void LevelSpawner::Update(float currentBeat, glm::vec2 PlayerPos) {
     m_Batcher->EndBatch(); // 結束收集，交由 Renderer 自動呼叫 Draw()
     m_CircleBatcher->EndBatch();
     m_SpikeBatcher->EndBatch();
+    m_DottedCircleBatcher->EndBatch();
 }
 
 void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) {
@@ -279,13 +284,13 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
 
         switch (rotation) {
             case 0:
-                m_SpawnEvent.StartPos = glm::vec2{(static_cast<float>(WINDOW_WIDTH) / 2) - 100.0f, PosY(g)};
+                m_SpawnEvent.StartPos = glm::vec2{(static_cast<float>(WINDOW_WIDTH) / 2) - 200.0f, PosY(g)};
                 break;
             case 1:
                 m_SpawnEvent.StartPos = glm::vec2{PosX(g), static_cast<float>(WINDOW_HEIGHT) / 2 - 100.0f};
                 break;
             case 2:
-                m_SpawnEvent.StartPos = glm::vec2{-(static_cast<float>(WINDOW_WIDTH) / 2) + 100.0f, PosY(g)};
+                m_SpawnEvent.StartPos = glm::vec2{-(static_cast<float>(WINDOW_WIDTH) / 2) + 200.0f, PosY(g)};
                 break;
             case 3:
                 m_SpawnEvent.StartPos = glm::vec2{PosX(g), -static_cast<float>(WINDOW_HEIGHT) / 2 + 100.0f};
@@ -307,19 +312,19 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
                 }
                 std::vector<float> Uvs = {m_ColorValue, 0.25f, m_ColorValue, 0.25f, m_ColorValue, 0.25f, m_ColorValue, 0.25f};
                 self.SetUvs(Uvs);
-                if (self.m_Event.StartRot == 0.0f || (self.m_Event.StartRot >= 100.0f && self.m_Event.StartRot <= 190.0f)) {
-                    self.m_Transform.translation = {self.m_Transform.translation.x, self.m_Event.StartPos.y + movement * 10};
+                if (self.m_Event.StartRot == 0.0f || (self.m_Event.StartRot >= 3.0f && self.m_Event.StartRot <= 3.2f)) {
+                    self.m_Transform.translation = {self.m_Transform.translation.x, self.m_Event.StartPos.y + movement * 3};
                 }
-                else if ((self.m_Event.StartRot >= 85.0f && self.m_Event.StartRot <= 95.0f) || (self.m_Event.StartRot >= 265.0f && self.m_Event.StartRot <= 285.0f)) {
-                    self.m_Transform.translation = {self.m_Event.StartPos.x + movement * 10, self.m_Transform.translation.y};
+                else if ((self.m_Event.StartRot >= 1.5f && self.m_Event.StartRot <= 1.6f) || (self.m_Event.StartRot >= 4.65f && self.m_Event.StartRot <= 4.8f)) {
+                    self.m_Transform.translation = {self.m_Event.StartPos.x + movement * 3, self.m_Transform.translation.y};
                 }
                 self.m_Transform.scale = {4000 * (beat - self.m_Event.SpecialData.SpawnBeat) * 4, self.m_Event.Scale.y};
             }else if (beat >= (self.m_Event.SpecialData.SpawnBeat + 0.25f) && beat < (self.m_Event.SpecialData.SpawnBeat + 1.5f)) {
-                if (self.m_Event.StartRot == 0.0f || (self.m_Event.StartRot >= 100.0f && self.m_Event.StartRot <= 190.0f)) {
-                    self.m_Transform.translation = {self.m_Transform.translation.x, self.m_Event.StartPos.y + movement * 10};
+                if (self.m_Event.StartRot == 0.0f || (self.m_Event.StartRot >= 3.0f && self.m_Event.StartRot <= 3.2f)) {
+                    self.m_Transform.translation = {self.m_Transform.translation.x, self.m_Event.StartPos.y + movement * 3};
                 }
-                else if ((self.m_Event.StartRot >= 85.0f && self.m_Event.StartRot <= 95.0f) || (self.m_Event.StartRot >= 265.0f && self.m_Event.StartRot <= 285.0f)) {
-                    self.m_Transform.translation = {self.m_Event.StartPos.x + movement * 10, self.m_Transform.translation.y};
+                else if ((self.m_Event.StartRot >= 1.5f && self.m_Event.StartRot <= 1.6f) || (self.m_Event.StartRot >= 4.65f && self.m_Event.StartRot <= 4.8f)) {
+                    self.m_Transform.translation = {self.m_Event.StartPos.x + movement * 3, self.m_Transform.translation.y};
                 }
                 self.m_Transform.scale = {4000, self.m_Event.Scale.y};
             }else if ( beat >= (self.m_Event.SpecialData.SpawnBeat + 1.5f) && beat < (self.m_Event.SpecialData.SpawnBeat + 2.5f)){
@@ -577,10 +582,11 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
 
         std::uniform_real_distribution<float> PosX(-(static_cast<float>(WINDOW_WIDTH) / 2) + 200, static_cast<float>(WINDOW_WIDTH) / 2 - 200);
         std::uniform_real_distribution<float> PosY(-(static_cast<float>(WINDOW_HEIGHT) / 2) + 200, static_cast<float>(WINDOW_HEIGHT) / 2 - 200);
-        m_SpawnEvent.StartPos = {PosX, PosY};
+        m_SpawnEvent.StartPos = {PosX(g), PosY(g)};
 
         newObs->customBehavior = [this](Obstacle& self, float beat, glm::vec2 PlayerPos) {
 
+            float OriginScale = self.m_Event.Scale.x;
             float Progress = (beat - self.m_Event.StartBeat);
             float UvTrans = 0.25f + glm::abs(2 * std::fmod(Progress + 0.5f, 1.0f) - 1.0f) / 2.0f;
             std::vector<float> Uvs;
@@ -589,18 +595,18 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
                 self.m_Transform.scale = {0.0f, 0.0f};
             }
             else if (beat >= self.m_Event.SpecialData.SpawnBeat && beat < self.m_Event.SpecialData.SpawnBeat + 0.5f) {
-                self.m_Transform.scale = {75.0f * (Progress - 4) * 2, 75.0f * (Progress - 4) * 2};
+                self.m_Transform.scale = {OriginScale * (Progress - 4) * 2, OriginScale * (Progress - 4) * 2};
                 Uvs = {UvTrans, 0.25f, UvTrans, 0.25f, UvTrans, 0.25f, UvTrans, 0.25f};
                 self.SetUvs(Uvs);
             }
             else if (beat >= self.m_Event.SpecialData.SpawnBeat && beat < self.m_Event.EndBeat - 0.5f) {
-                self.m_Transform.scale = { 75.0f + 75.0f * (Progress - 4.5) / 4, 75.0f + 75.0f * (Progress - 4.5) / 4};
+                self.m_Transform.scale = {  OriginScale+ OriginScale * (Progress - 4.5) / 4, OriginScale + OriginScale * (Progress - 4.5) / 4};
                 Uvs = {UvTrans, 0.25f, UvTrans, 0.25f, UvTrans, 0.25f, UvTrans, 0.25f};
                 self.SetUvs(Uvs);
 
             }
             else if (beat >= self.m_Event.EndBeat - 0.5f && beat < self.m_Event.EndBeat) {
-                self.m_Transform.scale = { 150.0f * (8.5f - Progress) * 2, 150.0f * (8.5f - Progress) * 2};
+                self.m_Transform.scale = { OriginScale * 2 * (8.5f - Progress) * 2, OriginScale * 2 * (8.5f - Progress) * 2};
             }
 
             self.UpdateWorldVertices();
@@ -624,8 +630,8 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
         newObs->customBehavior = [this](Obstacle& self, float beat, glm::vec2 PlayerPos) {
 
             float Progress = (beat - self.m_Event.StartBeat);
-            if(beat > = self.m_Event.StartBeat){
-                self.m_Transform.rotation = Progress / 8 * glm::pi<float>();
+            if(beat >= self.m_Event.StartBeat){
+                self.m_Transform.rotation = -Progress / 8 * glm::pi<float>();
             }
             
             self.UpdateWorldVertices();
@@ -641,9 +647,19 @@ void LevelSpawner::DrawAll() {
     if (!m_Visible || m_Drawable == nullptr) {
         return;
     }
-    this->SetZIndex(20);
+
+    this->SetZIndex(15);
 
     auto data = Util::ConvertToUniformBufferData(
+        m_Transform, m_DottedCircleBatcher->GetSize(), m_ZIndex);
+    data.m_Model = glm::translate(
+        data.m_Model, glm::vec3{m_Pivot / m_DottedCircleBatcher->GetSize(), 0} * -1.0F);
+
+    m_DottedCircleBatcher->Draw(data);
+
+    this->SetZIndex(20);
+
+    data = Util::ConvertToUniformBufferData(
         m_Transform, m_CircleBatcher->GetSize(), m_ZIndex);
     data.m_Model = glm::translate(
         data.m_Model, glm::vec3{m_Pivot / m_CircleBatcher->GetSize(), 0} * -1.0F);

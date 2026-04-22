@@ -11,8 +11,8 @@ void main() {
     float dist = length(Pos);
 
     // 2. 定義圓環的粗細 (外圈最大是 1.0，內圈決定圓環厚度)
-    float outerRadius = 1.0;
-    float innerRadius = 0.8;
+    float outerRadius = 0.5;
+    float innerRadius = 0.495;
 
     // 如果像素不在圓環的厚度範圍內，直接捨棄 (畫出中空圓環)
     if (dist > outerRadius || dist < innerRadius) {
@@ -24,7 +24,7 @@ void main() {
 
     // 4. 設定虛線的段數
     // 注意：這個數字代表會產生多少段「實線」
-    float dashCount = 12.0;
+    float dashCount = 72;
 
     // 5. 利用 sin 函數產生週期性的波浪，用來切斷圓環
     // sin() 產生的值在大於 0 時繪製，小於 0 時捨棄，藉此形成虛線空白

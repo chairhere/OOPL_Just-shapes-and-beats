@@ -17,6 +17,18 @@
     "StartPos" : {"X" : 757.0, "Y" : -158.0}
   },
   {
+    "StartBeat" : 1.5,
+    "ObstacleType" : "ExpendingBall"
+  },
+  {
+    "StartBeat" : 3,
+    "ObstacleType" : "ExpendingBall"
+  },
+  {
+    "StartBeat" : 5,
+    "ObstacleType" : "ExpendingBall"
+  },
+  {
     "StartBeat" : 5,
     "ObstacleType" : "Laser",
     "YIndex" : 300.0,
