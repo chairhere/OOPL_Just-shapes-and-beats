@@ -38,7 +38,7 @@ void LevelSpawner::Start() {
             m_LoadEvent.StartPos = {WINDOW_WIDTH / 2, item["YIndex"]};
             m_LoadEvent.StartRot = item["StartRotation"];
         }
-        else if (item["ObstacleType"] == "SpawnerTriangle") {//4拍移動，4拍射球
+        else if (item["ObstacleType"] == "SpawnerTriangle") {//4拍移動後射球，4拍持續射球
             LOG_DEBUG("triangle");
             m_LoadEvent.Bullet = BulletType::SpawnerTriangle;
             m_LoadEvent.StartBeat = item["StartBeat"];
@@ -67,14 +67,14 @@ void LevelSpawner::Start() {
             m_LoadEvent.SpecialData.AngularVelocity = 3.14;
             m_LoadEvent.SpecialData.FireCount = 0;
         }
-        else if (item["ObstacleType"] == "BiggerLaser") {//3拍預告，0.25拍撞擊，1.25拍停留，1拍收回
+        else if (item["ObstacleType"] == "BiggerLaser") {//3拍預告後撞擊，0.25拍持續撞擊，1.25拍停留，1拍收回
             m_LoadEvent.Bullet = BulletType::BiggerLaser;
             m_LoadEvent.StartBeat = item["StartBeat"];
             m_LoadEvent.SpecialData.SpawnBeat = static_cast<float>(item["StartBeat"]) + 3.0f;
             m_LoadEvent.EndBeat = static_cast<float>(item["StartBeat"]) + 5.5f;
             m_LoadEvent.Scale = {0.0f, 150.0f};
         }
-        else if (item["ObstacleType"] == "ExpendingBall") {
+        else if (item["ObstacleType"] == "ExpendingBall") {//4拍預告後放大，4拍持續放大，0.5拍縮小
             m_LoadEvent.Bullet = BulletType::ExpendingBall;
             m_LoadEvent.StartBeat = item["StartBeat"];
             m_LoadEvent.SpecialData.SpawnBeat = static_cast<float>(item["StartBeat"]) + 4.0f;
