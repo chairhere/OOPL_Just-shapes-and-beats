@@ -41,7 +41,7 @@ void Player::SetRotation(float arc) {
 }
 
 bool Player::Moving() {
-    if (not m_Stun) {
+    if (not m_Stun) {  //非硬直則移動
         if (Util::Input::IsKeyPressed(Util::Keycode::W) or Util::Input::IsKeyPressed(Util::Keycode::UP)) {
             m_MovingDirection += glm::vec2(0.0f, m_Speed);
         }
@@ -54,6 +54,8 @@ bool Player::Moving() {
         if (Util::Input::IsKeyPressed(Util::Keycode::D) or Util::Input::IsKeyPressed(Util::Keycode::RIGHT)) {
             m_MovingDirection += glm::vec2(m_Speed, 0.0f);
         }
+        Squash();
+        Turn();
         if (Util::Input::IsKeyDown(Util::Keycode::SPACE)) {
             Dash();
         }
@@ -83,7 +85,7 @@ bool Player::Moving() {
         }
         if (m_Stun)
             m_MovingDirection = m_KnockBackDirection;
-        if (m_InvincibleTimeLeft <= 100)
+        if (m_InvincibleTimeLeft <= 500)
             m_Stun = false;
         if (m_InvincibleTimeLeft <= 0) {
             m_KnockBack = false;
@@ -124,7 +126,7 @@ void Player::Hit() {
     m_Stun = true;
     m_KnockBack = true;
     m_Invincible = true;
-    m_InvincibleTimeLeft = 500.0f;
+    m_InvincibleTimeLeft = 1000.0f;
 }
 
 void Player::Shake(glm::vec2 movement) {
@@ -148,4 +150,62 @@ void Player::Revive() {
     this->SetVisible(true);
     m_NoDamage = true;
     m_NoDamageTimeLeft = 1000.0f;
+}
+
+void Player::Squash() {
+    glm::vec2 targetScale;
+    if (m_Dashing && m_MovingDirection != glm::vec2(0.0f ,0.0f)) {  //衝刺
+        //壓縮
+        targetScale = glm::vec2(1.5f*normalScale, 0.5f*normalScale);
+    }else if (m_MovingDirection == glm::vec2(0.0f ,0.0f)) {  //停止
+        //回彈
+        targetScale = glm::vec2(normalScale, normalScale);
+    }else {  //移動
+        //壓縮
+        targetScale = glm::vec2(1.2f*normalScale, 0.8f*normalScale);
+    }
+
+    float dt = Util::Time::GetDeltaTimeMs() / 1000.0f;
+
+    // 可自行微調的彈簧參數：
+    float tension = 500.0f; // 拉力：數值越大，回彈力道越猛烈
+    float damping = 15.0f;  // 阻尼：數值越大，晃動停止得越快
+
+    // 虎克定律物理公式：力 = (目標與當前的距離 * 拉力)
+    glm::vec2 force = (targetScale - m_Transform.scale) * tension;
+
+    // 加速度影響速度 (減去阻尼摩擦力避免永遠停不下來)
+    m_ScaleVelocity += (force - m_ScaleVelocity * damping) * dt;
+
+    // 速度影響最終形狀 [4]
+    m_Transform.scale += m_ScaleVelocity * dt;
+}
+
+void Player::Turn() {
+    const float PI = std::acos(-1);
+    float targetAngle;
+    if (m_MovingDirection == glm::vec2(0.0f ,0.0f)) {  //停止
+        //轉回來
+        targetAngle = PI;
+    }else {  //移動
+        //面相行徑方向
+        targetAngle = std::atan2(m_MovingDirection.y, m_MovingDirection.x);
+    }
+    float currentAngle = m_Transform.rotation;
+    float diff = targetAngle - currentAngle;
+
+    while (diff > PI)  diff -= 2*PI;
+    while (diff < -PI) diff += 2*PI;
+
+    float omega = 0.02;
+    float step = omega * Util::Time::GetDeltaTimeMs();
+    if (std::abs(diff) <= step) {
+        m_Transform.rotation = targetAngle;
+    }else {
+        if (diff > 0) {
+            m_Transform.rotation += step;
+        } else {
+            m_Transform.rotation -= step;
+        }
+    }
 }

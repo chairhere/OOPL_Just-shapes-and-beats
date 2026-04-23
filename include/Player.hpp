@@ -58,6 +58,11 @@ protected:
     float m_NoDamageTimeLeft = 1000.0f;
     glm::vec2 m_LastOffset = glm::vec2(0.0f, 0.0f);
 
+    void Squash();
+    glm::vec2 m_ScaleVelocity = glm::vec2(0.0f, 0.0f);  //彈性
+    void Turn();
+    float normalScale = 0.3f;
+
 };
 
 #endif //JUST_SHAPES_AND_BEATS_PLAYER_HPP
