@@ -91,6 +91,12 @@ bool Player::Moving() {
             m_KnockBackDirection = glm::vec2(0.0f, 0.0f);
         }
     }
+    if (m_NoDamage) {
+        m_NoDamageTimeLeft -= Util::Time::GetDeltaTimeMs();
+        if (m_NoDamageTimeLeft <= 0) {
+            m_NoDamage = false;
+        }
+    }
     m_Transform.translation -= m_LastOffset;
     m_LastOffset = glm::vec2(0.0f, 0.0f);
     MovePosition(m_MovingDirection);
@@ -113,7 +119,7 @@ void Player::Dash() {
 void Player::Hit() {
     if (m_Invincible) return;
     MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::PlrHit);
-    if (m_Health > 0)
+    if (m_NoDamage && m_Health > 0)
         m_Health -= 1;
     m_Stun = true;
     m_KnockBack = true;
@@ -140,4 +146,6 @@ void Player::Revive() {
     m_Health = m_MaxHealth;
     m_Transform.translation = glm::vec2(-500.0f, 0.0f);
     this->SetVisible(true);
+    m_NoDamage = true;
+    m_NoDamageTimeLeft = 1000.0f;
 }
