@@ -43,21 +43,24 @@ void Player::SetRotation(float arc) {
 }
 
 bool Player::Moving() {
-    if (Util::Input::IsKeyPressed(Util::Keycode::W) or Util::Input::IsKeyPressed(Util::Keycode::UP)) {
-        m_MovingDirection += glm::vec2(0.0f, 3.0f);
+    if (not m_Stun) {
+        if (Util::Input::IsKeyPressed(Util::Keycode::W) or Util::Input::IsKeyPressed(Util::Keycode::UP)) {
+            m_MovingDirection += glm::vec2(0.0f, 3.0f);
+        }
+        if (Util::Input::IsKeyPressed(Util::Keycode::S) or Util::Input::IsKeyPressed(Util::Keycode::DOWN)) {
+            m_MovingDirection += glm::vec2(0.0f, -3.0f);
+        }
+        if (Util::Input::IsKeyPressed(Util::Keycode::A) or Util::Input::IsKeyPressed(Util::Keycode::LEFT)) {
+            m_MovingDirection += glm::vec2(-3.0f, 0.0f);
+        }
+        if (Util::Input::IsKeyPressed(Util::Keycode::D) or Util::Input::IsKeyPressed(Util::Keycode::RIGHT)) {
+            m_MovingDirection += glm::vec2(3.0f, 0.0f);
+        }
+        if (Util::Input::IsKeyDown(Util::Keycode::SPACE)) {
+            Dash();
+        }
     }
-    if (Util::Input::IsKeyPressed(Util::Keycode::S) or Util::Input::IsKeyPressed(Util::Keycode::DOWN)) {
-        m_MovingDirection += glm::vec2(0.0f, -3.0f);
-    }
-    if (Util::Input::IsKeyPressed(Util::Keycode::A) or Util::Input::IsKeyPressed(Util::Keycode::LEFT)) {
-        m_MovingDirection += glm::vec2(-3.0f, 0.0f);
-    }
-    if (Util::Input::IsKeyPressed(Util::Keycode::D) or Util::Input::IsKeyPressed(Util::Keycode::RIGHT)) {
-        m_MovingDirection += glm::vec2(3.0f, 0.0f);
-    }
-    if (Util::Input::IsKeyDown(Util::Keycode::SPACE)) {
-        Dash();
-    }
+
     if (m_Dashing) {
         m_MovingDirection *= 10;
         m_DashTimeLeft -= Util::Time::GetDeltaTimeMs();
@@ -76,11 +79,14 @@ bool Player::Moving() {
         m_InvincibleTimeLeft -= Util::Time::GetDeltaTimeMs();
         if (m_KnockBackDirection == glm::vec2(0.0f, 0.0f)) {
             if (m_MovingDirection == glm::vec2(0.0f, 0.0f)) {
-                m_KnockBackDirection = glm::vec2(3.0, 0.0f);
+                m_MovingDirection = glm::vec2(3.0, 0.0f);
             }
-            m_KnockBackDirection = m_MovingDirection * -10.0f;
+            m_KnockBackDirection = m_MovingDirection * -3.0f;
         }
-        m_MovingDirection = m_KnockBackDirection;
+        if (m_Stun)
+            m_MovingDirection = m_KnockBackDirection;
+        if (m_InvincibleTimeLeft <= 100)
+            m_Stun = false;
         if (m_InvincibleTimeLeft <= 0) {
             m_KnockBack = false;
             m_Invincible = false;
@@ -111,9 +117,10 @@ void Player::Hit() {
     MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::PlrHit);
     if (m_Health > 0)
         m_Health -= 1;
+    m_Stun = true;
+    m_KnockBack = true;
     m_Invincible = true;
     m_InvincibleTimeLeft = 500.0f;
-    m_KnockBack = true;
 }
 
 void Player::Shake(glm::vec2 movement) {

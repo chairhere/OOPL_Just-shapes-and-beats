@@ -48,6 +48,7 @@ protected:
     bool m_Invincible = false;
     float m_InvincibleTimeLeft = 0;
     bool m_KnockBack = false;
+    bool m_Stun = false;
     glm::vec2 m_KnockBackDirection = glm::vec2(0.0f, 0.0f);
     glm::vec2 m_LastOffset = glm::vec2(0.0f, 0.0f);
 
