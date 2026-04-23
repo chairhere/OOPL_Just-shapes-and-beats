@@ -102,6 +102,8 @@ add_executable(${PROJECT_NAME}
         src/BatchedCircleShape.cpp
         src/DiscreteSlider.cpp
         include/DiscreteSlider.hpp
+        include/DiscreteSlider.hpp
+        src/DiscreteSlider.cpp
 )
 
 if(MSVC)
