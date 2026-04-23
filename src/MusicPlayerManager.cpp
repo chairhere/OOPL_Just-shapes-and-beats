@@ -65,10 +65,18 @@ void MusicPlayerManager::Next() {
 void MusicPlayerManager::PlayAt(float beats) {
     if (IsEmpty()) return;
 
-    Stop();
-    Play();
     SongData data = SongList::GetSongByName(m_MusicList[0]);
+    if (data.AudioPath.empty()) return;
+
+    Stop();
+    if (reverse) {
+        m_BGM.load(data.AudioPath.c_str());
+        m_BGMHandler = m_MusicPlayer.play(m_BGM);
+        reverse = false;
+    }
+
     float times = beats * 60.0f / static_cast<float>(data.BPM);
+    Play();
     m_MusicPlayer.seek(m_BGMHandler, times);
 }
 
@@ -79,8 +87,11 @@ void MusicPlayerManager::ReverseAt(float beats) {
     if (data.ReverseAudioPath.empty()) return;
 
     Stop();
-    m_BGM.load(data.ReverseAudioPath.c_str());
-    m_BGMHandler = m_MusicPlayer.play(m_BGM);
+    if (not reverse) {
+        m_BGM.load(data.ReverseAudioPath.c_str());
+        m_BGMHandler = m_MusicPlayer.play(m_BGM);
+        reverse = true;
+    }
 
     float totalLen = (float)m_BGM.getLength();
     float times = beats * 60.0f / static_cast<float>(data.BPM);
@@ -106,6 +117,8 @@ void MusicPlayerManager::Switch(Levels music) {;
 void MusicPlayerManager::PlayAtTime(float sec) {
     if (IsEmpty()) return;
 
+    Stop();
+    Play();
     m_MusicPlayer.seek(m_BGMHandler, sec);
 }
 
@@ -138,6 +151,10 @@ float MusicPlayerManager::GetBeats() {
     if (IsEmpty()) throw std::invalid_argument("List is empty");
 
     SongData data = SongList::GetSongByName(m_MusicList[0]);
+    if (reverse) {
+        float totalTime = (float)m_BGM.getLength();
+        return static_cast<float>(totalTime - m_MusicPlayer.getStreamPosition(m_BGMHandler)) / 60.0f * static_cast<float>(data.BPM);
+    }
     return static_cast<float>(m_MusicPlayer.getStreamPosition(m_BGMHandler)) / 60.0f * static_cast<float>(data.BPM);
 }
 
