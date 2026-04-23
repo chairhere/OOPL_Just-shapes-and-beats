@@ -5,6 +5,8 @@
 #include "../include/PlaygroundScreen.hpp"
 
 #include "MusicPlayerManager.hpp"
+#include "SongData.hpp"
+#include "SongList.hpp"
 #include "SongsBPM.hpp"
 
 PlaygroundScreen::PlaygroundScreen(Levels level){
@@ -12,12 +14,14 @@ PlaygroundScreen::PlaygroundScreen(Levels level){
     if (not debug)
         SDL_ShowCursor(SDL_DISABLE);
     LOG_DEBUG("PlaygroundScreen::PlaygroundScreen");
+    SongData data;
     switch (level) {
         case Levels::Chronos:
-            m_BeatMap += "Chronos.json";
-            m_SongPath += "Chronos.wav";
-            BPM = static_cast<float>(SongsBPM::Chronos);
-            MusicPlayerManager::Setting().Switch(Levels::Chronos);
+            data = SongList::GetSongByName(Levels::Chronos);
+            m_BeatMap = data.BeatMap;
+            m_SongPath = data.AudioPath;
+            BPM = static_cast<float>(data.BPM);
+            MusicPlayerManager::Setting().Switch(data.Level);
             MusicPlayerManager::Setting().InfLoop(false);
             break;
         default:
