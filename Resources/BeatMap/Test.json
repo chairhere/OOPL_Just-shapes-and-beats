@@ -1,5 +1,10 @@
 [
   {
+    "StartBeat" : 2.5,
+    "ObstacleType" : "SpawnerRectangle",
+    "EndBeat" : 18.5
+  },
+  {
     "StartBeat" : 1 , "SpawnBeat" : 5,
     "ObstacleType" : "BiggerLaser",
     "Offset" : 200.0,

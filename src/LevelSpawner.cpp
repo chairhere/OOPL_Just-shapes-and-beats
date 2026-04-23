@@ -243,7 +243,7 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
         std::uniform_real_distribution<float> dis(0.0f, 0.7854f);
         std::uniform_real_distribution<float> val(0.8f, 1.2f);
         float i = static_cast<float>(m_SpawnEvent.StartBeat);
-        while (i < static_cast<float>(m_SpawnEvent.StartBeat) + 16.0f) {
+        while (i < static_cast<float>(m_SpawnEvent.EndBeat)) {
             i += 0.25f;
             if (chance(g)) {
                 newObs = GetActiveObstacle();
