@@ -39,7 +39,6 @@ void LevelSpawner::Start() {
             m_LoadEvent.StartRot = item["StartRotation"];
         }
         else if (item["ObstacleType"] == "SpawnerTriangle") {//4拍移動後射球，4拍持續射球
-            LOG_DEBUG("triangle");
             m_LoadEvent.Bullet = BulletType::SpawnerTriangle;
             m_LoadEvent.StartBeat = item["StartBeat"];
             m_LoadEvent.SpecialData.SpawnBeat = static_cast<float>(item["StartBeat"]) + 4.0f;
@@ -144,13 +143,6 @@ void LevelSpawner::Update(float currentBeat, glm::vec2 PlayerPos) {
 
         it->UpdateStateByBeat(currentBeat, PlayerPos);
 
-        // 生命週期管理：如果音樂已經超過了它的存活時間，立刻將其刪除
-        /*
-        if (it->IsDead()) {
-            it = m_ActiveObstacles.erase(it);
-            continue;
-        }
-        */
 
         if (it->m_IsColliding) {
             m_IsColliding = true;
@@ -432,6 +424,8 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
             }
 
             self.UpdateWorldVertices();
+
+            self.m_IsColliding = self.CheckCollision(PlayerPos);
         };
 
         newObs->Spawn(m_SpawnEvent, m_SpawnVertices);
@@ -470,6 +464,8 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
             self.m_Transform.translation = self.m_Event.StartPos - glm::vec2{(glm::cos(self.m_Event.StartRot) * movementX + glm::sin(self.m_Event.StartRot) * movementY * 5), (glm::sin(self.m_Event.StartRot) * movementX + glm::cos(self.m_Event.StartRot) * movementY * 5)};
 
             self.UpdateWorldVertices();
+
+            self.m_IsColliding = self.CheckCircleCollision(PlayerPos);
         };
 
         newObs->Spawn(m_SpawnEvent, m_SpawnVertices);
@@ -503,6 +499,8 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
                 }
             }
             self.UpdateWorldVertices();
+
+            self.m_IsColliding = self.CheckCircleCollision(PlayerPos);
         };
 
         newObs->Spawn(m_SpawnEvent, m_SpawnVertices);
@@ -565,6 +563,8 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
             }
 
             self.UpdateWorldVertices();
+
+            self.m_IsColliding = self.CheckCircleCollision(PlayerPos);
         };
 
         newObs->Spawn(m_SpawnEvent, m_SpawnVertices);
@@ -620,6 +620,8 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
             }
 
             self.UpdateWorldVertices();
+
+            self.m_IsColliding = self.CheckCircleCollision(PlayerPos);
         };
 
         newObs->Spawn(m_SpawnEvent, m_SpawnVertices);

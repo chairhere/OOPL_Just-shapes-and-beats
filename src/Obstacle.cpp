@@ -129,7 +129,7 @@ bool Obstacle::CheckCollision(glm::vec2 PlayerPos) const {
     // 因為 worldVertices 是一維陣列 [x1, y1, x2, y2...]，頂點數為 size / 2
     size_t vertexCount = m_WorldVertices.size() / 2;
 
-    if (vertexCount < 3) return false; // 形狀不完整無法判定
+    if (vertexCount < 2) return false; // 形狀不完整無法判定
 
     bool hasPositive = false;
     bool hasNegative = false;
@@ -178,13 +178,13 @@ bool Obstacle::CheckCircleCollision(glm::vec2 PlayerPos) const {
     float dx = PlayerPos.x - m_Transform.translation.x;
     float dy = PlayerPos.y - m_Transform.translation.y;
 
-    float circleRadius = m_Transform.translation.x;
+    float circleRadius = m_Transform.scale.x;
     float circleDistance = glm::length(glm::vec2(dx, dy));
 
     if (circleDistance <= circleRadius) {
         return true;
     }
-    if (to_int(m_Event.Bullet) == 4) {
+    if (m_Event.Bullet == BulletType::BiggerSpikeBall || m_Event.Bullet == BulletType::SpikeBall) {
         float i = dx * glm::cos(m_Transform.rotation) - dy * glm::sin(m_Transform.rotation);
         float j = dx * glm::sin(m_Transform.rotation) + dy * glm::cos(m_Transform.rotation);
         float a = glm::max(glm::abs(i), glm::abs(j));
