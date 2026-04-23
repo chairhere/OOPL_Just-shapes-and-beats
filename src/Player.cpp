@@ -117,7 +117,7 @@ void Player::Dash() {
 }
 
 void Player::Hit() {
-    if (m_Invincible) return;
+    if (m_Invincible || m_Health <= 0) return;
     MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::PlrHit);
     if (not m_NoDamage && m_Health > 0)
         m_Health -= 1;
