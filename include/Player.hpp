@@ -13,10 +13,7 @@
 
 class Player : public Util::GameObject {
 public:
-    Player() {
-        m_Drawable = std::make_shared<Util::Image>(m_NowImagePath);
-        m_Transform.scale = glm::vec2(normalScale, normalScale);
-    }
+    Player();
 
     [[nodiscard]] glm::vec2 GetPosition() {return m_Transform.translation;}
 
@@ -48,6 +45,8 @@ protected:
     bool m_Dashing = false;
     float m_DashTimeLeft = 0;
     bool m_DashCoolDown = false;
+    std::string m_DashGlowImagePath = "../Resources/Image/Dash/Player1_Dash.png";
+    std::shared_ptr<ImageObject> m_Background;
 
     bool m_Invincible = false;
     float m_InvincibleTimeLeft = 0;

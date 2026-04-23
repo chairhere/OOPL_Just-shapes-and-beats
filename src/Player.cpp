@@ -7,6 +7,16 @@
 #include "config.hpp"
 #include "MusicPlayerManager.hpp"
 
+Player::Player() {
+    m_Drawable = std::make_shared<Util::Image>(m_NowImagePath);
+    m_Transform.scale = glm::vec2(normalScale, normalScale);
+
+    m_Background = std::make_shared<ImageObject>(m_DashGlowImagePath);
+    m_Background->SetVisible(false);
+    m_Background->m_Transform.scale = glm::vec2(normalScale, normalScale);
+    AddChild(m_Background);
+}
+
 
 void Player::SetPosition(glm::vec2 new_position) {
     m_Transform.translation = new_position;
@@ -73,6 +83,7 @@ bool Player::Moving() {
         //0.4s cooldown time
         if (m_DashTimeLeft <= -400.0f and not Util::Input::IsKeyPressed(Util::Keycode::SPACE)) {
             m_DashCoolDown = false;
+            m_Background->SetVisible(false);
         }
     }
     if (m_KnockBack) {
@@ -114,14 +125,16 @@ bool Player::Moving() {
     m_LastOffset = glm::vec2(0.0f, 0.0f);
     MovePosition(m_MovingDirection);
     m_MovingDirection = glm::vec2(0.0f, 0.0f);
+    m_Background->m_Transform = m_Transform;
     return m_Health == 0;
 }
 
 void Player::Dash() {
     if (not m_DashCoolDown) {
         if (m_MovingDirection == glm::vec2(0.0f, 0.0f)) {
-            m_MovingDirection = glm::vec2(3.0f, 0.0f);
+            m_MovingDirection = glm::vec2(10.0f, 0.0f);
         }
+        m_Background->SetVisible(true);
         m_Dashing = true;
         m_Invincible = true;
         m_DashTimeLeft = 100.0f;
@@ -147,6 +160,7 @@ void Player::Shake(glm::vec2 movement) {
     }
     m_LastOffset = movement;
     m_Transform.translation += movement;
+    m_Background->m_Transform.translation += movement;
 }
 
 void Player::Die() {
