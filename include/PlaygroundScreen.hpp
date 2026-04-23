@@ -32,6 +32,8 @@ private:
     int BPM;
 
     bool debug = true;
+    bool undead = false;
+    bool invincible = true;
 };
 
 #endif //JUST_SHAPES_AND_BEATS_PLAYGROUNDSCREEN_HPP

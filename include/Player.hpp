@@ -35,6 +35,8 @@ public:
     void Hit();
     void Shake( glm::vec2 movement);
 
+    void Die();
+    void Revive();
 
 protected:
     int m_MaxHealth = 3;

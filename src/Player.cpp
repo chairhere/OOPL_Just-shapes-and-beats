@@ -109,7 +109,8 @@ void Player::Dash() {
 void Player::Hit() {
     if (m_Invincible) return;
     MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::PlrHit);
-    m_Health -= 1;
+    if (m_Health > 0)
+        m_Health -= 1;
     m_Invincible = true;
     m_InvincibleTimeLeft = 500.0f;
     m_KnockBack = true;
@@ -121,4 +122,17 @@ void Player::Shake(glm::vec2 movement) {
     }
     m_LastOffset = movement;
     m_Transform.translation += movement;
+}
+
+void Player::Die() {
+    MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::PlrDie);
+    m_Health = 0;
+    this->SetVisible(false);
+}
+
+void Player::Revive() {
+    MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::PlrRevive);
+    m_Health = m_MaxHealth;
+    m_Transform.translation = glm::vec2(-500.0f, 0.0f);
+    this->SetVisible(true);
 }
