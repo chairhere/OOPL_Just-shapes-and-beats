@@ -14,8 +14,6 @@ void Player::SetPosition(glm::vec2 new_position) {
 
 
 void Player::MovePosition(glm::vec2 movement) {
-    float predict_x = m_Transform.translation.x;
-    float predict_y = m_Transform.translation.y;
     //邊界偵測
     m_Transform.translation.x += movement.x;
     m_Transform.translation.y += movement.y;
@@ -43,23 +41,26 @@ void Player::SetRotation(float arc) {
 }
 
 bool Player::Moving() {
-    if (Util::Input::IsKeyPressed(Util::Keycode::W) or Util::Input::IsKeyPressed(Util::Keycode::UP)) {
-        m_MovingDirection += glm::vec2(0.0f, 3.0f);
+    if (not m_Stun) {
+        if (Util::Input::IsKeyPressed(Util::Keycode::W) or Util::Input::IsKeyPressed(Util::Keycode::UP)) {
+            m_MovingDirection += glm::vec2(0.0f, m_Speed);
+        }
+        if (Util::Input::IsKeyPressed(Util::Keycode::S) or Util::Input::IsKeyPressed(Util::Keycode::DOWN)) {
+            m_MovingDirection += glm::vec2(0.0f, -m_Speed);
+        }
+        if (Util::Input::IsKeyPressed(Util::Keycode::A) or Util::Input::IsKeyPressed(Util::Keycode::LEFT)) {
+            m_MovingDirection += glm::vec2(-m_Speed, 0.0f);
+        }
+        if (Util::Input::IsKeyPressed(Util::Keycode::D) or Util::Input::IsKeyPressed(Util::Keycode::RIGHT)) {
+            m_MovingDirection += glm::vec2(m_Speed, 0.0f);
+        }
+        if (Util::Input::IsKeyDown(Util::Keycode::SPACE)) {
+            Dash();
+        }
     }
-    if (Util::Input::IsKeyPressed(Util::Keycode::S) or Util::Input::IsKeyPressed(Util::Keycode::DOWN)) {
-        m_MovingDirection += glm::vec2(0.0f, -3.0f);
-    }
-    if (Util::Input::IsKeyPressed(Util::Keycode::A) or Util::Input::IsKeyPressed(Util::Keycode::LEFT)) {
-        m_MovingDirection += glm::vec2(-3.0f, 0.0f);
-    }
-    if (Util::Input::IsKeyPressed(Util::Keycode::D) or Util::Input::IsKeyPressed(Util::Keycode::RIGHT)) {
-        m_MovingDirection += glm::vec2(3.0f, 0.0f);
-    }
-    if (Util::Input::IsKeyDown(Util::Keycode::SPACE)) {
-        Dash();
-    }
+
     if (m_Dashing) {
-        m_MovingDirection *= 10;
+        m_MovingDirection *= 5;
         m_DashTimeLeft -= Util::Time::GetDeltaTimeMs();
         if (m_DashTimeLeft <= 0) {
             m_Dashing = false;
@@ -76,15 +77,24 @@ bool Player::Moving() {
         m_InvincibleTimeLeft -= Util::Time::GetDeltaTimeMs();
         if (m_KnockBackDirection == glm::vec2(0.0f, 0.0f)) {
             if (m_MovingDirection == glm::vec2(0.0f, 0.0f)) {
-                m_KnockBackDirection = glm::vec2(3.0, 0.0f);
+                m_MovingDirection = glm::vec2(m_Speed, 0.0f);
             }
-            m_KnockBackDirection = m_MovingDirection * -10.0f;
+            m_KnockBackDirection = m_MovingDirection * -3.0f;
         }
-        m_MovingDirection = m_KnockBackDirection;
+        if (m_Stun)
+            m_MovingDirection = m_KnockBackDirection;
+        if (m_InvincibleTimeLeft <= 100)
+            m_Stun = false;
         if (m_InvincibleTimeLeft <= 0) {
             m_KnockBack = false;
             m_Invincible = false;
             m_KnockBackDirection = glm::vec2(0.0f, 0.0f);
+        }
+    }
+    if (m_NoDamage) {
+        m_NoDamageTimeLeft -= Util::Time::GetDeltaTimeMs();
+        if (m_NoDamageTimeLeft <= 0) {
+            m_NoDamage = false;
         }
     }
     m_Transform.translation -= m_LastOffset;
@@ -107,13 +117,14 @@ void Player::Dash() {
 }
 
 void Player::Hit() {
-    if (m_Invincible) return;
+    if (m_Invincible || m_Health <= 0) return;
     MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::PlrHit);
-    if (m_Health > 0)
+    if (not m_NoDamage && m_Health > 0)
         m_Health -= 1;
+    m_Stun = true;
+    m_KnockBack = true;
     m_Invincible = true;
     m_InvincibleTimeLeft = 500.0f;
-    m_KnockBack = true;
 }
 
 void Player::Shake(glm::vec2 movement) {
@@ -135,4 +146,6 @@ void Player::Revive() {
     m_Health = m_MaxHealth;
     m_Transform.translation = glm::vec2(-500.0f, 0.0f);
     this->SetVisible(true);
+    m_NoDamage = true;
+    m_NoDamageTimeLeft = 1000.0f;
 }

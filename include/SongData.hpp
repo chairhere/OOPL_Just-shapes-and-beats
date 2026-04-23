@@ -16,6 +16,7 @@ public:
     SongsBPM BPM;
     std::string AudioPath;
     std::string ReverseAudioPath;
+    std::string BeatMap;
 };
 
 #endif //JUST_SHAPES_AND_BEATS_SONGDATA_HPP

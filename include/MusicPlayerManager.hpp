@@ -77,8 +77,9 @@ private:
     std::unordered_map<Effect, SoLoud::Wav> m_SFXLibrary;
     SoLoud::Wav m_BGM;  //長音樂物件
     SoLoud::handle m_BGMHandler;  //音樂處理ID
-    float BGMVolume = 0.2f;
-    float SFXVolume = 0.2f;
+    float BGMVolume = 0.3f;
+    float SFXVolume = 0.3f;
+    bool reverse = false;
 
     std::random_device rd;  //隨機種子
     std::mt19937 g = std::mt19937(rd());  //取亂數

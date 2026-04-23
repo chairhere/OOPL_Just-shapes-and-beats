@@ -5,6 +5,8 @@
 #include "../include/PlaygroundScreen.hpp"
 
 #include "MusicPlayerManager.hpp"
+#include "SongData.hpp"
+#include "SongList.hpp"
 #include "SongsBPM.hpp"
 
 PlaygroundScreen::PlaygroundScreen(Levels level){
@@ -12,12 +14,14 @@ PlaygroundScreen::PlaygroundScreen(Levels level){
     if (not debug)
         SDL_ShowCursor(SDL_DISABLE);
     LOG_DEBUG("PlaygroundScreen::PlaygroundScreen");
+    SongData data;
     switch (level) {
         case Levels::Chronos:
-            m_BeatMap += "Chronos.json";
-            m_SongPath += "Chronos.wav";
-            BPM = static_cast<float>(SongsBPM::Chronos);
-            MusicPlayerManager::Setting().Switch(Levels::Chronos);
+            data = SongList::GetSongByName(Levels::Chronos);
+            m_BeatMap = data.BeatMap;
+            m_SongPath = data.AudioPath;
+            BPM = static_cast<float>(data.BPM);
+            MusicPlayerManager::Setting().Switch(data.Level);
             MusicPlayerManager::Setting().InfLoop(false);
             break;
         default:
@@ -43,7 +47,7 @@ PlaygroundScreen::PlaygroundScreen(Levels level){
 }
 
 ScreenState PlaygroundScreen::Update() {
-    m_Player->Moving();
+    m_PlayerDie = m_Player->Moving();
 
     if (Util::Input::IsKeyDown(Util::Keycode::TAB)) {
         debug ^= 1;
@@ -51,6 +55,35 @@ ScreenState PlaygroundScreen::Update() {
             SDL_ShowCursor(SDL_ENABLE);
         }else {
             SDL_ShowCursor(SDL_DISABLE);
+        }
+    }
+    if (not undead && m_PlayerDie) {
+        switch (m_DieStage) {
+            case DieStage::Alive:
+                m_Player->Die();  //死亡
+                m_DieStage = DieStage::SlowDown;
+                break;
+            case DieStage::SlowDown:
+                if (m_MusicSpeed > 0.01) {  //音樂速度放慢
+                    m_MusicSpeed -= 0.01f;
+                    MusicPlayerManager::Setting().SetSpeed(m_MusicSpeed);
+                }else {  //音樂速度停了
+                    MusicPlayerManager::Setting().ReverseAt(MusicPlayerManager::Setting().GetBeats());
+                    m_DieStage = DieStage::Rewinding;
+                }
+                break;
+            case DieStage::Rewinding:
+                if (m_MusicSpeed < 1.7f) {
+                    m_MusicSpeed += 0.02;
+                    MusicPlayerManager::Setting().SetSpeed(m_MusicSpeed);
+                }else {
+                    m_MusicSpeed = 1.0f;
+                    MusicPlayerManager::Setting().SetSpeed(m_MusicSpeed);
+                    MusicPlayerManager::Setting().PlayAt(0.0f);
+                    m_Player->Revive();
+                    m_DieStage = DieStage::Alive;
+                }
+                break;
         }
     }
     if (debug) {

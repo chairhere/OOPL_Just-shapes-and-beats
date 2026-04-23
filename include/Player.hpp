@@ -41,14 +41,21 @@ public:
 protected:
     int m_MaxHealth = 3;
     int m_Health = m_MaxHealth;
+
+    const float m_Speed = 5.0f;
     glm::vec2 m_MovingDirection = glm::vec2(0.0f, 0.0f);
     bool m_Dashing = false;
     float m_DashTimeLeft = 0;
     bool m_DashCoolDown = false;
+
     bool m_Invincible = false;
     float m_InvincibleTimeLeft = 0;
     bool m_KnockBack = false;
     glm::vec2 m_KnockBackDirection = glm::vec2(0.0f, 0.0f);
+    bool m_Stun = false;
+
+    bool m_NoDamage = true;
+    float m_NoDamageTimeLeft = 1000.0f;
     glm::vec2 m_LastOffset = glm::vec2(0.0f, 0.0f);
 
 };
