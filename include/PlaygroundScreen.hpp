@@ -29,6 +29,14 @@ private:
     std::vector<std::shared_ptr<FadeLayer>> m_TestingPower;
     std::shared_ptr<Player> m_Player;
 
+    bool m_PlayerDie = false;
+    float m_MusicSpeed = 1.0f;
+    enum class DieStage {
+        Alive,
+        SlowDown,
+        Rewinding
+    } m_DieStage = DieStage::Alive;
+
     int BPM;
 
     bool debug = true;
