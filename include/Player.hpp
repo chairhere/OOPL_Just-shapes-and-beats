@@ -4,6 +4,7 @@
 
 #ifndef JUST_SHAPES_AND_BEATS_PLAYER_HPP
 #define JUST_SHAPES_AND_BEATS_PLAYER_HPP
+#include "ImageObject.hpp"
 #include "glm/vec2.hpp"
 #include "Util/GameObject.hpp"
 #include "Util/Image.hpp"
@@ -13,8 +14,8 @@
 class Player : public Util::GameObject {
 public:
     Player() {
-        m_Drawable = std::make_shared<Util::Image>("../Resources/Image/Player/Rectangle.png");
-        m_Transform.scale = glm::vec2(0.3f, 0.3f);
+        m_Drawable = std::make_shared<Util::Image>(m_NowImagePath);
+        m_Transform.scale = glm::vec2(normalScale, normalScale);
     }
 
     [[nodiscard]] glm::vec2 GetPosition() {return m_Transform.translation;}
@@ -53,6 +54,11 @@ protected:
     bool m_KnockBack = false;
     glm::vec2 m_KnockBackDirection = glm::vec2(0.0f, 0.0f);
     bool m_Stun = false;
+    bool m_Blink = false;
+    std::string m_NowImagePath = "../Resources/Image/Player/Rectangle.png";
+    std::string m_BlinkImagePath = "../Resources/Image/Player/Rectangle-blink.png";
+    void ChangeImage();
+
 
     bool m_NoDamage = true;
     float m_NoDamageTimeLeft = 1000.0f;
@@ -61,7 +67,7 @@ protected:
     void Squash();
     glm::vec2 m_ScaleVelocity = glm::vec2(0.0f, 0.0f);  //彈性
     void Turn();
-    float normalScale = 0.3f;
+    float normalScale = 0.5f;
 
 };
 

@@ -83,6 +83,7 @@ bool Player::Moving() {
             }
             m_KnockBackDirection = m_MovingDirection * -3.0f;
         }
+        m_Blink ^= true;
         if (m_Stun)
             m_MovingDirection = m_KnockBackDirection;
         if (m_InvincibleTimeLeft <= 500)
@@ -90,7 +91,17 @@ bool Player::Moving() {
         if (m_InvincibleTimeLeft <= 0) {
             m_KnockBack = false;
             m_Invincible = false;
+            m_Blink = false;
             m_KnockBackDirection = glm::vec2(0.0f, 0.0f);
+        }
+        if (m_Blink) {
+            if (auto imageDrawable = std::dynamic_pointer_cast<Util::Image>(m_Drawable)) {
+                imageDrawable->SetImage(m_BlinkImagePath);
+            }
+        }else {
+            if (auto imageDrawable = std::dynamic_pointer_cast<Util::Image>(m_Drawable)) {
+                imageDrawable->SetImage(m_NowImagePath);
+            }
         }
     }
     if (m_NoDamage) {
@@ -127,6 +138,7 @@ void Player::Hit() {
     m_KnockBack = true;
     m_Invincible = true;
     m_InvincibleTimeLeft = 1000.0f;
+    ChangeImage();
 }
 
 void Player::Shake(glm::vec2 movement) {
@@ -150,7 +162,57 @@ void Player::Revive() {
     this->SetVisible(true);
     m_NoDamage = true;
     m_NoDamageTimeLeft = 1000.0f;
+    ChangeImage();
 }
+
+void Player::ChangeImage() {
+    if (m_MaxHealth == 3) {
+        switch (m_Health) {
+            case 3:
+                m_NowImagePath = "../Resources/Image/Player/Rectangle.png";
+                break;
+            case 2:
+                m_NowImagePath = "../Resources/Image/Player/Rectangle-2.png";
+                break;
+            case 1:
+                m_NowImagePath = "../Resources/Image/Player/Rectangle-4.png";
+                break;
+            default:
+                m_NowImagePath = "../Resources/Image/Player/Rectangle-6.png";
+                break;
+        }
+    }else if (m_MaxHealth == 6) {
+        switch (m_Health) {
+            case 6:
+                m_NowImagePath = "../Resources/Image/Player/Rectangle.png";
+                break;
+            case 5:
+                m_NowImagePath = "../Resources/Image/Player/Rectangle-1.png";
+                break;
+            case 4:
+                m_NowImagePath = "../Resources/Image/Player/Rectangle-2.png";
+                break;
+            case 3:
+                m_NowImagePath = "../Resources/Image/Player/Rectangle-3.png";
+                break;
+            case 2:
+                m_NowImagePath = "../Resources/Image/Player/Rectangle-4.png";
+                break;
+            case 1:
+                m_NowImagePath = "../Resources/Image/Player/Rectangle-5.png";
+                break;
+            default:
+                m_NowImagePath = "../Resources/Image/Player/Rectangle-6.png";
+                break;
+        }
+    }else {
+        throw std::invalid_argument("invalid max health");
+    }
+    if (auto imageDrawable = std::dynamic_pointer_cast<Util::Image>(m_Drawable)) {
+        imageDrawable->SetImage(m_NowImagePath);
+    }
+}
+
 
 void Player::Squash() {
     glm::vec2 targetScale;
@@ -186,10 +248,10 @@ void Player::Turn() {
     float targetAngle;
     if (m_MovingDirection == glm::vec2(0.0f ,0.0f)) {  //停止
         //轉回來
-        targetAngle = PI;
+        targetAngle = 0;
     }else {  //移動
         //面相行徑方向
-        targetAngle = std::atan2(m_MovingDirection.y, m_MovingDirection.x);
+        targetAngle = std::atan2(-m_MovingDirection.y, -m_MovingDirection.x);
     }
     float currentAngle = m_Transform.rotation;
     float diff = targetAngle - currentAngle;
