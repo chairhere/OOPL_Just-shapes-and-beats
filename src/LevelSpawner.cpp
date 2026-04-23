@@ -4,7 +4,7 @@
 
 #include "LevelSpawner.hpp"
 
-void LevelSpawner::Start() {
+void LevelSpawner::Start(float StartBeat) {
     g = std::mt19937(rd());
 
     std::ifstream file(m_BeatMap);
@@ -17,6 +17,9 @@ void LevelSpawner::Start() {
     file >> m_LevelData;
     LOG_DEBUG("startbuild");
     for (const auto& item : m_LevelData) {
+        if (item["StartBeat"]  < StartBeat) {
+            continue;
+        }
         SpawnEvent m_LoadEvent;
         //資料進來後根據障礙種類去做分類
         if (item["ObstacleType"] == "RotatingRectangle") {//瞬發
@@ -47,7 +50,7 @@ void LevelSpawner::Start() {
             m_LoadEvent.StartRot = 0.0f;
             m_LoadEvent.SpecialData.PausePos = {item["PausePos"]["X"], item["PausePos"]["Y"]};
             m_LoadEvent.EndPos = {300.0f - static_cast<float>(WINDOW_WIDTH) / 2, item["PausePos"]["Y"]};
-            m_LoadEvent.Scale = {50.0f, 50.0f};
+            m_LoadEvent.Scale = {50.0f, 60.0f};
             m_LoadEvent.SpecialData.FireCount = 0;
         }
         else if (item["ObstacleType"] == "SpikeBall") {//1拍定位，1拍停留後炸裂，
@@ -394,7 +397,7 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
         newObs->TurnOffCollidable();
     }
     else if (m_SpawnEvent.Bullet == BulletType::SpawnerTriangle) {
-        m_SpawnVertices = {-0.5f, 0.5f, -0.5f, -0.5f, 0.35f, 0.0f};
+        m_SpawnVertices = {-0.5f, 0.5f, -0.5f, -0.5f, 0.3f, 0.0f};
         std::vector<float> Uvs = {0.25f, 0.25f, 0.25f, 0.25f, 0.25f, 0.25f};
 
 
@@ -443,10 +446,10 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
             BallEvent.StartPos = m_SpawnEvent.SpecialData.PausePos - glm::vec2{m_SpawnEvent.Scale.x * 0.4, 0.0f};
             this->CreateObstacle(BallEvent, PlayerPos);
 
-            BallEvent.StartPos = m_SpawnEvent.SpecialData.PausePos - glm::vec2{m_SpawnEvent.Scale.x * 0.4, m_SpawnEvent.Scale.y * 0.45};
+            BallEvent.StartPos = m_SpawnEvent.SpecialData.PausePos - glm::vec2{m_SpawnEvent.Scale.x * 0.4, m_SpawnEvent.Scale.y * 0.6};
             this->CreateObstacle(BallEvent, PlayerPos);
 
-            BallEvent.StartPos = m_SpawnEvent.SpecialData.PausePos - glm::vec2{m_SpawnEvent.Scale.x * 0.4, -m_SpawnEvent.Scale.y * 0.45};
+            BallEvent.StartPos = m_SpawnEvent.SpecialData.PausePos - glm::vec2{m_SpawnEvent.Scale.x * 0.4, -m_SpawnEvent.Scale.y * 0.6};
             this->CreateObstacle(BallEvent, PlayerPos);
         }
 
@@ -454,7 +457,7 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
     else if (m_SpawnEvent.Bullet == BulletType::EasingBall) {
 
         m_SpawnVertices = {-0.5f, 0.5f, -0.5f, -0.5f, 0.5f, -0.5f, 0.5f, 0.5f};
-        m_SpawnEvent.Scale = {10.0f, 10.0f};
+        m_SpawnEvent.Scale = {15.0f, 15.0f};
         m_SpawnEvent.Bullet = BulletType::EasingBall;
 
         newObs->customBehavior = [this](Obstacle& self, float beat, glm::vec2 PlayerPos) {

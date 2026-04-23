@@ -65,7 +65,7 @@ public:
 
     void Update(float currentBeat, glm::vec2 PlayerPos);
 
-    void Start();
+    void Start(float StartBeat = 0.0f);
 
     Obstacle* GetActiveObstacle();
 
