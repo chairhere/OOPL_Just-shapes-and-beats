@@ -83,6 +83,15 @@ void LevelSpawner::Start(float StartBeat) {
             m_LoadEvent.EndBeat = static_cast<float>(item["StartBeat"]) + 8.5f;
             m_LoadEvent.Scale = {200.0f, 200.0f};
         }
+        else if (item["ObstacleType"] == "SpawnerRectangle") {
+            m_LoadEvent.Bullet = BulletType::SpawnerRectangle;
+            m_LoadEvent.StartBeat = item["StartBeat"];
+            m_LoadEvent.EndBeat = item["EndBeat"];
+            m_LoadEvent.StartRot = 0.0f;
+            m_LoadEvent.SpecialData.Velocity = 180.0f;
+            m_LoadEvent.SpecialData.AngularVelocity = glm::pi<float>();
+            m_LoadEvent.Scale = glm::vec2{15.0f, 15.0f};
+        }
 
         m_PendingEvents.push(m_LoadEvent);
     }
@@ -180,6 +189,7 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
 
     if (m_SpawnEvent.Bullet == BulletType::RotatingRectangle) {//旋轉方塊
         SpawnEvent CircleEvent = m_SpawnEvent;
+        SpawnEvent RectangleEvent = m_SpawnEvent;
 
         m_SpawnVertices = {-0.5f, 0.5f, -0.5f, -0.5f, 0.5f, -0.5f, 0.5f, 0.5f};
 
@@ -194,8 +204,8 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
         float velocityWeight = val(g);
         std::vector<float> thetas = {theta, thetaDown, thetaUp};
         for (int i = 0; i < 3; i++) {
-            m_SpawnEvent.SpecialData.UnitVector = glm::vec2{glm::cos(thetas[i]), glm::sin(thetas[i])};
-            m_SpawnEvent.SpecialData.Velocity = m_SpawnEvent.SpecialData.Velocity * velocityWeight;
+            RectangleEvent.SpecialData.UnitVector = glm::vec2{glm::cos(thetas[i]), glm::sin(thetas[i])};
+            RectangleEvent.SpecialData.Velocity = m_SpawnEvent.SpecialData.Velocity * velocityWeight;
 
             newObs = GetActiveObstacle();
 
@@ -211,7 +221,7 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
 
                 self.m_IsColliding = self.CheckCollision(PlayerPos);
             };
-            newObs->Spawn(m_SpawnEvent, m_SpawnVertices);
+            newObs->Spawn(RectangleEvent, m_SpawnVertices);
             //起始跟隨方塊的圓形
 
             CircleEvent.Bullet = BulletType::EffectBall;
@@ -220,6 +230,57 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
             CircleEvent.EndBeat = CircleEvent.StartBeat + 1;
 
             CreateObstacle(CircleEvent, PlayerPos);
+        }
+    }
+    else if (m_SpawnEvent.Bullet == BulletType::SpawnerRectangle) {
+
+        m_SpawnVertices = {-0.5f, 0.5f, -0.5f, -0.5f, 0.5f, -0.5f, 0.5f, 0.5f};
+
+        SpawnEvent RectangleEvent = m_SpawnEvent;
+
+        std::uniform_int_distribution<int> chance(0, 3);
+        std::uniform_real_distribution<float> PosY(-(static_cast<float>(WINDOW_HEIGHT) / 2) + 200, static_cast<float>(WINDOW_HEIGHT) / 2 - 200);
+        std::uniform_real_distribution<float> dis(0.0f, 0.7854f);
+        std::uniform_real_distribution<float> val(0.8f, 1.2f);
+        float i = static_cast<float>(m_SpawnEvent.StartBeat);
+        while (i < static_cast<float>(m_SpawnEvent.StartBeat) + 16.0f) {
+            i += 0.25f;
+            if (chance(g)) {
+                newObs = GetActiveObstacle();
+
+                float theta = dis(g);
+                float YIndex = PosY(g);
+                if (YIndex < 0) {
+                    RectangleEvent.SpecialData.UnitVector = glm::vec2{glm::cos(glm::pi<float>() - theta), glm::sin(glm::pi<float>() - theta)};
+                }else {
+                    RectangleEvent.SpecialData.UnitVector = glm::vec2{glm::cos(glm::pi<float>() + theta), glm::sin(glm::pi<float>() + theta)};
+                }
+                RectangleEvent.StartPos = {757.0f, YIndex};
+                RectangleEvent.SpecialData.Velocity = m_SpawnEvent.SpecialData.Velocity * val(g);
+                RectangleEvent.StartBeat = i;
+
+                SpawnEvent CircleEvent = RectangleEvent;
+                RectangleEvent.EndBeat = i + 14.0f;
+
+                newObs->customBehavior = [this](Obstacle& self, float beat, glm::vec2 PlayerPos) {
+                    self.m_Transform.rotation = beat * self.m_Event.SpecialData.AngularVelocity;
+
+                    self.m_Transform.translation = self.m_Event.StartPos +
+                        glm::vec2{self.m_Event.SpecialData.Velocity * self.m_Event.SpecialData.UnitVector.x * (beat - self.m_Event.StartBeat),
+                            self.m_Event.SpecialData.Velocity * self.m_Event.SpecialData.UnitVector.y * (beat - self.m_Event.StartBeat)};
+
+                    self.UpdateWorldVertices();
+
+                    self.m_IsColliding = self.CheckCollision(PlayerPos);
+                };
+
+                newObs->Spawn(RectangleEvent, m_SpawnVertices);
+
+                CircleEvent.Bullet = BulletType::EffectBall;
+                CircleEvent.EndBeat = CircleEvent.StartBeat + 1;
+
+                CreateObstacle(CircleEvent, PlayerPos);
+            }
         }
     }
     else if (m_SpawnEvent.Bullet == BulletType::Laser) {//小型雷射
