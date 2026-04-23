@@ -151,11 +151,15 @@ float MusicPlayerManager::GetBeats() {
     if (IsEmpty()) throw std::invalid_argument("List is empty");
 
     SongData data = SongList::GetSongByName(m_MusicList[0]);
-    if (reverse) {
-        float totalTime = (float)m_BGM.getLength();
-        return static_cast<float>(totalTime - m_MusicPlayer.getStreamPosition(m_BGMHandler)) / 60.0f * static_cast<float>(data.BPM);
+    if (m_MusicPlayer.isValidVoiceHandle(m_BGMHandler)) {
+        if (reverse) {
+            float totalTime = (float)m_BGM.getLength();
+            currentBeats = static_cast<float>(totalTime - m_MusicPlayer.getStreamPosition(m_BGMHandler)) / 60.0f * static_cast<float>(data.BPM);
+        }else {
+            currentBeats = static_cast<float>(m_MusicPlayer.getStreamPosition(m_BGMHandler)) / 60.0f * static_cast<float>(data.BPM);
+        }
     }
-    return static_cast<float>(m_MusicPlayer.getStreamPosition(m_BGMHandler)) / 60.0f * static_cast<float>(data.BPM);
+    return currentBeats;
 }
 
 Levels MusicPlayerManager::GetCurrentLevel() {
