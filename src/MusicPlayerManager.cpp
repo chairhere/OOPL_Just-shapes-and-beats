@@ -200,6 +200,7 @@ void MusicPlayerManager::PlayEffect(Effect effect) {
             }else {
                 m_MusicPlayer.play(m_SFXLibrary[PlrHit2]);
             }
+            break;
         default:
             m_MusicPlayer.play(m_SFXLibrary[effect]);
     }
