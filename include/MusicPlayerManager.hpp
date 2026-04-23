@@ -80,6 +80,7 @@ private:
     float BGMVolume = 0.3f;
     float SFXVolume = 0.3f;
     bool reverse = false;
+    float currentBeats = 0.0f;
 
     std::random_device rd;  //隨機種子
     std::mt19937 g = std::mt19937(rd());  //取亂數
