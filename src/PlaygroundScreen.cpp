@@ -77,6 +77,8 @@ ScreenState PlaygroundScreen::Update() {
                     m_MusicSpeed += 0.02;
                     MusicPlayerManager::Setting().SetSpeed(m_MusicSpeed);
                 }else {
+                    m_LevelSpawner = std::make_shared<LevelSpawner>(m_BeatMap);
+                    m_LevelSpawner->Start();
                     m_MusicSpeed = 1.0f;
                     MusicPlayerManager::Setting().SetSpeed(m_MusicSpeed);
                     MusicPlayerManager::Setting().PlayAt(0.0f);
@@ -123,6 +125,8 @@ ScreenState PlaygroundScreen::Update() {
         ImGui::SliderFloat("Beats", &v, 0.0f, MusicPlayerManager::Setting().GetTotalBeats());
         if (ImGui::Button("Play at", ImVec2(50, 20))) {
             MusicPlayerManager::Setting().PlayAt(v);
+            m_LevelSpawner = std::make_shared<LevelSpawner>(m_BeatMap);
+            m_LevelSpawner->Start();
         }
         ImGui::Checkbox("Undead", &undead);
         ImGui::Checkbox("Invincible", &invincible);

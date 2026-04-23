@@ -4,6 +4,7 @@
 
 #ifndef JUST_SHAPES_AND_BEATS_PLAYER_HPP
 #define JUST_SHAPES_AND_BEATS_PLAYER_HPP
+#include "ImageObject.hpp"
 #include "glm/vec2.hpp"
 #include "Util/GameObject.hpp"
 #include "Util/Image.hpp"
@@ -12,10 +13,7 @@
 
 class Player : public Util::GameObject {
 public:
-    Player() {
-        m_Drawable = std::make_shared<Util::Image>("../Resources/Image/Player/Rectangle.png");
-        m_Transform.scale = glm::vec2(0.3f, 0.3f);
-    }
+    Player();
 
     [[nodiscard]] glm::vec2 GetPosition() {return m_Transform.translation;}
 
@@ -47,16 +45,28 @@ protected:
     bool m_Dashing = false;
     float m_DashTimeLeft = 0;
     bool m_DashCoolDown = false;
+    std::string m_DashGlowImagePath = "../Resources/Image/Dash/Player1_Dash.png";
+    std::shared_ptr<ImageObject> m_Background;
 
     bool m_Invincible = false;
     float m_InvincibleTimeLeft = 0;
     bool m_KnockBack = false;
     glm::vec2 m_KnockBackDirection = glm::vec2(0.0f, 0.0f);
     bool m_Stun = false;
+    bool m_Blink = false;
+    std::string m_NowImagePath = "../Resources/Image/Player/Rectangle.png";
+    std::string m_BlinkImagePath = "../Resources/Image/Player/Rectangle-blink.png";
+    void ChangeImage();
+
 
     bool m_NoDamage = true;
     float m_NoDamageTimeLeft = 1000.0f;
     glm::vec2 m_LastOffset = glm::vec2(0.0f, 0.0f);
+
+    void Squash();
+    glm::vec2 m_ScaleVelocity = glm::vec2(0.0f, 0.0f);  //彈性
+    void Turn();
+    float normalScale = 0.5f;
 
 };
 
