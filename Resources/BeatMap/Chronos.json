@@ -641,6 +641,11 @@
     "StartRotation" : 0.0
   },
   {
+    "StartBeat" : 77.5,
+    "ObstacleType" : "SpawnerRectangle",
+    "EndBeat" : 93.5
+  },
+  {
     "StartBeat" : 78.5,
     "ObstacleType" : "Laser",
     "Offset" : 440.0,
@@ -731,6 +736,10 @@
     "StartRotation" : 1.570796
   },
   {
+    "StartBeat" : 93.5,
+    "ObstacleType" : "ExpendingBall"
+  },
+  {
     "StartBeat" : 94.5,
     "ObstacleType" : "Laser",
     "Offset" : -140.0,
@@ -741,6 +750,10 @@
     "ObstacleType" : "Laser",
     "Offset" : 14.0,
     "StartRotation" : 1.570796
+  },
+  {
+    "StartBeat" : 97.5,
+    "ObstacleType" : "ExpendingBall"
   },
   {
     "StartBeat" : 98.5,
@@ -755,6 +768,10 @@
     "StartRotation" : 0.0
   },
   {
+    "StartBeat" : 101.5,
+    "ObstacleType" : "ExpendingBall"
+  },
+  {
     "StartBeat" : 102.5,
     "ObstacleType" : "Laser",
     "Offset" : 570.0,
@@ -765,6 +782,10 @@
     "ObstacleType" : "Laser",
     "Offset" : -105.0,
     "StartRotation" : 0.0
+  },
+  {
+    "StartBeat" : 105.5,
+    "ObstacleType" : "ExpendingBall"
   },
   {
     "StartBeat" : 106.5,
@@ -779,6 +800,15 @@
     "StartRotation" : 1.570796
   },
   {
+    "StartBeat" : 109.5,
+    "ObstacleType" : "ExpendingBall"
+  },
+  {
+    "StartBeat" : 109.5,
+    "ObstacleType" : "SpawnerRectangle",
+    "EndBeat" : 125.5
+  },
+  {
     "StartBeat" : 110.5,
     "ObstacleType" : "Laser",
     "Offset" : -592.0,
@@ -789,6 +819,10 @@
     "ObstacleType" : "Laser",
     "Offset" : -220.0,
     "StartRotation" : 0.0
+  },
+  {
+    "StartBeat" : 113.5,
+    "ObstacleType" : "ExpendingBall"
   },
   {
     "StartBeat" : 114.5,
@@ -803,6 +837,10 @@
     "StartRotation" : 0.0
   },
   {
+    "StartBeat" : 117.5,
+    "ObstacleType" : "ExpendingBall"
+  },
+  {
     "StartBeat" : 118.5,
     "ObstacleType" : "Laser",
     "Offset" : 545.0,
@@ -815,6 +853,10 @@
     "StartRotation" : 0.0
   },
   {
+    "StartBeat" : 121.5,
+    "ObstacleType" : "ExpendingBall"
+  },
+  {
     "StartBeat" : 122.5,
     "ObstacleType" : "Laser",
     "Offset" : -116.0,
@@ -825,5 +867,377 @@
     "ObstacleType" : "Laser",
     "Offset" : -175.0,
     "StartRotation" : 0.0
+  },
+  {
+    "StartBeat" : 149.0,
+    "ObstacleType" : "SpikeBall",
+    "PausePos" : {"X" : 325.0, "Y" : 300.0}
+  },
+  {
+    "StartBeat" : 151.0,
+    "ObstacleType" : "SpikeBall",
+    "PausePos" : {"X" : 325.0, "Y" : 300.0}
+  },
+  {
+    "StartBeat" : 153.0,
+    "ObstacleType" : "SpikeBall",
+    "PausePos" : {"X" : 325.0, "Y" : 300.0}
+  },
+  {
+    "StartBeat" : 155.0,
+    "ObstacleType" : "SpikeBall",
+    "PausePos" : {"X" : 325.0, "Y" : 300.0}
+  },
+  {
+    "StartBeat" : 157.0,
+    "ObstacleType" : "SpikeBall",
+    "PausePos" : {"X" : 325.0, "Y" : 300.0}
+  },
+  {
+    "StartBeat" : 159.0,
+    "ObstacleType" : "SpikeBall",
+    "PausePos" : {"X" : 325.0, "Y" : 300.0}
+  },
+  {
+    "StartBeat" : 161.0,
+    "ObstacleType" : "SpikeBall",
+    "PausePos" : {"X" : 325.0, "Y" : 300.0}
+  },
+  {
+    "StartBeat" : 162.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 163.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 164.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 165.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 166.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 167.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 168.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 169.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 170.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 171.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 172.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 173.5,
+    "ObstacleType" : "ExpendingBall"
+  },
+  {
+    "StartBeat" : 173.5,
+    "ObstacleType" : "ExpendingBall"
+  },
+  {
+    "StartBeat" : 173.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 178.0,
+    "ObstacleType" : "SpikeBall",
+    "PausePos" : {"X" : 325.0, "Y" : 300.0}
+  },
+  {
+    "StartBeat" : 178.25,
+    "ObstacleType" : "SpikeBall",
+    "PausePos" : {"X" : 325.0, "Y" : 300.0}
+  },
+  {
+    "StartBeat" : 178.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 178.75,
+    "ObstacleType" : "SpikeBall",
+    "PausePos" : {"X" : 325.0, "Y" : 300.0}
+  },
+  {
+    "StartBeat" : 179.25,
+    "ObstacleType" : "SpikeBall",
+    "PausePos" : {"X" : 325.0, "Y" : 300.0}
+  },
+  {
+    "StartBeat" : 179.5,
+    "ObstacleType" : "SpikeBall",
+    "PausePos" : {"X" : 325.0, "Y" : 300.0}
+  },
+  {
+    "StartBeat" : 179.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 180.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 181.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 182.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 183.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 184.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 185.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 186.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 187.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 188.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 189.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 190.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 191.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 192.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 193.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 194.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 195.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 196.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 197.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 198.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 199.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 200.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 201.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 202.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 203.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 204.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 205.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 206.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 207.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 208.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 209.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 210.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 211.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 212.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 213.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 214.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 215.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 216.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 217.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 218.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 219.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 220.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 221.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 222.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 223.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 224.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 225.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 226.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 227.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 228.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 229.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 230.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 231.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 232.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 233.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 234.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 235.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 236.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 237.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 238.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 239.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 240.5,
+    "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 241.5,
+    "ObstacleType" : "BiggerLaser"
   }
 ]
