@@ -53,15 +53,15 @@ add_executable(${PROJECT_NAME}
     ${SRC_DIR}/main.cpp
     ${SRC_FILES}
     ${HEADER_FILES}
-        "src/TimeLine.cpp"
-        "include/TimeLine.hpp"
-        "include/Player.hpp"
-        "src/Player.cpp"
-        "include/SpawnEvent.hpp"
-        "include/SongsBPM.hpp"
-        "src/Button.cpp"
-        "include/Button.hpp"
-        "include/Obstacle.hpp"
+        src/TimeLine.cpp
+        include/TimeLine.hpp
+        include/Player.hpp
+        src/Player.cpp
+        include/SpawnEvent.hpp
+        include/SongsBPM.hpp
+        src/Button.cpp
+        include/Button.hpp
+        include/Obstacle.hpp
         src/Obstacle.cpp
         include/ScreenState.hpp
         include/Screen.hpp
