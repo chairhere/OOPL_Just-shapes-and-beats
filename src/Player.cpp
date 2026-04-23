@@ -14,8 +14,6 @@ void Player::SetPosition(glm::vec2 new_position) {
 
 
 void Player::MovePosition(glm::vec2 movement) {
-    float predict_x = m_Transform.translation.x;
-    float predict_y = m_Transform.translation.y;
     //邊界偵測
     m_Transform.translation.x += movement.x;
     m_Transform.translation.y += movement.y;
@@ -45,16 +43,16 @@ void Player::SetRotation(float arc) {
 bool Player::Moving() {
     if (not m_Stun) {
         if (Util::Input::IsKeyPressed(Util::Keycode::W) or Util::Input::IsKeyPressed(Util::Keycode::UP)) {
-            m_MovingDirection += glm::vec2(0.0f, 3.0f);
+            m_MovingDirection += glm::vec2(0.0f, m_Speed);
         }
         if (Util::Input::IsKeyPressed(Util::Keycode::S) or Util::Input::IsKeyPressed(Util::Keycode::DOWN)) {
-            m_MovingDirection += glm::vec2(0.0f, -3.0f);
+            m_MovingDirection += glm::vec2(0.0f, -m_Speed);
         }
         if (Util::Input::IsKeyPressed(Util::Keycode::A) or Util::Input::IsKeyPressed(Util::Keycode::LEFT)) {
-            m_MovingDirection += glm::vec2(-3.0f, 0.0f);
+            m_MovingDirection += glm::vec2(-m_Speed, 0.0f);
         }
         if (Util::Input::IsKeyPressed(Util::Keycode::D) or Util::Input::IsKeyPressed(Util::Keycode::RIGHT)) {
-            m_MovingDirection += glm::vec2(3.0f, 0.0f);
+            m_MovingDirection += glm::vec2(m_Speed, 0.0f);
         }
         if (Util::Input::IsKeyDown(Util::Keycode::SPACE)) {
             Dash();
@@ -62,7 +60,7 @@ bool Player::Moving() {
     }
 
     if (m_Dashing) {
-        m_MovingDirection *= 10;
+        m_MovingDirection *= 5;
         m_DashTimeLeft -= Util::Time::GetDeltaTimeMs();
         if (m_DashTimeLeft <= 0) {
             m_Dashing = false;
@@ -79,7 +77,7 @@ bool Player::Moving() {
         m_InvincibleTimeLeft -= Util::Time::GetDeltaTimeMs();
         if (m_KnockBackDirection == glm::vec2(0.0f, 0.0f)) {
             if (m_MovingDirection == glm::vec2(0.0f, 0.0f)) {
-                m_MovingDirection = glm::vec2(3.0, 0.0f);
+                m_MovingDirection = glm::vec2(m_Speed, 0.0f);
             }
             m_KnockBackDirection = m_MovingDirection * -3.0f;
         }
