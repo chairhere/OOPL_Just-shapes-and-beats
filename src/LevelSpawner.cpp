@@ -417,7 +417,7 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
 
         newObs->customBehavior = [](Obstacle& self, float beat, glm::vec2 PlayerPos) {
 
-            std::vector<float> Uvs = {0.25f, 0.7f, 0.25f, 0.7f, 0.25f, 0.7f, 0.25f, 0.7f};
+            std::vector<float> Uvs = {0.25f, 0.55, 0.25f, 0.55, 0.25f, 0.55, 0.25f, 0.55};
             self.SetUvs(Uvs);
 
             self.UpdateWorldVertices();
