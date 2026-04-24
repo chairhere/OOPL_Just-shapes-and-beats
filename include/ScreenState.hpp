@@ -10,7 +10,8 @@ enum class ScreenState {
     Main,  //主畫面
     LevelList,  //歌曲清單
     Settlement,  //結算畫面
-    Playground  //遊玩畫面
+    Playground,  //遊玩畫面
+    OpeningAnimate
 };
 
 #endif //JUST_SHAPES_AND_BEATS_SCREENSTATE_HPP
