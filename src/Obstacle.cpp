@@ -178,7 +178,7 @@ bool Obstacle::CheckCircleCollision(glm::vec2 PlayerPos) const {
     float dx = PlayerPos.x - m_Transform.translation.x;
     float dy = PlayerPos.y - m_Transform.translation.y;
 
-    float circleRadius = m_Transform.scale.x;
+    float circleRadius = m_Transform.scale.x / 2.0f;
     float circleDistance = glm::length(glm::vec2(dx, dy));
 
     if (circleDistance <= circleRadius) {
