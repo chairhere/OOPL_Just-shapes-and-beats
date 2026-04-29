@@ -104,8 +104,8 @@ add_executable(${PROJECT_NAME}
         include/DiscreteSlider.hpp
         include/DiscreteSlider.hpp
         src/DiscreteSlider.cpp
-        src/OpeningAnimate.cpp
-        include/OpeningAnimate.hpp
+        src/OpeningAnimateScreen.cpp
+        include/OpeningAnimateScreen.hpp
 )
 
 if(MSVC)

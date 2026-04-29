@@ -95,7 +95,7 @@ void LevelSpawner::Start(float StartBeat) {
 
         m_PendingEvents.push(m_LoadEvent);
     }
-    m_ActiveObstacles.resize(2000);
+    m_ActiveObstacles.resize(20000);
     LOG_DEBUG("finishedbuild");
 
     m_CircleBatcher->SetDrawID(3);
@@ -123,6 +123,7 @@ void LevelSpawner::VisionShake(glm::vec2 value, float currentBeat) {
 
 //能實作在AppUpdate裡，利用levels來去開啟予與關閉這部分的update
 void LevelSpawner::Update(float currentBeat, glm::vec2 PlayerPos) {
+    m_ObstaclesCount = 0;
     m_IsColliding = false;
     // 1. 檢查是否有新障礙物需要生成
 
@@ -152,6 +153,8 @@ void LevelSpawner::Update(float currentBeat, glm::vec2 PlayerPos) {
             ++it;
             continue;
         }
+
+        m_ObstaclesCount++;
 
         it->UpdateStateByBeat(currentBeat, PlayerPos);
 

@@ -46,6 +46,8 @@ private:
     const float s_ShakeDuration = 0.25f;
     float m_CurrentOffset = 0.0f;
 
+    int m_ObstaclesCount = 0;
+
     bool m_IsFinished = false;
     bool m_IsColliding = false;
 
@@ -78,6 +80,8 @@ public:
     void CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos);
 
     glm::vec2 GetCurrentShakeOffset() const {return m_Transform.translation;}
+
+    int GetObstaclesCount(){return m_ObstaclesCount;};
 
     void DrawAll();
 };

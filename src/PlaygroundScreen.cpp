@@ -130,6 +130,9 @@ ScreenState PlaygroundScreen::Update() {
         }
         ImGui::Checkbox("Undead", &undead);
         ImGui::Checkbox("Invincible", &invincible);
+        ImGui::Separator();
+        ImGui::Text("FPS:%f", 1000.0F / Util::Time::GetDeltaTimeMs());
+        ImGui::Text("Obstacles:%d", m_LevelSpawner->GetObstaclesCount());
         ImGui::End();
     }
 
