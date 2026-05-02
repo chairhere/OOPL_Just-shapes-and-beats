@@ -14,11 +14,11 @@
 #include "FadeLayer.hpp"
 
 
-class PlaygroundScreen : public Screen {
+class OpeningAnimateScreen : public Screen {
 public:
-    ~PlaygroundScreen() override = default;
+    ~OpeningAnimateScreen() override = default;
 
-    explicit PlaygroundScreen(Levels level);
+    explicit OpeningAnimateScreen(Levels level);
 
     ScreenState Update() override;
 private:
@@ -37,7 +37,7 @@ private:
         Rewinding
     } m_DieStage = DieStage::Alive;
 
-    int BPM;
+    float BPM;
 
     bool debug = false;
     bool undead = false;
