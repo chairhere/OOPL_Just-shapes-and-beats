@@ -28,7 +28,7 @@ void App::Start() {
 
     if (direct_playground) {
         MusicPlayerManager::Setting().AddMusic(Levels::Chronos);
-        m_CurrentScreen = std::make_shared<PlaygroundScreen>(MusicPlayerManager::Setting().GetCurrentLevel());
+        m_CurrentScreen = std::make_shared<OpeningAnimateScreen>(MusicPlayerManager::Setting().GetCurrentLevel());
         m_CurrentLevel = ScreenState::Playground;
     }else {
         m_CurrentScreen = std::make_shared<MainMenuScreen>();
@@ -146,7 +146,7 @@ void App::ChangeLevel(ScreenState newLevel) {
             // m_CurrentScreen = std::make_shared<>();
             break;
         case ScreenState::Playground:
-            m_CurrentScreen = std::make_shared<PlaygroundScreen>(MusicPlayerManager::Setting().GetCurrentLevel());
+            m_CurrentScreen = std::make_shared<OpeningAnimateScreen>(MusicPlayerManager::Setting().GetCurrentLevel());
             break;
     }
 }

@@ -9,7 +9,7 @@
 #include "SongList.hpp"
 #include "SongsBPM.hpp"
 
-PlaygroundScreen::PlaygroundScreen(Levels level){
+OpeningAnimateScreen::OpeningAnimateScreen(Levels level){
     glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DEBUG_SEVERITY_NOTIFICATION, 0, nullptr, GL_FALSE);
     if (not debug)
         SDL_ShowCursor(SDL_DISABLE);
@@ -46,7 +46,7 @@ PlaygroundScreen::PlaygroundScreen(Levels level){
     MusicPlayerManager::Setting().Play();
 }
 
-ScreenState PlaygroundScreen::Update() {
+ScreenState OpeningAnimateScreen::Update() {
     m_PlayerDie = m_Player->Moving();
 
     if (Util::Input::IsKeyDown(Util::Keycode::TAB)) {

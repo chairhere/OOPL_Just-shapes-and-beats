@@ -44,7 +44,7 @@ CustomColorShape::CustomColorShape(const Util::Color& color, const std::vector<f
         // 4. 綁定 UniformBuffer 接收矩陣資料
         // 注意：名稱 ("Transform" 或 "Matrices") 需與 Base.vert 內的 uniform block 對應
         m_UniformBuffer = std::make_unique<Core::UniformBuffer<Core::Matrices>>(
-            *m_Program, "Transform", 0
+            *m_Program, "Matrices", 0
         );
 
         // 5. 生成我們的 1x1 像素純色紋理

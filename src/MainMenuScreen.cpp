@@ -91,20 +91,7 @@ MainMenuScreen::MainMenuScreen() {
     m_Hint->m_Transform.translation = glm::vec2(400, -370);
     m_Hint->SetZIndex(50);
     m_Renderer.AddChild(m_Hint);
-    /*
-    m_FadeLayerIn = std::make_shared<FadeLayer>();
-    m_FadeLayerIn->SetZIndex(70);
-    m_Renderer.AddChild(m_FadeLayerIn);
 
-    m_WarningImage = std::make_shared<Util::GameObject>();
-    m_WarningImage->SetDrawable(std::make_shared<Util::Image>("../Resources/Image/Others/Opening_Warning.png"));
-    m_WarningImage->SetZIndex(60);
-    m_Renderer.AddChild(m_WarningImage);
-
-    m_FadeLayerOut = std::make_shared<FadeLayer>(Util::Color(0, 0, 255, 0), 2000, true);
-    m_FadeLayerOut->SetZIndex(70);
-    m_Renderer.AddChild(m_FadeLayerOut);
-// */
 }
 
 ScreenState MainMenuScreen::Update() {
