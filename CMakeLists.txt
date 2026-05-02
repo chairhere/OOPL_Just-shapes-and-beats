@@ -106,6 +106,8 @@ add_executable(${PROJECT_NAME}
         src/DiscreteSlider.cpp
         src/OpeningAnimateScreen.cpp
         include/OpeningAnimateScreen.hpp
+        src/SettingScreen.cpp
+        include/SettingScreen.hpp
 )
 
 if(MSVC)
