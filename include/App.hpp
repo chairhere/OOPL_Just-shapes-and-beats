@@ -28,19 +28,18 @@ public:
     void End(); // NOLINT(readability-convert-member-functions-to-static)
 
 private:
-    void ValidTask();
-
-private:
 
     Util::Renderer m_Root;
     std::shared_ptr<Screen> m_CurrentScreen;
-    ScreenState m_CurrentLevel;
+    ScreenState m_CurrentLevel = ScreenState::Main;
     void ChangeLevel(ScreenState newLevel);
     bool setting = false;
 
     std::shared_ptr<FadeLayer> m_FadeLayer;
 
     State m_CurrentState = State::START;
+
+    bool direct_playground = false;
 };
 
 #endif

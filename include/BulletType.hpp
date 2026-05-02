@@ -16,7 +16,8 @@ enum class BulletType {
     SpawnerTriangle,
     BiggerLaser,
     WarningBiggerLaser,
-    WarningExpendingBall
+    WarningExpendingBall,
+    SpawnerRectangle
 };
 
 constexpr int  to_int(const BulletType S) {
@@ -43,6 +44,8 @@ constexpr int  to_int(const BulletType S) {
             return 10;
         case BulletType::WarningExpendingBall:
             return 11;
+        case BulletType::SpawnerRectangle:
+            return 12;
         default:
             return 0;
     }

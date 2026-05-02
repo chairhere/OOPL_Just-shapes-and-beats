@@ -957,6 +957,10 @@
   },
   {
     "StartBeat" : 173.5,
+    "ObstacleType" : "ExpendingBall"
+  },
+  {
+    "StartBeat" : 173.5,
     "ObstacleType" : "BiggerLaser"
   },
   {
@@ -1059,6 +1063,11 @@
   {
     "StartBeat" : 196.5,
     "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 196.5,
+    "ObstacleType" : "SpawnerRectangle",
+    "EndBeat" : 228.5
   },
   {
     "StartBeat" : 197.5,

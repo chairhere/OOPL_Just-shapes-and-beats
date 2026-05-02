@@ -26,11 +26,14 @@ void App::Start() {
     io.ConfigFlags |= ImGuiConfigFlags_NoMouseCursorChange;  // 防止ImGui改變游標狀態，讓專案控制
     io.ConfigWindowsMoveFromTitleBarOnly = true;
 
-    // m_CurrentScreen = std::make_shared<MainMenuScreen>();
-    // m_CurrentLevel = ScreenState::Main;
-    MusicPlayerManager::Setting().AddMusic(Levels::Chronos);
-    m_CurrentScreen = std::make_shared<PlaygroundScreen>(MusicPlayerManager::Setting().GetCurrentLevel());
-    m_CurrentLevel = ScreenState::Playground;
+    if (direct_playground) {
+        MusicPlayerManager::Setting().AddMusic(Levels::Chronos);
+        m_CurrentScreen = std::make_shared<PlaygroundScreen>(MusicPlayerManager::Setting().GetCurrentLevel());
+        m_CurrentLevel = ScreenState::Playground;
+    }else {
+        m_CurrentScreen = std::make_shared<MainMenuScreen>();
+        m_CurrentLevel = ScreenState::Main;
+    }
 
     SDL_StopTextInput();
 
