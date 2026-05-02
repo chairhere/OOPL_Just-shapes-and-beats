@@ -84,7 +84,6 @@ void SongListItem::Update() {
     // ==========================================
     if (hovering) {
         if (m_OnHover) m_OnHover();
-        // 只要滑鼠在上面，不管 HoverEnable 是不是 false，都可以點擊！
         if (Util::Input::IsKeyDown(Util::Keycode::MOUSE_LB)) {
             if (m_OnClick) m_OnClick();
         }
