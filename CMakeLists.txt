@@ -23,7 +23,7 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(ptsd)
 
 include(files.cmake)
-set(SRC_DIR ${CMAKE_SOURCE_DIR}/src)
+set(SRC_DIR ${CMAKE_SOURCE_DIR}/src/)
 set(INCLUDE_DIR ${CMAKE_SOURCE_DIR}/include)
 list(TRANSFORM SRC_FILES PREPEND ${SRC_DIR}/)
 list(TRANSFORM INCLUDE_FILES PREPEND ${INCLUDE_DIR}/)
@@ -49,65 +49,14 @@ add_definitions(-DWITH_MINIAUDIO)
 
 # ================= [ SoLoud 音訊引擎設定結束 ] =================
 
+file(GLOB_RECURSE SRCS "src/*.cpp")
+
 add_executable(${PROJECT_NAME}
     ${SRC_DIR}/main.cpp
     ${SRC_FILES}
+    ${SRCS}
     ${HEADER_FILES}
-        src/TimeLine.cpp
-        include/TimeLine.hpp
-        include/Player.hpp
-        src/Player.cpp
-        include/SpawnEvent.hpp
-        include/SongsBPM.hpp
-        src/Button.cpp
-        include/Button.hpp
-        include/Obstacle.hpp
-        src/Obstacle.cpp
-        include/ScreenState.hpp
-        include/Screen.hpp
-        src/MainMenuScreen.cpp
-        include/MainMenuScreen.hpp
-        src/LevelSpawner.cpp
-        include/LevelSpawner.hpp
-        include/CustomColorShape.hpp
-        src/CustomColorShape.cpp
-        include/FadeLayer.hpp
-        src/FadeLayer.cpp
-        include/PlaygroundScreen.hpp
-        src/PlaygroundScreen.cpp
-        include/Levels.hpp
-        src/SongListScreen.cpp
-        include/SongListScreen.hpp
-        include/SongList.hpp
-        include/SongData.hpp
-        include/TestShape.hpp
-        src/MusicPlayerManager.cpp
-        include/MusicPlayerManager.hpp
-        src/Label.cpp
-        include/Label.hpp
-        include/Label.hpp
-        src/TextObject.cpp
-        include/TextObject.hpp
-        src/ImageObject.cpp
-        include/ImageObject.hpp
-        src/EventObject.cpp
-        include/EventObject.hpp
-        src/SongListItem.cpp
-        include/SongListItem.hpp
-        include/BatchedColorShape.hpp
-        src/BatchedColorShape.cpp
-        include/BulletType.hpp
     ${SOLOUD_SOURCES}
-        include/BatchedCircleShape.hpp
-        src/BatchedCircleShape.cpp
-        src/DiscreteSlider.cpp
-        include/DiscreteSlider.hpp
-        include/DiscreteSlider.hpp
-        src/DiscreteSlider.cpp
-        src/OpeningAnimateScreen.cpp
-        include/OpeningAnimateScreen.hpp
-        src/SettingScreen.cpp
-        include/SettingScreen.hpp
 )
 
 if(MSVC)
@@ -125,7 +74,9 @@ endif()
 
 target_include_directories(${PROJECT_NAME} SYSTEM PRIVATE ${DEPENDENCY_INCLUDE_DIRS})
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/PTSD/include)
-target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR}/include)
+target_include_directories(${PROJECT_NAME} PRIVATE
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
 
 target_link_libraries(${PROJECT_NAME}
     SDL2::SDL2main

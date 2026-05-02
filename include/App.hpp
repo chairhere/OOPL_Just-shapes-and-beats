@@ -1,15 +1,14 @@
 #ifndef APP_HPP
 #define APP_HPP
 
-#include "ScreenState.hpp"
+#include "Tool/ScreenState.hpp"
 #include "pch.hpp" // IWYU pragma: export
-#include "Player.hpp"
-#include "Screen.hpp"
-#include "TimeLine.hpp"
+#include "Material/Player.hpp"
+#include "Screen/Screen.hpp"
 #include "Util/TransformUtils.hpp"
 #include "Util/Renderer.hpp"
-#include "FadeLayer.hpp"
-#include "PlaygroundScreen.hpp"
+#include "Material/FadeLayer.hpp"
+#include "Screen/PlaygroundScreen.hpp"
 
 class App {
 public:
