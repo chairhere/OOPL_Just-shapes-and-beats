@@ -147,6 +147,14 @@ void MusicPlayerManager::InfLoop(bool inf) {
     }
 }
 
+float MusicPlayerManager::GetSFXVolume() {
+    return SFXVolume;
+}
+
+float MusicPlayerManager::GetBGMBolume() {
+    return BGMVolume;
+}
+
 float MusicPlayerManager::GetBeats() {
     if (IsEmpty()) throw std::invalid_argument("List is empty");
 

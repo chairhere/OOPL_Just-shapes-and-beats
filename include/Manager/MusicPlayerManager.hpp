@@ -38,6 +38,9 @@ public:
     void SetSpeed(float speed);  //調整播放速度
     void InfLoop(bool inf);  //調整循環撥放
 
+    float GetSFXVolume();
+    float GetBGMBolume();
+
     float GetBeats();  //取得播放進度
     Levels GetCurrentLevel();  //取得當前歌曲(關卡)
     float GetTotalBeats();  //取得總節奏長度
