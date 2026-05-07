@@ -25,16 +25,18 @@ MusicPlayerManager::MusicPlayerManager() {
 
 void MusicPlayerManager::Pause() {
     if (IsEmpty()) return;
-    m_MusicPlayer.setPause(m_BGMHandler, true);
+    if (m_MusicPlayer.isValidVoiceHandle(m_BGMHandler)) {
+        m_MusicPlayer.setPause(m_BGMHandler, true);
+    }
 }
 
 void MusicPlayerManager::Play() {
-    if (IsEmpty()) return;
     if (m_MusicPlayer.isValidVoiceHandle(m_BGMHandler)) {
         if (m_MusicPlayer.getPause(m_BGMHandler)) {
             m_MusicPlayer.setPause(m_BGMHandler, false);
         }
     }else {  //並非暫停處理
+        if (IsEmpty()) return;
         SongData data = SongList::GetSongByName(m_MusicList[0]);
         m_BGM.load(data.AudioPath.c_str());
         m_BGMHandler = m_MusicPlayer.play(m_BGM);
@@ -43,7 +45,9 @@ void MusicPlayerManager::Play() {
 
 void MusicPlayerManager::Stop() {
     if (IsEmpty()) return;
-    m_MusicPlayer.stop(m_BGMHandler);
+    if (m_MusicPlayer.isValidVoiceHandle(m_BGMHandler)) {
+        m_MusicPlayer.stop(m_BGMHandler);
+    }
 }
 
 void MusicPlayerManager::ShunDown() {
@@ -77,7 +81,8 @@ void MusicPlayerManager::PlayAt(float beats) {
 
     float times = beats * 60.0f / static_cast<float>(data.BPM);
     Play();
-    m_MusicPlayer.seek(m_BGMHandler, times);
+    if (m_MusicPlayer.isValidVoiceHandle(m_BGMHandler))
+        m_MusicPlayer.seek(m_BGMHandler, times);
 }
 
 void MusicPlayerManager::ReverseAt(float beats) {
@@ -97,7 +102,8 @@ void MusicPlayerManager::ReverseAt(float beats) {
     float times = beats * 60.0f / static_cast<float>(data.BPM);
     float reverseStartTime = totalLen - times;
     Play();
-    m_MusicPlayer.seek(m_BGMHandler, reverseStartTime);
+    if (m_MusicPlayer.isValidVoiceHandle(m_BGMHandler))
+        m_MusicPlayer.seek(m_BGMHandler, reverseStartTime);
 }
 
 void MusicPlayerManager::Switch(Levels music) {;
@@ -119,12 +125,14 @@ void MusicPlayerManager::PlayAtTime(float sec) {
 
     Stop();
     Play();
-    m_MusicPlayer.seek(m_BGMHandler, sec);
+    if (m_MusicPlayer.isValidVoiceHandle(m_BGMHandler))
+        m_MusicPlayer.seek(m_BGMHandler, sec);
 }
 
 
 void MusicPlayerManager::SetSFXVolume(float volume) {
     // 0.0 ~ 1.0
+    volume = std::clamp(volume, 0.0f, 1.0f);
     for (auto& pair : m_SFXLibrary) {
         pair.second.setVolume(volume);
     }
@@ -132,12 +140,15 @@ void MusicPlayerManager::SetSFXVolume(float volume) {
 
 void MusicPlayerManager::SetBGMVolume(float volume) {
     // 0.0 ~ 1.0
+    volume = std::clamp(volume, 0.0f, 1.0f);
     m_BGM.setVolume(volume);
 }
 
 void MusicPlayerManager::SetSpeed(float speed) {
     //1.0為正常 >1.0為加速 <1.0為減速
-    m_MusicPlayer.setRelativePlaySpeed(m_BGMHandler, speed);
+    if (speed < 0.0f) speed = 0.0f;
+    if (m_MusicPlayer.isValidVoiceHandle(m_BGMHandler))
+        m_MusicPlayer.setRelativePlaySpeed(m_BGMHandler, speed);
 }
 
 void MusicPlayerManager::InfLoop(bool inf) {
@@ -190,11 +201,14 @@ float MusicPlayerManager::GetTotalLength() {
 }
 
 bool MusicPlayerManager::IsPause() {
-    return m_MusicPlayer.getPause(m_BGMHandler);
+    if (m_MusicPlayer.isValidVoiceHandle(m_BGMHandler))
+        return m_MusicPlayer.getPause(m_BGMHandler);
+    return false;
 }
 
 
 void MusicPlayerManager::AddMusic(Levels music) {
+    // 不重複
     auto it = std::find(m_MusicList.begin(), m_MusicList.end(), music);
     if (it == m_MusicList.end()) {
         m_MusicList.push_back(music);
