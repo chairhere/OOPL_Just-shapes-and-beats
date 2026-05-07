@@ -2,11 +2,11 @@
 // Created by cheese on 2026/4/5.
 //
 
-#include "EventObject/Label.hpp"
+#include "EventObject/MergeButton.hpp"
 
 #include "Util/Input.hpp"
 
-Label::Label(int fontSize, const std::string &text, const std::string &imagePath) {
+MergeButton::MergeButton(int fontSize, const std::string &text, const std::string &imagePath) {
     m_Text = std::make_shared<TextObject>(fontSize, text, Util::Color(255, 255, 255));
     m_Text->SetZIndex(1);
     m_Children.push_back(m_Text);
@@ -16,15 +16,15 @@ Label::Label(int fontSize, const std::string &text, const std::string &imagePath
     m_Children.push_back(m_BackgroundImage);
 }
 
-void Label::SetText(const std::string &text) {
+void MergeButton::SetText(const std::string &text) {
     m_Text->SetText(text);
 }
 
-void Label::SetImage(const std::string &imagePath) {
+void MergeButton::SetImage(const std::string &imagePath) {
     m_BackgroundImage->SetImage(imagePath);
 }
 
-bool Label::isHovering() const {
+bool MergeButton::isHovering() const {
     if (m_Drawable == nullptr) return false;
 
     // 【防護】如果是鍵盤模式，一律無視滑鼠 Hover
@@ -41,15 +41,15 @@ bool Label::isHovering() const {
 }
 
 
-void Label::SetFocusText(const std::string &text) {
+void MergeButton::SetFocusText(const std::string &text) {
     m_FocusText = text;
 }
 
-void Label::SetFocusImage(const std::string &imagePath) {
+void MergeButton::SetFocusImage(const std::string &imagePath) {
     m_FocusImagePath = imagePath;
 }
 
-void Label::Update() {
+void MergeButton::Update() {
     const bool hovering = isHovering();
     const bool focused = isFocus();
     const bool isCurrentlyActive = isActive();

@@ -2,17 +2,17 @@
 // Created by cheese on 2026/4/5.
 //
 
-#ifndef JUST_SHAPES_AND_BEATS_LABEL_HPP
-#define JUST_SHAPES_AND_BEATS_LABEL_HPP
+#ifndef JUST_SHAPES_AND_BEATS_MERGEBUTTON_HPP
+#define JUST_SHAPES_AND_BEATS_MERGEBUTTON_HPP
 #include "EventObject/EventObject.hpp"
 #include "Material/ImageObject.hpp"
 #include "Material/TextObject.hpp"
 #include "Util/GameObject.hpp"
 #include "Util/Text.hpp"
 
-class Label : public EventObject {
+class MergeButton : public EventObject {
 public:
-    Label(int fontSize, const std::string& text, const std::string& imagePath);
+    MergeButton(int fontSize, const std::string& text, const std::string& imagePath);
 
     void SetText(const std::string &text);
     void SetImage(const std::string &imagePath);
@@ -35,4 +35,4 @@ private:
 
 };
 
-#endif //JUST_SHAPES_AND_BEATS_LABEL_HPP
+#endif //JUST_SHAPES_AND_BEATS_MERGEBUTTON_HPP
