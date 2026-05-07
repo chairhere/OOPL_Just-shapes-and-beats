@@ -20,6 +20,8 @@ DiscreteSlider::DiscreteSlider(float startX, float startY, float space) {
                 SetValue(i);
             }
         });
+        block->m_Transform.translation = glm::vec2(currentX, currentY);
+        currentX += block->m_Transform.scale.x + space;
         m_Children.push_back(block);
     }
 
