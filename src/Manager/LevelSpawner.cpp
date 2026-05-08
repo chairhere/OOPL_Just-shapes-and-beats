@@ -92,6 +92,17 @@ void LevelSpawner::Start(float StartBeat) {
             m_LoadEvent.SpecialData.AngularVelocity = glm::pi<float>();
             m_LoadEvent.Scale = glm::vec2{15.0f, 15.0f};
         }
+        else if (item["ObstacleType"] == "CheckPointLine") {
+            m_LoadEvent.Bullet = BulletType::CheckPointLine;
+            m_LoadEvent.StartBeat = item["StartBeat"];
+            m_LoadEvent.EndBeat = static_cast<float>(item["StartBeat"]) + 12.0f;
+            m_LoadEvent.StartRot = 0.0f;
+            m_LoadEvent.SpecialData.Velocity = 180.0f;
+            m_LoadEvent.SpecialData.AngularVelocity = glm::pi<float>();
+            m_LoadEvent.Scale = glm::vec2{5.0f, WINDOW_HEIGHT / 2};
+            m_LoadEvent.StartPos = {WINDOW_WIDTH / 2, 0.0f};
+            m_LoadEvent.EndPos = {-static_cast<float>(WINDOW_WIDTH) / 2, 0.0f};
+        }
 
         m_PendingEvents.push(m_LoadEvent);
     }
@@ -713,6 +724,20 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
                 self.m_Transform.rotation = -Progress / 8 * glm::pi<float>();
             }
             
+            self.UpdateWorldVertices();
+        };
+
+        newObs->Spawn(m_SpawnEvent, m_SpawnVertices);
+        newObs->TurnOffCollidable();
+    }
+    else if (m_SpawnEvent.Bullet == BulletType::CheckPointLine) {
+        m_SpawnVertices = {-0.5f, 0.5f, -0.5f, 0.5f, 0.5f, 0.5f, 0.5f};
+
+        newObs->customBehavior = [this](Obstacle& self, float beat, glm::vec2 PlayerPos) {
+
+            float Progress = (beat - self.m_Event.StartBeat) / self.m_Event.EndBeat;
+            self.m_Transform.translation = glm::mix(self.m_Event.StartPos, self.m_Event.EndPos, Progress);
+
             self.UpdateWorldVertices();
         };
 
