@@ -6,8 +6,8 @@
 
 #include "Util/Input.hpp"
 
-MergeButton::MergeButton(int fontSize, const std::string &text, const std::string &imagePath) {
-    m_Text = std::make_shared<TextObject>(fontSize, text, Util::Color(255, 255, 255));
+MergeButton::MergeButton(int fontSize, const std::string &text, const std::string &imagePath, Util::Color color) {
+    m_Text = std::make_shared<TextObject>(fontSize, text, color);
     m_Text->SetZIndex(1);
     m_Children.push_back(m_Text);
 

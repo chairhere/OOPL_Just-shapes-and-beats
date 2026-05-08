@@ -12,7 +12,7 @@
 
 class MergeButton : public EventObject {
 public:
-    MergeButton(int fontSize, const std::string& text, const std::string& imagePath);
+    MergeButton(int fontSize, const std::string& text, const std::string& imagePath, Util::Color color = Util::Color(255, 255, 255));
 
     void SetText(const std::string &text);
     void SetImage(const std::string &imagePath);
