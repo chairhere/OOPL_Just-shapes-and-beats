@@ -16,6 +16,8 @@ OpeningAnimateScreen::OpeningAnimateScreen() {
     m_FadeLayerIn->SetZIndex(70);
     m_Renderer.AddChild(m_FadeLayerIn);
 
+    m_FadeLayerAnd = std::make_shared<FadeLayer>(m_CoverColorOthers, m_CoverDurationAnd, m_CoverPositionAnd, m_CoverRotation, m_CoverScale, First_Vertices, false);
+
     m_WarningImage = std::make_shared<Util::GameObject>();
     m_WarningImage->SetDrawable(std::make_shared<Util::Image>("../Resources/Image/Others/Opening_Warning.png"));
     m_WarningImage->SetZIndex(60);
@@ -26,6 +28,7 @@ OpeningAnimateScreen::OpeningAnimateScreen() {
     m_OpeningAnd->SetDrawable((std::make_shared<Util::Image>("../Resources/Others/OpeningAnd.png")));
     m_OpeningAnd->SetZIndex(50);
     m_OpeningAnd->m_Transform.scale = {1.0f, 1.0f};
+    m_OpeningAnd->m_Transform.translation = {0.0f, 0.0f};
     m_OpeningAnd->SetVisible(false);
     m_Renderer.AddChild(m_OpeningAnd);
 
@@ -33,6 +36,7 @@ OpeningAnimateScreen::OpeningAnimateScreen() {
     m_OpeningLogo->SetDrawable(std::make_shared<Util::Image>("../Resources/Icon/Just_Shapes_26_Beats_logo.png"));
     m_OpeningLogo->SetZIndex(50);
     m_OpeningLogo->m_Transform.scale = {1.0f, 1.0f};
+    m_OpeningLogo->m_Transform.translation = {-150.0f, 0.0f};
     m_OpeningLogo->SetVisible(false);
     m_Renderer.AddChild(m_OpeningLogo);
 
@@ -40,6 +44,7 @@ OpeningAnimateScreen::OpeningAnimateScreen() {
     m_OpeningMelody->SetDrawable(std::make_shared<Util::Image>("../Resources/Others/OpeningTone_1.png"));
     m_OpeningMelody->SetZIndex(50);
     m_OpeningMelody->m_Transform.scale = {1.0f, 1.0f};
+    m_OpeningMelody->m_Transform.translation = {150.0f, 0.0f};
     m_OpeningMelody->SetVisible(false);
     m_Renderer.AddChild(m_OpeningMelody);
 
@@ -56,6 +61,9 @@ ScreenState OpeningAnimateScreen::Update() {
 
     if (m_AnimateState == 1 && m_FadeLayerIn && !m_FadeLayerIn->IsFinished()) {
         m_FadeLayerIn->Update(); // 推進 1.5 秒的計時與透明度變化
+        m_FadeLayerAnd->Update();
+        m_FadeLayerLogo->Update();
+        m_FadeLayerMelody->Update();
         //LOG_DEBUG("Fade Layer Updated");
     }
     // 當動畫播完後，將其從渲染清單移除並釋放資源
@@ -67,8 +75,29 @@ ScreenState OpeningAnimateScreen::Update() {
         m_WarningImage = nullptr;
         //LOG_DEBUG("Fade Layer finished");
     }
-    else if (m_AnimateState == 2 )
-        ;
+    else if (m_AnimateState == 2 && (m_FadeLayerLogo || m_FadeLayerMelody) && !(m_FadeLayerLogo->IsFinished() || m_FadeLayerMelody->IsFinished())) {
+        m_FadeLayerAnd->Update();
+        m_FadeLayerLogo->Update();
+        m_FadeLayerMelody->Update();
+    }
+    else if (m_AnimateState == 2 && (m_FadeLayerLogo || m_FadeLayerMelody) && (m_FadeLayerLogo->IsFinished() || m_FadeLayerMelody->IsFinished())) {
+        m_AnimateState = 3;
+        m_Renderer.RemoveChild(m_FadeLayerLogo);
+        m_Renderer.RemoveChild(m_FadeLayerMelody);
+        m_FadeLayerLogo = nullptr;
+        m_FadeLayerMelody = nullptr;
+    }
+    else if (m_AnimateState == 3 && m_FadeLayerAnd && !m_FadeLayerAnd->IsFinished()) {
+        m_FadeLayerAnd->Update();
+    }
+    else if (m_AnimateState == 3 && m_FadeLayerAnd && m_FadeLayerAnd->IsFinished()) {
+        m_AnimateState = 4;
+        m_Renderer.RemoveChild(m_FadeLayerAnd);
+        m_FadeLayerAnd = nullptr;
+    }
+    else if
+
+    m_Renderer.Update();
 
     return ScreenState::OpeningAnimate;
 }
