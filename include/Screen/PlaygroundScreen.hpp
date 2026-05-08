@@ -29,6 +29,10 @@ private:
     std::vector<std::shared_ptr<FadeLayer>> m_TestingPower;
     std::shared_ptr<Player> m_Player;
 
+    std::vector<float> m_CheckPoints;
+    float m_StartBeat = 0.0f;
+    int m_WhichCheckPoint = 0;
+
     bool m_PlayerDie = false;
     float m_MusicSpeed = 1.0f;
     enum class DieStage {
