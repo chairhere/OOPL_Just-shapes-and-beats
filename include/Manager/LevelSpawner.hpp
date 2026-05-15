@@ -34,6 +34,7 @@ private:
     std::shared_ptr<BatchedCircleShape> m_CircleBatcher;
     std::shared_ptr<BatchedCircleShape> m_SpikeBatcher;
     std::shared_ptr<BatchedCircleShape> m_DottedCircleBatcher;
+    std::shared_ptr<BatchedCircleShape> m_DottedLineBatcher;
 
     std::string m_BeatMap;
 
@@ -49,9 +50,13 @@ private:
 
     bool m_IsFinished = false;
     bool m_IsColliding = false;
+    bool m_IsChecked = false;
 
     std::random_device rd;  //隨機種子
     std::mt19937 g = std::mt19937(rd());  //取亂數
+
+    Util::Color Blue = Util::Color{151, 215, 233, 255};
+    Util::Color Red = Util::Color{255, 33, 111, 255};
 
 public:
     explicit LevelSpawner(const std::string& filepath){
@@ -74,6 +79,8 @@ public:
 
     bool IsColliding() const {return m_IsColliding;}
 
+    bool IsChecked() const {return m_IsChecked;}
+
     void VisionShake(glm::vec2 value, float currentBeat);
 
     void CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos);
@@ -81,6 +88,7 @@ public:
     glm::vec2 GetCurrentShakeOffset() const {return m_Transform.translation;}
 
     int GetObstaclesCount(){return m_ObstaclesCount;};
+
 
     void DrawAll();
 };

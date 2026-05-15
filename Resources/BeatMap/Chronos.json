@@ -642,7 +642,7 @@
   },
   {
     "StartBeat" : 77.5,
-    "ObstacleType" : "SpawnerRectangle",
+    "ObstacleType" : "SpawnerRotatingRectangle",
     "EndBeat" : 93.5
   },
   {
@@ -805,7 +805,7 @@
   },
   {
     "StartBeat" : 109.5,
-    "ObstacleType" : "SpawnerRectangle",
+    "ObstacleType" : "SpawnerRotatingRectangle",
     "EndBeat" : 125.5
   },
   {
@@ -1066,7 +1066,7 @@
   },
   {
     "StartBeat" : 196.5,
-    "ObstacleType" : "SpawnerRectangle",
+    "ObstacleType" : "SpawnerRotatingRectangle",
     "EndBeat" : 228.5
   },
   {

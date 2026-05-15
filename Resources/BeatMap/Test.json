@@ -1,7 +1,7 @@
 [
   {
     "StartBeat" : 2.5,
-    "ObstacleType" : "SpawnerRectangle",
+    "ObstacleType" : "SpawnerRotatingRectangle",
     "EndBeat" : 18.5
   },
   {

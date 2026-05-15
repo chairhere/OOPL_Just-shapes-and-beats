@@ -83,6 +83,49 @@ void LevelSpawner::Start(float StartBeat) {
             m_LoadEvent.EndBeat = static_cast<float>(item["StartBeat"]) + 8.5f;
             m_LoadEvent.Scale = {200.0f, 200.0f};
         }
+        else if (item["ObstacleType"] == "SpawnerRotatingRectangle") {
+            m_LoadEvent.Bullet = BulletType::SpawnerRotatingRectangle;
+            m_LoadEvent.StartBeat = item["StartBeat"];
+            m_LoadEvent.EndBeat = item["EndBeat"];
+            m_LoadEvent.StartRot = 0.0f;
+            m_LoadEvent.SpecialData.Velocity = 180.0f;
+            m_LoadEvent.SpecialData.AngularVelocity = glm::pi<float>();
+            m_LoadEvent.Scale = glm::vec2{15.0f, 15.0f};
+        }
+        else if (item["ObstacleType"] == "CheckPointLine") {
+            m_LoadEvent.Bullet = BulletType::CheckPointLine;
+            m_LoadEvent.StartBeat = item["StartBeat"];
+            m_LoadEvent.EndBeat = static_cast<float>(item["StartBeat"]) + 12.0f;
+            m_LoadEvent.StartRot = 0.0f;
+            m_LoadEvent.SpecialData.Velocity = 180.0f;
+            m_LoadEvent.SpecialData.AngularVelocity = glm::pi<float>();
+            m_LoadEvent.Scale = glm::vec2{5.0f, WINDOW_HEIGHT};
+            m_LoadEvent.StartPos = {WINDOW_WIDTH / 2, 0.0f};
+            m_LoadEvent.EndPos = {-static_cast<float>(WINDOW_WIDTH) / 2, 0.0f};
+        }
+        else if (item["ObstacleType"] == "PopRectangle") {//瞬發
+            m_LoadEvent.Bullet = BulletType::PopRectangle;
+            m_LoadEvent.StartBeat = item["StartBeat"];
+            m_LoadEvent.SpecialData.SpawnBeat = static_cast<float>(item["StartBeat"]) + 4.0f;
+            m_LoadEvent.EndBeat = static_cast<float>(item["StartBeat"]) + 14.0f;
+            m_LoadEvent.StartPos = {item["StartPos"]["X"], item["StartPos"]["Y"]};
+            m_LoadEvent.StartRot = 0.0f;
+            m_LoadEvent.SpecialData.Velocity = 180.0f;
+            m_LoadEvent.SpecialData.AngularVelocity = glm::pi<float>();
+            m_LoadEvent.Scale = glm::vec2{15.0f, 15.0f};
+            m_LoadEvent.DrawID = 3;
+        }
+        else if (item["ObstacleType"] == "BiggerPopRectangle") {//瞬發
+            m_LoadEvent.Bullet = BulletType::RotatingRectangle;
+            m_LoadEvent.StartBeat = item["StartBeat"];
+            m_LoadEvent.EndBeat = static_cast<float>(item["StartBeat"]) + 14.0f;
+            m_LoadEvent.StartPos = {item["StartPos"]["X"], item["StartPos"]["Y"]};
+            m_LoadEvent.StartRot = 0.0f;
+            m_LoadEvent.SpecialData.Velocity = 180.0f;
+            m_LoadEvent.SpecialData.AngularVelocity = glm::pi<float>();
+            m_LoadEvent.Scale = glm::vec2{15.0f, 15.0f};
+            m_LoadEvent.DrawID = 3;
+        }
         else if (item["ObstacleType"] == "SpawnerRectangle") {
             m_LoadEvent.Bullet = BulletType::SpawnerRectangle;
             m_LoadEvent.StartBeat = item["StartBeat"];
@@ -101,6 +144,7 @@ void LevelSpawner::Start(float StartBeat) {
     m_CircleBatcher->SetDrawID(3);
     m_SpikeBatcher->SetDrawID(4);
     m_DottedCircleBatcher->SetDrawID(5);
+    m_DottedLineBatcher->SetDrawID(6);
 
 }
 
@@ -146,6 +190,7 @@ void LevelSpawner::Update(float currentBeat, glm::vec2 PlayerPos) {
     m_CircleBatcher->BeginBatch();
     m_SpikeBatcher->BeginBatch();
     m_DottedCircleBatcher->BeginBatch();
+    m_DottedLineBatcher->BeginBatch();
     // 2. 更新所有存活的障礙物狀態，並清理過期的障礙物
     for (auto it = m_ActiveObstacles.begin(); it != m_ActiveObstacles.end(); ) {
 
@@ -158,8 +203,12 @@ void LevelSpawner::Update(float currentBeat, glm::vec2 PlayerPos) {
 
         it->UpdateStateByBeat(currentBeat, PlayerPos);
 
-
-        if (it->m_IsColliding) {
+        if (it->m_Event.Bullet == BulletType::CheckPointLine) {
+            if (it->m_IsColliding) {
+                m_IsChecked = true;
+            }
+        }
+        else if (it->m_IsColliding) {
             m_IsColliding = true;
         }
 
@@ -171,6 +220,9 @@ void LevelSpawner::Update(float currentBeat, glm::vec2 PlayerPos) {
         }
         else if (it->m_Event.Bullet == BulletType::WarningExpendingBall) {
             m_DottedCircleBatcher->AddQuad(it->GetWorldVertices(), it->GetWorldUVs(), it->GetLocalVertices());
+        }
+        else if (it->m_Event.Bullet == BulletType::CheckPointLine) {
+            m_DottedLineBatcher->AddQuad(it->GetWorldVertices(), it->GetWorldUVs(), it->GetLocalVertices());
         }
         else {
             m_Batcher->AddQuad(it->GetWorldVertices(), it->GetWorldUVs());
@@ -185,6 +237,7 @@ void LevelSpawner::Update(float currentBeat, glm::vec2 PlayerPos) {
     m_CircleBatcher->EndBatch();
     m_SpikeBatcher->EndBatch();
     m_DottedCircleBatcher->EndBatch();
+    m_DottedLineBatcher->EndBatch();
 }
 
 void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) {
@@ -235,7 +288,7 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
             CreateObstacle(CircleEvent, PlayerPos);
         }
     }
-    else if (m_SpawnEvent.Bullet == BulletType::SpawnerRectangle) {
+    else if (m_SpawnEvent.Bullet == BulletType::SpawnerRotatingRectangle) {
 
         m_SpawnVertices = {-0.5f, 0.5f, -0.5f, -0.5f, 0.5f, -0.5f, 0.5f, 0.5f};
 
@@ -718,6 +771,21 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
 
         newObs->Spawn(m_SpawnEvent, m_SpawnVertices);
         newObs->TurnOffCollidable();
+    }
+    else if (m_SpawnEvent.Bullet == BulletType::CheckPointLine) {
+        m_SpawnVertices = {-0.5f, 0.5f, -0.5f, 0.5f, 0.5f, 0.5f, 0.5f};
+
+        newObs->customBehavior = [this](Obstacle& self, float beat, glm::vec2 PlayerPos) {
+
+            float Progress = (beat - self.m_Event.StartBeat) / self.m_Event.EndBeat;
+            self.m_Transform.translation = glm::mix(self.m_Event.StartPos, self.m_Event.EndPos, Progress);
+
+            self.UpdateWorldVertices();
+
+            self.m_IsColliding = self.CheckCircleCollision(PlayerPos);
+        };
+
+        newObs->Spawn(m_SpawnEvent, m_SpawnVertices);
     }
 
 }

@@ -36,6 +36,13 @@ void BatchedCircleShape::SetDrawID(const int drawID) {
         );
         m_UniformBuffer = std::make_unique<Core::UniformBuffer<Core::Matrices>>(*m_Program, "Matrices", 0);
     }
+    else if (m_DrawID == 6) {
+        m_Program = std::make_unique<Core::Program>(
+    "../Resources/shaders/Circle.vert",
+    "../Resources/shaders/DottedLine.frag"
+        );
+        m_UniformBuffer = std::make_unique<Core::UniformBuffer<Core::Matrices>>(*m_Program, "Matrices", 0);
+    }
 }
 
 void BatchedCircleShape::BeginBatch() {
