@@ -99,11 +99,11 @@ void LevelSpawner::Start(float StartBeat) {
             m_LoadEvent.StartRot = 0.0f;
             m_LoadEvent.SpecialData.Velocity = 180.0f;
             m_LoadEvent.SpecialData.AngularVelocity = glm::pi<float>();
-            m_LoadEvent.Scale = glm::vec2{5.0f, WINDOW_HEIGHT};
+            m_LoadEvent.Scale = glm::vec2{2.0f, WINDOW_HEIGHT};
             m_LoadEvent.StartPos = {WINDOW_WIDTH / 2, 0.0f};
             m_LoadEvent.EndPos = {-static_cast<float>(WINDOW_WIDTH) / 2, 0.0f};
         }
-        else if (item["ObstacleType"] == "PopRectangle") {//瞬發
+        else if (item["ObstacleType"] == "PopRectangle") {//6拍警告
             m_LoadEvent.Bullet = BulletType::PopRectangle;
             m_LoadEvent.StartBeat = item["StartBeat"];
             m_LoadEvent.SpecialData.SpawnBeat = static_cast<float>(item["StartBeat"]) + 4.0f;
@@ -115,7 +115,7 @@ void LevelSpawner::Start(float StartBeat) {
             m_LoadEvent.Scale = glm::vec2{15.0f, 15.0f};
             m_LoadEvent.DrawID = 3;
         }
-        else if (item["ObstacleType"] == "BiggerPopRectangle") {//瞬發
+        else if (item["ObstacleType"] == "BiggerPopRectangle") {//6拍警告
             m_LoadEvent.Bullet = BulletType::RotatingRectangle;
             m_LoadEvent.StartBeat = item["StartBeat"];
             m_LoadEvent.EndBeat = static_cast<float>(item["StartBeat"]) + 14.0f;
@@ -169,6 +169,7 @@ void LevelSpawner::VisionShake(glm::vec2 value, float currentBeat) {
 void LevelSpawner::Update(float currentBeat, glm::vec2 PlayerPos) {
     m_ObstaclesCount = 0;
     m_IsColliding = false;
+    m_IsChecked = false;
     // 1. 檢查是否有新障礙物需要生成
 
     if (m_StartShakeBeat + s_ShakeDuration * 2 >= currentBeat) {
@@ -773,20 +774,28 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
         newObs->TurnOffCollidable();
     }
     else if (m_SpawnEvent.Bullet == BulletType::CheckPointLine) {
-        m_SpawnVertices = {-0.5f, 0.5f, -0.5f, 0.5f, 0.5f, 0.5f, 0.5f};
+        m_SpawnVertices = {-0.5f, 0.5f, -0.5f, -0.5f, 0.5f, -0.5f, 0.5f, 0.5f};
 
         newObs->customBehavior = [this](Obstacle& self, float beat, glm::vec2 PlayerPos) {
-
-            float Progress = (beat - self.m_Event.StartBeat) / self.m_Event.EndBeat;
+            float Progress = (beat - self.m_Event.StartBeat) / (self.m_Event.EndBeat - self.m_Event.StartBeat);
             self.m_Transform.translation = glm::mix(self.m_Event.StartPos, self.m_Event.EndPos, Progress);
+
+            std::vector<float> Uvs = {0.25f, 0.5f, 0.25f, 0.5f, 0.25f, 0.5f, 0.25f, 0.5f};
+            self.SetUvs(Uvs);
 
             self.UpdateWorldVertices();
 
-            self.m_IsColliding = self.CheckCircleCollision(PlayerPos);
+            if (self.CheckCircleCollision(PlayerPos) || PlayerPos.x > self.m_Transform.translation.x) {
+                self.m_IsColliding = true;
+                self.m_Event.EndBeat = self.m_Event.StartBeat;
+                LOG_DEBUG("collide");
+            }
+
         };
 
         newObs->Spawn(m_SpawnEvent, m_SpawnVertices);
     }
+
 
 }
 
@@ -822,6 +831,15 @@ void LevelSpawner::DrawAll() {
 
     m_SpikeBatcher->Draw(data);
 
+    this->SetZIndex(27);
+
+    data = Util::ConvertToUniformBufferData(
+        m_Transform, m_DottedLineBatcher->GetSize(), m_ZIndex);
+    data.m_Model = glm::translate(
+        data.m_Model, glm::vec3{m_Pivot / m_DottedLineBatcher->GetSize(), 0} * -1.0F);
+
+    m_DottedLineBatcher->Draw(data);
+
     this->SetZIndex(30);
 
     data = Util::ConvertToUniformBufferData(
@@ -830,5 +848,7 @@ void LevelSpawner::DrawAll() {
         data.m_Model, glm::vec3{m_Pivot / m_Drawable->GetSize(), 0} * -1.0F);
 
     m_Drawable->Draw(data);
+
+
 
 }

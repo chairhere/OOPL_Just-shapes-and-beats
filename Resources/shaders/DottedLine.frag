@@ -15,15 +15,15 @@ void main() {
     float innerRadius = 0.495;
 
     // 3. 計算當前像素的角度 (atan 函數會回傳 -PI 到 PI 的弧度)
-    float angle = atan(Pos.y, Pos.x);
+    float angle = atan(Pos.y, 1);
 
     // 4. 設定虛線的段數
     // 注意：這個數字代表會產生多少段「實線」
-    float dashCount = 36;
+    float dashCount = 512;
 
     // 5. 利用 sin 函數產生週期性的波浪，用來切斷圓環
     // sin() 產生的值在大於 0 時繪製，小於 0 時捨棄，藉此形成虛線空白
-    if (sin(angle * dashCount) < 0.0) {
+    if (sin(angle * dashCount) > 0.0) {
         discard;
     }
 

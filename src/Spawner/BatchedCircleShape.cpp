@@ -6,8 +6,12 @@
 BatchedCircleShape::BatchedCircleShape(const Util::Color &color) :m_Color(color){
     // 核心關鍵：在這裡載入您剛剛寫好的圓形 Shader！
 
-    Uint8 data[] = { static_cast<Uint8>(m_Color.r), static_cast<Uint8>(m_Color.g), static_cast<Uint8>(m_Color.b), static_cast<Uint8>(m_Color.a), 255, 255, 255, 255 };
-    m_Texture = std::make_unique<Core::Texture>(GL_RGBA, 2, 1, data);
+    Uint8 data[] = { static_cast<Uint8>(m_Color.r), static_cast<Uint8>(m_Color.g), static_cast<Uint8>(m_Color.b), static_cast<Uint8>(m_Color.a),
+        255, 255, 255, 255,
+        static_cast<Uint8>(m_Color.r), static_cast<Uint8>(m_Color.g), static_cast<Uint8>(m_Color.b), 0,
+        255, 255, 255, 0
+    };
+    m_Texture = std::make_unique<Core::Texture>(GL_RGBA, 2, 2, data);
 
     m_DrawID = 3;
 }

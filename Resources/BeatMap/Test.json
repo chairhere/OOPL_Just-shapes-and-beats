@@ -1,9 +1,5 @@
 [
-  {
-    "StartBeat" : 2.5,
-    "ObstacleType" : "SpawnerRotatingRectangle",
-    "EndBeat" : 18.5
-  },
+
   {
     "StartBeat" : 1 , "SpawnBeat" : 5,
     "ObstacleType" : "BiggerLaser",
@@ -44,6 +40,11 @@
     "ObstacleType" : "ExpendingBall"
   },
   {
+    "StartBeat" : 2.5,
+    "ObstacleType" : "SpawnerRotatingRectangle",
+    "EndBeat" : 18.5
+  },
+  {
     "StartBeat" : 3,
     "ObstacleType" : "ExpendingBall"
   },
@@ -56,6 +57,10 @@
     "ObstacleType" : "Laser",
     "Offset" : 300.0,
     "StartRotation" : 0.0
+  },
+  {
+    "StartBeat" : 5.5,
+    "ObstacleType" : "CheckPointLine"
   },
   {
     "StartBeat" : 9 ,
