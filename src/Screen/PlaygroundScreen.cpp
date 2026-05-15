@@ -83,7 +83,7 @@ ScreenState PlaygroundScreen::Update() {
                     m_LevelSpawner->Start(m_StartBeat);
                     m_MusicSpeed = 1.0f;
                     MusicPlayerManager::Setting().SetSpeed(m_MusicSpeed);
-                    MusicPlayerManager::Setting().PlayAt(0.0f);
+                    MusicPlayerManager::Setting().PlayAt(m_StartBeat);
                     m_Player->Revive();
                     m_DieStage = DieStage::Alive;
                 }
@@ -114,9 +114,16 @@ ScreenState PlaygroundScreen::Update() {
     if (m_LevelSpawner->IsColliding() && not invincible) {
         m_Player->Hit();
     }
-    if (m_LevelSpawner/*.IsChecked()*/) {
+    if (m_LevelSpawner->IsChecked()) {
         m_WhichCheckPoint += 1;
         m_StartBeat = m_CheckPoints[m_WhichCheckPoint];
+        if (m_StartBeat == m_CheckPoints.back()) {
+            m_LevelSpawner->Start(m_StartBeat);
+        }
+        std::string log = "Checked!, ";
+        log.append(std::to_string(m_StartBeat));
+        LOG_DEBUG(log);
+        MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::PlrRevive);
     }
 
     // ==========================================

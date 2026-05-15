@@ -115,7 +115,7 @@
     "StartPos" : {"X" : 757.0, "Y" : -158.0}
   },
   {
-    "StartBeat" : 15.5,
+    "StartBeat" : 16.0,
     "ObstacleType" : "SpawnerTriangle",
     "PausePos" : {"X" : 484.0, "Y" : 172.0}
   },
@@ -153,6 +153,10 @@
     "StartBeat" : 19.5,
     "ObstacleType" : "SpawnerTriangle",
     "PausePos" : {"X" : 284.0, "Y" : -86.0}
+  },
+  {
+    "StartBeat" : 20.0,
+    "ObstacleType" : "CheckPointLine"
   },
   {
     "StartBeat" : 20.2,
@@ -551,6 +555,10 @@
     "PausePos" : {"X" : 325.0, "Y" : 300.0}
   },
   {
+    "StartBeat" : 55.0,
+    "ObstacleType" : "CheckPointLine"
+  },
+  {
     "StartBeat" : 63.5,
     "ObstacleType" : "Laser",
     "Offset" : -44.0,
@@ -752,6 +760,10 @@
     "StartRotation" : 1.570796
   },
   {
+    "StartBeat" : 96.5,
+    "ObstacleType" : "CheckPointLine"
+  },
+  {
     "StartBeat" : 97.5,
     "ObstacleType" : "ExpendingBall"
   },
@@ -867,6 +879,10 @@
     "ObstacleType" : "Laser",
     "Offset" : -175.0,
     "StartRotation" : 0.0
+  },
+  {
+    "StartBeat" : 138.0,
+    "ObstacleType" : "CheckPointLine"
   },
   {
     "StartBeat" : 149.0,
@@ -1023,6 +1039,10 @@
   {
     "StartBeat" : 186.5,
     "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 186.5,
+    "ObstacleType" : "CheckPointLine"
   },
   {
     "StartBeat" : 187.5,
@@ -1248,5 +1268,9 @@
   {
     "StartBeat" : 241.5,
     "ObstacleType" : "BiggerLaser"
+  },
+  {
+    "StartBeat" : 242.5,
+    "ObstacleType" : "CheckPointLine"
   }
 ]
