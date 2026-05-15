@@ -34,6 +34,7 @@ private:
     std::shared_ptr<BatchedCircleShape> m_CircleBatcher;
     std::shared_ptr<BatchedCircleShape> m_SpikeBatcher;
     std::shared_ptr<BatchedCircleShape> m_DottedCircleBatcher;
+    std::shared_ptr<BatchedCircleShape> m_DottedLineBatcher;
 
     std::string m_BeatMap;
 
