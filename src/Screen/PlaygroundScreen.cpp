@@ -123,7 +123,7 @@ ScreenState PlaygroundScreen::Update() {
         std::string log = "Checked!, ";
         log.append(std::to_string(m_StartBeat));
         LOG_DEBUG(log);
-        MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::PlrRevive);
+        MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::Save);
     }
 
     // ==========================================

@@ -19,6 +19,7 @@ MusicPlayerManager::MusicPlayerManager() {
     m_SFXLibrary[PlrHit2].load("../Resources/Audio/Effect/Hit2.ogg");
     m_SFXLibrary[Return].load("../Resources/Audio/Effect/Return.ogg");
     m_SFXLibrary[PlrRevive].load("../Resources/Audio/Effect/Revive.ogg");
+    m_SFXLibrary[Save].load("../Resources/Audio/Effect/Save.ogg");
     SetBGMVolume(BGMVolume);
     SetSFXVolume(SFXVolume);
 }
