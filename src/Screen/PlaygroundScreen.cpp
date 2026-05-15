@@ -57,9 +57,16 @@ ScreenState PlaygroundScreen::Update() {
             SDL_ShowCursor(SDL_ENABLE);
         }else {
             SDL_ShowCursor(SDL_DISABLE);
+            if (not debugLock) {
+                if (MusicPlayerManager::Setting().IsPause()) {
+                    MusicPlayerManager::Setting().Play();
+                }
+                m_Player->SetSteady(false);
+                m_Player->SetFirm(false);
+            }
         }
     }
-    if (not undead && m_PlayerDie) {
+    if (m_PlayerDie) {
         switch (m_DieStage) {
             case DieStage::Alive:
                 m_Player->Die();  //死亡
@@ -103,6 +110,8 @@ ScreenState PlaygroundScreen::Update() {
             log.append(std::to_string(MusicPlayerManager::Setting().GetBeats()));
             LOG_DEBUG(log);
         }
+        m_Player->SetSteady(steady);
+        m_Player->SetFirm(firm);
     }
 
 
@@ -111,7 +120,7 @@ ScreenState PlaygroundScreen::Update() {
 
     m_LevelSpawner->DrawAll();
 
-    if (m_LevelSpawner->IsColliding() && not invincible) {
+    if (m_LevelSpawner->IsColliding()) {
         m_Player->Hit();
     }
     if (m_LevelSpawner->IsChecked()) {
@@ -141,8 +150,9 @@ ScreenState PlaygroundScreen::Update() {
             m_LevelSpawner = std::make_shared<LevelSpawner>(m_BeatMap);
             m_LevelSpawner->Start();
         }
-        ImGui::Checkbox("Undead", &undead);
-        ImGui::Checkbox("Invincible", &invincible);
+        ImGui::Checkbox("Steady", &steady);
+        ImGui::Checkbox("Firm", &firm);
+        ImGui::Checkbox("Debug Lock", &debugLock);
         ImGui::Separator();
         ImGui::Text("FPS:%f", 1000.0F / Util::Time::GetDeltaTimeMs());
         ImGui::Text("Obstacles:%d", m_LevelSpawner->GetObstaclesCount());

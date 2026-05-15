@@ -36,6 +36,9 @@ public:
     void Die();
     void Revive();
 
+    void SetSteady(bool isSteady);
+    void SetFirm(bool isFirm);
+
 protected:
     int m_MaxHealth = 3;
     int m_Health = m_MaxHealth;
@@ -47,6 +50,9 @@ protected:
     bool m_DashCoolDown = false;
     std::string m_DashGlowImagePath = "../Resources/Image/Dash/Player1_Dash.png";
     std::shared_ptr<ImageObject> m_Background;
+
+    bool m_Steady = false;
+    bool m_Firm = false;
 
     bool m_Invincible = false;
     float m_InvincibleTimeLeft = 0;

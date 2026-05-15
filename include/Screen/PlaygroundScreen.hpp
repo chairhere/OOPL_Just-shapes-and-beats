@@ -44,8 +44,9 @@ private:
     float BPM;
 
     bool debug = false;
-    bool undead = false;
-    bool invincible = false;
+    bool debugLock = false;
+    bool steady = false;
+    bool firm = false;
 };
 
 #endif //JUST_SHAPES_AND_BEATS_PLAYGROUNDSCREEN_HPP

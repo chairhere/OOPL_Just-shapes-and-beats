@@ -76,7 +76,6 @@ bool Player::Moving() {
         m_DashTimeLeft -= Util::Time::GetDeltaTimeMs();
         if (m_DashTimeLeft <= 0) {
             m_Dashing = false;
-            m_Invincible = false;
         }
     }else if (m_DashCoolDown) {  //not m_Dashing but m_DashCoolDown
         m_DashTimeLeft -= Util::Time::GetDeltaTimeMs();
@@ -86,17 +85,9 @@ bool Player::Moving() {
             m_Background->SetVisible(false);
         }
     }
-    if (m_KnockBack) {
+    if (m_Invincible) {
         m_InvincibleTimeLeft -= Util::Time::GetDeltaTimeMs();
-        if (m_KnockBackDirection == glm::vec2(0.0f, 0.0f)) {
-            if (m_MovingDirection == glm::vec2(0.0f, 0.0f)) {
-                m_MovingDirection = glm::vec2(m_Speed, 0.0f);
-            }
-            m_KnockBackDirection = m_MovingDirection * -3.0f;
-        }
         m_Blink ^= true;
-        if (m_Stun)
-            m_MovingDirection = m_KnockBackDirection;
         if (m_InvincibleTimeLeft <= 500)
             m_Stun = false;
         if (m_InvincibleTimeLeft <= 0) {
@@ -114,6 +105,16 @@ bool Player::Moving() {
                 imageDrawable->SetImage(m_NowImagePath);
             }
         }
+    }
+    if (m_KnockBack) {
+        if (m_KnockBackDirection == glm::vec2(0.0f, 0.0f)) {
+            if (m_MovingDirection == glm::vec2(0.0f, 0.0f)) {
+                m_MovingDirection = glm::vec2(m_Speed, 0.0f);
+            }
+            m_KnockBackDirection = m_MovingDirection * -3.0f;
+        }
+        if (m_Stun)
+            m_MovingDirection = m_KnockBackDirection;
     }
     if (m_NoDamage) {
         m_NoDamageTimeLeft -= Util::Time::GetDeltaTimeMs();
@@ -143,12 +144,15 @@ void Player::Dash() {
 }
 
 void Player::Hit() {
-    if (m_Invincible || m_Health <= 0) return;
+    if (m_Invincible || m_Dashing || m_Health <= 0) return;
     MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::PlrHit);
-    if (not m_NoDamage && m_Health > 0)
+    if (not m_Firm && not m_NoDamage && m_Health > 0) {
         m_Health -= 1;
-    m_Stun = true;
-    m_KnockBack = true;
+    }
+    if (not m_Steady) {
+        m_Stun = true;
+        m_KnockBack = true;
+    }
     m_Invincible = true;
     m_InvincibleTimeLeft = 1000.0f;
     ChangeImage();
@@ -177,6 +181,14 @@ void Player::Revive() {
     m_NoDamage = true;
     m_NoDamageTimeLeft = 1000.0f;
     ChangeImage();
+}
+
+void Player::SetSteady(bool isSteady) {
+    m_Steady = isSteady;
+}
+
+void Player::SetFirm(bool isFirm) {
+    m_Firm = isFirm;
 }
 
 void Player::ChangeImage() {
