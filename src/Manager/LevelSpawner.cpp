@@ -169,6 +169,7 @@ void LevelSpawner::VisionShake(glm::vec2 value, float currentBeat) {
 void LevelSpawner::Update(float currentBeat, glm::vec2 PlayerPos) {
     m_ObstaclesCount = 0;
     m_IsColliding = false;
+    m_IsChecked = false;
     // 1. 檢查是否有新障礙物需要生成
 
     if (m_StartShakeBeat + s_ShakeDuration * 2 >= currentBeat) {
@@ -773,7 +774,7 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
         newObs->TurnOffCollidable();
     }
     else if (m_SpawnEvent.Bullet == BulletType::CheckPointLine) {
-        m_SpawnVertices = {-0.5f, 0.5f, -0.5f, 0.5f, 0.5f, 0.5f, 0.5f};
+        m_SpawnVertices = {-0.5f, 0.5f, -0.5f, -0.5f, 0.5f, -0.5f, 0.5f, 0.5f};
 
         newObs->customBehavior = [this](Obstacle& self, float beat, glm::vec2 PlayerPos) {
 
@@ -821,6 +822,15 @@ void LevelSpawner::DrawAll() {
         data.m_Model, glm::vec3{m_Pivot / m_SpikeBatcher->GetSize(), 0} * -1.0F);
 
     m_SpikeBatcher->Draw(data);
+
+    this->SetZIndex(25);
+
+    data = Util::ConvertToUniformBufferData(
+        m_Transform, m_DottedLineBatcher->GetSize(), m_ZIndex);
+    data.m_Model = glm::translate(
+        data.m_Model, glm::vec3{m_Pivot / m_DottedLineBatcher->GetSize(), 0} * -1.0F);
+
+    m_DottedLineBatcher->Draw(data);
 
     this->SetZIndex(30);
 

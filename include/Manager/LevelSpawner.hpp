@@ -64,6 +64,7 @@ public:
         m_CircleBatcher = std::make_shared<BatchedCircleShape>(Util::Color{255, 33, 111, 255});
         m_SpikeBatcher = std::make_shared<BatchedCircleShape>(Util::Color{255, 33, 111, 255});
         m_DottedCircleBatcher = std::make_shared<BatchedCircleShape>(Util::Color{255, 33, 111, 255});
+        m_DottedLineBatcher = std::make_shared<BatchedCircleShape>(Util::Color{255, 33, 111, 255});
         m_BeatMap = filepath;
         m_Drawable = m_Batcher;
     };
