@@ -21,6 +21,7 @@ PlaygroundScreen::PlaygroundScreen(Levels level){
             m_BeatMap = data.BeatMap;
             m_SongPath = data.AudioPath;
             BPM = static_cast<float>(data.BPM);
+            m_CheckPoints = data.CheckPoints;
             MusicPlayerManager::Setting().Switch(data.Level);
             MusicPlayerManager::Setting().InfLoop(false);
             break;
@@ -28,6 +29,7 @@ PlaygroundScreen::PlaygroundScreen(Levels level){
             m_BeatMap += "Test.json";
             m_SongPath += "Chronos.wav";
             BPM = static_cast<float>(SongsBPM::Chronos);
+            m_CheckPoints = {100.0f};
             MusicPlayerManager::Setting().Switch(Levels::Chronos);
             MusicPlayerManager::Setting().InfLoop(false);
             break;
@@ -78,10 +80,10 @@ ScreenState PlaygroundScreen::Update() {
                     MusicPlayerManager::Setting().SetSpeed(m_MusicSpeed);
                 }else {
                     m_LevelSpawner = std::make_shared<LevelSpawner>(m_BeatMap);
-                    m_LevelSpawner->Start();
+                    m_LevelSpawner->Start(m_StartBeat);
                     m_MusicSpeed = 1.0f;
                     MusicPlayerManager::Setting().SetSpeed(m_MusicSpeed);
-                    MusicPlayerManager::Setting().PlayAt(0.0f);
+                    MusicPlayerManager::Setting().PlayAt(m_StartBeat);
                     m_Player->Revive();
                     m_DieStage = DieStage::Alive;
                 }
@@ -111,6 +113,17 @@ ScreenState PlaygroundScreen::Update() {
 
     if (m_LevelSpawner->IsColliding() && not invincible) {
         m_Player->Hit();
+    }
+    if (m_LevelSpawner->IsChecked()) {
+        m_WhichCheckPoint += 1;
+        m_StartBeat = m_CheckPoints[m_WhichCheckPoint];
+        if (m_StartBeat == m_CheckPoints.back()) {
+            m_LevelSpawner->Start(m_StartBeat);
+        }
+        std::string log = "Checked!, ";
+        log.append(std::to_string(m_StartBeat));
+        LOG_DEBUG(log);
+        MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::Save);
     }
 
     // ==========================================

@@ -67,7 +67,8 @@ public:
         PlrHit1,
         PlrHit2,
         Return,
-        PlrRevive
+        PlrRevive,
+        Save
     };
     void PlayEffect(Effect effect);
 

@@ -18,6 +18,7 @@ public:
     std::string AudioPath;
     std::string ReverseAudioPath;
     std::string BeatMap;
+    std::vector<float> CheckPoints;
 };
 
 #endif //JUST_SHAPES_AND_BEATS_SONGDATA_HPP
