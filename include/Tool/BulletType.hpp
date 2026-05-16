@@ -20,9 +20,8 @@ enum class BulletType {
     SpawnerRotatingRectangle,
     CheckPointLine,
     PopRectangle,
-    BiggerPopRectangle,
     SpawnerRectangle,
-
+    SpawnerLinearRectangle,
 
 };
 
@@ -56,9 +55,9 @@ constexpr int  to_int(const BulletType S) {
             return 13;
         case BulletType::PopRectangle:
             return 14;
-        case BulletType::BiggerPopRectangle:
-            return 15;
         case BulletType::SpawnerRectangle:
+            return 15;
+        case BulletType::SpawnerLinearRectangle:
             return 16;
         default:
             return 0;

@@ -1,16 +1,61 @@
 [
-
   {
-    "StartBeat" : 1 , "SpawnBeat" : 5,
+    "StartBeat" : 1, "SpawnBeat" : 4,"EndBeat" : 7,
     "ObstacleType" : "BiggerLaser",
     "Offset" : 200.0,
     "StartRotation" : 0.0
+  },
+  {
+    "StartBeat" : 1 , "SpawnBeat" : 4,"EndBeat" : 7,
+    "ObstacleType" : "BiggerLaser",
+    "Scale" : 500.0,
+    "Offset" : 260.0,
+    "StartRotation" : 0.0
+  },
+  {
+    "StartBeat" : 1, "SpawnBeat" : 4,"EndBeat" : 7,
+    "ObstacleType" : "BiggerLaser",
+    "Offset" : 0.0,
+    "StartRotation" : 1.57
+  },
+  {
+    "StartBeat" : 1, "EndBeat" : 20,
+    "ObstacleType" : "SpawnerRectangle",
+    "Scale" : 30.0
+  },
+  {
+    "StartBeat" : 1,"SpawnBeat" : 5,
+    "ObstacleType" : "SpikeBall",
+    "StartPos" : {"X" : 2000.0, "Y" : 300.0},
+    "PausePos" : {"X" : 325.0, "Y" : 300.0}
+  },
+  {
+    "StartBeat" : 1,"SpawnBeat" : 5,
+    "ObstacleType" : "SpikeBall",
+    "StartPos" : {"X" : 2000.0, "Y" : 100.0},
+    "PausePos" : {"X" : 325.0, "Y" : 100.0}
+  },
+  {
+    "StartBeat" : 1,"SpawnBeat" : 5,
+    "ObstacleType" : "SpikeBall",
+    "StartPos" : {"X" : 2000.0, "Y" : -100.0},
+    "PausePos" : {"X" : 325.0, "Y" : -100.0}
   },
   {
     "StartBeat" : 1 , "SpawnBeat" : 5,
     "ObstacleType" : "BiggerLaser",
     "Offset" : -200.0,
     "StartRotation" : 0.0
+  },
+  {
+    "StartBeat" : 1,
+    "ObstacleType" : "BiggerLaser",
+    "Offset" : -200.0,
+    "StartRotation" : 0.0
+  },
+  {
+    "StartBeat" : 1,
+    "ObstacleType" : "BiggerLaser"
   },
   {
     "StartBeat" : 1.5,
@@ -24,32 +69,7 @@
     "StartRotation" : 1.57
   },
   {
-    "StartBeat" : 2 ,
-    "ObstacleType" : "Laser",
-    "Offset" : -200.0,
-    "StartRotation" : 4.71
-  },
-  {
-    "StartBeat" : 2 ,
-    "ObstacleType" : "Laser",
-    "Offset" : 300,
-    "StartRotation" : 3.14
-  },
-  {
     "StartBeat" : 2.5,
-    "ObstacleType" : "ExpendingBall"
-  },
-  {
-    "StartBeat" : 2.5,
-    "ObstacleType" : "SpawnerRotatingRectangle",
-    "EndBeat" : 18.5
-  },
-  {
-    "StartBeat" : 3,
-    "ObstacleType" : "ExpendingBall"
-  },
-  {
-    "StartBeat" : 5,
     "ObstacleType" : "ExpendingBall"
   },
   {
@@ -59,20 +79,12 @@
     "StartRotation" : 0.0
   },
   {
-    "StartBeat" : 5.5,
-    "ObstacleType" : "CheckPointLine"
-  },
-  {
     "StartBeat" : 9 ,
     "ObstacleType" : "Laser",
     "Offset" : -200.0,
     "StartRotation" : 0.0
   },
-  {
-    "StartBeat" : 10,
-    "ObstacleType" : "SpikeBall",
-    "PausePos" : {"X" : 325.0, "Y" : 300.0}
-  },
+
   {
     "StartBeat" : 11,
     "ObstacleType" : "SpawnerTriangle",
