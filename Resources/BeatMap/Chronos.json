@@ -518,8 +518,7 @@
   },
   {
     "StartBeat" : 48.5,
-    "ObstacleType" : "SpikeBall",
-    "PausePos" : {"X" : 325.0, "Y" : 300.0}
+    "ObstacleType" : "SpikeBall"
   },
   {
     "StartBeat" : 50.0,
@@ -536,18 +535,15 @@
   },
   {
     "StartBeat" : 50.5,
-    "ObstacleType" : "SpikeBall",
-    "PausePos" : {"X" : 325.0, "Y" : 300.0}
+    "ObstacleType" : "SpikeBall"
   },
   {
     "StartBeat" : 52.5,
-    "ObstacleType" : "SpikeBall",
-    "PausePos" : {"X" : 325.0, "Y" : 300.0}
+    "ObstacleType" : "SpikeBall"
   },
   {
     "StartBeat" : 54.5,
-    "ObstacleType" : "SpikeBall",
-    "PausePos" : {"X" : 325.0, "Y" : 300.0}
+    "ObstacleType" : "SpikeBall"
   },
   {
     "StartBeat" : 54.5,
@@ -886,38 +882,31 @@
   },
   {
     "StartBeat" : 149.0,
-    "ObstacleType" : "SpikeBall",
-    "PausePos" : {"X" : 325.0, "Y" : 300.0}
+    "ObstacleType" : "SpikeBall"
   },
   {
     "StartBeat" : 151.0,
-    "ObstacleType" : "SpikeBall",
-    "PausePos" : {"X" : 325.0, "Y" : 300.0}
+    "ObstacleType" : "SpikeBall"
   },
   {
     "StartBeat" : 153.0,
-    "ObstacleType" : "SpikeBall",
-    "PausePos" : {"X" : 325.0, "Y" : 300.0}
+    "ObstacleType" : "SpikeBall"
   },
   {
     "StartBeat" : 155.0,
-    "ObstacleType" : "SpikeBall",
-    "PausePos" : {"X" : 325.0, "Y" : 300.0}
+    "ObstacleType" : "SpikeBall"
   },
   {
     "StartBeat" : 157.0,
-    "ObstacleType" : "SpikeBall",
-    "PausePos" : {"X" : 325.0, "Y" : 300.0}
+    "ObstacleType" : "SpikeBall"
   },
   {
     "StartBeat" : 159.0,
-    "ObstacleType" : "SpikeBall",
-    "PausePos" : {"X" : 325.0, "Y" : 300.0}
+    "ObstacleType" : "SpikeBall"
   },
   {
     "StartBeat" : 161.0,
-    "ObstacleType" : "SpikeBall",
-    "PausePos" : {"X" : 325.0, "Y" : 300.0}
+    "ObstacleType" : "SpikeBall"
   },
   {
     "StartBeat" : 162.5,
@@ -981,13 +970,11 @@
   },
   {
     "StartBeat" : 178.0,
-    "ObstacleType" : "SpikeBall",
-    "PausePos" : {"X" : 325.0, "Y" : 300.0}
+    "ObstacleType" : "SpikeBall"
   },
   {
     "StartBeat" : 178.25,
-    "ObstacleType" : "SpikeBall",
-    "PausePos" : {"X" : 325.0, "Y" : 300.0}
+    "ObstacleType" : "SpikeBall"
   },
   {
     "StartBeat" : 178.5,
@@ -995,18 +982,15 @@
   },
   {
     "StartBeat" : 178.75,
-    "ObstacleType" : "SpikeBall",
-    "PausePos" : {"X" : 325.0, "Y" : 300.0}
+    "ObstacleType" : "SpikeBall"
   },
   {
     "StartBeat" : 179.25,
-    "ObstacleType" : "SpikeBall",
-    "PausePos" : {"X" : 325.0, "Y" : 300.0}
+    "ObstacleType" : "SpikeBall"
   },
   {
     "StartBeat" : 179.5,
-    "ObstacleType" : "SpikeBall",
-    "PausePos" : {"X" : 325.0, "Y" : 300.0}
+    "ObstacleType" : "SpikeBall"
   },
   {
     "StartBeat" : 179.5,
