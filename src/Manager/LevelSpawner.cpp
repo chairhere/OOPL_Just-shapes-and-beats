@@ -914,11 +914,11 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
 
         if (m_SpawnEvent.Scale.x == 30.0f) {
             SpawnCount = 60;
-            SpawnGap = 0.5f;
+            SpawnGap = 0.25f;
         }
         else {
             SpawnCount = static_cast<int>(static_cast<float>(WINDOW_WIDTH) / m_SpawnEvent.Scale.x) + 20;
-            SpawnGap = 0.5f * (m_SpawnEvent.Scale.x * 0.8f) / (30.0f);
+            SpawnGap = 0.25f * (m_SpawnEvent.Scale.x * 0.8f) / (30.0f);
         }
 
         if (m_SpawnEvent.StartRot == 0.0f) {
@@ -940,6 +940,7 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
 
         int i = 0;
         while (i <= SpawnCount) {
+            PopRecEvent.StartRot = 0.0f;
             PopRecEvent.StartPos = m_SpawnEvent.StartPos + m_SpawnEvent.Scale * glm::vec2{1.05f, 1.05f} * m_SpawnEvent.SpecialData.UnitVector * glm::vec2{static_cast<float>(i) , static_cast<float>(i) };
             PopRecEvent.StartBeat = m_SpawnEvent.StartBeat + static_cast<float>(i) * SpawnGap;
             PopRecEvent.SpecialData.SpawnBeat = PopRecEvent.StartBeat + 0.25f;

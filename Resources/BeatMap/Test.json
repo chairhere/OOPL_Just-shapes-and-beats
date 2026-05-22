@@ -33,13 +33,13 @@
     "StartBeat" : 1,
     "ObstacleType" : "SpawnerLinearRectangle",
     "StartRotation" : 0.0,
-    "Scale" : 30.0
+    "Scale" : 15.0
   },
   {
     "StartBeat" : 1,
     "ObstacleType" : "SpawnerLinearRectangle",
     "StartRotation" : 0.0,
-    "Scale" : 30.0
+    "Scale" : 15.0
   },
   {
     "StartBeat" : 1,"SpawnBeat" : 5,
