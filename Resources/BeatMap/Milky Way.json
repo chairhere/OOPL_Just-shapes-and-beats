@@ -15,119 +15,123 @@
     "Scale" : 150.0
   },
   {
-    "StartBeat" : 46, "SpawnBeat" : 50,"EndBeat" : 52,
+    "StartBeat" : 44, "SpawnBeat" : 50,"EndBeat" : 52,
     "ObstacleType" : "BiggerLaser",
     "Offset" : 700.0,
     "StartRotation" : 4.71
   },
   {
-    "StartBeat" : 46,"SpawnBeat" : 50,
+    "StartBeat" : 44,"SpawnBeat" : 50,
     "ObstacleType" : "SpikeBall",
     "StartPos" : {"X" : 2000.0, "Y" : 280.0},
     "PausePos" : {"X" : 580.0, "Y" : 280.0}
   },
   {
-    "StartBeat" : 46,"SpawnBeat" : 50,
+    "StartBeat" : 44,"SpawnBeat" : 50,
     "ObstacleType" : "SpikeBall",
     "StartPos" : {"X" : 2000.0, "Y" : 140.0},
     "PausePos" : {"X" : 580.0, "Y" : 140.0}
   },
   {
-    "StartBeat" : 46,"SpawnBeat" : 50,
+    "StartBeat" : 44,"SpawnBeat" : 50,
     "ObstacleType" : "SpikeBall",
     "StartPos" : {"X" : 2000.0, "Y" : 0.0},
     "PausePos" : {"X" : 580.0, "Y" : 0.0}
   },
   {
-    "StartBeat" : 46,"SpawnBeat" : 50,
+    "StartBeat" : 44,"SpawnBeat" : 50,
     "ObstacleType" : "SpikeBall",
     "StartPos" : {"X" : 2000.0, "Y" : -140.0},
     "PausePos" : {"X" : 580.0, "Y" : -140.0}
   },
   {
-    "StartBeat" : 46,"SpawnBeat" : 50,
+    "StartBeat" : 44,"SpawnBeat" : 50,
     "ObstacleType" : "SpikeBall",
     "StartPos" : {"X" : 2000.0, "Y" : -280.0},
     "PausePos" : {"X" : 580.0, "Y" : -280.0}
   },
   {
-    "StartBeat" : 78, "SpawnBeat" : 82,"EndBeat" : 84,
+    "StartBeat" : 76, "SpawnBeat" : 82,"EndBeat" : 84,
     "ObstacleType" : "BiggerLaser",
     "Offset" : -700.0,
     "StartRotation" : 4.71
   },
   {
-    "StartBeat" : 78,"SpawnBeat" : 82,
+    "StartBeat" : 76,"SpawnBeat" : 82,
     "ObstacleType" : "SpikeBall",
     "StartPos" : {"X" : -2000.0, "Y" : 280.0},
     "PausePos" : {"X" : -580.0, "Y" : 280.0}
   },
   {
-    "StartBeat" : 78,"SpawnBeat" : 82,
+    "StartBeat" : 76,"SpawnBeat" : 82,
     "ObstacleType" : "SpikeBall",
     "StartPos" : {"X" : -2000.0, "Y" : 140.0},
     "PausePos" : {"X" : -580.0, "Y" : 140.0}
   },
   {
-    "StartBeat" : 78,"SpawnBeat" : 82,
+    "StartBeat" : 76,"SpawnBeat" : 82,
     "ObstacleType" : "SpikeBall",
     "StartPos" : {"X" : -2000.0, "Y" : 0.0},
     "PausePos" : {"X" : -580.0, "Y" : 0.0}
   },
   {
-    "StartBeat" : 78,"SpawnBeat" : 82,
+    "StartBeat" : 76,"SpawnBeat" : 82,
     "ObstacleType" : "SpikeBall",
     "StartPos" : {"X" : -2000.0, "Y" : -140.0},
     "PausePos" : {"X" : -580.0, "Y" : -140.0}
   },
   {
-    "StartBeat" : 78,"SpawnBeat" : 82,
+    "StartBeat" : 76,"SpawnBeat" : 82,
     "ObstacleType" : "SpikeBall",
     "StartPos" : {"X" : -2000.0, "Y" : -280.0},
     "PausePos" : {"X" : -580.0, "Y" : -280.0}
   },
   {
-    "StartBeat" : 114, "EndBeat" : 175,
+    "StartBeat": 96.0,
+    "ObstacleType": "CheckPointLine"
+  },
+  {
+    "StartBeat" : 110, "EndBeat" : 175,
     "ObstacleType" : "SpawnerRectangle",
     "Scale" : 150.0
   },
   {
-    "StartBeat" : 114, "EndBeat" : 175,
+    "StartBeat" : 110, "EndBeat" : 175,
     "ObstacleType" : "SpawnerRectangle",
     "Scale" : 150.0
   },
   {
-    "StartBeat" : 142, "SpawnBeat" : 146,"EndBeat" : 148,
+    "StartBeat" : 140, "SpawnBeat" : 146,"EndBeat" : 148,
     "ObstacleType" : "BiggerLaser",
     "Offset" : 700.0,
     "StartRotation" : 4.71
   },
   {
-    "StartBeat" : 142,"SpawnBeat" : 146,
+    "StartBeat" : 140,"SpawnBeat" : 146,
     "ObstacleType" : "SpikeBall",
     "StartPos" : {"X" : 2000.0, "Y" : 280.0},
     "PausePos" : {"X" : 580.0, "Y" : 280.0}
   },
   {
-    "StartBeat" : 142,"SpawnBeat" : 146,
+    "StartBeat" : 140,"SpawnBeat" : 146,
     "ObstacleType" : "SpikeBall",
     "StartPos" : {"X" : 2000.0, "Y" : 140.0},
     "PausePos" : {"X" : 580.0, "Y" : 140.0}
   },
   {
-    "StartBeat" : 142,"SpawnBeat" : 146,
+    "StartBeat" : 140,"SpawnBeat" : 146,
     "ObstacleType" : "SpikeBall",
     "StartPos" : {"X" : 2000.0, "Y" : 0.0},
     "PausePos" : {"X" : 580.0, "Y" : 0.0}
   },
   {
-    "StartBeat" : 142,"SpawnBeat" : 146,
+    "StartBeat" : 140,"SpawnBeat" : 146,
     "ObstacleType" : "SpikeBall",
     "StartPos" : {"X" : 2000.0, "Y" : -140.0},
     "PausePos" : {"X" : 580.0, "Y" : -140.0}
   },
   {
-    "StartBeat" : 142,"SpawnBeat" : 146,
+    "StartBeat" : 140,"SpawnBeat" : 146,
     "ObstacleType" : "SpikeBall",
     "StartPos" : {"X" : 2000.0, "Y" : -280.0},
     "PausePos" : {"X" : 580.0, "Y" : -280.0}
@@ -225,6 +229,10 @@
     "ObstacleType" : "SpikeBall"
   },
   {
+    "StartBeat": 228.0,
+    "ObstacleType": "CheckPointLine"
+  },
+  {
     "StartBeat" : 230,"SpawnBeat" : 235,
     "ObstacleType" : "SpikeBall"
   },
@@ -233,37 +241,37 @@
     "ObstacleType" : "SpikeBall"
   },
   {
-    "StartBeat" : 242, "SpawnBeat" : 246,"EndBeat" : 248,
+    "StartBeat" : 240, "SpawnBeat" : 246,"EndBeat" : 248,
     "ObstacleType" : "BiggerLaser",
     "Offset" : 700.0,
     "StartRotation" : 4.71
   },
   {
-    "StartBeat" : 242,"SpawnBeat" : 246,
+    "StartBeat" : 240,"SpawnBeat" : 246,
     "ObstacleType" : "SpikeBall",
     "StartPos" : {"X" : 2000.0, "Y" : 280.0},
     "PausePos" : {"X" : 580.0, "Y" : 280.0}
   },
   {
-    "StartBeat" : 242,"SpawnBeat" : 246,
+    "StartBeat" : 240,"SpawnBeat" : 246,
     "ObstacleType" : "SpikeBall",
     "StartPos" : {"X" : 2000.0, "Y" : 140.0},
     "PausePos" : {"X" : 580.0, "Y" : 140.0}
   },
   {
-    "StartBeat" : 242,"SpawnBeat" : 246,
+    "StartBeat" : 240,"SpawnBeat" : 246,
     "ObstacleType" : "SpikeBall",
     "StartPos" : {"X" : 2000.0, "Y" : 0.0},
     "PausePos" : {"X" : 580.0, "Y" : 0.0}
   },
   {
-    "StartBeat" : 242,"SpawnBeat" : 246,
+    "StartBeat" : 240,"SpawnBeat" : 246,
     "ObstacleType" : "SpikeBall",
     "StartPos" : {"X" : 2000.0, "Y" : -140.0},
     "PausePos" : {"X" : 580.0, "Y" : -140.0}
   },
   {
-    "StartBeat" : 242,"SpawnBeat" : 246,
+    "StartBeat" : 240,"SpawnBeat" : 246,
     "ObstacleType" : "SpikeBall",
     "StartPos" : {"X" : 2000.0, "Y" : -280.0},
     "PausePos" : {"X" : 580.0, "Y" : -280.0}

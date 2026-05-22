@@ -43,10 +43,10 @@ private:
 
     float BPM;
 
-    bool debug = false;
+    bool debug = true;
     bool debugLock = false;
-    bool steady = false;
-    bool firm = false;
+    bool steady = true;
+    bool firm = true;
 };
 
 #endif //JUST_SHAPES_AND_BEATS_PLAYGROUNDSCREEN_HPP
