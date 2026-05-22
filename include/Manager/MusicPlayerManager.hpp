@@ -81,8 +81,8 @@ private:
     std::unordered_map<Effect, SoLoud::Wav> m_SFXLibrary;
     SoLoud::Wav m_BGM;  //長音樂物件
     SoLoud::handle m_BGMHandler;  //音樂處理ID
-    float BGMVolume = 0.3f;
-    float SFXVolume = 0.3f;
+    float BGMVolume = 0.5f;
+    float SFXVolume = 0.5f;
     bool reverse = false;
     float currentBeats = 0.0f;
 
