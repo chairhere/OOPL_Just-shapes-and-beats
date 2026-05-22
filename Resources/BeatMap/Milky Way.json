@@ -1,2 +1,281 @@
 [
+  {
+    "StartBeat" : 3, "EndBeat" : 50,
+    "ObstacleType" : "SpawnerRectangle",
+    "Scale" : 30.0
+  },
+  {
+  "StartBeat" : 3.5, "EndBeat" : 50.5,
+  "ObstacleType" : "SpawnerRectangle",
+  "Scale" : 30.0
+  },
+  {
+    "StartBeat" : 12, "EndBeat" : 102,
+    "ObstacleType" : "SpawnerRectangle",
+    "Scale" : 150.0
+  },
+  {
+    "StartBeat" : 46, "SpawnBeat" : 50,"EndBeat" : 52,
+    "ObstacleType" : "BiggerLaser",
+    "Offset" : 700.0,
+    "StartRotation" : 4.71
+  },
+  {
+    "StartBeat" : 46,"SpawnBeat" : 50,
+    "ObstacleType" : "SpikeBall",
+    "StartPos" : {"X" : 2000.0, "Y" : 280.0},
+    "PausePos" : {"X" : 580.0, "Y" : 280.0}
+  },
+  {
+    "StartBeat" : 46,"SpawnBeat" : 50,
+    "ObstacleType" : "SpikeBall",
+    "StartPos" : {"X" : 2000.0, "Y" : 140.0},
+    "PausePos" : {"X" : 580.0, "Y" : 140.0}
+  },
+  {
+    "StartBeat" : 46,"SpawnBeat" : 50,
+    "ObstacleType" : "SpikeBall",
+    "StartPos" : {"X" : 2000.0, "Y" : 0.0},
+    "PausePos" : {"X" : 580.0, "Y" : 0.0}
+  },
+  {
+    "StartBeat" : 46,"SpawnBeat" : 50,
+    "ObstacleType" : "SpikeBall",
+    "StartPos" : {"X" : 2000.0, "Y" : -140.0},
+    "PausePos" : {"X" : 580.0, "Y" : -140.0}
+  },
+  {
+    "StartBeat" : 46,"SpawnBeat" : 50,
+    "ObstacleType" : "SpikeBall",
+    "StartPos" : {"X" : 2000.0, "Y" : -280.0},
+    "PausePos" : {"X" : 580.0, "Y" : -280.0}
+  },
+  {
+    "StartBeat" : 78, "SpawnBeat" : 82,"EndBeat" : 84,
+    "ObstacleType" : "BiggerLaser",
+    "Offset" : -700.0,
+    "StartRotation" : 4.71
+  },
+  {
+    "StartBeat" : 78,"SpawnBeat" : 82,
+    "ObstacleType" : "SpikeBall",
+    "StartPos" : {"X" : -2000.0, "Y" : 280.0},
+    "PausePos" : {"X" : -580.0, "Y" : 280.0}
+  },
+  {
+    "StartBeat" : 78,"SpawnBeat" : 82,
+    "ObstacleType" : "SpikeBall",
+    "StartPos" : {"X" : -2000.0, "Y" : 140.0},
+    "PausePos" : {"X" : -580.0, "Y" : 140.0}
+  },
+  {
+    "StartBeat" : 78,"SpawnBeat" : 82,
+    "ObstacleType" : "SpikeBall",
+    "StartPos" : {"X" : -2000.0, "Y" : 0.0},
+    "PausePos" : {"X" : -580.0, "Y" : 0.0}
+  },
+  {
+    "StartBeat" : 78,"SpawnBeat" : 82,
+    "ObstacleType" : "SpikeBall",
+    "StartPos" : {"X" : -2000.0, "Y" : -140.0},
+    "PausePos" : {"X" : -580.0, "Y" : -140.0}
+  },
+  {
+    "StartBeat" : 78,"SpawnBeat" : 82,
+    "ObstacleType" : "SpikeBall",
+    "StartPos" : {"X" : -2000.0, "Y" : -280.0},
+    "PausePos" : {"X" : -580.0, "Y" : -280.0}
+  },
+  {
+    "StartBeat" : 114, "EndBeat" : 175,
+    "ObstacleType" : "SpawnerRectangle",
+    "Scale" : 150.0
+  },
+  {
+    "StartBeat" : 114, "EndBeat" : 175,
+    "ObstacleType" : "SpawnerRectangle",
+    "Scale" : 150.0
+  },
+  {
+    "StartBeat" : 142, "SpawnBeat" : 146,"EndBeat" : 148,
+    "ObstacleType" : "BiggerLaser",
+    "Offset" : 700.0,
+    "StartRotation" : 4.71
+  },
+  {
+    "StartBeat" : 142,"SpawnBeat" : 146,
+    "ObstacleType" : "SpikeBall",
+    "StartPos" : {"X" : 2000.0, "Y" : 280.0},
+    "PausePos" : {"X" : 580.0, "Y" : 280.0}
+  },
+  {
+    "StartBeat" : 142,"SpawnBeat" : 146,
+    "ObstacleType" : "SpikeBall",
+    "StartPos" : {"X" : 2000.0, "Y" : 140.0},
+    "PausePos" : {"X" : 580.0, "Y" : 140.0}
+  },
+  {
+    "StartBeat" : 142,"SpawnBeat" : 146,
+    "ObstacleType" : "SpikeBall",
+    "StartPos" : {"X" : 2000.0, "Y" : 0.0},
+    "PausePos" : {"X" : 580.0, "Y" : 0.0}
+  },
+  {
+    "StartBeat" : 142,"SpawnBeat" : 146,
+    "ObstacleType" : "SpikeBall",
+    "StartPos" : {"X" : 2000.0, "Y" : -140.0},
+    "PausePos" : {"X" : 580.0, "Y" : -140.0}
+  },
+  {
+    "StartBeat" : 142,"SpawnBeat" : 146,
+    "ObstacleType" : "SpikeBall",
+    "StartPos" : {"X" : 2000.0, "Y" : -280.0},
+    "PausePos" : {"X" : 580.0, "Y" : -280.0}
+  },
+  {
+    "StartBeat" : 178,"SpawnBeat" : 183,
+    "ObstacleType" : "SpikeBall"
+  },
+  {
+    "StartBeat" : 180,"SpawnBeat" : 185,
+    "ObstacleType" : "SpikeBall"
+  },
+  {
+    "StartBeat" : 182,"SpawnBeat" : 187,
+    "ObstacleType" : "SpikeBall"
+  },
+  {
+    "StartBeat" : 184,"SpawnBeat" : 189,
+    "ObstacleType" : "SpikeBall"
+  },
+  {
+    "StartBeat" : 186,"SpawnBeat" : 191,
+    "ObstacleType" : "SpikeBall"
+  },
+  {
+    "StartBeat" : 188,"SpawnBeat" : 193,
+    "ObstacleType" : "SpikeBall"
+  },
+  {
+    "StartBeat" : 190,"SpawnBeat" : 195,
+    "ObstacleType" : "SpikeBall"
+  },
+  {
+    "StartBeat" : 192,"SpawnBeat" : 197,
+    "ObstacleType" : "SpikeBall"
+  },
+  {
+    "StartBeat" : 194,"SpawnBeat" : 199,
+    "ObstacleType" : "SpikeBall"
+  },
+  {
+    "StartBeat" : 196,"SpawnBeat" : 201,
+    "ObstacleType" : "SpikeBall"
+  },
+  {
+    "StartBeat" : 198,"SpawnBeat" : 203,
+    "ObstacleType" : "SpikeBall"
+  },
+  {
+    "StartBeat" : 200,"SpawnBeat" : 205,
+    "ObstacleType" : "SpikeBall"
+  },
+  {
+    "StartBeat" : 202,"SpawnBeat" : 207,
+    "ObstacleType" : "SpikeBall"
+  },
+  {
+    "StartBeat" : 204,"SpawnBeat" : 209,
+    "ObstacleType" : "SpikeBall"
+  },
+  {
+    "StartBeat" : 212,"SpawnBeat" : 217,
+    "ObstacleType" : "SpikeBall"
+  },
+  {
+    "StartBeat" : 214,"SpawnBeat" : 219,
+    "ObstacleType" : "SpikeBall"
+  },
+  {
+    "StartBeat" : 216,"SpawnBeat" : 221,
+    "ObstacleType" : "SpikeBall"
+  },
+  {
+    "StartBeat" : 218,"SpawnBeat" : 223,
+    "ObstacleType" : "SpikeBall"
+  },
+  {
+    "StartBeat" : 220,"SpawnBeat" : 225,
+    "ObstacleType" : "SpikeBall"
+  },
+  {
+    "StartBeat" : 222,"SpawnBeat" : 227,
+    "ObstacleType" : "SpikeBall"
+  },
+  {
+    "StartBeat" : 224,"SpawnBeat" : 229,
+    "ObstacleType" : "SpikeBall"
+  },
+  {
+    "StartBeat" : 226,"SpawnBeat" : 231,
+    "ObstacleType" : "SpikeBall"
+  },
+  {
+    "StartBeat" : 228,"SpawnBeat" : 233,
+    "ObstacleType" : "SpikeBall"
+  },
+  {
+    "StartBeat" : 230,"SpawnBeat" : 235,
+    "ObstacleType" : "SpikeBall"
+  },
+  {
+    "StartBeat" : 232,"SpawnBeat" : 237,
+    "ObstacleType" : "SpikeBall"
+  },
+  {
+    "StartBeat" : 242, "SpawnBeat" : 246,"EndBeat" : 248,
+    "ObstacleType" : "BiggerLaser",
+    "Offset" : 700.0,
+    "StartRotation" : 4.71
+  },
+  {
+    "StartBeat" : 242,"SpawnBeat" : 246,
+    "ObstacleType" : "SpikeBall",
+    "StartPos" : {"X" : 2000.0, "Y" : 280.0},
+    "PausePos" : {"X" : 580.0, "Y" : 280.0}
+  },
+  {
+    "StartBeat" : 242,"SpawnBeat" : 246,
+    "ObstacleType" : "SpikeBall",
+    "StartPos" : {"X" : 2000.0, "Y" : 140.0},
+    "PausePos" : {"X" : 580.0, "Y" : 140.0}
+  },
+  {
+    "StartBeat" : 242,"SpawnBeat" : 246,
+    "ObstacleType" : "SpikeBall",
+    "StartPos" : {"X" : 2000.0, "Y" : 0.0},
+    "PausePos" : {"X" : 580.0, "Y" : 0.0}
+  },
+  {
+    "StartBeat" : 242,"SpawnBeat" : 246,
+    "ObstacleType" : "SpikeBall",
+    "StartPos" : {"X" : 2000.0, "Y" : -140.0},
+    "PausePos" : {"X" : 580.0, "Y" : -140.0}
+  },
+  {
+    "StartBeat" : 242,"SpawnBeat" : 246,
+    "ObstacleType" : "SpikeBall",
+    "StartPos" : {"X" : 2000.0, "Y" : -280.0},
+    "PausePos" : {"X" : 580.0, "Y" : -280.0}
+  },
+  {
+    "StartBeat" : 242, "EndBeat" : 298,
+    "ObstacleType" : "SpawnerRectangle",
+    "Scale" : 150.0
+  },
+  {
+    "StartBeat" : 242, "EndBeat" : 298,
+    "ObstacleType" : "SpawnerRectangle",
+    "Scale" : 150.0
+  }
 ]
