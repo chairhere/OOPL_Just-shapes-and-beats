@@ -18,7 +18,7 @@ public:
         static const std::unordered_map<Levels, SongData> s_Songs = {
             {Levels::MainMenu, SongData{Levels::MainMenu, "MainMenu", "-", SongsBPM::MainMenu, "../Resources/Audio/MainMenu.wav", "../Resources/Audio/Reverse/MainMenu_reverse.wav", "../Resources/BeatMap/Test.json", {0.0f}}},
             {Levels::Chronos, SongData{Levels::Chronos, "Chronos", "Danimal Cannon & Zef", SongsBPM::Chronos, "../Resources/Audio/Chronos.wav", "../Resources/Audio/Reverse/Chronos_reverse.wav", "../Resources/BeatMap/Chronos.json", {0.0f, 30.0f, 65.0f, 106.5f, 148.0f, 196.5, 252.5f}}},
-            {Levels::MilkyWay, SongData{Levels::MilkyWay, "Milky Way", "Bossfight", SongsBPM::MilkyWay, "../Resources/Audio/Milky Way.wav", "../Resources/Audio/Reverse/Milky Way_reverse.wav", "../Resources/BeatMap/Milky Way.json", {0.0f}}},
+            {Levels::MilkyWay, SongData{Levels::MilkyWay, "Milky Way", "Bossfight", SongsBPM::MilkyWay, "../Resources/Audio/Milky Way.wav", "../Resources/Audio/Reverse/Milky Way_reverse.wav", "../Resources/BeatMap/Milky Way.json", {106.0f, 238.0f}}},
             {Levels::CheatCodes, SongData{Levels::CheatCodes, "Cheat Codes", "Nitro Fun", SongsBPM::CheatCodes, "../Resources/Audio/Cheat Codes.wav", "../Resources/Audio/Reverse/Cheat Codes_reverse.wav", "../Resources/BeatMap/Cheat Codes.json", {0.0f}}}
         };
         return s_Songs;
