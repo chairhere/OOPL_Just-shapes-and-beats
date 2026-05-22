@@ -25,6 +25,15 @@ PlaygroundScreen::PlaygroundScreen(Levels level){
             MusicPlayerManager::Setting().Switch(data.Level);
             MusicPlayerManager::Setting().InfLoop(false);
             break;
+        case Levels::MilkyWay:
+            data = SongList::GetSongByName(Levels::MilkyWay);
+            m_BeatMap = data.BeatMap;
+            m_SongPath = data.AudioPath;
+            BPM = static_cast<float>(data.BPM);
+            m_CheckPoints = data.CheckPoints;
+            MusicPlayerManager::Setting().Switch(data.Level);
+            MusicPlayerManager::Setting().InfLoop(false);
+            break;
         default:
             m_BeatMap += "Test.json";
             m_SongPath += "Chronos.wav";
