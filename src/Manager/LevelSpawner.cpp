@@ -117,7 +117,7 @@ void LevelSpawner::Start(float StartBeat) {
             m_LoadEvent.StartPos = {WINDOW_WIDTH / 2, 0.0f};
             m_LoadEvent.EndPos = {-static_cast<float>(WINDOW_WIDTH) / 2, 0.0f};
         }
-        else if (item["ObstacleType"] == "PopRectangle") {//瞬發
+        else if (item["ObstacleType"] == "PopRectangle") {//等6拍
             m_LoadEvent.Bullet = BulletType::PopRectangle;
             m_LoadEvent.StartBeat = item["StartBeat"];
             m_LoadEvent.SpecialData.SpawnBeat = static_cast<float>(item["StartBeat"]) + 6.0f;
@@ -130,6 +130,12 @@ void LevelSpawner::Start(float StartBeat) {
             m_LoadEvent.StartBeat = item["StartBeat"];
             m_LoadEvent.EndBeat = item["EndBeat"];
             m_LoadEvent.Scale = glm::vec2{item["Scale"], item["Scale"]};
+        }
+        else if (item["ObstacleType"] == "SpawnerLinearRectangle") {
+            m_LoadEvent.Bullet = BulletType::SpawnerLinearRectangle;
+            m_LoadEvent.StartBeat = item["StartBeat"];
+            m_LoadEvent.StartRot = item["StartRotation"];
+            m_LoadEvent.Scale = glm::vec2{item.value("Scale", 30.0f), item.value("Scale", 30.0f)};
         }
 
         m_PendingEvents.push(m_LoadEvent);
@@ -434,8 +440,8 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
             float m_GapBeat = glm::abs(self.m_Event.SpecialData.SpawnBeat - beat);
             float movement = glm::sin( (m_GapBeat) * 25.5f * glm::pi<float>());
 
-            if (beat <self.m_Event.SpecialData.SpawnBeat) {
-                self.m_Transform.scale = {(3 - m_GapBeat) * 50, self.m_Event.Scale.y};
+            if (beat > self.m_Event.StartBeat && beat < self.m_Event.SpecialData.SpawnBeat) {
+                self.m_Transform.scale = {(beat - self.m_Event.StartBeat) * 40.0f, self.m_Event.Scale.y};
             }
             else if (beat >= self.m_Event.SpecialData.SpawnBeat && beat < (self.m_Event.SpecialData.SpawnBeat + 0.25f)) {
                 float m_ColorValue = 0.75f - std::fmod(m_GapBeat * 2, 0.5f);
@@ -850,7 +856,7 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
                 Uvs = {0.25f, 0.25f, 0.25f, 0.25f, 0.25f, 0.25f, 0.25f, 0.25f};
                 self.SetUvs(Uvs);
             }
-            else if (beat >= self.m_Event.StartBeat && beat < self.m_Event.SpecialData.SpawnBeat + 2.0f) {
+            else if (beat >= self.m_Event.StartBeat && beat < self.m_Event.EndBeat) {
                 float Progress = 1 - ((beat - self.m_Event.SpecialData.SpawnBeat - 1.75f) * 4);
 
                 self.m_Transform.scale = {(OriginScale + OriginScale * 0.2f)  * Progress * Progress, (OriginScale + OriginScale * 0.2f) * Progress * Progress};
@@ -896,20 +902,49 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
     }
     else if (m_SpawnEvent.Bullet == BulletType::SpawnerLinearRectangle) {
 
+        int SpawnCount = 0;
+        float SpawnGap = 0.0f;
+
         SpawnEvent PopRecEvent;
         PopRecEvent.Bullet = BulletType::PopRectangle;
         PopRecEvent.Scale = m_SpawnEvent.Scale;
 
-        std::uniform_real_distribution<float> PosX(-(static_cast<float>(WINDOW_WIDTH) / 2) - 200, static_cast<float>(WINDOW_WIDTH) / 2 + 200);
-        std::uniform_real_distribution<float> PosY(-(static_cast<float>(WINDOW_HEIGHT) / 2) - 200, static_cast<float>(WINDOW_HEIGHT) / 2 + 200);
+        std::uniform_real_distribution<float> PosX(-(static_cast<float>(WINDOW_WIDTH) / 2) + 200, static_cast<float>(WINDOW_WIDTH) / 2 - 200);
+        std::uniform_real_distribution<float> PosY(-(static_cast<float>(WINDOW_HEIGHT) / 2) + 200, static_cast<float>(WINDOW_HEIGHT) / 2 - 200);
 
+        if (m_SpawnEvent.Scale.x == 30.0f) {
+            SpawnCount = 60;
+            SpawnGap = 0.25f;
+        }
+        else {
+            SpawnCount = static_cast<int>(static_cast<float>(WINDOW_WIDTH) / m_SpawnEvent.Scale.x) + 20;
+            SpawnGap = 0.25f * (m_SpawnEvent.Scale.x * 0.8f) / (30.0f);
+        }
 
-        float i = m_SpawnEvent.StartBeat;
-        while (i < m_SpawnEvent.EndBeat) {
-            PopRecEvent.StartPos = {static_cast<float>(PosX(g)) * m_SpawnEvent.Scale.x, static_cast<float>(PosY(g)) * m_SpawnEvent.Scale.x};
-            PopRecEvent.StartBeat = i;
-            PopRecEvent.EndBeat = i + 8.0f;
-            PopRecEvent.SpecialData.SpawnBeat = i + 6.0f;
+        if (m_SpawnEvent.StartRot == 0.0f) {
+            m_SpawnEvent.StartPos = glm::vec2{-(static_cast<float>(WINDOW_WIDTH) / 2) - 200.0f, PosY(g)};
+            m_SpawnEvent.SpecialData.UnitVector = {1.0f, 0.0f};
+        }
+        else if (m_SpawnEvent.StartRot >= 3.0f && m_SpawnEvent.StartRot <= 3.2f) {
+            m_SpawnEvent.StartPos = glm::vec2{(static_cast<float>(WINDOW_WIDTH) / 2) + 200.0f, PosY(g)};
+            m_SpawnEvent.SpecialData.UnitVector = {-1.0f, 0.0f};
+        }
+        else if (m_SpawnEvent.StartRot >= 1.5f && m_SpawnEvent.StartRot <= 1.6f) {
+            m_SpawnEvent.StartPos = glm::vec2{PosX(g), -static_cast<float>(WINDOW_HEIGHT) / 2 - 100.0f};
+            m_SpawnEvent.SpecialData.UnitVector = {0.0f, 1.0f};
+        }
+        else if (m_SpawnEvent.StartRot >= 4.65f && m_SpawnEvent.StartRot <= 4.8f) {
+            m_SpawnEvent.StartPos = glm::vec2{PosX(g), static_cast<float>(WINDOW_HEIGHT) / 2 + 100.0f};
+            m_SpawnEvent.SpecialData.UnitVector = {0.0f, -1.0f};
+        }
+
+        int i = 0;
+        while (i <= SpawnCount) {
+            PopRecEvent.StartRot = 0.0f;
+            PopRecEvent.StartPos = m_SpawnEvent.StartPos + m_SpawnEvent.Scale * glm::vec2{1.05f, 1.05f} * m_SpawnEvent.SpecialData.UnitVector * glm::vec2{static_cast<float>(i) , static_cast<float>(i) };
+            PopRecEvent.StartBeat = m_SpawnEvent.StartBeat + static_cast<float>(i) * SpawnGap;
+            PopRecEvent.SpecialData.SpawnBeat = PopRecEvent.StartBeat + 0.25f;
+            PopRecEvent.EndBeat = PopRecEvent.SpecialData.SpawnBeat + 2.0f;
             CreateObstacle(PopRecEvent, PlayerPos);
 
             i += 1.0f;

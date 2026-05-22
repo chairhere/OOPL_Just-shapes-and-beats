@@ -1,11 +1,5 @@
 [
   {
-    "StartBeat" : 1, "SpawnBeat" : 4,"EndBeat" : 7,
-    "ObstacleType" : "BiggerLaser",
-    "Offset" : 200.0,
-    "StartRotation" : 0.0
-  },
-  {
     "StartBeat" : 1 , "SpawnBeat" : 4,"EndBeat" : 7,
     "ObstacleType" : "BiggerLaser",
     "Scale" : 500.0,
@@ -22,6 +16,30 @@
     "StartBeat" : 1, "EndBeat" : 20,
     "ObstacleType" : "SpawnerRectangle",
     "Scale" : 30.0
+  },
+  {
+    "StartBeat" : 1,
+    "ObstacleType" : "SpawnerLinearRectangle",
+    "StartRotation" : 0.0,
+    "Scale" : 30.0
+  },
+  {
+    "StartBeat" : 1,
+    "ObstacleType" : "SpawnerLinearRectangle",
+    "StartRotation" : 0.0,
+    "Scale" : 30.0
+  },
+  {
+    "StartBeat" : 1,
+    "ObstacleType" : "SpawnerLinearRectangle",
+    "StartRotation" : 0.0,
+    "Scale" : 15.0
+  },
+  {
+    "StartBeat" : 1,
+    "ObstacleType" : "SpawnerLinearRectangle",
+    "StartRotation" : 0.0,
+    "Scale" : 15.0
   },
   {
     "StartBeat" : 1,"SpawnBeat" : 5,
