@@ -894,9 +894,9 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
         newObs->TurnOffCollidable();
     }
     else if (m_SpawnEvent.Bullet == BulletType::SpawnerRectangle) {
-        int minX = static_cast<int>(static_cast<float>(WINDOW_WIDTH) / 2 / m_SpawnEvent.Scale.x) + 1;
+        int minX = -static_cast<int>(static_cast<float>(WINDOW_WIDTH) / 2 / m_SpawnEvent.Scale.x) - 1;
         int maxX = static_cast<int>(static_cast<float>(WINDOW_WIDTH) / 2 / m_SpawnEvent.Scale.x) + 1;
-        int minY = static_cast<int>(static_cast<float>(WINDOW_HEIGHT) / 2 / m_SpawnEvent.Scale.x) + 1;
+        int minY = -static_cast<int>(static_cast<float>(WINDOW_HEIGHT) / 2 / m_SpawnEvent.Scale.x) - 1;
         int maxY = static_cast<int>(static_cast<float>(WINDOW_HEIGHT) / 2 / m_SpawnEvent.Scale.x) + 1;
 
         std::uniform_int_distribution<int> PosX(minX, maxX);
