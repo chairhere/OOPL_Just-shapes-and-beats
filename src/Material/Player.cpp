@@ -133,12 +133,12 @@ bool Player::Moving() {
 void Player::Dash() {
     if (not m_DashCoolDown) {
         if (m_MovingDirection == glm::vec2(0.0f, 0.0f)) {
-            m_MovingDirection = glm::vec2(10.0f, 0.0f);
+            m_MovingDirection = glm::vec2(50.0f, 0.0f);
         }
         m_Background->SetVisible(true);
         m_Dashing = true;
         m_Invincible = true;
-        m_DashTimeLeft = 100.0f;
+        m_DashTimeLeft = 150.0f;
         m_DashCoolDown = true;
     }
 }
