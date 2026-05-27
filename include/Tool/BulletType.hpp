@@ -7,59 +7,79 @@
 
 enum class BulletType {
     /*
-     *
+     * RotatingRectangle
+     *必要資訊:StartBeat、StartPos
      */
     RotatingRectangle = 1,
     /*
-     * 必要資訊:起始節拍、起始位置
+     * Laser
+     * 必要資訊:StartBeat、Offset、StartRotation
      */
     Laser,
     /*
-     * 必要資訊:起始節拍、起始位置
+     * EasingBall
+     * 必要資訊:需透過其他障礙生成，目前無法自行生成
      */
     EasingBall,
     /*
-     * 必要資訊:起始節拍、起始位置
+     * EffectBall
+     * 此為特效，目前無法自行生成
      */
     EffectBall,
     /*
-     * 必要資訊:起始節拍、起始位置
+     * ExpendingBall
+     * 必要資訊:StartBeat
+     * 可選資訊(預設值):SpawnBeat(StartBeat + 4)、EndBeat(SpawnBeat + 4.5)、StartPos(Random)、Scale(450.0)
      */
     ExpendingBall,
     /*
-     * 必要資訊:起始節拍、起始位置
+     * SpikeBall
+     * 必要資訊:StartBeat
+     * 可選資訊(預設值):SpawnBeat(StarBeat + 2.0)、EndBeat(StarBeat + 2.0)、AngularVelocity(3.14)、Velocity(EasingBall.Velocity = 450.0)
+     * 特殊資訊:SpawnPos和EndPos都需寫入才能修改，否則隨機
      */
     SpikeBall,
     /*
-     * 必要資訊:起始節拍、起始位置
+     * BiggerSpikeBall
+     * 必要資訊:StartBeat
+     * 此為特殊障礙，大多數值皆以調整，目前無法修改
      */
     BiggerSpikeBall,
     /*
-     * 必要資訊:起始節拍、起始位置
+     * SpawnerTriangle
+     * 必要資訊:StartBeat、PausePos
      */
     SpawnerTriangle,
     /*
-     *
+     * BiggerLaser
+     * 必要資訊:StartBeat
+     * 可選資訊(預設值):SpawnBeat(StartBeat + 3.0)、EndBeat(SpawnBeat + 2.5)、Scale(150.0)
+     * 特殊資訊:Offset和StartRotation都需寫入才能修改，否則隨機
      */
     BiggerLaser,
     /*
-     *
+     * WarningBiggerLaser
+     * 此為特效，目前無法自行生成
      */
     WarningBiggerLaser,
     /*
-     *
+     * WarningExpendingBall
+     * 此為特效，目前無法自行生成
      */
     WarningExpendingBall,
     /*
-     *
+     * SpawnerRotatingRectangle
+     * 必要資訊:StartBeat、EndBeat
      */
     SpawnerRotatingRectangle,
     /*
-     *
+     * CheckPointLine
+     * 必要資訊:StartBeat
      */
     CheckPointLine,
     /*
-     *
+     * PopRectangle
+     * 必要資訊:StartBeat、StartPos
      */
     PopRectangle,
     /*
