@@ -6,7 +6,7 @@
 #define JUST_SHAPES_AND_BEATS_BULLETTYPE_HPP
 
 enum class BulletType {
-    RotatingRectangle = 1,
+    RotatingRectangle = 1,//必要:起始節拍、，
     Laser,
     EasingBall,
     EffectBall,
