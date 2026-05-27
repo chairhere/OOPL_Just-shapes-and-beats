@@ -102,7 +102,7 @@ void LevelSpawner::Start(float StartBeat) {
                 m_LoadEvent.StartPos = {item["StartPos"]["X"], item["StartPos"]["Y"]};
             }
             else {
-                m_LoadEvent.StartPos = {0.0f, 0.0f};
+                m_LoadEvent.StartPos = {1.0f, 1.0f};
             }
         }
         else if (item["ObstacleType"] == "SpawnerRotatingRectangle") {
@@ -759,7 +759,7 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
 
         std::uniform_real_distribution<float> PosX(-(static_cast<float>(WINDOW_WIDTH) / 2) + 200, static_cast<float>(WINDOW_WIDTH) / 2 - 200);
         std::uniform_real_distribution<float> PosY(-(static_cast<float>(WINDOW_HEIGHT) / 2) + 200, static_cast<float>(WINDOW_HEIGHT) / 2 - 200);
-        if (m_SpawnEvent.StartPos == glm::vec2{0.0f, 0.0f}) {
+        if (m_SpawnEvent.StartPos == glm::vec2{1.0f, 1.0f}) {
             m_SpawnEvent.StartPos = {PosX(g), PosY(g)};
         }
 
@@ -894,10 +894,10 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
         newObs->TurnOffCollidable();
     }
     else if (m_SpawnEvent.Bullet == BulletType::SpawnerRectangle) {
-        int minX = -static_cast<int>(static_cast<float>(WINDOW_WIDTH) * 0.8f / 2 / m_SpawnEvent.Scale.x) - 1;
-        int maxX = static_cast<int>(static_cast<float>(WINDOW_WIDTH) * 0.8f / 2 / m_SpawnEvent.Scale.x) + 1;
-        int minY = -static_cast<int>(static_cast<float>(WINDOW_HEIGHT) * 0.8f / 2 / m_SpawnEvent.Scale.x) - 1;
-        int maxY = static_cast<int>(static_cast<float>(WINDOW_HEIGHT) * 0.8f / 2 / m_SpawnEvent.Scale.x) + 1;
+        int minX = -static_cast<int>(static_cast<float>(WINDOW_WIDTH) * 0.8f / 2 / m_SpawnEvent.Scale.x);
+        int maxX = static_cast<int>(static_cast<float>(WINDOW_WIDTH) * 0.8f / 2 / m_SpawnEvent.Scale.x);
+        int minY = -static_cast<int>(static_cast<float>(WINDOW_HEIGHT) * 0.8f / 2 / m_SpawnEvent.Scale.x);
+        int maxY = static_cast<int>(static_cast<float>(WINDOW_HEIGHT) * 0.8f / 2 / m_SpawnEvent.Scale.x);
 
         std::uniform_int_distribution<int> PosX(minX, maxX);
         std::uniform_int_distribution<int> PosY(minY, maxY);
@@ -967,10 +967,10 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
         }
     }
     else if (m_SpawnEvent.Bullet == BulletType::SpawnerExpendingBall) {
-        int minX = -static_cast<int>(static_cast<float>(WINDOW_WIDTH) * 0.8f / 2 / m_SpawnEvent.Scale.x) - 1;
-        int maxX = static_cast<int>(static_cast<float>(WINDOW_WIDTH) * 0.8f / 2 / m_SpawnEvent.Scale.x) + 1;
-        int minY = -static_cast<int>(static_cast<float>(WINDOW_HEIGHT) * 0.8f / 2 / m_SpawnEvent.Scale.x) - 1;
-        int maxY = static_cast<int>(static_cast<float>(WINDOW_HEIGHT) * 0.8f / 2 / m_SpawnEvent.Scale.x) + 1;
+        int minX = -static_cast<int>(static_cast<float>(WINDOW_WIDTH) * 0.8f / 2 / m_SpawnEvent.Scale.x);
+        int maxX = static_cast<int>(static_cast<float>(WINDOW_WIDTH) * 0.8f / 2 / m_SpawnEvent.Scale.x);
+        int minY = -static_cast<int>(static_cast<float>(WINDOW_HEIGHT) * 0.8f / 2 / m_SpawnEvent.Scale.x);
+        int maxY = static_cast<int>(static_cast<float>(WINDOW_HEIGHT) * 0.8f / 2 / m_SpawnEvent.Scale.x);
 
         std::uniform_int_distribution<int> PosX(minX, maxX);
         std::uniform_int_distribution<int> PosY(minY, maxY);

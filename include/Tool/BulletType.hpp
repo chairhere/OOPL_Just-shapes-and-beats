@@ -79,7 +79,7 @@ enum class BulletType {
     CheckPointLine,
     /*
      * PopRectangle
-     * 必要資訊:StartBeat、StartPos
+     * 必要資訊:StartBeat、StartPos、Scale
      */
     PopRectangle,
     /*
