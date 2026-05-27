@@ -43,14 +43,16 @@ private:
     glm::vec2 m_ShakeOffset = {0.0f, 0.0f};
 
     float m_StartShakeBeat = 0.0f;
-    const float s_ShakeDuration = 0.25f;
     float m_CurrentOffset = 0.0f;
+    const float s_ShakeDuration = 0.25f;
+    const float s_Amplitude = 5.0f;
 
     int m_ObstaclesCount = 0;
 
     bool m_IsFinished = false;
     bool m_IsColliding = false;
     bool m_IsChecked = false;
+    bool m_IsJitter = false;
 
     std::random_device rd;  //隨機種子
     std::mt19937 g = std::mt19937(rd());  //取亂數

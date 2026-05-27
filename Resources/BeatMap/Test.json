@@ -30,6 +30,18 @@
     "Scale" : 30.0
   },
   {
+    "StartBeat" : 1,"EndBeat" : 30,
+    "ObstacleType" : "SpawnerExpendingBall",
+    "StartRotation" : 0.0,
+    "Scale" : 200.0
+  },
+  {
+    "StartBeat" : 1.5,"EndBeat" : 30.5,
+    "ObstacleType" : "SpawnerExpendingBall",
+    "StartRotation" : 0.0,
+    "Scale" : 200.0
+  },
+  {
     "StartBeat" : 1,
     "ObstacleType" : "SpawnerLinearRectangle",
     "StartRotation" : 0.0,
@@ -85,10 +97,6 @@
     "ObstacleType" : "Laser",
     "Offset" : 300.0,
     "StartRotation" : 1.57
-  },
-  {
-    "StartBeat" : 2.5,
-    "ObstacleType" : "ExpendingBall"
   },
   {
     "StartBeat" : 5,
