@@ -144,6 +144,7 @@ void LevelSpawner::Start(float StartBeat) {
             m_LoadEvent.StartBeat = item["StartBeat"];
             m_LoadEvent.StartRot = item["StartRotation"];
             m_LoadEvent.Scale = glm::vec2{item.value("Scale", 30.0f), item.value("Scale", 30.0f)};
+            m_LoadEvent.SpecialData.Velocity = item.value("SpawnGap", 0.25f);
         }
         else if (item["ObstacleType"] == "SpawnerExpendingBall") {
             m_LoadEvent.Bullet = BulletType::SpawnerExpendingBall;
@@ -893,9 +894,9 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
         newObs->TurnOffCollidable();
     }
     else if (m_SpawnEvent.Bullet == BulletType::SpawnerRectangle) {
-        int minX = static_cast<int>(static_cast<float>(WINDOW_WIDTH) / 2 / m_SpawnEvent.Scale.x) + 1;
+        int minX = -static_cast<int>(static_cast<float>(WINDOW_WIDTH) / 2 / m_SpawnEvent.Scale.x) - 1;
         int maxX = static_cast<int>(static_cast<float>(WINDOW_WIDTH) / 2 / m_SpawnEvent.Scale.x) + 1;
-        int minY = static_cast<int>(static_cast<float>(WINDOW_HEIGHT) / 2 / m_SpawnEvent.Scale.x) + 1;
+        int minY = -static_cast<int>(static_cast<float>(WINDOW_HEIGHT) / 2 / m_SpawnEvent.Scale.x) - 1;
         int maxY = static_cast<int>(static_cast<float>(WINDOW_HEIGHT) / 2 / m_SpawnEvent.Scale.x) + 1;
 
         std::uniform_int_distribution<int> PosX(minX, maxX);
@@ -920,7 +921,7 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
     else if (m_SpawnEvent.Bullet == BulletType::SpawnerLinearRectangle) {
 
         int SpawnCount = 0;
-        float SpawnGap = 0.0f;
+        float SpawnGap = m_SpawnEvent.SpecialData.Velocity;
 
         SpawnEvent PopRecEvent;
         PopRecEvent.Bullet = BulletType::PopRectangle;
@@ -931,11 +932,9 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
 
         if (m_SpawnEvent.Scale.x == 30.0f) {
             SpawnCount = 60;
-            SpawnGap = 0.25f;
         }
         else {
             SpawnCount = static_cast<int>(static_cast<float>(WINDOW_WIDTH) / m_SpawnEvent.Scale.x) + 20;
-            SpawnGap = 0.25f * (m_SpawnEvent.Scale.x * 0.8f) / (30.0f);
         }
 
         if (m_SpawnEvent.StartRot == 0.0f) {

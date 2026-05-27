@@ -6,23 +6,77 @@
 #define JUST_SHAPES_AND_BEATS_BULLETTYPE_HPP
 
 enum class BulletType {
+    /*
+     *
+     */
     RotatingRectangle = 1,
+    /*
+     * 必要資訊:起始節拍、起始位置
+     */
     Laser,
+    /*
+     * 必要資訊:起始節拍、起始位置
+     */
     EasingBall,
+    /*
+     * 必要資訊:起始節拍、起始位置
+     */
     EffectBall,
+    /*
+     * 必要資訊:起始節拍、起始位置
+     */
     ExpendingBall,
+    /*
+     * 必要資訊:起始節拍、起始位置
+     */
     SpikeBall,
+    /*
+     * 必要資訊:起始節拍、起始位置
+     */
     BiggerSpikeBall,
+    /*
+     * 必要資訊:起始節拍、起始位置
+     */
     SpawnerTriangle,
+    /*
+     *
+     */
     BiggerLaser,
+    /*
+     *
+     */
     WarningBiggerLaser,
+    /*
+     *
+     */
     WarningExpendingBall,
+    /*
+     *
+     */
     SpawnerRotatingRectangle,
+    /*
+     *
+     */
     CheckPointLine,
+    /*
+     *
+     */
     PopRectangle,
+    /*
+     *
+     */
     SpawnerRectangle,
+    /*
+     *
+     */
     SpawnerLinearRectangle,
+    /*
+     *
+     */
     SpawnerExpendingBall,
+    /*
+     *
+     */
 };
 
 constexpr int  to_int(const BulletType S) {
