@@ -23,4 +23,4 @@ def sort_rhythm_game_data(file_path):
 
 if __name__ == "__main__":
     # 請確保你的檔案放在同一個資料夾下，並將檔名改為你的檔名
-    sort_rhythm_game_data('Chronos.json')
+    sort_rhythm_game_data('Milky Way.json')
