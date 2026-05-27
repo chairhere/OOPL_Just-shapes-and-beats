@@ -128,8 +128,8 @@ void LevelSpawner::Start(float StartBeat) {
         else if (item["ObstacleType"] == "PopRectangle") {//等6拍
             m_LoadEvent.Bullet = BulletType::PopRectangle;
             m_LoadEvent.StartBeat = item["StartBeat"];
-            m_LoadEvent.SpecialData.SpawnBeat = static_cast<float>(item["StartBeat"]) + 6.0f;
-            m_LoadEvent.EndBeat = static_cast<float>(item["StartBeat"]) + 8.0f;
+            m_LoadEvent.SpecialData.SpawnBeat = item.value("SpawnBeat", static_cast<float>(item["StartBeat"]) + 6.0f);
+            m_LoadEvent.EndBeat = item.value("EndBeat", m_LoadEvent.SpecialData.SpawnBeat + 2.0f);
             m_LoadEvent.StartPos = {item["StartPos"]["X"], item["StartPos"]["Y"]};
             m_LoadEvent.Scale = {item["Scale"], item["Scale"]};
         }
@@ -137,7 +137,7 @@ void LevelSpawner::Start(float StartBeat) {
             m_LoadEvent.Bullet = BulletType::SpawnerRectangle;
             m_LoadEvent.StartBeat = item["StartBeat"];
             m_LoadEvent.EndBeat = item["EndBeat"];
-            m_LoadEvent.Scale = glm::vec2{item["Scale"], item["Scale"]};
+            m_LoadEvent.Scale = glm::vec2{item.value("Scale", 30.0f), item.value("Scale", 30.0f)};
         }
         else if (item["ObstacleType"] == "SpawnerLinearRectangle") {
             m_LoadEvent.Bullet = BulletType::SpawnerLinearRectangle;
@@ -190,10 +190,15 @@ void LevelSpawner::Update(float currentBeat, glm::vec2 PlayerPos) {
 
     if (m_StartShakeBeat + s_ShakeDuration * 2 >= currentBeat) {
         m_CurrentOffset = (s_ShakeDuration - std::abs( 4 * s_ShakeDuration * (currentBeat - m_StartShakeBeat) - s_ShakeDuration));
-        m_Transform.translation = {m_ShakeOffset.x * m_CurrentOffset, m_ShakeOffset.y * m_CurrentOffset};
+
     }else {
-        m_Transform.translation = {0.0f, 0.0f};
+        m_CurrentOffset = 0.0f;
     }
+
+    if (m_IsJitter) {
+
+    }
+    m_Transform.translation = {m_ShakeOffset.x * m_CurrentOffset, m_ShakeOffset.y * m_CurrentOffset};
 
     while (!m_PendingEvents.empty() && currentBeat >= m_PendingEvents.front().StartBeat) {
         SpawnEvent Event;
