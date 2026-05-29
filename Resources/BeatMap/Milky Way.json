@@ -36,7 +36,8 @@
     "PausePos": {
       "X": 580.0,
       "Y": 280.0
-    }
+    },
+    "Velocity": 200
   },
   {
     "StartBeat": 44,
@@ -49,7 +50,8 @@
     "PausePos": {
       "X": 580.0,
       "Y": 140.0
-    }
+    },
+    "Velocity": 200
   },
   {
     "StartBeat": 44,
@@ -62,7 +64,8 @@
     "PausePos": {
       "X": 580.0,
       "Y": 0.0
-    }
+    },
+    "Velocity": 200
   },
   {
     "StartBeat": 44,
@@ -75,7 +78,8 @@
     "PausePos": {
       "X": 580.0,
       "Y": -140.0
-    }
+    },
+    "Velocity": 200
   },
   {
     "StartBeat": 44,
@@ -88,7 +92,8 @@
     "PausePos": {
       "X": 580.0,
       "Y": -280.0
-    }
+    },
+    "Velocity": 200
   },
   {
     "StartBeat": 47.0,
@@ -319,7 +324,8 @@
     "PausePos": {
       "X": -580.0,
       "Y": 280.0
-    }
+    },
+    "Velocity": 200
   },
   {
     "StartBeat": 76,
@@ -332,7 +338,8 @@
     "PausePos": {
       "X": -580.0,
       "Y": 140.0
-    }
+    },
+    "Velocity": 200
   },
   {
     "StartBeat": 76,
@@ -345,7 +352,8 @@
     "PausePos": {
       "X": -580.0,
       "Y": 0.0
-    }
+    },
+    "Velocity": 200
   },
   {
     "StartBeat": 76,
@@ -358,7 +366,8 @@
     "PausePos": {
       "X": -580.0,
       "Y": -140.0
-    }
+    },
+    "Velocity": 200
   },
   {
     "StartBeat": 76,
@@ -371,7 +380,8 @@
     "PausePos": {
       "X": -580.0,
       "Y": -280.0
-    }
+    },
+    "Velocity": 200
   },
   {
     "StartBeat": 81.0,
@@ -484,6 +494,10 @@
     "StartRotation": 0.0,
     "Scale": 15.0,
     "SpawnGap": 0.1
+  },
+  {
+    "StartBeat": 96.0,
+    "ObstacleType": "CheckPointLine"
   },
   {
     "StartBeat": 97.0,
@@ -561,7 +575,17 @@
     "ObstacleType": "PopRectangle",
     "Scale": 140.0,
     "StartPos": {
-      "X": -750.0,
+      "X": -790.0,
+      "Y": 400.0
+    }
+  },
+  {
+    "StartBeat": 108.05,
+    "SpawnBeat": 110.05,
+    "ObstacleType": "PopRectangle",
+    "Scale": 140.0,
+    "StartPos": {
+      "X": -632,
       "Y": 400.0
     }
   },
@@ -571,7 +595,17 @@
     "ObstacleType": "PopRectangle",
     "Scale": 140.0,
     "StartPos": {
-      "X": -583.3,
+      "X": -474,
+      "Y": 400.0
+    }
+  },
+  {
+    "StartBeat": 108.15,
+    "SpawnBeat": 110.15,
+    "ObstacleType": "PopRectangle",
+    "Scale": 140.0,
+    "StartPos": {
+      "X": -316.0,
       "Y": 400.0
     }
   },
@@ -581,7 +615,17 @@
     "ObstacleType": "PopRectangle",
     "Scale": 140.0,
     "StartPos": {
-      "X": -416.6,
+      "X": -158.3,
+      "Y": 400.0
+    }
+  },
+  {
+    "StartBeat": 108.25,
+    "SpawnBeat": 110.25,
+    "ObstacleType": "PopRectangle",
+    "Scale": 140.0,
+    "StartPos": {
+      "X": 0,
       "Y": 400.0
     }
   },
@@ -591,7 +635,17 @@
     "ObstacleType": "PopRectangle",
     "Scale": 140.0,
     "StartPos": {
-      "X": -250.0,
+      "X": 158,
+      "Y": 400.0
+    }
+  },
+  {
+    "StartBeat": 108.35,
+    "SpawnBeat": 110.35,
+    "ObstacleType": "PopRectangle",
+    "Scale": 140.0,
+    "StartPos": {
+      "X": 316,
       "Y": 400.0
     }
   },
@@ -601,7 +655,17 @@
     "ObstacleType": "PopRectangle",
     "Scale": 140.0,
     "StartPos": {
-      "X": -83.3,
+      "X": 474,
+      "Y": 400.0
+    }
+  },
+  {
+    "StartBeat": 108.45,
+    "SpawnBeat": 110.45,
+    "ObstacleType": "PopRectangle",
+    "Scale": 140.0,
+    "StartPos": {
+      "X": 632,
       "Y": 400.0
     }
   },
@@ -611,47 +675,7 @@
     "ObstacleType": "PopRectangle",
     "Scale": 140.0,
     "StartPos": {
-      "X": 83.3,
-      "Y": 400.0
-    }
-  },
-  {
-    "StartBeat": 108.6,
-    "SpawnBeat": 110.6,
-    "ObstacleType": "PopRectangle",
-    "Scale": 140.0,
-    "StartPos": {
-      "X": 250.0,
-      "Y": 400.0
-    }
-  },
-  {
-    "StartBeat": 108.7,
-    "SpawnBeat": 110.7,
-    "ObstacleType": "PopRectangle",
-    "Scale": 140.0,
-    "StartPos": {
-      "X": 416.6,
-      "Y": 400.0
-    }
-  },
-  {
-    "StartBeat": 108.8,
-    "SpawnBeat": 110.8,
-    "ObstacleType": "PopRectangle",
-    "Scale": 140.0,
-    "StartPos": {
-      "X": 583.3,
-      "Y": 400.0
-    }
-  },
-  {
-    "StartBeat": 108.9,
-    "SpawnBeat": 110.9,
-    "ObstacleType": "PopRectangle",
-    "Scale": 140.0,
-    "StartPos": {
-      "X": 750.0,
+      "X": 790,
       "Y": 400.0
     }
   },
@@ -661,17 +685,37 @@
     "ObstacleType": "PopRectangle",
     "Scale": 140.0,
     "StartPos": {
-      "X": -750.0,
+      "X": -790.0,
       "Y": -400.0
     }
   },
   {
-    "StartBeat": 109.1,
-    "SpawnBeat": 111.1,
+    "StartBeat": 109.05,
+    "SpawnBeat": 111.05,
     "ObstacleType": "PopRectangle",
     "Scale": 140.0,
     "StartPos": {
-      "X": -583.3,
+      "X": -632,
+      "Y": -400.0
+    }
+  },
+  {
+    "SpawnBeat": 111.1,
+    "StartBeat": 109.1,
+    "ObstacleType": "PopRectangle",
+    "Scale": 140.0,
+    "StartPos": {
+      "X": -474,
+      "Y": -400.0
+    }
+  },
+  {
+    "StartBeat": 109.15,
+    "SpawnBeat": 111.15,
+    "ObstacleType": "PopRectangle",
+    "Scale": 140.0,
+    "StartPos": {
+      "X": -316.0,
       "Y": -400.0
     }
   },
@@ -681,7 +725,17 @@
     "ObstacleType": "PopRectangle",
     "Scale": 140.0,
     "StartPos": {
-      "X": -416.6,
+      "X": -158.3,
+      "Y": -400.0
+    }
+  },
+  {
+    "StartBeat": 109.25,
+    "SpawnBeat": 111.25,
+    "ObstacleType": "PopRectangle",
+    "Scale": 140.0,
+    "StartPos": {
+      "X": 0,
       "Y": -400.0
     }
   },
@@ -691,7 +745,17 @@
     "ObstacleType": "PopRectangle",
     "Scale": 140.0,
     "StartPos": {
-      "X": -250.0,
+      "X": 158,
+      "Y": -400.0
+    }
+  },
+  {
+    "StartBeat": 109.35,
+    "SpawnBeat": 111.35,
+    "ObstacleType": "PopRectangle",
+    "Scale": 140.0,
+    "StartPos": {
+      "X": 316,
       "Y": -400.0
     }
   },
@@ -701,7 +765,17 @@
     "ObstacleType": "PopRectangle",
     "Scale": 140.0,
     "StartPos": {
-      "X": -83.3,
+      "X": 474,
+      "Y": -400.0
+    }
+  },
+  {
+    "StartBeat": 109.45,
+    "SpawnBeat": 111.45,
+    "ObstacleType": "PopRectangle",
+    "Scale": 140.0,
+    "StartPos": {
+      "X": 632,
       "Y": -400.0
     }
   },
@@ -711,47 +785,7 @@
     "ObstacleType": "PopRectangle",
     "Scale": 140.0,
     "StartPos": {
-      "X": 83.3,
-      "Y": -400.0
-    }
-  },
-  {
-    "StartBeat": 109.6,
-    "SpawnBeat": 111.6,
-    "ObstacleType": "PopRectangle",
-    "Scale": 140.0,
-    "StartPos": {
-      "X": 250.0,
-      "Y": -400.0
-    }
-  },
-  {
-    "StartBeat": 109.7,
-    "SpawnBeat": 111.7,
-    "ObstacleType": "PopRectangle",
-    "Scale": 140.0,
-    "StartPos": {
-      "X": 416.6,
-      "Y": -400.0
-    }
-  },
-  {
-    "StartBeat": 109.8,
-    "SpawnBeat": 111.8,
-    "ObstacleType": "PopRectangle",
-    "Scale": 140.0,
-    "StartPos": {
-      "X": 583.3,
-      "Y": -400.0
-    }
-  },
-  {
-    "StartBeat": 109.9,
-    "SpawnBeat": 111.9,
-    "ObstacleType": "PopRectangle",
-    "Scale": 140.0,
-    "StartPos": {
-      "X": 750.0,
+      "X": 790,
       "Y": -400.0
     }
   },
@@ -906,7 +940,8 @@
     "PausePos": {
       "X": 580.0,
       "Y": 280.0
-    }
+    },
+    "Velocity": 200
   },
   {
     "StartBeat": 140,
@@ -919,7 +954,8 @@
     "PausePos": {
       "X": 580.0,
       "Y": 140.0
-    }
+    },
+    "Velocity": 200
   },
   {
     "StartBeat": 140,
@@ -932,7 +968,8 @@
     "PausePos": {
       "X": 580.0,
       "Y": 0.0
-    }
+    },
+    "Velocity": 200
   },
   {
     "StartBeat": 140,
@@ -945,7 +982,8 @@
     "PausePos": {
       "X": 580.0,
       "Y": -140.0
-    }
+    },
+    "Velocity": 200
   },
   {
     "StartBeat": 140,
@@ -958,7 +996,8 @@
     "PausePos": {
       "X": 580.0,
       "Y": -280.0
-    }
+    },
+    "Velocity": 200
   },
   {
     "StartBeat": 145.0,
@@ -1068,17 +1107,20 @@
   {
     "StartBeat": 178,
     "SpawnBeat": 183,
-    "ObstacleType": "SpikeBall"
+    "ObstacleType": "SpikeBall",
+    "Velocity": 200
   },
   {
     "StartBeat": 180,
     "SpawnBeat": 185,
-    "ObstacleType": "SpikeBall"
+    "ObstacleType": "SpikeBall",
+    "Velocity": 200
   },
   {
     "StartBeat": 182,
     "SpawnBeat": 187,
-    "ObstacleType": "SpikeBall"
+    "ObstacleType": "SpikeBall",
+    "Velocity": 200
   },
   {
     "StartBeat": 182.0,
@@ -1095,57 +1137,68 @@
   {
     "StartBeat": 184,
     "SpawnBeat": 189,
-    "ObstacleType": "SpikeBall"
+    "ObstacleType": "SpikeBall",
+    "Velocity": 200
   },
   {
     "StartBeat": 186,
     "SpawnBeat": 191,
-    "ObstacleType": "SpikeBall"
+    "ObstacleType": "SpikeBall",
+    "Velocity": 200
   },
   {
     "StartBeat": 188,
     "SpawnBeat": 193,
-    "ObstacleType": "SpikeBall"
+    "ObstacleType": "SpikeBall",
+    "Velocity": 200
   },
   {
     "StartBeat": 190,
     "SpawnBeat": 195,
-    "ObstacleType": "SpikeBall"
+    "ObstacleType": "SpikeBall",
+    "Velocity": 200
   },
   {
     "StartBeat": 192,
     "SpawnBeat": 197,
-    "ObstacleType": "SpikeBall"
+    "ObstacleType": "SpikeBall",
+    "Velocity": 200
   },
   {
     "StartBeat": 194,
     "SpawnBeat": 199,
-    "ObstacleType": "SpikeBall"
+    "ObstacleType": "SpikeBall",
+    "Velocity": 200
   },
   {
     "StartBeat": 196,
     "SpawnBeat": 201,
-    "ObstacleType": "SpikeBall"
+    "ObstacleType": "SpikeBall",
+    "Velocity": 200
   },
   {
     "StartBeat": 198,
     "SpawnBeat": 203,
-    "ObstacleType": "SpikeBall"
+    "ObstacleType": "SpikeBall",
+    "Velocity": 200
   },
   {
     "StartBeat": 200,
     "SpawnBeat": 205,
-    "ObstacleType": "SpikeBall"
+    "ObstacleType": "SpikeBall",
+    "Velocity": 200
   },
   {
     "StartBeat": 202,
     "SpawnBeat": 207,
-    "ObstacleType": "SpikeBall"
+    "ObstacleType": "SpikeBall",
+    "Velocity": 200
   },
   {
     "StartBeat": 204,
     "SpawnBeat": 209,
-    "ObstacleType": "SpikeBall"
+    "ObstacleType": "SpikeBall",
+    "Velocity": 200
   },
   {
     "StartBeat": 205,
@@ -1247,61 +1300,70 @@
     }
   },
   {
+    "StartBeat": 210.5,
+    "EndBeat": 242.0,
+    "ObstacleType": "SpawnerExpendingBall",
+    "Scale": 250
+  },
+  {
+    "StartBeat": 211.0,
+    "EndBeat": 242.0,
+    "ObstacleType": "SpawnerExpendingBall",
+    "Scale": 250
+  },
+  {
     "StartBeat": 212,
     "SpawnBeat": 217,
-    "ObstacleType": "SpikeBall"
-  },
-  {
-    "StartBeat": 213.5,
-    "EndBeat": 250.0,
-    "ObstacleType": "SpawnerExpendingBall",
-    "Scale": 300
-  },
-  {
-    "StartBeat": 214.0,
-    "EndBeat": 250.0,
-    "ObstacleType": "SpawnerExpendingBall",
-    "Scale": 300
+    "ObstacleType": "SpikeBall",
+    "Velocity": 200
   },
   {
     "StartBeat": 214,
     "SpawnBeat": 219,
-    "ObstacleType": "SpikeBall"
+    "ObstacleType": "SpikeBall",
+    "Velocity": 200
   },
   {
     "StartBeat": 216,
     "SpawnBeat": 221,
-    "ObstacleType": "SpikeBall"
+    "ObstacleType": "SpikeBall",
+    "Velocity": 200
   },
   {
     "StartBeat": 218,
     "SpawnBeat": 223,
-    "ObstacleType": "SpikeBall"
+    "ObstacleType": "SpikeBall",
+    "Velocity": 200
   },
   {
     "StartBeat": 220,
     "SpawnBeat": 225,
-    "ObstacleType": "SpikeBall"
+    "ObstacleType": "SpikeBall",
+    "Velocity": 200
   },
   {
     "StartBeat": 222,
     "SpawnBeat": 227,
-    "ObstacleType": "SpikeBall"
+    "ObstacleType": "SpikeBall",
+    "Velocity": 200
   },
   {
     "StartBeat": 224,
     "SpawnBeat": 229,
-    "ObstacleType": "SpikeBall"
+    "ObstacleType": "SpikeBall",
+    "Velocity": 200
   },
   {
     "StartBeat": 226,
     "SpawnBeat": 231,
-    "ObstacleType": "SpikeBall"
+    "ObstacleType": "SpikeBall",
+    "Velocity": 200
   },
   {
     "StartBeat": 228,
     "SpawnBeat": 233,
-    "ObstacleType": "SpikeBall"
+    "ObstacleType": "SpikeBall",
+    "Velocity": 200
   },
   {
     "StartBeat": 228.0,
@@ -1310,12 +1372,366 @@
   {
     "StartBeat": 230,
     "SpawnBeat": 235,
-    "ObstacleType": "SpikeBall"
+    "ObstacleType": "SpikeBall",
+    "Velocity": 200
   },
   {
     "StartBeat": 232,
     "SpawnBeat": 237,
-    "ObstacleType": "SpikeBall"
+    "ObstacleType": "SpikeBall",
+    "Velocity": 200
+  },
+  {
+    "StartBeat": 233,
+    "SpawnBeat": 238,
+    "EndBeat": 239.5,
+    "ObstacleType": "ExpendingBall",
+    "Scale": 200,
+    "StartPos": {
+      "X": -750,
+      "Y": 340
+    }
+  },
+  {
+    "StartBeat": 233,
+    "SpawnBeat": 238,
+    "EndBeat": 239.5,
+    "ObstacleType": "ExpendingBall",
+    "Scale": 200,
+    "StartPos": {
+      "X": -750,
+      "Y": -340
+    }
+  },
+  {
+    "StartBeat": 233.4,
+    "SpawnBeat": 238.4,
+    "EndBeat": 239.9,
+    "ObstacleType": "ExpendingBall",
+    "Scale": 200,
+    "StartPos": {
+      "X": -650,
+      "Y": 340
+    }
+  },
+  {
+    "StartBeat": 233.4,
+    "SpawnBeat": 238.4,
+    "EndBeat": 239.9,
+    "ObstacleType": "ExpendingBall",
+    "Scale": 200,
+    "StartPos": {
+      "X": -650,
+      "Y": -340
+    }
+  },
+  {
+    "StartBeat": 233.8,
+    "SpawnBeat": 238.8,
+    "EndBeat": 240.3,
+    "ObstacleType": "ExpendingBall",
+    "Scale": 200,
+    "StartPos": {
+      "X": -550,
+      "Y": 340
+    }
+  },
+  {
+    "StartBeat": 233.8,
+    "SpawnBeat": 238.8,
+    "EndBeat": 240.3,
+    "ObstacleType": "ExpendingBall",
+    "Scale": 200,
+    "StartPos": {
+      "X": -550,
+      "Y": -340
+    }
+  },
+  {
+    "StartBeat": 234.2,
+    "SpawnBeat": 239.2,
+    "EndBeat": 240.7,
+    "ObstacleType": "ExpendingBall",
+    "Scale": 200,
+    "StartPos": {
+      "X": -450,
+      "Y": 340
+    }
+  },
+  {
+    "StartBeat": 234.2,
+    "SpawnBeat": 239.2,
+    "EndBeat": 240.7,
+    "ObstacleType": "ExpendingBall",
+    "Scale": 200,
+    "StartPos": {
+      "X": -450,
+      "Y": -340
+    }
+  },
+  {
+    "StartBeat": 234.6,
+    "SpawnBeat": 239.6,
+    "EndBeat": 241.1,
+    "ObstacleType": "ExpendingBall",
+    "Scale": 200,
+    "StartPos": {
+      "X": -350,
+      "Y": 340
+    }
+  },
+  {
+    "StartBeat": 234.6,
+    "SpawnBeat": 239.6,
+    "EndBeat": 241.1,
+    "ObstacleType": "ExpendingBall",
+    "Scale": 200,
+    "StartPos": {
+      "X": -350,
+      "Y": -340
+    }
+  },
+  {
+    "StartBeat": 235,
+    "SpawnBeat": 240,
+    "EndBeat": 241.5,
+    "ObstacleType": "ExpendingBall",
+    "Scale": 200,
+    "StartPos": {
+      "X": -250,
+      "Y": 340
+    }
+  },
+  {
+    "StartBeat": 235,
+    "SpawnBeat": 240,
+    "EndBeat": 241.5,
+    "ObstacleType": "ExpendingBall",
+    "Scale": 200,
+    "StartPos": {
+      "X": -250,
+      "Y": -340
+    }
+  },
+  {
+    "StartBeat": 235.4,
+    "SpawnBeat": 240.4,
+    "EndBeat": 241.9,
+    "ObstacleType": "ExpendingBall",
+    "Scale": 200,
+    "StartPos": {
+      "X": -200,
+      "Y": 340
+    }
+  },
+  {
+    "StartBeat": 235.4,
+    "SpawnBeat": 240.4,
+    "EndBeat": 241.9,
+    "ObstacleType": "ExpendingBall",
+    "Scale": 200,
+    "StartPos": {
+      "X": -200,
+      "Y": -340
+    }
+  },
+  {
+    "StartBeat": 235.8,
+    "SpawnBeat": 240.8,
+    "EndBeat": 242.3,
+    "ObstacleType": "ExpendingBall",
+    "Scale": 200,
+    "StartPos": {
+      "X": -50,
+      "Y": 340
+    }
+  },
+  {
+    "StartBeat": 235.8,
+    "SpawnBeat": 240.8,
+    "EndBeat": 242.3,
+    "ObstacleType": "ExpendingBall",
+    "Scale": 200,
+    "StartPos": {
+      "X": -50,
+      "Y": -340
+    }
+  },
+  {
+    "StartBeat": 236.2,
+    "SpawnBeat": 241.2,
+    "EndBeat": 242.7,
+    "ObstacleType": "ExpendingBall",
+    "Scale": 200,
+    "StartPos": {
+      "X": 50,
+      "Y": 340
+    }
+  },
+  {
+    "StartBeat": 236.2,
+    "SpawnBeat": 241.2,
+    "EndBeat": 242.7,
+    "ObstacleType": "ExpendingBall",
+    "Scale": 200,
+    "StartPos": {
+      "X": 50,
+      "Y": -340
+    }
+  },
+  {
+    "StartBeat": 236.6,
+    "SpawnBeat": 241.6,
+    "EndBeat": 243.1,
+    "ObstacleType": "ExpendingBall",
+    "Scale": 200,
+    "StartPos": {
+      "X": 200,
+      "Y": 340
+    }
+  },
+  {
+    "StartBeat": 236.6,
+    "SpawnBeat": 241.6,
+    "EndBeat": 243.1,
+    "ObstacleType": "ExpendingBall",
+    "Scale": 200,
+    "StartPos": {
+      "X": 200,
+      "Y": -340
+    }
+  },
+  {
+    "StartBeat": 237,
+    "SpawnBeat": 242,
+    "EndBeat": 243.5,
+    "ObstacleType": "ExpendingBall",
+    "Scale": 200,
+    "StartPos": {
+      "X": 250,
+      "Y": 340
+    }
+  },
+  {
+    "StartBeat": 237,
+    "SpawnBeat": 242,
+    "EndBeat": 243.5,
+    "ObstacleType": "ExpendingBall",
+    "Scale": 200,
+    "StartPos": {
+      "X": 250,
+      "Y": -340
+    }
+  },
+  {
+    "StartBeat": 237.4,
+    "SpawnBeat": 242.4,
+    "EndBeat": 243.9,
+    "ObstacleType": "ExpendingBall",
+    "Scale": 200,
+    "StartPos": {
+      "X": 350,
+      "Y": 340
+    }
+  },
+  {
+    "StartBeat": 237.4,
+    "SpawnBeat": 242.4,
+    "EndBeat": 243.9,
+    "ObstacleType": "ExpendingBall",
+    "Scale": 200,
+    "StartPos": {
+      "X": 350,
+      "Y": -340
+    }
+  },
+  {
+    "StartBeat": 237.8,
+    "SpawnBeat": 242.8,
+    "EndBeat": 244.3,
+    "ObstacleType": "ExpendingBall",
+    "Scale": 200,
+    "StartPos": {
+      "X": 450,
+      "Y": 340
+    }
+  },
+  {
+    "StartBeat": 237.8,
+    "SpawnBeat": 242.8,
+    "EndBeat": 244.3,
+    "ObstacleType": "ExpendingBall",
+    "Scale": 200,
+    "StartPos": {
+      "X": 450,
+      "Y": -340
+    }
+  },
+  {
+    "StartBeat": 238.2,
+    "SpawnBeat": 243.2,
+    "EndBeat": 244.7,
+    "ObstacleType": "ExpendingBall",
+    "Scale": 200,
+    "StartPos": {
+      "X": 550,
+      "Y": 340
+    }
+  },
+  {
+    "StartBeat": 238.2,
+    "SpawnBeat": 243.2,
+    "EndBeat": 244.7,
+    "ObstacleType": "ExpendingBall",
+    "Scale": 200,
+    "StartPos": {
+      "X": 550,
+      "Y": -340
+    }
+  },
+  {
+    "StartBeat": 238.6,
+    "SpawnBeat": 243.6,
+    "EndBeat": 245.1,
+    "ObstacleType": "ExpendingBall",
+    "Scale": 200,
+    "StartPos": {
+      "X": 650,
+      "Y": 340
+    }
+  },
+  {
+    "StartBeat": 238.6,
+    "SpawnBeat": 243.6,
+    "EndBeat": 245.1,
+    "ObstacleType": "ExpendingBall",
+    "Scale": 200,
+    "StartPos": {
+      "X": 650,
+      "Y": -340
+    }
+  },
+  {
+    "StartBeat": 239,
+    "SpawnBeat": 244,
+    "EndBeat": 245.5,
+    "ObstacleType": "ExpendingBall",
+    "Scale": 200,
+    "StartPos": {
+      "X": 750,
+      "Y": 340
+    }
+  },
+  {
+    "StartBeat": 239,
+    "SpawnBeat": 244,
+    "EndBeat": 245.5,
+    "ObstacleType": "ExpendingBall",
+    "Scale": 200,
+    "StartPos": {
+      "X": 750,
+      "Y": -340
+    }
   },
   {
     "StartBeat": 240,
@@ -1336,7 +1752,8 @@
     "PausePos": {
       "X": 580.0,
       "Y": 280.0
-    }
+    },
+    "Velocity": 200
   },
   {
     "StartBeat": 240,
@@ -1349,7 +1766,8 @@
     "PausePos": {
       "X": 580.0,
       "Y": 140.0
-    }
+    },
+    "Velocity": 200
   },
   {
     "StartBeat": 240,
@@ -1362,7 +1780,8 @@
     "PausePos": {
       "X": 580.0,
       "Y": 0.0
-    }
+    },
+    "Velocity": 200
   },
   {
     "StartBeat": 240,
@@ -1375,7 +1794,8 @@
     "PausePos": {
       "X": 580.0,
       "Y": -140.0
-    }
+    },
+    "Velocity": 200
   },
   {
     "StartBeat": 240,
@@ -1388,18 +1808,769 @@
     "PausePos": {
       "X": 580.0,
       "Y": -280.0
+    },
+    "Velocity": 200
+  },
+  {
+    "StartBeat": 242,
+    "EndBeat": 298,
+    "ObstacleType": "SpawnerRectangle",
+    "Scale": 150.0
+  },
+  {
+    "StartBeat": 242,
+    "EndBeat": 298,
+    "ObstacleType": "SpawnerRectangle",
+    "Scale": 150.0
+  },
+  {
+    "StartBeat": 243.0,
+    "ObstacleType": "SpawnerLinearRectangle",
+    "StartRotation": 3.14,
+    "Scale": 30.0,
+    "SpawnGap": 0.4
+  },
+  {
+    "StartBeat": 243.0,
+    "ObstacleType": "SpawnerLinearRectangle",
+    "StartRotation": 3.14,
+    "Scale": 15.0,
+    "SpawnGap": 0.1
+  },
+  {
+    "StartBeat": 245.0,
+    "ObstacleType": "SpawnerLinearRectangle",
+    "StartRotation": 3.14,
+    "Scale": 30.0,
+    "SpawnGap": 0.4
+  },
+  {
+    "StartBeat": 245.0,
+    "ObstacleType": "SpawnerLinearRectangle",
+    "StartRotation": 3.14,
+    "Scale": 15.0,
+    "SpawnGap": 0.1
+  },
+  {
+    "StartBeat": 247.0,
+    "ObstacleType": "SpawnerLinearRectangle",
+    "StartRotation": 3.14,
+    "Scale": 30.0,
+    "SpawnGap": 0.4
+  },
+  {
+    "StartBeat": 247.0,
+    "ObstacleType": "SpawnerLinearRectangle",
+    "StartRotation": 3.14,
+    "Scale": 15.0,
+    "SpawnGap": 0.1
+  },
+  {
+    "StartBeat": 249.0,
+    "ObstacleType": "SpawnerLinearRectangle",
+    "StartRotation": 3.14,
+    "Scale": 30.0,
+    "SpawnGap": 0.4
+  },
+  {
+    "StartBeat": 249.0,
+    "ObstacleType": "SpawnerLinearRectangle",
+    "StartRotation": 3.14,
+    "Scale": 15.0,
+    "SpawnGap": 0.1
+  },
+  {
+    "StartBeat": 251.0,
+    "ObstacleType": "SpawnerLinearRectangle",
+    "StartRotation": 3.14,
+    "Scale": 30.0,
+    "SpawnGap": 0.4
+  },
+  {
+    "StartBeat": 251.0,
+    "ObstacleType": "SpawnerLinearRectangle",
+    "StartRotation": 3.14,
+    "Scale": 15.0,
+    "SpawnGap": 0.1
+  },
+  {
+    "StartBeat": 253.0,
+    "ObstacleType": "SpawnerLinearRectangle",
+    "StartRotation": 3.14,
+    "Scale": 30.0,
+    "SpawnGap": 0.4
+  },
+  {
+    "StartBeat": 253.0,
+    "ObstacleType": "SpawnerLinearRectangle",
+    "StartRotation": 3.14,
+    "Scale": 15.0,
+    "SpawnGap": 0.1
+  },
+  {
+    "StartBeat": 255.0,
+    "ObstacleType": "SpawnerLinearRectangle",
+    "StartRotation": 3.14,
+    "Scale": 30.0,
+    "SpawnGap": 0.4
+  },
+  {
+    "StartBeat": 255.0,
+    "ObstacleType": "SpawnerLinearRectangle",
+    "StartRotation": 3.14,
+    "Scale": 15.0,
+    "SpawnGap": 0.1
+  },
+  {
+    "StartBeat": 257.0,
+    "ObstacleType": "SpawnerLinearRectangle",
+    "StartRotation": 3.14,
+    "Scale": 30.0,
+    "SpawnGap": 0.4
+  },
+  {
+    "StartBeat": 257.0,
+    "ObstacleType": "SpawnerLinearRectangle",
+    "StartRotation": 3.14,
+    "Scale": 15.0,
+    "SpawnGap": 0.1
+  },
+  {
+    "StartBeat": 259.0,
+    "ObstacleType": "SpawnerLinearRectangle",
+    "StartRotation": 3.14,
+    "Scale": 30.0,
+    "SpawnGap": 0.4
+  },
+  {
+    "StartBeat": 259.0,
+    "ObstacleType": "SpawnerLinearRectangle",
+    "StartRotation": 3.14,
+    "Scale": 15.0,
+    "SpawnGap": 0.1
+  },
+  {
+    "StartBeat": 261.0,
+    "ObstacleType": "SpawnerLinearRectangle",
+    "StartRotation": 3.14,
+    "Scale": 30.0,
+    "SpawnGap": 0.4
+  },
+  {
+    "StartBeat": 261.0,
+    "ObstacleType": "SpawnerLinearRectangle",
+    "StartRotation": 3.14,
+    "Scale": 15.0,
+    "SpawnGap": 0.1
+  },
+  {
+    "StartBeat": 263.0,
+    "ObstacleType": "SpawnerLinearRectangle",
+    "StartRotation": 3.14,
+    "Scale": 30.0,
+    "SpawnGap": 0.4
+  },
+  {
+    "StartBeat": 263.0,
+    "ObstacleType": "SpawnerLinearRectangle",
+    "StartRotation": 3.14,
+    "Scale": 15.0,
+    "SpawnGap": 0.1
+  },
+  {
+    "StartBeat": 265.0,
+    "ObstacleType": "SpawnerLinearRectangle",
+    "StartRotation": 3.14,
+    "Scale": 30.0,
+    "SpawnGap": 0.4
+  },
+  {
+    "StartBeat": 265.0,
+    "ObstacleType": "SpawnerLinearRectangle",
+    "StartRotation": 3.14,
+    "Scale": 15.0,
+    "SpawnGap": 0.1
+  },
+  {
+    "StartBeat": 267.0,
+    "ObstacleType": "SpawnerLinearRectangle",
+    "StartRotation": 3.14,
+    "Scale": 30.0,
+    "SpawnGap": 0.4
+  },
+  {
+    "StartBeat": 267.0,
+    "ObstacleType": "SpawnerLinearRectangle",
+    "StartRotation": 3.14,
+    "Scale": 15.0,
+    "SpawnGap": 0.1
+  },
+  {
+    "StartBeat": 269.0,
+    "ObstacleType": "SpawnerLinearRectangle",
+    "StartRotation": 3.14,
+    "Scale": 30.0,
+    "SpawnGap": 0.4
+  },
+  {
+    "StartBeat": 269.0,
+    "ObstacleType": "SpawnerLinearRectangle",
+    "StartRotation": 3.14,
+    "Scale": 15.0,
+    "SpawnGap": 0.1
+  },
+  {
+    "StartBeat": 271.0,
+    "ObstacleType": "SpawnerLinearRectangle",
+    "StartRotation": 3.14,
+    "Scale": 30.0,
+    "SpawnGap": 0.4
+  },
+  {
+    "StartBeat": 271.0,
+    "ObstacleType": "SpawnerLinearRectangle",
+    "StartRotation": 3.14,
+    "Scale": 15.0,
+    "SpawnGap": 0.1
+  },
+  {
+    "StartBeat": 273.0,
+    "ObstacleType": "SpawnerLinearRectangle",
+    "StartRotation": 3.14,
+    "Scale": 30.0,
+    "SpawnGap": 0.4
+  },
+  {
+    "StartBeat": 273.0,
+    "ObstacleType": "SpawnerLinearRectangle",
+    "StartRotation": 3.14,
+    "Scale": 15.0,
+    "SpawnGap": 0.1
+  },
+  {
+    "StartBeat": 275.0,
+    "ObstacleType": "SpawnerLinearRectangle",
+    "StartRotation": 3.14,
+    "Scale": 30.0,
+    "SpawnGap": 0.4
+  },
+  {
+    "StartBeat": 275.0,
+    "ObstacleType": "SpawnerLinearRectangle",
+    "StartRotation": 3.14,
+    "Scale": 15.0,
+    "SpawnGap": 0.1
+  },
+  {
+    "StartBeat": 277.0,
+    "ObstacleType": "SpawnerLinearRectangle",
+    "StartRotation": 3.14,
+    "Scale": 30.0,
+    "SpawnGap": 0.4
+  },
+  {
+    "StartBeat": 277.0,
+    "ObstacleType": "SpawnerLinearRectangle",
+    "StartRotation": 3.14,
+    "Scale": 15.0,
+    "SpawnGap": 0.1
+  },
+  {
+    "StartBeat": 279.0,
+    "ObstacleType": "SpawnerLinearRectangle",
+    "StartRotation": 3.14,
+    "Scale": 30.0,
+    "SpawnGap": 0.4
+  },
+  {
+    "StartBeat": 279.0,
+    "ObstacleType": "SpawnerLinearRectangle",
+    "StartRotation": 3.14,
+    "Scale": 15.0,
+    "SpawnGap": 0.1
+  },
+  {
+    "StartBeat": 281.0,
+    "ObstacleType": "SpawnerLinearRectangle",
+    "StartRotation": 3.14,
+    "Scale": 30.0,
+    "SpawnGap": 0.4
+  },
+  {
+    "StartBeat": 281.0,
+    "ObstacleType": "SpawnerLinearRectangle",
+    "StartRotation": 3.14,
+    "Scale": 15.0,
+    "SpawnGap": 0.1
+  },
+  {
+    "StartBeat": 283.0,
+    "ObstacleType": "SpawnerLinearRectangle",
+    "StartRotation": 3.14,
+    "Scale": 30.0,
+    "SpawnGap": 0.4
+  },
+  {
+    "StartBeat": 283.0,
+    "ObstacleType": "SpawnerLinearRectangle",
+    "StartRotation": 3.14,
+    "Scale": 15.0,
+    "SpawnGap": 0.1
+  },
+  {
+    "StartBeat": 285.0,
+    "ObstacleType": "SpawnerLinearRectangle",
+    "StartRotation": 3.14,
+    "Scale": 30.0,
+    "SpawnGap": 0.4
+  },
+  {
+    "StartBeat": 285.0,
+    "ObstacleType": "SpawnerLinearRectangle",
+    "StartRotation": 3.14,
+    "Scale": 15.0,
+    "SpawnGap": 0.1
+  },
+  {
+    "StartBeat": 287.0,
+    "ObstacleType": "SpawnerLinearRectangle",
+    "StartRotation": 3.14,
+    "Scale": 30.0,
+    "SpawnGap": 0.4
+  },
+  {
+    "StartBeat": 287.0,
+    "ObstacleType": "SpawnerLinearRectangle",
+    "StartRotation": 3.14,
+    "Scale": 15.0,
+    "SpawnGap": 0.1
+  },
+  {
+    "StartBeat": 289.0,
+    "ObstacleType": "SpawnerLinearRectangle",
+    "StartRotation": 3.14,
+    "Scale": 30.0,
+    "SpawnGap": 0.4
+  },
+  {
+    "StartBeat": 289.0,
+    "ObstacleType": "SpawnerLinearRectangle",
+    "StartRotation": 3.14,
+    "Scale": 15.0,
+    "SpawnGap": 0.1
+  },
+  {
+    "StartBeat": 291.0,
+    "ObstacleType": "SpawnerLinearRectangle",
+    "StartRotation": 3.14,
+    "Scale": 30.0,
+    "SpawnGap": 0.4
+  },
+  {
+    "StartBeat": 291.0,
+    "ObstacleType": "SpawnerLinearRectangle",
+    "StartRotation": 3.14,
+    "Scale": 15.0,
+    "SpawnGap": 0.1
+  },
+  {
+    "StartBeat": 293.0,
+    "ObstacleType": "SpawnerLinearRectangle",
+    "StartRotation": 3.14,
+    "Scale": 30.0,
+    "SpawnGap": 0.4
+  },
+  {
+    "StartBeat": 293.0,
+    "ObstacleType": "SpawnerLinearRectangle",
+    "StartRotation": 3.14,
+    "Scale": 15.0,
+    "SpawnGap": 0.1
+  },
+  {
+    "StartBeat": 295.0,
+    "ObstacleType": "SpawnerLinearRectangle",
+    "StartRotation": 3.14,
+    "Scale": 30.0,
+    "SpawnGap": 0.4
+  },
+  {
+    "StartBeat": 295.0,
+    "ObstacleType": "SpawnerLinearRectangle",
+    "StartRotation": 3.14,
+    "Scale": 15.0,
+    "SpawnGap": 0.1
+  },
+  {
+    "StartBeat": 297.0,
+    "ObstacleType": "SpawnerLinearRectangle",
+    "StartRotation": 3.14,
+    "Scale": 30.0,
+    "SpawnGap": 0.4
+  },
+  {
+    "StartBeat": 297.0,
+    "ObstacleType": "SpawnerLinearRectangle",
+    "StartRotation": 3.14,
+    "Scale": 15.0,
+    "SpawnGap": 0.1
+  },
+  {
+    "StartBeat": 299.0,
+    "ObstacleType": "SpawnerLinearRectangle",
+    "StartRotation": 3.14,
+    "Scale": 30.0,
+    "SpawnGap": 0.4
+  },
+  {
+    "StartBeat": 299.0,
+    "ObstacleType": "SpawnerLinearRectangle",
+    "StartRotation": 3.14,
+    "Scale": 15.0,
+    "SpawnGap": 0.1
+  },
+  {
+    "StartBeat": 304.0,
+    "SpawnBeat": 306.0,
+    "ObstacleType": "PopRectangle",
+    "Scale": 140.0,
+    "StartPos": {
+      "X": -790.0,
+      "Y": 400.0
     }
   },
   {
-    "StartBeat": 242,
-    "EndBeat": 298,
-    "ObstacleType": "SpawnerRectangle",
-    "Scale": 150.0
+    "StartBeat": 304.05,
+    "SpawnBeat": 306.05,
+    "ObstacleType": "PopRectangle",
+    "Scale": 140.0,
+    "StartPos": {
+      "X": -632,
+      "Y": 400.0
+    }
   },
   {
-    "StartBeat": 242,
-    "EndBeat": 298,
-    "ObstacleType": "SpawnerRectangle",
-    "Scale": 150.0
+    "StartBeat": 304.1,
+    "SpawnBeat": 306.1,
+    "ObstacleType": "PopRectangle",
+    "Scale": 140.0,
+    "StartPos": {
+      "X": -474,
+      "Y": 400.0
+    }
+  },
+  {
+    "StartBeat": 304.15,
+    "SpawnBeat": 306.15,
+    "ObstacleType": "PopRectangle",
+    "Scale": 140.0,
+    "StartPos": {
+      "X": -316.0,
+      "Y": 400.0
+    }
+  },
+  {
+    "StartBeat": 304.2,
+    "SpawnBeat": 306.2,
+    "ObstacleType": "PopRectangle",
+    "Scale": 140.0,
+    "StartPos": {
+      "X": -158.3,
+      "Y": 400.0
+    }
+  },
+  {
+    "StartBeat": 304.25,
+    "SpawnBeat": 306.25,
+    "ObstacleType": "PopRectangle",
+    "Scale": 140.0,
+    "StartPos": {
+      "X": 0,
+      "Y": 400.0
+    }
+  },
+  {
+    "StartBeat": 304.3,
+    "SpawnBeat": 306.3,
+    "ObstacleType": "PopRectangle",
+    "Scale": 140.0,
+    "StartPos": {
+      "X": 158,
+      "Y": 400.0
+    }
+  },
+  {
+    "StartBeat": 304.35,
+    "SpawnBeat": 306.35,
+    "ObstacleType": "PopRectangle",
+    "Scale": 140.0,
+    "StartPos": {
+      "X": 316,
+      "Y": 400.0
+    }
+  },
+  {
+    "StartBeat": 304.4,
+    "SpawnBeat": 306.4,
+    "ObstacleType": "PopRectangle",
+    "Scale": 140.0,
+    "StartPos": {
+      "X": 474,
+      "Y": 400.0
+    }
+  },
+  {
+    "StartBeat": 304.45,
+    "SpawnBeat": 306.45,
+    "ObstacleType": "PopRectangle",
+    "Scale": 140.0,
+    "StartPos": {
+      "X": 632,
+      "Y": 400.0
+    }
+  },
+  {
+    "StartBeat": 304.5,
+    "SpawnBeat": 306.5,
+    "ObstacleType": "PopRectangle",
+    "Scale": 140.0,
+    "StartPos": {
+      "X": 790,
+      "Y": 400.0
+    }
+  },
+  {
+    "StartBeat": 305.0,
+    "SpawnBeat": 307.0,
+    "ObstacleType": "PopRectangle",
+    "Scale": 140.0,
+    "StartPos": {
+      "X": -790.0,
+      "Y": -400.0
+    }
+  },
+  {
+    "StartBeat": 305.05,
+    "SpawnBeat": 307.05,
+    "ObstacleType": "PopRectangle",
+    "Scale": 140.0,
+    "StartPos": {
+      "X": -632,
+      "Y": -400.0
+    }
+  },
+  {
+    "SpawnBeat": 305.1,
+    "StartBeat": 307.1,
+    "ObstacleType": "PopRectangle",
+    "Scale": 140.0,
+    "StartPos": {
+      "X": -474,
+      "Y": -400.0
+    }
+  },
+  {
+    "StartBeat": 305.15,
+    "SpawnBeat": 307.15,
+    "ObstacleType": "PopRectangle",
+    "Scale": 140.0,
+    "StartPos": {
+      "X": -316.0,
+      "Y": -400.0
+    }
+  },
+  {
+    "StartBeat": 305.2,
+    "SpawnBeat": 307.2,
+    "ObstacleType": "PopRectangle",
+    "Scale": 140.0,
+    "StartPos": {
+      "X": -158.3,
+      "Y": -400.0
+    }
+  },
+  {
+    "StartBeat": 305.25,
+    "SpawnBeat": 307.25,
+    "ObstacleType": "PopRectangle",
+    "Scale": 140.0,
+    "StartPos": {
+      "X": 0,
+      "Y": -400.0
+    }
+  },
+  {
+    "StartBeat": 305.3,
+    "SpawnBeat": 307.3,
+    "ObstacleType": "PopRectangle",
+    "Scale": 140.0,
+    "StartPos": {
+      "X": 158,
+      "Y": -400.0
+    }
+  },
+  {
+    "StartBeat": 305.35,
+    "SpawnBeat": 307.35,
+    "ObstacleType": "PopRectangle",
+    "Scale": 140.0,
+    "StartPos": {
+      "X": 316,
+      "Y": -400.0
+    }
+  },
+  {
+    "StartBeat": 305.4,
+    "SpawnBeat": 307.4,
+    "ObstacleType": "PopRectangle",
+    "Scale": 140.0,
+    "StartPos": {
+      "X": 474,
+      "Y": -400.0
+    }
+  },
+  {
+    "StartBeat": 305.45,
+    "SpawnBeat": 307.45,
+    "ObstacleType": "PopRectangle",
+    "Scale": 140.0,
+    "StartPos": {
+      "X": 632,
+      "Y": -400.0
+    }
+  },
+  {
+    "StartBeat": 305.5,
+    "SpawnBeat": 307.5,
+    "ObstacleType": "PopRectangle",
+    "Scale": 140.0,
+    "StartPos": {
+      "X": 790,
+      "Y": -400.0
+    }
+  },
+  {
+    "StartBeat": 306.0,
+    "SpawnBeat": 308.0,
+    "ObstacleType": "PopRectangle",
+    "Scale": 140.0,
+    "StartPos": {
+      "X": -750.0,
+      "Y": 400.0
+    }
+  },
+  {
+    "StartBeat": 306.05,
+    "SpawnBeat": 308.05,
+    "ObstacleType": "PopRectangle",
+    "Scale": 140.0,
+    "StartPos": {
+      "X": -750.0,
+      "Y": 246.0
+    }
+  },
+  {
+    "StartBeat": 306.1,
+    "SpawnBeat": 308.1,
+    "ObstacleType": "PopRectangle",
+    "Scale": 140.0,
+    "StartPos": {
+      "X": -750.0,
+      "Y": 92.0
+    }
+  },
+  {
+    "StartBeat": 306.15,
+    "SpawnBeat": 308.15,
+    "ObstacleType": "PopRectangle",
+    "Scale": 140.0,
+    "StartPos": {
+      "X": -750.0,
+      "Y": -62.0
+    }
+  },
+  {
+    "StartBeat": 306.2,
+    "SpawnBeat": 308.2,
+    "ObstacleType": "PopRectangle",
+    "Scale": 140.0,
+    "StartPos": {
+      "X": -750.0,
+      "Y": -216.0
+    }
+  },
+  {
+    "StartBeat": 306.25,
+    "SpawnBeat": 308.25,
+    "ObstacleType": "PopRectangle",
+    "Scale": 140.0,
+    "StartPos": {
+      "X": -750.0,
+      "Y": -370.0
+    }
+  },
+  {
+    "StartBeat": 306.3,
+    "SpawnBeat": 308.3,
+    "ObstacleType": "PopRectangle",
+    "Scale": 140.0,
+    "StartPos": {
+      "X": 750.0,
+      "Y": 400.0
+    }
+  },
+  {
+    "StartBeat": 306.35,
+    "SpawnBeat": 308.35,
+    "ObstacleType": "PopRectangle",
+    "Scale": 140.0,
+    "StartPos": {
+      "X": 750.0,
+      "Y": 246.0
+    }
+  },
+  {
+    "StartBeat": 306.4,
+    "SpawnBeat": 308.4,
+    "ObstacleType": "PopRectangle",
+    "Scale": 140.0,
+    "StartPos": {
+      "X": 750.0,
+      "Y": 92.0
+    }
+  },
+  {
+    "StartBeat": 306.45,
+    "SpawnBeat": 308.45,
+    "ObstacleType": "PopRectangle",
+    "Scale": 140.0,
+    "StartPos": {
+      "X": 750.0,
+      "Y": -62.0
+    }
+  },
+  {
+    "StartBeat": 306.5,
+    "SpawnBeat": 308.5,
+    "ObstacleType": "PopRectangle",
+    "Scale": 140.0,
+    "StartPos": {
+      "X": 750.0,
+      "Y": -216.0
+    }
+  },
+  {
+    "StartBeat": 306.55,
+    "SpawnBeat": 308.55,
+    "ObstacleType": "PopRectangle",
+    "Scale": 140.0,
+    "StartPos": {
+      "X": 750.0,
+      "Y": -370.0
+    }
+  },
+  {
+    "StartBeat": 315.5,
+    "ObstacleType": "CheckPointLine"
   }
 ]
