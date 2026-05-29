@@ -46,6 +46,8 @@ public:
 
     bool CheckCollision(glm::vec2 PlayerPos) const;
 
+    bool CheckOtherCollision(glm::vec2 PlayerPos) const;
+
     bool CheckCircleCollision(glm::vec2 PlayerPos) const;
 
     std::vector<float> GetWorldVertices(){return m_WorldVertices;}

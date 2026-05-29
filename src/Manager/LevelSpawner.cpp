@@ -4,6 +4,8 @@
 
 #include "Manager/LevelSpawner.hpp"
 
+#include "Util/Time.hpp"
+
 void LevelSpawner::Start(float StartBeat) {
     g = std::mt19937(rd());
 
@@ -131,7 +133,8 @@ void LevelSpawner::Start(float StartBeat) {
             m_LoadEvent.SpecialData.SpawnBeat = item.value("SpawnBeat", static_cast<float>(item["StartBeat"]) + 6.0f);
             m_LoadEvent.EndBeat = item.value("EndBeat", m_LoadEvent.SpecialData.SpawnBeat + 2.0f);
             m_LoadEvent.StartPos = {item["StartPos"]["X"], item["StartPos"]["Y"]};
-            m_LoadEvent.Scale = {item["Scale"], item["Scale"]};
+            m_LoadEvent.Scale = {item.value("Scale", 30.0f), item.value("Scale", 30.0f)};
+            m_LoadEvent.StartRot = item.value("StartRotation", 0.0f);
         }
         else if (item["ObstacleType"] == "SpawnerRectangle") {
             m_LoadEvent.Bullet = BulletType::SpawnerRectangle;
@@ -151,6 +154,11 @@ void LevelSpawner::Start(float StartBeat) {
             m_LoadEvent.StartBeat = item["StartBeat"];
             m_LoadEvent.EndBeat = item["EndBeat"];
             m_LoadEvent.Scale = glm::vec2{item.value("Scale", 200.0f), item.value("Scale", 200.0f)};
+        }
+        else if (item["ObstacleType"] == "JitterEffect") {
+            m_LoadEvent.Bullet = BulletType::JitterEffect;
+            m_LoadEvent.StartBeat = item["StartBeat"];
+            m_LoadEvent.EndBeat = item["EndBeat"];
         }
 
         m_PendingEvents.push(m_LoadEvent);
@@ -177,7 +185,7 @@ Obstacle* LevelSpawner::GetActiveObstacle() {
 }
 
 void LevelSpawner::VisionShake(glm::vec2 value, float currentBeat) {
-    m_StartShakeBeat = currentBeat;
+    m_StartShakeBeat = 0.5f;
     m_ShakeOffset = value;
 }
 
@@ -189,17 +197,22 @@ void LevelSpawner::Update(float currentBeat, glm::vec2 PlayerPos) {
     m_IsChecked = false;
     // 1. 檢查是否有新障礙物需要生成
 
-    if (m_StartShakeBeat + s_ShakeDuration * 2 >= currentBeat) {
-        m_CurrentOffset = (s_ShakeDuration - std::abs( 4 * s_ShakeDuration * (currentBeat - m_StartShakeBeat) - s_ShakeDuration));
-
+    if (m_StartShakeBeat + s_ShakeDuration * 2 > 0.5f) {
+        m_CurrentOffset = (s_ShakeDuration - std::abs( 4 * s_ShakeDuration * (0.5f - m_StartShakeBeat) - s_ShakeDuration));
+        m_StartShakeBeat -= Util::Time::GetDeltaTimeMs() / 1000.0f;
     }else {
         m_CurrentOffset = 0.0f;
+        m_StartShakeBeat = 0.0f;
     }
 
     if (m_IsJitter) {
 
+        m_JitterOffset = glm::vec2{glm::sin(Util::Time::GetElapsedTimeMs() / 1000.0f * 25.0f * 5.0f) * 4.0f, glm::cos(Util::Time::GetElapsedTimeMs() / 1000.0f * 32.0f * 5.0f) * 4.0f};
     }
-    m_Transform.translation = {m_ShakeOffset.x * m_CurrentOffset, m_ShakeOffset.y * m_CurrentOffset};
+    else {
+        m_JitterOffset = glm::vec2{0.0f, 0.0f};
+    }
+    m_Transform.translation = glm::vec2{m_ShakeOffset.x * m_CurrentOffset, m_ShakeOffset.y * m_CurrentOffset} + m_JitterOffset;
 
     while (!m_PendingEvents.empty() && currentBeat >= m_PendingEvents.front().StartBeat) {
         SpawnEvent Event;
@@ -587,7 +600,7 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
 
             self.UpdateWorldVertices();
 
-            self.m_IsColliding = self.CheckCollision(PlayerPos);
+            self.m_IsColliding = self.CheckOtherCollision(PlayerPos);
         };
 
         newObs->Spawn(m_SpawnEvent, m_SpawnVertices);
@@ -894,10 +907,10 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
         newObs->TurnOffCollidable();
     }
     else if (m_SpawnEvent.Bullet == BulletType::SpawnerRectangle) {
-        int minX = -static_cast<int>(static_cast<float>(WINDOW_WIDTH) * 0.8f / 2 / m_SpawnEvent.Scale.x);
-        int maxX = static_cast<int>(static_cast<float>(WINDOW_WIDTH) * 0.8f / 2 / m_SpawnEvent.Scale.x);
-        int minY = -static_cast<int>(static_cast<float>(WINDOW_HEIGHT) * 0.8f / 2 / m_SpawnEvent.Scale.x);
-        int maxY = static_cast<int>(static_cast<float>(WINDOW_HEIGHT) * 0.8f / 2 / m_SpawnEvent.Scale.x);
+        int minX = -static_cast<int>(glm::ceil(static_cast<float>(WINDOW_WIDTH) * 0.8f / 2 / m_SpawnEvent.Scale.x));
+        int maxX = static_cast<int>(glm::ceil(static_cast<float>(WINDOW_WIDTH) * 0.8f / 2 / m_SpawnEvent.Scale.x));
+        int minY = -static_cast<int>(glm::ceil(static_cast<float>(WINDOW_HEIGHT) * 0.8f / 2 / m_SpawnEvent.Scale.x));
+        int maxY = static_cast<int>(glm::ceil(static_cast<float>(WINDOW_HEIGHT) * 0.8f / 2 / m_SpawnEvent.Scale.x));
 
         std::uniform_int_distribution<int> PosX(minX, maxX);
         std::uniform_int_distribution<int> PosY(minY, maxY);
@@ -931,7 +944,7 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
         std::uniform_real_distribution<float> PosY(-(static_cast<float>(WINDOW_HEIGHT) / 2) + 200, static_cast<float>(WINDOW_HEIGHT) / 2 - 200);
 
         if (m_SpawnEvent.Scale.x == 30.0f) {
-            SpawnCount = 60;
+            SpawnCount = 70;
         }
         else {
             SpawnCount = static_cast<int>(static_cast<float>(WINDOW_WIDTH) / m_SpawnEvent.Scale.x) + 20;
@@ -967,10 +980,10 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
         }
     }
     else if (m_SpawnEvent.Bullet == BulletType::SpawnerExpendingBall) {
-        int minX = -static_cast<int>(static_cast<float>(WINDOW_WIDTH) * 0.8f / 2 / m_SpawnEvent.Scale.x);
-        int maxX = static_cast<int>(static_cast<float>(WINDOW_WIDTH) * 0.8f / 2 / m_SpawnEvent.Scale.x);
-        int minY = -static_cast<int>(static_cast<float>(WINDOW_HEIGHT) * 0.8f / 2 / m_SpawnEvent.Scale.x);
-        int maxY = static_cast<int>(static_cast<float>(WINDOW_HEIGHT) * 0.8f / 2 / m_SpawnEvent.Scale.x);
+        int minX = -static_cast<int>(glm::ceil(static_cast<float>(WINDOW_WIDTH) * 0.8f / 2 / m_SpawnEvent.Scale.x));
+        int maxX = static_cast<int>(glm::ceil(static_cast<float>(WINDOW_WIDTH) * 0.8f / 2 / m_SpawnEvent.Scale.x));
+        int minY = -static_cast<int>(glm::ceil(static_cast<float>(WINDOW_HEIGHT) * 0.8f / 2 / m_SpawnEvent.Scale.x));
+        int maxY = static_cast<int>(glm::ceil(static_cast<float>(WINDOW_HEIGHT) * 0.8f / 2 / m_SpawnEvent.Scale.x));
 
         std::uniform_int_distribution<int> PosX(minX, maxX);
         std::uniform_int_distribution<int> PosY(minY, maxY);
@@ -990,6 +1003,16 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
 
             i += 1.0f;
         }
+    }
+    else if (m_SpawnEvent.Bullet == BulletType::JitterEffect) {
+        m_SpawnVertices = {-0.5f, 0.5f, -0.5f, -0.5f, 0.5f, -0.5f, 0.5f, 0.5f};
+
+        m_SpawnEvent.Scale = {0.0f, 0.0f};
+
+
+
+        newObs->Spawn(m_SpawnEvent, m_SpawnVertices);
+        newObs->TurnOffCollidable();
     }
 }
 

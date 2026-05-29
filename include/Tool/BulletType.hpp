@@ -79,24 +79,33 @@ enum class BulletType {
     CheckPointLine,
     /*
      * PopRectangle
-     * 必要資訊:StartBeat、StartPos、Scale
+     * 必要資訊:StartBeat、StartPos
+     * 可選資訊:SpawnBeat、EndBeat、Scale
      */
     PopRectangle,
     /*
-     *
+     * SpawnerRectangle
+     * 必要資訊:StartBeat、EndBeat
+     * 可選資訊:Scale
      */
     SpawnerRectangle,
     /*
-     *
+     * SpawnerLinearRectangle
+     * 必要資訊:StartBeat、StartRotation、SpawnGap
+     * 可選資訊:Scale、
      */
     SpawnerLinearRectangle,
     /*
-     *
+     * SpawnerExpendingBall
+     * 必要資訊:StartBeat、EndBeat
+     * 可選資訊:Scale
      */
     SpawnerExpendingBall,
     /*
-     *
+     * JitterEffect
+     * 必要資訊:StartBeat、EndBeat
      */
+    JitterEffect
 };
 
 constexpr int  to_int(const BulletType S) {

@@ -41,6 +41,7 @@ private:
     std::vector<float> m_SpawnVertices;
 
     glm::vec2 m_ShakeOffset = {0.0f, 0.0f};
+    glm::vec2 m_JitterOffset = {0.0f, 0.0f};
 
     float m_StartShakeBeat = 0.0f;
     float m_CurrentOffset = 0.0f;

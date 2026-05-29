@@ -1,34 +1,85 @@
 [
   {
-    "StartBeat" : 1 , "SpawnBeat" : 4,"EndBeat" : 7,
-    "ObstacleType" : "BiggerLaser",
-    "Scale" : 500.0,
-    "Offset" : 260.0,
-    "StartRotation" : 0.0
+    "StartBeat": 1,
+    "ObstacleType": "SpawnerRotatingRectangle",
+    "EndBeat": 20
   },
   {
-    "StartBeat" : 1, "SpawnBeat" : 4,"EndBeat" : 7,
-    "ObstacleType" : "BiggerLaser",
-    "Offset" : 0.0,
-    "StartRotation" : 1.57
+    "StartBeat": 1,
+    "ObstacleType": "SpawnerRotatingRectangle",
+    "EndBeat": 20
   },
   {
-    "StartBeat" : 1, "EndBeat" : 20,
-    "ObstacleType" : "SpawnerRectangle",
-    "Scale" : 30.0
+    "StartBeat": 1,
+    "ObstacleType": "SpawnerRotatingRectangle",
+    "EndBeat": 20
   },
   {
-    "StartBeat" : 1,
-    "ObstacleType" : "SpawnerLinearRectangle",
-    "StartRotation" : 0.0,
-    "Scale" : 30.0
+    "StartBeat": 1,
+    "ObstacleType": "SpawnerRotatingRectangle",
+    "EndBeat": 20
   },
   {
-    "StartBeat" : 1,
-    "ObstacleType" : "SpawnerLinearRectangle",
-    "StartRotation" : 0.0,
-    "Scale" : 30.0
+    "StartBeat": 1,
+    "ObstacleType": "SpawnerRotatingRectangle",
+    "EndBeat": 20
   },
+  {
+    "StartBeat": 1,
+    "ObstacleType": "SpawnerRotatingRectangle",
+    "EndBeat": 20
+  },
+  {
+    "StartBeat": 1,
+    "ObstacleType": "SpawnerRotatingRectangle",
+    "EndBeat": 20
+  },
+  {
+    "StartBeat": 1,
+    "ObstacleType": "SpawnerRotatingRectangle",
+    "EndBeat": 20
+  },
+  {
+    "StartBeat": 1,
+    "ObstacleType": "SpawnerRotatingRectangle",
+    "EndBeat": 20
+  },
+  {
+    "StartBeat": 1,
+    "ObstacleType": "SpawnerRotatingRectangle",
+    "EndBeat": 20
+  },
+  {
+    "StartBeat": 1,
+    "ObstacleType": "SpawnerRotatingRectangle",
+    "EndBeat": 20
+  },
+  {
+    "StartBeat": 1,
+    "ObstacleType": "SpawnerRotatingRectangle",
+    "EndBeat": 20
+  },
+  {
+    "StartBeat": 1,
+    "ObstacleType": "SpawnerRotatingRectangle",
+    "EndBeat": 20
+  },
+  {
+    "StartBeat": 1,
+    "ObstacleType": "SpawnerRotatingRectangle",
+    "EndBeat": 20
+  },
+  {
+    "StartBeat": 1,
+    "ObstacleType": "SpawnerRotatingRectangle",
+    "EndBeat": 20
+  },
+  {
+    "StartBeat": 1,
+    "ObstacleType": "SpawnerRotatingRectangle",
+    "EndBeat": 20
+  },
+
   {
     "StartBeat" : 1,"EndBeat" : 30,
     "ObstacleType" : "SpawnerExpendingBall",

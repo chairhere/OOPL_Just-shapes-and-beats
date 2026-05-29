@@ -4,6 +4,8 @@
 
 #include "Material/Obstacle.hpp"
 
+#include "Util/Logger.hpp"
+
 Obstacle::Obstacle() {
     m_IsActive = false;
 }
@@ -109,19 +111,87 @@ bool Obstacle::CheckCollision(glm::vec2 PlayerPos) const {
     if (!m_Collidable) {
         return false;
     }
+
+    float dx = std::abs(PlayerPos.x - m_Transform.translation.x);
+    float dy = std::abs(PlayerPos.y - m_Transform.translation.y);
+
+    if (m_Transform.rotation == 0.0f || (m_Transform.rotation >= 3.0f && m_Transform.rotation <= 3.2f) || (m_Transform.rotation >= 1.5f && m_Transform.rotation <= 1.6f) || (m_Transform.rotation >= 4.65f && m_Transform.rotation <= 4.8f)) {
+
+        // 2. 【取得範圍】：假設子彈原本是置中的 1x1 正方形，實際碰撞寬高直接取決於 Scale
+        float halfWidth = m_Transform.scale.x / 2.0f;
+        float halfHeight = m_Transform.scale.y / 2.0f;
+
+        // 3. 【AABB 範圍檢查】：直接判斷是否落入無旋轉矩形的邊界內
+        if (dx <= halfWidth && dy <= halfHeight) {
+            return true;
+        }
+    }
+    else {
+        // ==========================================
+        // 第二階段：精確檢查 (Narrow Phase - 邊緣叉積判定)
+        // ==========================================
+        // 因為 worldVertices 是一維陣列 [x1, y1, x2, y2...]，頂點數為 size / 2
+        size_t vertexCount = m_WorldVertices.size() / 2;
+
+        if (vertexCount < 2) return false; // 形狀不完整無法判定
+
+        bool hasPositive = false;
+        bool hasNegative = false;
+
+        for (size_t i = 0; i < vertexCount; ++i) {
+            // 取得當前邊緣的「起點」
+            float startX = m_WorldVertices[i * 2];
+            float startY = m_WorldVertices[i * 2 + 1];
+
+            // 取得當前邊緣的「終點」(如果是最後一個點，終點就是第一個點，形成封閉迴圈)
+            size_t nextIdx = (i + 1) % vertexCount;
+            float endX = m_WorldVertices[nextIdx * 2];
+            float endY = m_WorldVertices[nextIdx * 2 + 1];
+
+            // 計算「邊緣向量 (Edge Vector)」
+            float edgeX = endX - startX;
+            float edgeY = endY - startY;
+
+            // 計算「起點到玩家的向量 (Player Vector)」
+            float toPlayerX = PlayerPos.x - startX;
+            float toPlayerY = PlayerPos.y - startY;
+
+            // 2D 叉積 (Cross Product) 公式：判斷左右側
+            float crossProduct = (edgeX * toPlayerY) - (edgeY * toPlayerX);
+
+            // 紀錄叉積的正負號
+            if (crossProduct > 0) hasPositive = true;
+            if (crossProduct < 0) hasNegative = true;
+
+            // 如果同時出現正號與負號，代表玩家在某些邊的左側、某些邊的右側，
+            // 意味著玩家絕對不在多邊形「內部」，可以直接提早 return false！
+            if (hasPositive && hasNegative) {
+                return false;
+            }
+        }
+        // 如果全部檢查完，符號都完全一致，代表玩家完美落入子彈內部！
+        return true;
+    }
+
+    return false;
+};
+
+bool Obstacle::CheckOtherCollision(glm::vec2 PlayerPos) const {
+    if (!m_Collidable) {
+        return false;
+    }
     // ==========================================
     // 第一階段：粗略檢查 (Broad Phase)
     // ==========================================
     // 這裡我們取 scale 的最大值當作外接圓半徑的粗估值
-    float maxRadius = std::max(m_Transform.scale.x, m_Transform.scale.y) * 1.5f;
-    float dx = PlayerPos.x - m_Transform.translation.x;
-    float dy = PlayerPos.y - m_Transform.translation.y;
+    float maxRadius = std::max(m_Transform.scale.x, m_Transform.scale.y);
+    float dx = std::abs(PlayerPos.x - m_Transform.translation.x);
+    float dy = std::abs(PlayerPos.y - m_Transform.translation.y);
 
     // 若距離平方大於半徑平方，代表玩家離這顆子彈還很遠
     if ((dx * dx + dy * dy) > (maxRadius * maxRadius)) {
         return false;
     }
-
 
     // ==========================================
     // 第二階段：精確檢查 (Narrow Phase - 邊緣叉積判定)
@@ -167,7 +237,7 @@ bool Obstacle::CheckCollision(glm::vec2 PlayerPos) const {
     }
     // 如果全部檢查完，符號都完全一致，代表玩家完美落入子彈內部！
     return true;
-};
+}
 
 bool Obstacle::CheckCircleCollision(glm::vec2 PlayerPos) const {
 
