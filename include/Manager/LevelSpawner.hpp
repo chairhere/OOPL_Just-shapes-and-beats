@@ -25,10 +25,20 @@
 
 using json = nlohmann::json;
 
+struct CompareEvent {
+    // 必須實作 operator()
+    bool operator()(const SpawnEvent& a, const SpawnEvent& b) const {
+        // 重點：我們希望 StartBeat "最小" 的排在最前面
+        // 所以當 a > b 時回傳 true，這會迫使優先權佇列把較小的元素往上推 (Min-Heap)
+        return a.StartBeat > b.StartBeat;
+    }
+};
+
 class LevelSpawner : public Util::GameObject{
 private:
 
     std::queue<SpawnEvent> m_PendingEvents; // 尚未生成的事件清單 (需依 startBeat 排序)
+    std::priority_queue<SpawnEvent, std::vector<SpawnEvent>, CompareEvent> m_WaitingEvets;
     std::vector<Obstacle> m_ActiveObstacles; // 畫面上存活的障礙物
     std::shared_ptr<BatchedColorShape> m_Batcher;
     std::shared_ptr<BatchedCircleShape> m_CircleBatcher;
@@ -57,6 +67,9 @@ private:
     float t4 = 0.0f;
 
     int m_ObstaclesCount = 0;
+    int m_PoolIndex = 0;
+
+    int S_PoolSize;
 
     bool m_IsFinished = false;
     bool m_IsColliding = false;
@@ -101,8 +114,12 @@ public:
 
     int GetObstaclesCount(){return m_ObstaclesCount;};
 
+    int GetWaitingObstacleIndex(){return m_PoolIndex;}
+
 
     void DrawAll();
 };
+
+
 
 #endif //JUST_SHAPES_AND_BEATS_LEVELSPAWNER_HPP

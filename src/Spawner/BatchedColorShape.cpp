@@ -15,6 +15,10 @@ BatchedColorShape::BatchedColorShape(const Util::Color &color) :m_Color(color){
         255, 255, 255, 0
     };
     m_Texture = std::make_unique<Core::Texture>(GL_RGBA, 2, 2, data);
+
+    m_Positions.reserve(40000);
+    m_UVs.reserve(320000);
+    m_Indices.reserve(360000);
 }
 
 void BatchedColorShape::BeginBatch() {

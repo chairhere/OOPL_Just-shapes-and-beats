@@ -165,6 +165,7 @@ ScreenState PlaygroundScreen::Update() {
         ImGui::Separator();
         ImGui::Text("FPS:%f", 1000.0F / Util::Time::GetDeltaTimeMs());
         ImGui::Text("Obstacles:%d", m_LevelSpawner->GetObstaclesCount());
+        ImGui::Text("WaitingObstacles:%d", m_LevelSpawner->GetWaitingObstacleIndex());
         ImGui::End();
     }
 

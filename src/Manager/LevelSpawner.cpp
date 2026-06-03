@@ -164,6 +164,7 @@ void LevelSpawner::Start(float StartBeat) {
         m_PendingEvents.push(m_LoadEvent);
     }
     m_ActiveObstacles.resize(20000);
+    S_PoolSize  = static_cast<int>(m_ActiveObstacles.size());
     LOG_DEBUG("finishedbuild");
 
     m_CircleBatcher->SetDrawID(3);
@@ -174,14 +175,16 @@ void LevelSpawner::Start(float StartBeat) {
 }
 
 Obstacle* LevelSpawner::GetActiveObstacle() {
-    for (auto& obs : m_ActiveObstacles) {
-        if (!obs.IsActive()) {
-            return &obs;
-        }
-    }
-    // 如果池子滿了，可以選擇擴充或是報錯 (通常建議把 m_PoolSize 設大一點)
+    for (int i = 0; i < S_PoolSize; ++i) {
 
-    return nullptr;
+        if (!m_ActiveObstacles[m_PoolIndex].IsActive()) {
+            // 【效能核心】：找到了！把起點設為下一個位置，下次呼叫時直接從這裡開始找
+            m_PoolIndex = (m_PoolIndex + 1) % S_PoolSize;
+            return &m_ActiveObstacles[m_PoolIndex - 1];
+        }
+        m_PoolIndex = (m_PoolIndex + 1) % S_PoolSize;
+    }
+    return nullptr; // 整個池子 20000 顆真的全滿了
 }
 
 void LevelSpawner::VisionShake(glm::vec2 value, float currentBeat) {
@@ -224,6 +227,14 @@ void LevelSpawner::Update(float currentBeat, glm::vec2 PlayerPos) {
         CreateObstacle(Event, PlayerPos);
 
         m_PendingEvents.pop(); // 移除已生成的事件
+    }
+    while (!m_WaitingEvets.empty() && currentBeat >= m_WaitingEvets.top().StartBeat) {
+        SpawnEvent Event;
+        Event = m_WaitingEvets.top();
+
+        CreateObstacle(Event, PlayerPos);
+
+        m_WaitingEvets.pop(); // 移除已生成的事件
     }
     m_Batcher->BeginBatch();
     m_CircleBatcher->BeginBatch();
@@ -943,7 +954,7 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
             PopRecEvent.StartBeat = i;
             PopRecEvent.EndBeat = i + 8.0f;
             PopRecEvent.SpecialData.SpawnBeat = i + 6.0f;
-            CreateObstacle(PopRecEvent, PlayerPos);
+            m_WaitingEvets.push(PopRecEvent);
 
             i += 1.0f;
         }
@@ -960,12 +971,7 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
         std::uniform_real_distribution<float> PosX(-(static_cast<float>(WINDOW_WIDTH) / 2) + 200, static_cast<float>(WINDOW_WIDTH) / 2 - 200);
         std::uniform_real_distribution<float> PosY(-(static_cast<float>(WINDOW_HEIGHT) / 2) + 200, static_cast<float>(WINDOW_HEIGHT) / 2 - 200);
 
-        if (m_SpawnEvent.Scale.x == 30.0f) {
-            SpawnCount = 70;
-        }
-        else {
-            SpawnCount = static_cast<int>(static_cast<float>(WINDOW_WIDTH) / m_SpawnEvent.Scale.x) + 20;
-        }
+        SpawnCount = static_cast<int>(static_cast<float>(WINDOW_WIDTH) / m_SpawnEvent.Scale.x);
 
         if (m_SpawnEvent.StartRot == 0.0f) {
             m_SpawnEvent.StartPos = glm::vec2{-(static_cast<float>(WINDOW_WIDTH) / 2) - 200.0f, PosY(g)};
@@ -991,7 +997,7 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
             PopRecEvent.StartBeat = m_SpawnEvent.StartBeat + static_cast<float>(i) * SpawnGap;
             PopRecEvent.SpecialData.SpawnBeat = PopRecEvent.StartBeat + 0.25f;
             PopRecEvent.EndBeat = PopRecEvent.SpecialData.SpawnBeat + 2.0f;
-            CreateObstacle(PopRecEvent, PlayerPos);
+            m_WaitingEvets.push(PopRecEvent);
 
             i += 1.0f;
         }
@@ -1038,7 +1044,7 @@ void LevelSpawner::DrawAll() {
         return;
     }
 
-    this->SetZIndex(15);
+    this->SetZIndex(20);
 
     auto data = Util::ConvertToUniformBufferData(
         m_Transform, m_DottedCircleBatcher->GetSize(), m_ZIndex);
@@ -1065,15 +1071,6 @@ void LevelSpawner::DrawAll() {
 
     m_SpikeBatcher->Draw(data);
 
-    this->SetZIndex(27);
-
-    data = Util::ConvertToUniformBufferData(
-        m_Transform, m_DottedLineBatcher->GetSize(), m_ZIndex);
-    data.m_Model = glm::translate(
-        data.m_Model, glm::vec3{m_Pivot / m_DottedLineBatcher->GetSize(), 0} * -1.0F);
-
-    m_DottedLineBatcher->Draw(data);
-
     this->SetZIndex(30);
 
     data = Util::ConvertToUniformBufferData(
@@ -1083,4 +1080,10 @@ void LevelSpawner::DrawAll() {
 
     m_Drawable->Draw(data);
 
+    data = Util::ConvertToUniformBufferData(
+    m_Transform, m_DottedLineBatcher->GetSize(), m_ZIndex);
+    data.m_Model = glm::translate(
+        data.m_Model, glm::vec3{m_Pivot / m_DottedLineBatcher->GetSize(), 0} * -1.0F);
+
+    m_DottedLineBatcher->Draw(data);
 }

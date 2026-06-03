@@ -97,13 +97,9 @@ bool Player::Moving() {
             m_KnockBackDirection = glm::vec2(0.0f, 0.0f);
         }
         if (m_Blink) {
-            if (auto imageDrawable = std::dynamic_pointer_cast<Util::Image>(m_Drawable)) {
-                imageDrawable->SetImage(m_BlinkImagePath);
-            }
+            this->SetDrawable(std::make_shared<Util::Image>(m_BlinkImagePath));
         }else {
-            if (auto imageDrawable = std::dynamic_pointer_cast<Util::Image>(m_Drawable)) {
-                imageDrawable->SetImage(m_NowImagePath);
-            }
+            this->SetDrawable(std::make_shared<Util::Image>(m_NowImagePath));
         }
     }
     if (m_KnockBack) {
