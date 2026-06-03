@@ -143,6 +143,8 @@ void MusicPlayerManager::SetBGMVolume(float volume) {
     // 0.0 ~ 1.0
     volume = std::clamp(volume, 0.0f, 1.0f);
     m_BGM.setVolume(volume);
+    if (m_MusicPlayer.isValidVoiceHandle(m_BGMHandler))
+        m_MusicPlayer.setVolume(m_BGMHandler, volume);
 }
 
 void MusicPlayerManager::SetSpeed(float speed) {
