@@ -192,10 +192,13 @@ void LevelSpawner::VisionShake(glm::vec2 value, float currentBeat) {
 
 //能實作在AppUpdate裡，利用levels來去開啟予與關閉這部分的update
 void LevelSpawner::Update(float currentBeat, glm::vec2 PlayerPos) {
+    t1 = t2 = t3 = t4 = 0.0f;
     m_ObstaclesCount = 0;
     m_IsColliding = false;
     m_IsChecked = false;
     // 1. 檢查是否有新障礙物需要生成
+
+    t1 = Util::Time::GetElapsedTimeMs();
 
     if (m_StartShakeBeat + s_ShakeDuration * 2 > 0.5f) {
         m_CurrentOffset = (s_ShakeDuration - std::abs( 4 * s_ShakeDuration * (0.5f - m_StartShakeBeat) - s_ShakeDuration));
@@ -227,8 +230,12 @@ void LevelSpawner::Update(float currentBeat, glm::vec2 PlayerPos) {
     m_SpikeBatcher->BeginBatch();
     m_DottedCircleBatcher->BeginBatch();
     m_DottedLineBatcher->BeginBatch();
+
+    t2 = Util::Time::GetElapsedTimeMs();
+
     // 2. 更新所有存活的障礙物狀態，並清理過期的障礙物
     for (auto it = m_ActiveObstacles.begin(); it != m_ActiveObstacles.end(); ) {
+
 
         if (it->m_Event.StartBeat > currentBeat || it->m_Event.EndBeat < currentBeat || it->IsDead() || !it->IsActive()) {
             ++it;
@@ -247,6 +254,7 @@ void LevelSpawner::Update(float currentBeat, glm::vec2 PlayerPos) {
         else if (it->m_IsColliding) {
             m_IsColliding = true;
         }
+
 
         if (to_int(it->m_Event.Bullet) == to_int(BulletType::EasingBall) || to_int(it->m_Event.Bullet) == to_int(BulletType::EffectBall) || it->m_Event.Bullet == BulletType::ExpendingBall) {
             m_CircleBatcher->AddQuad(it->GetWorldVertices(), it->GetWorldUVs(), it->GetLocalVertices());
@@ -269,11 +277,20 @@ void LevelSpawner::Update(float currentBeat, glm::vec2 PlayerPos) {
         ++it;
     }
 
+    t3 = Util::Time::GetElapsedTimeMs();
+
     m_Batcher->EndBatch(); // 結束收集，交由 Renderer 自動呼叫 Draw()
     m_CircleBatcher->EndBatch();
     m_SpikeBatcher->EndBatch();
     m_DottedCircleBatcher->EndBatch();
     m_DottedLineBatcher->EndBatch();
+
+    t4 = Util::Time::GetElapsedTimeMs();
+
+    if (t4 - t1 > 18.0f) { // 發生掉幀
+        LOG_WARN("Lag Spike!current beat : {} Spawner: {}ms, Render: {}ms, Collision: {}ms",
+                 currentBeat, t2 - t1, t3 - t2, t4 - t3);
+    }
 }
 
 void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) {

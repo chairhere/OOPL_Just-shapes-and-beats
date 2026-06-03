@@ -48,6 +48,14 @@ private:
     const float s_ShakeDuration = 0.25f;
     const float s_Amplitude = 5.0f;
 
+    float t1 = 0.0f;
+    // 執行 2. 關卡排程系統 (UpdateLevel)
+    float t2 = 0.0f;
+    // 執行 3. 物件與變換系統 (包含渲染 DrawCall)
+    float t3 = 0.0f;
+    // 執行 4. 數學與碰撞系統 (AABB / 距離判斷)
+    float t4 = 0.0f;
+
     int m_ObstaclesCount = 0;
 
     bool m_IsFinished = false;
