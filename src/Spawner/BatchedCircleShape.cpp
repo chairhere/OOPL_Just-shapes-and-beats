@@ -14,6 +14,11 @@ BatchedCircleShape::BatchedCircleShape(const Util::Color &color) :m_Color(color)
     m_Texture = std::make_unique<Core::Texture>(GL_RGBA, 2, 2, data);
 
     m_DrawID = 3;
+
+    m_Positions.reserve(320000);
+    m_Vertices.reserve(320000);
+    m_UVs.reserve(320000);
+    m_Indices.reserve(360000);
 }
 
 void BatchedCircleShape::SetDrawID(const int drawID) {
@@ -54,6 +59,7 @@ void BatchedCircleShape::BeginBatch() {
     m_Vertices.clear();
     m_UVs.clear();
     m_Indices.clear();
+
 }
 
 void BatchedCircleShape::AddQuad(const std::vector<float> &worldVertices, const std::vector<float> &worldUVs, const std::vector<float>& localVertices) {

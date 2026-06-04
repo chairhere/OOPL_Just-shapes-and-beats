@@ -47,6 +47,7 @@ SongListScreen::SongListScreen() {
     }
     m_SelectedIndex = 0;
     m_Items.at(0)->Focus();
+    MusicPlayerManager::Setting().SetBGMVolume(0.2);
 
     //==隨機按鈕==
     m_RandomOrder = std::make_shared<Button>("../Resources/Image/OptionBackground/None.png");

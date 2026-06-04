@@ -25,10 +25,20 @@
 
 using json = nlohmann::json;
 
+struct CompareEvent {
+    // 必須實作 operator()
+    bool operator()(const SpawnEvent& a, const SpawnEvent& b) const {
+        // 重點：我們希望 StartBeat "最小" 的排在最前面
+        // 所以當 a > b 時回傳 true，這會迫使優先權佇列把較小的元素往上推 (Min-Heap)
+        return a.StartBeat > b.StartBeat;
+    }
+};
+
 class LevelSpawner : public Util::GameObject{
 private:
 
     std::queue<SpawnEvent> m_PendingEvents; // 尚未生成的事件清單 (需依 startBeat 排序)
+    std::priority_queue<SpawnEvent, std::vector<SpawnEvent>, CompareEvent> m_WaitingEvets;
     std::vector<Obstacle> m_ActiveObstacles; // 畫面上存活的障礙物
     std::shared_ptr<BatchedColorShape> m_Batcher;
     std::shared_ptr<BatchedCircleShape> m_CircleBatcher;
@@ -41,13 +51,25 @@ private:
     std::vector<float> m_SpawnVertices;
 
     glm::vec2 m_ShakeOffset = {0.0f, 0.0f};
+    glm::vec2 m_JitterOffset = {0.0f, 0.0f};
 
     float m_StartShakeBeat = 0.0f;
     float m_CurrentOffset = 0.0f;
     const float s_ShakeDuration = 0.25f;
     const float s_Amplitude = 5.0f;
 
+    float t1 = 0.0f;
+    // 執行 2. 關卡排程系統 (UpdateLevel)
+    float t2 = 0.0f;
+    // 執行 3. 物件與變換系統 (包含渲染 DrawCall)
+    float t3 = 0.0f;
+    // 執行 4. 數學與碰撞系統 (AABB / 距離判斷)
+    float t4 = 0.0f;
+
     int m_ObstaclesCount = 0;
+    int m_PoolIndex = 0;
+
+    int S_PoolSize;
 
     bool m_IsFinished = false;
     bool m_IsColliding = false;
@@ -92,8 +114,12 @@ public:
 
     int GetObstaclesCount(){return m_ObstaclesCount;};
 
+    int GetWaitingObstacleIndex(){return m_PoolIndex;}
+
 
     void DrawAll();
 };
+
+
 
 #endif //JUST_SHAPES_AND_BEATS_LEVELSPAWNER_HPP

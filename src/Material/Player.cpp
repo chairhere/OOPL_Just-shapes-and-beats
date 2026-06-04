@@ -70,7 +70,6 @@ bool Player::Moving() {
             Dash();
         }
     }
-
     if (m_Dashing) {
         m_MovingDirection *= 5;
         m_DashTimeLeft -= Util::Time::GetDeltaTimeMs();

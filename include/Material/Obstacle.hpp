@@ -30,6 +30,8 @@ public:
     Util::Transform m_Transform;
     SpawnEvent m_Event{};
 
+    std::vector<float> m_TempUVs = {0.25f, 0.25f, 0.25f, 0.25f, 0.25f, 0.25f, 0.25f, 0.25f};
+
     bool m_IsColliding = false;
 
     std::function<void(Obstacle&, float, glm::vec2)> customBehavior = nullptr;
@@ -46,13 +48,15 @@ public:
 
     bool CheckCollision(glm::vec2 PlayerPos) const;
 
+    bool CheckOtherCollision(glm::vec2 PlayerPos) const;
+
     bool CheckCircleCollision(glm::vec2 PlayerPos) const;
 
-    std::vector<float> GetWorldVertices(){return m_WorldVertices;}
+    const std::vector<float>& GetWorldVertices() const {return m_WorldVertices;}
 
-    std::vector<float> GetWorldUVs(){return m_WorldUVs;}
+    const std::vector<float>& GetWorldUVs() const {return m_WorldUVs;}
 
-    std::vector<float> GetLocalVertices(){return m_LocalVertices;}
+    const std::vector<float>& GetLocalVertices() const {return m_LocalVertices;}
 
     float GetLastBeat(){return m_LastBeat;}
 
