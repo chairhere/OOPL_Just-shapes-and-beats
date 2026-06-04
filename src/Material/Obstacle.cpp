@@ -34,6 +34,8 @@ void Obstacle::UpdateStateByBeat(float currentBeat, glm::vec2 PlayerPos) {
 }
 
 void Obstacle::Spawn(const SpawnEvent &event, const std::vector<float>& LocalVertices) {
+    m_WorldUVs.clear();
+    m_WorldVertices.clear();
 
     m_IsActive = true;
     m_IsDead = false;

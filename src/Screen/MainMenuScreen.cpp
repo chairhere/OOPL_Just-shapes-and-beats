@@ -12,6 +12,7 @@ MainMenuScreen::MainMenuScreen() {
     // === 音樂 ===
     MusicPlayerManager::Setting().Switch(Levels::MainMenu);
     MusicPlayerManager::Setting().InfLoop(true);
+    MusicPlayerManager::Setting().SetBGMVolume(0.2);
 
     // === Play 按鈕 ===
     m_ButtonPlay = std::make_shared<Button>("../Resources/Image/MainScreenButton/SongListButton.png");

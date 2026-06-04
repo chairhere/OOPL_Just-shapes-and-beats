@@ -179,8 +179,7 @@ Obstacle* LevelSpawner::GetActiveObstacle() {
 
         if (!m_ActiveObstacles[m_PoolIndex].IsActive()) {
             // 【效能核心】：找到了！把起點設為下一個位置，下次呼叫時直接從這裡開始找
-            m_PoolIndex = (m_PoolIndex + 1) % S_PoolSize;
-            return &m_ActiveObstacles[m_PoolIndex - 1];
+            return &m_ActiveObstacles[m_PoolIndex];
         }
         m_PoolIndex = (m_PoolIndex + 1) % S_PoolSize;
     }
@@ -188,7 +187,7 @@ Obstacle* LevelSpawner::GetActiveObstacle() {
 }
 
 void LevelSpawner::VisionShake(glm::vec2 value, float currentBeat) {
-    m_StartShakeBeat = 0.5f;
+    m_StartShakeBeat = currentBeat;
     m_ShakeOffset = value;
 }
 
@@ -203,9 +202,8 @@ void LevelSpawner::Update(float currentBeat, glm::vec2 PlayerPos) {
 
     t1 = Util::Time::GetElapsedTimeMs();
 
-    if (m_StartShakeBeat + s_ShakeDuration * 2 > 0.5f) {
-        m_CurrentOffset = (s_ShakeDuration - std::abs( 4 * s_ShakeDuration * (0.5f - m_StartShakeBeat) - s_ShakeDuration));
-        m_StartShakeBeat -= Util::Time::GetDeltaTimeMs() / 1000.0f;
+    if (m_StartShakeBeat + s_ShakeDuration * 2 >= currentBeat) {
+        m_CurrentOffset = (s_ShakeDuration - std::abs( 4 * s_ShakeDuration * (currentBeat - m_StartShakeBeat) - s_ShakeDuration));
     }else {
         m_CurrentOffset = 0.0f;
         m_StartShakeBeat = 0.0f;
@@ -248,7 +246,7 @@ void LevelSpawner::Update(float currentBeat, glm::vec2 PlayerPos) {
     for (auto it = m_ActiveObstacles.begin(); it != m_ActiveObstacles.end(); ) {
 
 
-        if (it->m_Event.StartBeat > currentBeat || it->m_Event.EndBeat < currentBeat || it->IsDead() || !it->IsActive()) {
+        if (it->IsDead() || !it->IsActive() || it->m_Event.StartBeat > currentBeat) {
             ++it;
             continue;
         }
@@ -424,8 +422,8 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
 
                 self.m_Transform.scale = {4000, 20 * (4 - m_GapBeat) / 4};
                 float m_ColorValue = 0.25f + std::fmod(beat / 4, 0.15f);
-                std::vector<float> warningUvs = {m_ColorValue, 0.7f - (4 - m_GapBeat) / 16, m_ColorValue, 0.7f - (4 - m_GapBeat) / 16, m_ColorValue, 0.7f - (4 - m_GapBeat) / 16, m_ColorValue, 0.7f - (4 - m_GapBeat) / 16};
-                self.SetUvs(warningUvs);
+                self.m_TempUVs = {m_ColorValue, 0.7f - (4 - m_GapBeat) / 16, m_ColorValue, 0.7f - (4 - m_GapBeat) / 16, m_ColorValue, 0.7f - (4 - m_GapBeat) / 16, m_ColorValue, 0.7f - (4 - m_GapBeat) / 16};
+                self.SetUvs(self.m_TempUVs);
             }
             else if (beat >= self.m_Event.SpecialData.SpawnBeat && beat < (self.m_Event.SpecialData.SpawnBeat + 0.25)) {
                 self.TurnOnCollidable();
@@ -434,18 +432,18 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
                     self.HasShaked();
                 }
 
-                std::vector<float> Uvs = {0.75f, 0.25f, 0.75f, 0.25f, 0.75f, 0.25f, 0.75f, 0.25f};
-                self.SetUvs(Uvs);
+                self.m_TempUVs = {0.75f, 0.25f, 0.75f, 0.25f, 0.75f, 0.25f, 0.75f, 0.25f};
+                self.SetUvs(self.m_TempUVs);
                 self.m_Transform.scale = {4000 * (beat - self.m_Event.SpecialData.SpawnBeat) * 4, 20 * (beat - self.m_Event.SpecialData.SpawnBeat) * 4};
             }else if (beat >= self.m_Event.SpecialData.SpawnBeat && beat < (self.m_Event.SpecialData.SpawnBeat + 0.5)) {
                 float m_TransferColor = 0.75f - ((m_GapBeat - 0.25f) * 2);
-                std::vector<float> Uvs = {m_TransferColor, 0.25f, m_TransferColor, 0.25f, m_TransferColor, 0.25f, m_TransferColor, 0.25f};
-                self.SetUvs(Uvs);
+                self.m_TempUVs = {m_TransferColor, 0.25f, m_TransferColor, 0.25f, m_TransferColor, 0.25f, m_TransferColor, 0.25f};
+                self.SetUvs(self.m_TempUVs);
                 self.m_Transform.scale = {4000, 20};
             }else if ( beat >= (self.m_Event.SpecialData.SpawnBeat + 0.75) && beat < (self.m_Event.SpecialData.SpawnBeat + 1)){
 
-                std::vector<float> Uvs = {0.25f, m_GapBeat * 2 - 1.25f, 0.25f, m_GapBeat - 0.25f, 0.25f, m_GapBeat - 0.25f, 0.25f, m_GapBeat - 0.25f};
-                self.SetUvs(Uvs);
+                self.m_TempUVs = {0.25f, m_GapBeat * 2 - 1.25f, 0.25f, m_GapBeat - 0.25f, 0.25f, m_GapBeat - 0.25f, 0.25f, m_GapBeat - 0.25f};
+                self.SetUvs(self.m_TempUVs);
                 self.m_Transform.scale = {4000, 20 * (1 - m_GapBeat) * 4};
             }
             self.UpdateWorldVertices();
@@ -510,8 +508,8 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
                     this->VisionShake({-100 * glm::cos(self.m_Event.StartRot), -100 * glm::sin(self.m_Event.StartRot)}, self.m_Event.SpecialData.SpawnBeat);
                     self.HasShaked();
                 }
-                std::vector<float> Uvs = {m_ColorValue, 0.25f, m_ColorValue, 0.25f, m_ColorValue, 0.25f, m_ColorValue, 0.25f};
-                self.SetUvs(Uvs);
+                self.m_TempUVs = {m_ColorValue, 0.25f, m_ColorValue, 0.25f, m_ColorValue, 0.25f, m_ColorValue, 0.25f};
+                self.SetUvs(self.m_TempUVs);
                 if (self.m_Event.StartRot == 0.0f || (self.m_Event.StartRot >= 3.0f && self.m_Event.StartRot <= 3.2f)) {
                     self.m_Transform.translation = {self.m_Transform.translation.x, self.m_Event.StartPos.y + movement * 3};
                 }
@@ -556,8 +554,8 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
 
         newObs->customBehavior = [](Obstacle& self, float beat, glm::vec2 PlayerPos) {
 
-            std::vector<float> Uvs = {0.25f, 0.55, 0.25f, 0.55, 0.25f, 0.55, 0.25f, 0.55};
-            self.SetUvs(Uvs);
+            self.m_TempUVs = {0.25f, 0.55, 0.25f, 0.55, 0.25f, 0.55, 0.25f, 0.55};
+            self.SetUvs(self.m_TempUVs);
 
             self.UpdateWorldVertices();
         };
@@ -579,13 +577,13 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
             float Progress = (beat - self.m_Event.StartBeat);
             if (beat > self.m_Event.StartBeat && beat <= self.m_Event.StartBeat + 0.25) {
                 self.m_Transform.scale = {60 * Progress * 4, 60 * Progress * 4};
-                std::vector<float> Uvs = {Progress + 0.5f, 0.25f, Progress + 0.5f, 0.25f, Progress + 0.5f, 0.25f, Progress + 0.5f, 0.25f};
-                self.SetUvs(Uvs);
+                self.m_TempUVs = {Progress + 0.5f, 0.25f, Progress + 0.5f, 0.25f, Progress + 0.5f, 0.25f, Progress + 0.5f, 0.25f};
+                self.SetUvs(self.m_TempUVs);
             }
             else if (beat > self.m_Event.StartBeat && beat <= self.m_Event.StartBeat + 1){
                 self.m_Transform.scale = {60 * glm::abs(beat - self.m_Event.StartBeat - 1), 60 * glm::abs(beat - self.m_Event.StartBeat - 1)};
-                std::vector<float> Uvs = {(1 - Progress) * 2 / 3 + 0.25f, 0.25f, (1 - Progress) * 2 / 3 + 0.25f, 0.25f, (1 - Progress) * 2 / 3 + 0.25f, 0.25f, (1 - Progress) * 2 / 3 + 0.25f, 0.25f};
-                self.SetUvs(Uvs);
+                self.m_TempUVs = {(1 - Progress) * 2 / 3 + 0.25f, 0.25f, (1 - Progress) * 2 / 3 + 0.25f, 0.25f, (1 - Progress) * 2 / 3 + 0.25f, 0.25f, (1 - Progress) * 2 / 3 + 0.25f, 0.25f};
+                self.SetUvs(self.m_TempUVs);
             }
 
             self.UpdateWorldVertices();
@@ -607,12 +605,12 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
             if (beat > self.m_Event.StartBeat && beat <= self.m_Event.SpecialData.SpawnBeat) {
                 float movement = glm::mix(0.0f,self.m_Event.StartPos.x - self.m_Event.SpecialData.PausePos.x , glm::pow(Progress/4, 0.25));
                 self.m_Transform.translation = {self.m_Event.StartPos.x -  movement, self.m_Event.SpecialData.PausePos.y};
-                std::vector<float> Uvs = {0.25f + Progress/8, 0.25f, 0.25f + Progress/8, 0.25f, 0.25f + Progress/8, 0.25f};
-                self.SetUvs(Uvs);
+                self.m_TempUVs = {0.25f + Progress/8, 0.25f, 0.25f + Progress/8, 0.25f, 0.25f + Progress/8, 0.25f};
+                self.SetUvs(self.m_TempUVs);
             }
             else if (beat > self.m_Event.SpecialData.SpawnBeat && beat < self.m_Event.SpecialData.SpawnBeat + 1.75) {
-                std::vector<float> Uvs = {0.25f, 0.25f, 0.25f, 0.25f, 0.25f, 0.25f};
-                self.SetUvs(Uvs);
+                self.m_TempUVs = {0.25f, 0.25f, 0.25f, 0.25f, 0.25f, 0.25f};
+                self.SetUvs(self.m_TempUVs);
                 if (((beat - self.m_Event.SpecialData.SpawnBeat) / 0.25f) > (static_cast<float>(self.m_Event.SpecialData.FireCount))) {
                     self.m_Event.SpecialData.FireCount++;
                     self.m_Transform.translation = self.m_Event.SpecialData.PausePos + glm::vec2{10.0f, 0.0f};
@@ -687,7 +685,7 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
         newObs->customBehavior = [this](Obstacle& self, float beat, glm::vec2 PlayerPos) {
             float Progress = (beat - self.m_Event.StartBeat);
             float UvTrans = std::fmod(Progress * 4, 0.5f);
-            std::vector<float> Uvs = {0.25f + UvTrans, 0.25f, 0.25f + UvTrans, 0.25f, 0.25f + UvTrans, 0.25f, 0.25f + UvTrans, 0.25f};
+            self.m_TempUVs = {0.25f + UvTrans, 0.25f, 0.25f + UvTrans, 0.25f, 0.25f + UvTrans, 0.25f, 0.25f + UvTrans, 0.25f};
 
             if (beat > self.m_Event.StartBeat && Progress < 1) {
                 self.m_Transform.translation = {glm::mix(self.m_Event.StartPos.x, self.m_Event.SpecialData.PausePos.x, glm::pow(Progress,0.25)), glm::mix(self.m_Event.StartPos.y, self.m_Event.SpecialData.PausePos.y, glm::pow(Progress,0.25))};
@@ -703,7 +701,7 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
             }
 
             if (beat >= self.m_Event.SpecialData.SpawnBeat - 2) {
-                self.SetUvs(Uvs);
+                self.SetUvs(self.m_TempUVs);
             }
 
             self.UpdateWorldVertices();
@@ -739,7 +737,6 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
         newObs->customBehavior = [this](Obstacle& self, float beat, glm::vec2 PlayerPos) {
             float Progress = (beat - self.m_Event.StartBeat);
             float UvTrans = std::fmod(Progress / 2 + 0.25f, 0.5f);
-            std::vector<float> Uvs;
             if (beat > self.m_Event.StartBeat && Progress < 1) {
                 self.m_Transform.translation = {glm::mix(self.m_Event.StartPos.x, self.m_Event.SpecialData.PausePos.x, glm::pow(Progress,0.25)), glm::mix(self.m_Event.StartPos.y, self.m_Event.SpecialData.PausePos.y, glm::pow(Progress,0.25))};
                 self.m_Transform.scale = {glm::mix(0.0f, 30.0f, Progress), glm::mix(0.0f, 30.0f, Progress)};
@@ -752,22 +749,22 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
             else if (beat > self.m_Event.StartBeat + 2.0f && Progress <= 7.0f) {
                 self.m_Transform.scale = {glm::mix(30.0f, self.m_Event.Scale.x, (Progress - 1) / 10), glm::mix(30.0f, self.m_Event.Scale.y, (Progress - 1) / 10)};
                 self.m_Transform.rotation = Progress * self.m_Event.SpecialData.AngularVelocity;
-                Uvs = {0.75f - UvTrans, 0.25f, 0.75f - UvTrans, 0.25f, 0.75f - UvTrans, 0.25f, 0.75f - UvTrans, 0.25f};
-                self.SetUvs(Uvs);
+                self.m_TempUVs = {0.75f - UvTrans, 0.25f, 0.75f - UvTrans, 0.25f, 0.75f - UvTrans, 0.25f, 0.75f - UvTrans, 0.25f};
+                self.SetUvs(self.m_TempUVs);
             }
             else if (beat > self.m_Event.StartBeat + 6.0f && Progress <= 10.5f) {
                 float UvTrans2 = std::fmod(Progress, 0.5f);
                 self.m_Transform.scale = {glm::mix(30.0f, self.m_Event.Scale.x, (Progress - 1) / 10), glm::mix(30.0f, self.m_Event.Scale.y, (Progress - 1) / 10)};
                 self.m_Transform.rotation = Progress * self.m_Event.SpecialData.AngularVelocity;
-                Uvs = {0.75f - UvTrans2, 0.25f, 0.75f - UvTrans2, 0.25f, 0.75f - UvTrans2, 0.25f, 0.75f - UvTrans2, 0.25f};
-                self.SetUvs(Uvs);
+                self.m_TempUVs = {0.75f - UvTrans2, 0.25f, 0.75f - UvTrans2, 0.25f, 0.75f - UvTrans2, 0.25f, 0.75f - UvTrans2, 0.25f};
+                self.SetUvs(self.m_TempUVs);
             }
             else if (beat > self.m_Event.StartBeat + 10.5f && Progress <= 11.0f) {
                 float UvTrans3 = std::fmod(Progress * 2, 0.5f);
                 self.m_Transform.scale = {glm::mix(30.0f, self.m_Event.Scale.x, (Progress - 1) / 10), glm::mix(30.0f, self.m_Event.Scale.y, (Progress - 1) / 10)};
                 self.m_Transform.rotation = Progress * self.m_Event.SpecialData.AngularVelocity * 2;
-                Uvs = {0.75f - UvTrans3, 0.25f, 0.75f - UvTrans3, 0.25f, 0.75f - UvTrans3, 0.25f, 0.75f - UvTrans3, 0.25f};
-                self.SetUvs(Uvs);
+                self.m_TempUVs = {0.75f - UvTrans3, 0.25f, 0.75f - UvTrans3, 0.25f, 0.75f - UvTrans3, 0.25f, 0.75f - UvTrans3, 0.25f};
+                self.SetUvs(self.m_TempUVs);
             }
 
             self.UpdateWorldVertices();
@@ -809,20 +806,19 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
             float OriginScale = self.m_Event.Scale.x;
             float Progress = (beat - self.m_Event.StartBeat);
             float UvTrans = 0.25f + glm::abs(2 * std::fmod(Progress, 1.0f) - 1.0f) / 2.0f;
-            std::vector<float> Uvs;
 
             if (beat >= self.m_Event.StartBeat && beat < self.m_Event.SpecialData.SpawnBeat) {
                 self.m_Transform.scale = {0.0f, 0.0f};
             }
             else if (beat >= self.m_Event.SpecialData.SpawnBeat && beat < self.m_Event.SpecialData.SpawnBeat + 0.5f) {
                 self.m_Transform.scale = {OriginScale * (beat - self.m_Event.SpecialData.SpawnBeat) * 2 * (beat - self.m_Event.SpecialData.SpawnBeat) * 2, OriginScale * (beat - self.m_Event.SpecialData.SpawnBeat) * 2 * (beat - self.m_Event.SpecialData.SpawnBeat) * 2};
-                Uvs = {UvTrans, 0.25f, UvTrans, 0.25f, UvTrans, 0.25f, UvTrans, 0.25f};
-                self.SetUvs(Uvs);
+                self.m_TempUVs = {UvTrans, 0.25f, UvTrans, 0.25f, UvTrans, 0.25f, UvTrans, 0.25f};
+                self.SetUvs(self.m_TempUVs);
             }
             else if (beat >= self.m_Event.SpecialData.SpawnBeat + 0.5f && beat < self.m_Event.EndBeat - 0.5f) {
                 self.m_Transform.scale = {  OriginScale+ OriginScale * (beat - self.m_Event.SpecialData.SpawnBeat - 0.5f) / 4, OriginScale + OriginScale * (beat - self.m_Event.SpecialData.SpawnBeat - 0.5f) / 4};
-                Uvs = {UvTrans, 0.25f, UvTrans, 0.25f, UvTrans, 0.25f, UvTrans, 0.25f};
-                self.SetUvs(Uvs);
+                self.m_TempUVs = {UvTrans, 0.25f, UvTrans, 0.25f, UvTrans, 0.25f, UvTrans, 0.25f};
+                self.SetUvs(self.m_TempUVs);
 
             }
             else if (beat >= self.m_Event.EndBeat - 0.5f && beat < self.m_Event.EndBeat) {
@@ -869,8 +865,8 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
             float Progress = (beat - self.m_Event.StartBeat) / (self.m_Event.EndBeat - self.m_Event.StartBeat);
             self.m_Transform.translation = glm::mix(self.m_Event.StartPos, self.m_Event.EndPos, Progress);
 
-            std::vector<float> Uvs = {0.25f, 0.5f, 0.25f, 0.5f, 0.25f, 0.5f, 0.25f, 0.5f};
-            self.SetUvs(Uvs);
+            self.m_TempUVs = {0.25f, 0.5f, 0.25f, 0.5f, 0.25f, 0.5f, 0.25f, 0.5f};
+            self.SetUvs(self.m_TempUVs);
 
             self.UpdateWorldVertices();
 
@@ -888,13 +884,12 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
 
         newObs->customBehavior = [this](Obstacle& self, float beat, glm::vec2 PlayerPos) {
             float OriginScale = self.m_Event.Scale.x;
-            std::vector<float> Uvs;
             if (beat >= self.m_Event.StartBeat && beat < self.m_Event.SpecialData.SpawnBeat) {
                 float Progress = (beat - self.m_Event.StartBeat) / 6;
                 float TransUvs = glm::mix(0.75f, 0.25f, Progress);
 
-                Uvs = {0.25f, TransUvs, 0.25f, TransUvs, 0.25f, TransUvs, 0.25f, TransUvs};
-                self.SetUvs(Uvs);
+                self.m_TempUVs = {0.25f, TransUvs, 0.25f, TransUvs, 0.25f, TransUvs, 0.25f, TransUvs};
+                self.SetUvs(self.m_TempUVs);
             }
             else if (beat >= self.m_Event.StartBeat && beat < self.m_Event.SpecialData.SpawnBeat + 0.5f) {
                 self.TurnOnCollidable();
@@ -902,29 +897,27 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
                 float Progress = (beat - self.m_Event.SpecialData.SpawnBeat) * 2;
                 float TransUvs = glm::mix(0.75f, 0.25f, Progress);
 
-                Uvs = {TransUvs, 0.25f, TransUvs, 0.25f, TransUvs, 0.25f, TransUvs, 0.25f};
-                self.SetUvs(Uvs);
+                self.m_TempUVs = {TransUvs, 0.25f, TransUvs, 0.25f, TransUvs, 0.25f, TransUvs, 0.25f};
+                self.SetUvs(self.m_TempUVs);
 
                 self.m_Transform.scale = glm::vec2{OriginScale + (1 - Progress) * OriginScale / 2, OriginScale + (1 - Progress) * OriginScale / 2};
             }
             else if (beat >= self.m_Event.StartBeat && beat < self.m_Event.SpecialData.SpawnBeat + 1.5f) {
                 self.m_Transform.scale = {OriginScale, OriginScale};
-                Uvs = {0.25f, 0.25f, 0.25f, 0.25f, 0.25f, 0.25f, 0.25f, 0.25f};
-                self.SetUvs(Uvs);
+                self.m_TempUVs = {0.25f, 0.25f, 0.25f, 0.25f, 0.25f, 0.25f, 0.25f, 0.25f};
+                self.SetUvs(self.m_TempUVs);
             }
             else if (beat >= self.m_Event.StartBeat && beat < self.m_Event.SpecialData.SpawnBeat + 1.75f) {
                 float Progress = (beat - self.m_Event.SpecialData.SpawnBeat - 1.5f) * 4;
 
                 self.m_Transform.scale = {OriginScale + OriginScale * 0.2f * (Progress * Progress), OriginScale + OriginScale * 0.2f * (Progress * Progress)};
-                Uvs = {0.25f, 0.25f, 0.25f, 0.25f, 0.25f, 0.25f, 0.25f, 0.25f};
-                self.SetUvs(Uvs);
+
             }
             else if (beat >= self.m_Event.StartBeat && beat < self.m_Event.EndBeat) {
                 float Progress = 1 - ((beat - self.m_Event.SpecialData.SpawnBeat - 1.75f) * 4);
 
                 self.m_Transform.scale = {(OriginScale + OriginScale * 0.2f)  * Progress * Progress, (OriginScale + OriginScale * 0.2f) * Progress * Progress};
-                Uvs = {0.25f, 0.25f, 0.25f, 0.25f, 0.25f, 0.25f, 0.25f, 0.25f};
-                self.SetUvs(Uvs);
+
             }
             self.UpdateWorldVertices();
 

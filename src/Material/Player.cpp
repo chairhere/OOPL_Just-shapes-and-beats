@@ -70,7 +70,6 @@ bool Player::Moving() {
             Dash();
         }
     }
-
     if (m_Dashing) {
         m_MovingDirection *= 5;
         m_DashTimeLeft -= Util::Time::GetDeltaTimeMs();
@@ -97,9 +96,13 @@ bool Player::Moving() {
             m_KnockBackDirection = glm::vec2(0.0f, 0.0f);
         }
         if (m_Blink) {
-            this->SetDrawable(std::make_shared<Util::Image>(m_BlinkImagePath));
+            if (auto imageDrawable = std::dynamic_pointer_cast<Util::Image>(m_Drawable)) {
+                imageDrawable->SetImage(m_BlinkImagePath);
+            }
         }else {
-            this->SetDrawable(std::make_shared<Util::Image>(m_NowImagePath));
+            if (auto imageDrawable = std::dynamic_pointer_cast<Util::Image>(m_Drawable)) {
+                imageDrawable->SetImage(m_NowImagePath);
+            }
         }
     }
     if (m_KnockBack) {

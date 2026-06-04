@@ -74,6 +74,8 @@ protected:
     void Turn();
     float normalScale = 0.5f;
 
+
+
 };
 
 #endif //JUST_SHAPES_AND_BEATS_PLAYER_HPP
