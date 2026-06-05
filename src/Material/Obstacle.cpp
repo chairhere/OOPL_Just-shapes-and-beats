@@ -55,7 +55,7 @@ void Obstacle::Spawn(const SpawnEvent &event, const std::vector<float>& LocalVer
         m_WorldUVs.push_back(0.25f);
     }
 
-    if (m_Event.Bullet == BulletType::Laser || m_Event.Bullet == BulletType::BiggerLaser) {
+    if (m_Event.Bullet == BulletType::Laser || m_Event.Bullet == BulletType::BiggerLaser || m_Event.Bullet == BulletType::PopRectangle) {
         m_IsShaked = false;
     }
     else {
