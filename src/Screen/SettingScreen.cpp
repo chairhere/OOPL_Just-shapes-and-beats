@@ -7,7 +7,7 @@
 SettingScreen::SettingScreen() {
     m_CurrentPage = Page::Volume;
 
-    m_Background = std::make_shared<ImageObject>("Resources/Image/Setting/Background.png");
+    m_Background = std::make_shared<ImageObject>("../Resources/Image/Setting/Background.png");
     m_Background->m_Transform.scale = glm::vec2(50, 25);
     m_Background->SetZIndex(0);
     m_Renderer.AddChild(m_Background);
@@ -15,11 +15,17 @@ SettingScreen::SettingScreen() {
     for (int i = 0 ; i < 2 ; i++) {
         auto line = std::make_shared<ImageObject>("Resources/Image/OptionBackground/Selected.png");
         m_LeftLines.push_back(line);
-        line->m_Transform.scale = glm::vec2(20.0f, 0.1f);
+        line->m_Transform.scale = glm::vec2(15.0f, 0.1f);
     }
 
-    // m_VolumePage = std::make_shared<Button>("Resources/Font/TSTC.ttf", 25, "音量");
-    // m_VolumePage->m_Transform.translation = ;
+    m_VolumePage = std::make_shared<MergeButton>(25, "音量", "../Resources/Image/OptionBackground/None.png");
+    m_VolumePage->m_Transform.translation = LeftWhere;
+    LeftWhere += m_VolumePage->GetSize().y + gap;
+    m_Renderer.AddChild(m_VolumePage);
+
+    m_VolumeLable = std::make_shared<TextObject>(25, "聲音", Util::Color(0, 255, 255));
+    m_VolumeLable->m_Transform.translation = RightWhere;
+    RightWhere += m_VolumeLable->GetScaledSize().y + gap;
 
 }
 

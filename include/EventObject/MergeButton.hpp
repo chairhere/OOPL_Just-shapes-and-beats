@@ -11,6 +11,7 @@
 #include "Util/Text.hpp"
 
 class MergeButton : public EventObject {
+    // A button can custom background and text at the same time.
 public:
     MergeButton(int fontSize, const std::string& text, const std::string& imagePath, Util::Color color = Util::Color(255, 255, 255));
 
@@ -21,6 +22,8 @@ public:
 
     void SetFocusText(const std::string &text);
     void SetFocusImage(const std::string &imagePath);
+
+    glm::vec2 GetSize();
 
     void Update() override;
 

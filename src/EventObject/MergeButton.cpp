@@ -49,6 +49,11 @@ void MergeButton::SetFocusImage(const std::string &imagePath) {
     m_FocusImagePath = imagePath;
 }
 
+glm::vec2 MergeButton::GetSize() {
+    return m_BackgroundImage->GetScaledSize();
+}
+
+
 void MergeButton::Update() {
     const bool hovering = isHovering();
     const bool focused = isFocus();

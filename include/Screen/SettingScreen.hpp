@@ -34,6 +34,7 @@ private:
     glm::vec2 RightFirst = glm::vec2(-163.0f, 277.0f);
     glm::vec2 LeftWhere = glm::vec2(-519.0f, 293.0f);
     glm::vec2 RightWhere = glm::vec2(-163.0f, 277.0f);
+    static constexpr float gap = 10.0f;
 
     std::shared_ptr<MergeButton> m_VolumePage;
     std::shared_ptr<TextObject> m_VolumeLable;
