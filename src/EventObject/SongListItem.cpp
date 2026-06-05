@@ -98,9 +98,8 @@ void SongListItem::Update() {
     // 2. 處理視覺狀態 (這裡才套用 HoverEnable / FocusEnable 的限制)
     // ==========================================
     // 重新定義：這個物件「視覺上」是否該呈現亮起狀態？
-    const bool shouldShowVisualActive = (m_HoverEnable && hovering) || (m_FocusEnable && focused);
 
-    if (shouldShowVisualActive) {
+    if ((m_HoverEnable && hovering) || (m_FocusEnable && focused)) {
         // 【該亮起時】進行狀態快照與自動換圖
         if (!m_WasActive) {
             m_NormalTransform = m_Transform;

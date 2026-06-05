@@ -14,17 +14,16 @@ SongListScreen::SongListScreen() {
     float currentY = 200.0f;
 
     for (int i = 0 ; i < listLenth ; i++) {
-        SongData data = SongList::GetSongByName(m_SongsOrder.at(i).first);
+        SongData data = SongList::GetSongByName(m_SongsOrder.at(i));
         std::shared_ptr<SongListItem> item = std::make_shared<SongListItem>(data, currentX, currentY);
         m_Items.push_back(item);
         item->SetOnClick([this, item, i]() {
             this->m_NowSelect->Unfocus();
             this->m_SelectedIndex = i;
-            this->m_NowSelect = this->m_Items.at(m_SelectedIndex);
+            this->m_NowSelect = item;
             this->m_NowSelect->Focus();
             if (m_SFXSelect != item) {
-                MusicPlayerManager::Setting().Switch(m_SongsOrder.at(i).first);
-                MusicPlayerManager::Setting().PlayAtTime(m_SongsOrder.at(i).second);
+                MusicPlayerManager::Setting().Switch(m_SongsOrder.at(i));
                 this->m_SFXSelect = item;
                 MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::Choose);
             }else {
@@ -33,11 +32,8 @@ SongListScreen::SongListScreen() {
             }
         });
         m_Items.at(i)->SetOnFocus([this, item, i]() {
-            this->m_SelectedIndex = i;
-            this->m_NowSelect = this->m_Items.at(m_SelectedIndex);
             if (m_SFXSelect != item) {
-                MusicPlayerManager::Setting().Switch(m_SongsOrder.at(i).first);
-                MusicPlayerManager::Setting().PlayAtTime(m_SongsOrder.at(i).second);
+                MusicPlayerManager::Setting().Switch(m_SongsOrder.at(i));
                 this->m_SFXSelect = item;
                 MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::BtSelect);
             }
@@ -46,6 +42,7 @@ SongListScreen::SongListScreen() {
         currentY -= item->GetSize().y;
     }
     m_SelectedIndex = 0;
+    m_NowSelect = m_Items.at(0);
     m_Items.at(0)->Focus();
     MusicPlayerManager::Setting().SetBGMVolume(0.2);
 

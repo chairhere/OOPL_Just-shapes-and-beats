@@ -24,10 +24,10 @@ private:
     std::shared_ptr<EventObject> m_NowSelect = nullptr;
     std::shared_ptr<EventObject> m_SFXSelect = nullptr;
     int m_SelectedIndex = 0;
-    std::vector<std::pair<Levels, float>> m_SongsOrder = {
-        {Levels::Chronos, 74.3f},
-        {Levels::MilkyWay, 0.0f},
-        {Levels::CheatCodes, 0.0f}
+    std::vector<Levels> m_SongsOrder = {
+        Levels::Chronos,
+        Levels::MilkyWay,
+        Levels::CheatCodes
     };
 
     bool play = false;
