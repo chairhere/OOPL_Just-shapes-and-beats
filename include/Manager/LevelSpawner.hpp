@@ -93,6 +93,7 @@ public:
         m_DottedLineBatcher = std::make_shared<BatchedCircleShape>(Blue);
         m_BeatMap = filepath;
         m_Drawable = m_Batcher;
+        m_ActiveObstacles.resize(20000);
     };
     ~LevelSpawner() override = default;
 

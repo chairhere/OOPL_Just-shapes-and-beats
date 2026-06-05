@@ -7,6 +7,10 @@
 #include "Util/Time.hpp"
 
 void LevelSpawner::Start(float StartBeat) {
+    m_StartJitterBeat = 0.0f;
+    m_StartShakeBeat = 0.0f;
+    t1 = Util::Time::GetElapsedTimeMs();
+    m_PendingEvents = std::queue<SpawnEvent>();
     g = std::mt19937(rd());
 
     std::ifstream file(m_BeatMap);
@@ -15,6 +19,7 @@ void LevelSpawner::Start(float StartBeat) {
         return;
     }
     LOG_DEBUG("LoginLevelSpawner_Start");
+    t2 = Util::Time::GetElapsedTimeMs();
     json m_LevelData;
     file >> m_LevelData;
     LOG_DEBUG("startbuild");
@@ -162,8 +167,10 @@ void LevelSpawner::Start(float StartBeat) {
         }
 
         m_PendingEvents.push(m_LoadEvent);
+        m_ObstaclesCount++;
+        LOG_DEBUG("{}step", m_ObstaclesCount);
     }
-    m_ActiveObstacles.resize(20000);
+    t3 = Util::Time::GetElapsedTimeMs();
     S_PoolSize  = static_cast<int>(m_ActiveObstacles.size());
     LOG_DEBUG("finishedbuild");
 
@@ -171,6 +178,11 @@ void LevelSpawner::Start(float StartBeat) {
     m_SpikeBatcher->SetDrawID(4);
     m_DottedCircleBatcher->SetDrawID(5);
     m_DottedLineBatcher->SetDrawID(6);
+    t4 = Util::Time::GetElapsedTimeMs();
+    if (t4 - t1 > 18.0f) { // 發生掉幀
+        LOG_WARN("Lag Spike!current Spawner: {}ms, Render: {}ms, Collision: {}ms",
+                  t2 - t1, t3 - t2, t4 - t3);
+    }
 
 }
 
