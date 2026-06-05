@@ -2360,8 +2360,8 @@
     }
   },
   {
-    "SpawnBeat": 305.1,
-    "StartBeat": 307.1,
+    "StartBeat": 305.1,
+    "SpawnBeat": 307.1,
     "ObstacleType": "PopRectangle",
     "Scale": 140.0,
     "StartPos": {
