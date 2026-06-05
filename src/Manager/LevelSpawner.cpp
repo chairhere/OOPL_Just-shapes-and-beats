@@ -255,6 +255,11 @@ void LevelSpawner::Update(float currentBeat, glm::vec2 PlayerPos) {
 
         it->UpdateStateByBeat(currentBeat, PlayerPos);
 
+        if (it->IsDead()) {
+            ++it;
+            continue;
+        }
+
         if (it->m_Event.Bullet == BulletType::CheckPointLine) {
             if (it->m_IsColliding) {
                 m_IsChecked = true;
@@ -862,6 +867,7 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
         m_SpawnVertices = {-0.5f, 0.5f, -0.5f, -0.5f, 0.5f, -0.5f, 0.5f, 0.5f};
 
         newObs->customBehavior = [this](Obstacle& self, float beat, glm::vec2 PlayerPos) {
+
             float Progress = (beat - self.m_Event.StartBeat) / (self.m_Event.EndBeat - self.m_Event.StartBeat);
             self.m_Transform.translation = glm::mix(self.m_Event.StartPos, self.m_Event.EndPos, Progress);
 
@@ -872,7 +878,7 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
 
             if (self.CheckCircleCollision(PlayerPos) || PlayerPos.x > self.m_Transform.translation.x) {
                 self.m_IsColliding = true;
-                self.m_Event.EndBeat = self.m_Event.StartBeat;
+                self.m_Event.EndBeat = beat - 1.0f;
                 LOG_DEBUG("collide");
             }
 

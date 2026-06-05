@@ -23,6 +23,7 @@ void Obstacle::UpdateStateByBeat(float currentBeat, glm::vec2 PlayerPos) {
         m_IsDead = true; // 標記為可銷毀
         m_IsActive = false;
         m_Collidable = false;
+        m_IsColliding = false;
         return;
     }
 
