@@ -137,8 +137,7 @@ ScreenState PlaygroundScreen::Update() {
         m_StartBeat = m_CheckPoints[m_WhichCheckPoint];
         if (m_StartBeat == m_CheckPoints.back()) {
             LOG_DEBUG("Last!");
-            m_LevelSpawner = std::make_shared<LevelSpawner>(m_BeatMap);
-            m_LevelSpawner->Start(m_StartBeat);
+            m_LevelSpawner->Update(m_StartBeat, m_Player->GetPosition());
         }
         std::string log = "Checked!, ";
         log.append(std::to_string(m_StartBeat));

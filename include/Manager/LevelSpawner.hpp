@@ -55,6 +55,8 @@ private:
 
     float m_StartShakeBeat = 0.0f;
     float m_CurrentOffset = 0.0f;
+    float m_StartJitterBeat = 0.0f;
+
     const float s_ShakeDuration = 0.25f;
     const float s_Amplitude = 5.0f;
 
@@ -107,6 +109,8 @@ public:
     bool IsChecked() const {return m_IsChecked;}
 
     void VisionShake(glm::vec2 value, float currentBeat);
+
+    void VisionJitter( float currentBeat);
 
     void CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos);
 

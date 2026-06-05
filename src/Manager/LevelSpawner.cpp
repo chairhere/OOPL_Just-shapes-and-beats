@@ -191,6 +191,10 @@ void LevelSpawner::VisionShake(glm::vec2 value, float currentBeat) {
     m_ShakeOffset = value;
 }
 
+void LevelSpawner::VisionJitter(float currentBeat) {
+    m_StartJitterBeat = currentBeat + 0.5f;
+}
+
 
 //能實作在AppUpdate裡，利用levels來去開啟予與關閉這部分的update
 void LevelSpawner::Update(float currentBeat, glm::vec2 PlayerPos) {
@@ -209,9 +213,9 @@ void LevelSpawner::Update(float currentBeat, glm::vec2 PlayerPos) {
         m_StartShakeBeat = 0.0f;
     }
 
-    if (m_IsJitter) {
+    if (m_StartJitterBeat > currentBeat) {
 
-        m_JitterOffset = glm::vec2{glm::sin(Util::Time::GetElapsedTimeMs() / 1000.0f * 25.0f * 5.0f) * 4.0f, glm::cos(Util::Time::GetElapsedTimeMs() / 1000.0f * 32.0f * 5.0f) * 4.0f};
+        m_JitterOffset = glm::vec2{glm::sin(Util::Time::GetElapsedTimeMs() / 1000.0f * 25.0f * 3.0f) * (m_StartJitterBeat - currentBeat) * 16.0f, glm::cos(Util::Time::GetElapsedTimeMs() / 1000.0f * 32.0f * 3.0f) * (m_StartJitterBeat - currentBeat) * 16.0f};
     }
     else {
         m_JitterOffset = glm::vec2{0.0f, 0.0f};
@@ -898,6 +902,11 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
                 self.SetUvs(self.m_TempUVs);
             }
             else if (beat >= self.m_Event.StartBeat && beat < self.m_Event.SpecialData.SpawnBeat + 0.5f) {
+                if (!self.IsShaked() && self.m_Event.Scale.x >= 100.0f) {
+                    this->VisionJitter(beat);
+                    self.HasShaked();
+                }
+
                 self.TurnOnCollidable();
 
                 float Progress = (beat - self.m_Event.SpecialData.SpawnBeat) * 2;
