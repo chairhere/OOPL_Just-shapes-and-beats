@@ -121,6 +121,8 @@ public:
 
     int GetWaitingObstacleIndex(){return m_PoolIndex;}
 
+    void EndGame();
+
 
     void DrawAll();
 };

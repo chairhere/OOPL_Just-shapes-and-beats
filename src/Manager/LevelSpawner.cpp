@@ -140,6 +140,7 @@ void LevelSpawner::Start(float StartBeat) {
             m_LoadEvent.StartPos = {item["StartPos"]["X"], item["StartPos"]["Y"]};
             m_LoadEvent.Scale = {item.value("Scale", 30.0f), item.value("Scale", 30.0f)};
             m_LoadEvent.StartRot = item.value("StartRotation", 0.0f);
+            m_LoadEvent.SpecialData.Shakable = true;
         }
         else if (item["ObstacleType"] == "SpawnerRectangle") {
             m_LoadEvent.Bullet = BulletType::SpawnerRectangle;
@@ -183,6 +184,10 @@ void LevelSpawner::Start(float StartBeat) {
         LOG_WARN("Lag Spike!current Spawner: {}ms, Render: {}ms, Collision: {}ms",
                   t2 - t1, t3 - t2, t4 - t3);
     }
+
+}
+
+void LevelSpawner::EndGame() {
 
 }
 
@@ -914,7 +919,7 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
                 self.SetUvs(self.m_TempUVs);
             }
             else if (beat >= self.m_Event.StartBeat && beat < self.m_Event.SpecialData.SpawnBeat + 0.5f) {
-                if (!self.IsShaked() && self.m_Event.Scale.x >= 100.0f) {
+                if (!self.IsShaked() && self.m_Event.Scale.x >= 100.0f && self.m_Event.SpecialData.Shakable) {
                     this->VisionJitter(beat);
                     self.HasShaked();
                 }
@@ -966,6 +971,7 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
         SpawnEvent PopRecEvent;
         PopRecEvent.Bullet = BulletType::PopRectangle;
         PopRecEvent.Scale = m_SpawnEvent.Scale;
+        PopRecEvent.SpecialData.Shakable = true;
         PopRecEvent.StartRot = 0.0f;
 
         float i = m_SpawnEvent.StartBeat;
@@ -1042,7 +1048,7 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
             PopRecEvent.StartBeat = i;
             PopRecEvent.SpecialData.SpawnBeat = i + 4.0f;
             PopRecEvent.EndBeat = PopRecEvent.SpecialData.SpawnBeat + 1.0f;
-            CreateObstacle(PopRecEvent, PlayerPos);
+            m_WaitingEvets.push(PopRecEvent);
 
             i += 1.0f;
         }
