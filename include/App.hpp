@@ -26,6 +26,8 @@ public:
 
     void End(); // NOLINT(readability-convert-member-functions-to-static)
 
+    void Conversion_animate();
+
 private:
 
     Util::Renderer m_Root;
@@ -33,12 +35,22 @@ private:
     ScreenState m_CurrentLevel = ScreenState::Main;
     void ChangeLevel(ScreenState newLevel);
     bool setting = false;
+    bool conversion = false;
 
     std::shared_ptr<FadeLayer> m_FadeLayer;
 
     State m_CurrentState = State::START;
 
     bool direct_playground = false;
+
+    std::vector<Util::Color> First_Color = { {0, 0, 0, 255}, {0, 0, 0, 0}};
+    std::vector<float> First_Duration = {0.0f, 2000.0f};
+    std::vector<float> First_Rotation = {0.0f, 0.0f};
+    std::vector<float> First_Vertices = {-0.5f, 0.5f, -0.5f, -0.5f, 0.5f, -0.5f, 0.5f, 0.5f};
+    //std::vector<float> First_Vertices = {-0.288f, 0.5f, -0.577f, -0.0f, -0.288f, -0.5f, 0.288f, -0.5f, 0.577f, 0.0f, 0.288f, 0.5f};
+    std::vector<glm::vec2> First_Position = {{0.0f, 0.0f}, {0.0f, 0.0f}};
+    std::vector<glm::vec2> First_Scale = {{WINDOW_WIDTH, WINDOW_HEIGHT}, {WINDOW_WIDTH, WINDOW_HEIGHT}};
+
 };
 
 #endif
