@@ -4,6 +4,7 @@
 
 #include "EventObject/EventObject.hpp"
 
+#include "App.hpp"
 #include "Util/Input.hpp"
 
 bool EventObject::s_IsKeyboardMode = false;

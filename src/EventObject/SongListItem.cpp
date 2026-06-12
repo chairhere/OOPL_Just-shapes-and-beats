@@ -4,6 +4,7 @@
 
 #include "EventObject/SongListItem.hpp"
 
+#include "App.hpp"
 #include "Util/Input.hpp"
 #include "Util/Logger.hpp"
 

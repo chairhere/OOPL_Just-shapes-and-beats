@@ -58,7 +58,7 @@ void App::Update() {
 
     // Render all game objects managed by the root renderer.
     if (m_CurrentScreen) {
-        ScreenState newLevel = m_CurrentScreen->Update();
+        ScreenState newLevel =  m_CurrentScreen->Update();
         if (setting) {
             m_SettingScreen->Update();
         }
@@ -93,8 +93,10 @@ void App::Update() {
                 case ScreenState::Playground:
                     if (setting) {
                         m_SettingScreen->HangUp();
+                        MusicPlayerManager::Setting().Play();
                     }else {
                         m_SettingScreen->Call(ScreenState::Playground);
+                        MusicPlayerManager::Setting().Pause();
                     }
                     setting ^= true;
                     break;

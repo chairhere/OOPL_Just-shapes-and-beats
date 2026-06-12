@@ -58,18 +58,9 @@ PlaygroundScreen::PlaygroundScreen(Levels level){
 }
 
 ScreenState PlaygroundScreen::Update() {
-    m_PlayerDie = m_Player->Moving();
+    if (freeze) {
+        m_PlayerDie = m_Player->Moving();
 
-    if (Util::Input::IsKeyDown(Util::Keycode::ESCAPE)) {
-        freeze ^= true;
-        if (MusicPlayerManager::Setting().IsPause()) {
-            MusicPlayerManager::Setting().Play();
-        }else {
-            MusicPlayerManager::Setting().Pause();
-        }
-    }
-
-    if (not freeze) {
         if (Util::Input::IsKeyDown(Util::Keycode::TAB)) {
             debug ^= 1;
             if (debug) {

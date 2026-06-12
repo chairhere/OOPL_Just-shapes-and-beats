@@ -4,6 +4,7 @@
 
 #include "EventObject/MergeButton.hpp"
 
+#include "App.hpp"
 #include "Util/Input.hpp"
 
 MergeButton::MergeButton(glm::vec2 startPos, int fontSize, const std::string &text, const std::string &imagePath, Util::Color color) {

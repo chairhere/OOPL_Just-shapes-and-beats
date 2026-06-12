@@ -18,6 +18,7 @@ SongListScreen::SongListScreen() {
         std::shared_ptr<SongListItem> item = std::make_shared<SongListItem>(data, currentX, currentY);
         m_Items.push_back(item);
         item->SetOnClick([this, item, i]() {
+            if (freeze) return;
             this->m_NowSelect->Unfocus();
             this->m_SelectedIndex = i;
             this->m_NowSelect = item;
@@ -32,6 +33,7 @@ SongListScreen::SongListScreen() {
             }
         });
         m_Items.at(i)->SetOnFocus([this, item, i]() {
+            if (freeze) return;
             if (m_SFXSelect != item) {
                 MusicPlayerManager::Setting().Switch(m_SongsOrder.at(i));
                 this->m_SFXSelect = item;
@@ -52,6 +54,7 @@ SongListScreen::SongListScreen() {
     m_RandomOrder->SetFocusImage("../Resources/Image/OptionBackground/Selected.png");
     m_RandomOrder->m_Transform.translation = glm::vec2(0, 250);
     m_RandomOrder->SetOnClick([this]() {
+        if (freeze) return;
         if (m_SFXSelect != m_RandomOrder) {
             MusicPlayerManager::Setting().CleanList();
             this->m_SFXSelect = m_RandomOrder;
@@ -63,6 +66,7 @@ SongListScreen::SongListScreen() {
         this->m_NowSelect->Focus();
     });
     m_RandomOrder->SetOnFocus([this]() {
+        if (freeze) return;
         if (m_SFXSelect != m_RandomOrder) {
             MusicPlayerManager::Setting().CleanList();
             this->m_SFXSelect = m_RandomOrder;
@@ -78,60 +82,62 @@ SongListScreen::SongListScreen() {
 ScreenState SongListScreen::Update() {
     int ListLength = m_SongsOrder.size();
 
-    //防Hover與Focus衝突(沒有Hover效果，純控制鼠標顯示)
-    if (Util::Input::IsMouseMoving()) {
-        Button::s_IsKeyboardMode = false;
-        SDL_ShowCursor(SDL_ENABLE);
-    }
+    if (not freeze) {
+        //防Hover與Focus衝突(沒有Hover效果，純控制鼠標顯示)
+        if (Util::Input::IsMouseMoving()) {
+            Button::s_IsKeyboardMode = false;
+            SDL_ShowCursor(SDL_ENABLE);
+        }
 
-    // 檢查導航鍵
-    if (Util::Input::IsKeyDown(Util::Keycode::W) ||
-        Util::Input::IsKeyDown(Util::Keycode::S) ||
-        Util::Input::IsKeyDown(Util::Keycode::UP) ||
-        Util::Input::IsKeyDown(Util::Keycode::DOWN)) {
+        // 檢查導航鍵
+        if (Util::Input::IsKeyDown(Util::Keycode::W) ||
+            Util::Input::IsKeyDown(Util::Keycode::S) ||
+            Util::Input::IsKeyDown(Util::Keycode::UP) ||
+            Util::Input::IsKeyDown(Util::Keycode::DOWN)) {
 
-        Button::s_IsKeyboardMode = true;
-        SDL_ShowCursor(SDL_DISABLE);
+            Button::s_IsKeyboardMode = true;
+            SDL_ShowCursor(SDL_DISABLE);
 
-        if (m_NowSelect) {
-            m_NowSelect->Unfocus();
-            if (Util::Input::IsKeyDown(Util::Keycode::W) ||
-                Util::Input::IsKeyDown(Util::Keycode::UP)) {
-                if (m_SelectedIndex == 0) {
-                    m_SelectedIndex = -1;
-                    m_NowSelect = m_RandomOrder;
-                }else if (m_SelectedIndex > 0) {
-                    m_SelectedIndex -= 1;
-                    m_NowSelect = m_Items.at(m_SelectedIndex);
-                }
-            }else if (Util::Input::IsKeyDown(Util::Keycode::S) ||
-                    Util::Input::IsKeyDown(Util::Keycode::DOWN)) {
-                if (m_SelectedIndex == -1) {
-                    m_SelectedIndex = 0;
-                    m_NowSelect = m_Items.at(0);
-                }else if (m_SelectedIndex < ListLength-1) {
-                    m_SelectedIndex += 1;
-                    m_NowSelect = m_Items.at(m_SelectedIndex);
-                }
+            if (m_NowSelect) {
+                m_NowSelect->Unfocus();
+                if (Util::Input::IsKeyDown(Util::Keycode::W) ||
+                    Util::Input::IsKeyDown(Util::Keycode::UP)) {
+                    if (m_SelectedIndex == 0) {
+                        m_SelectedIndex = -1;
+                        m_NowSelect = m_RandomOrder;
+                    }else if (m_SelectedIndex > 0) {
+                        m_SelectedIndex -= 1;
+                        m_NowSelect = m_Items.at(m_SelectedIndex);
+                    }
+                    }else if (Util::Input::IsKeyDown(Util::Keycode::S) ||
+                            Util::Input::IsKeyDown(Util::Keycode::DOWN)) {
+                        if (m_SelectedIndex == -1) {
+                            m_SelectedIndex = 0;
+                            m_NowSelect = m_Items.at(0);
+                        }else if (m_SelectedIndex < ListLength-1) {
+                            m_SelectedIndex += 1;
+                            m_NowSelect = m_Items.at(m_SelectedIndex);
+                        }
+                            }
+                m_NowSelect->Focus();
+            }else {
+                LOG_ERROR("觸發空白項目");
+                throw std::invalid_argument("The list should NOT be without selected items.");
             }
-            m_NowSelect->Focus();
-        }else {
-            LOG_ERROR("觸發空白項目");
-            throw std::invalid_argument("The list should NOT be without selected items.");
-        }
 
-        if (((m_SelectedIndex == -1) ^ (m_NowSelect == m_RandomOrder)) or (m_SelectedIndex != -1 and m_NowSelect != m_Items.at(m_SelectedIndex))) {
-            LOG_WARN("SelectedIndex doesn't match NowSelect");
-        }
-    }
+            if (((m_SelectedIndex == -1) ^ (m_NowSelect == m_RandomOrder)) or (m_SelectedIndex != -1 and m_NowSelect != m_Items.at(m_SelectedIndex))) {
+                LOG_WARN("SelectedIndex doesn't match NowSelect");
+            }
+            }
 
-    if (play || Util::Input::IsKeyDown(Util::Keycode::RETURN)) {
-        if (m_NowSelect != m_RandomOrder) {
-            return ScreenState::Playground;
+        if (play || Util::Input::IsKeyDown(Util::Keycode::RETURN)) {
+            if (m_NowSelect != m_RandomOrder) {
+                return ScreenState::Playground;
+            }
+            MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::PlrHit);
+            Button::s_IsKeyboardMode = true;
+            SDL_ShowCursor(SDL_DISABLE);
         }
-        MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::PlrHit);
-        Button::s_IsKeyboardMode = true;
-        SDL_ShowCursor(SDL_DISABLE);
     }
 
     m_Renderer.Update();

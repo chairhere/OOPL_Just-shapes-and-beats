@@ -4,6 +4,7 @@
 
 #include "Screen/SettingScreen.hpp"
 
+#include "App.hpp"
 #include "Manager/MusicPlayerManager.hpp"
 
 SettingScreen::SettingScreen() {
@@ -13,12 +14,6 @@ SettingScreen::SettingScreen() {
     m_Background->m_Transform.scale = glm::vec2(50, 25);
     m_Background->SetZIndex(0);
     m_Renderer.AddChild(m_Background);
-
-    for (int i = 0 ; i < 2 ; i++) {
-        auto line = std::make_shared<ImageObject>("../Resources/Image/OptionBackground/Selected.png");
-        m_LeftLines.push_back(line);
-        line->m_Transform.scale = glm::vec2(15.0f, 0.1f);
-    }
 
     m_VolumePage = std::make_shared<MergeButton>(LeftWhere, 25, "音量", selected);
     LeftWhere.y -= m_VolumePage->GetSize().y + gap;
@@ -67,6 +62,7 @@ SettingScreen::SettingScreen() {
 }
 
 void SettingScreen::Call(ScreenState WhoCalls) {
+    freeze = true;
     if (WhoCalls == ScreenState::Playground) {
         m_Restart->SetShow(true);
         m_LeaveToList->SetShow(true);
@@ -77,8 +73,9 @@ void SettingScreen::Call(ScreenState WhoCalls) {
 }
 
 void SettingScreen::HangUp() {
-
+    freeze = false;
 }
+
 
 ScreenState SettingScreen::Update() {
 

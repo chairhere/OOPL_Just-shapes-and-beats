@@ -14,6 +14,8 @@ public:
 
     virtual ScreenState Update() = 0;
 
+    inline static bool freeze = false;
+
 protected:
     Util::Renderer m_Renderer;
 };

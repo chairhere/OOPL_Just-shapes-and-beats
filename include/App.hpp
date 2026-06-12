@@ -39,7 +39,7 @@ private:
     State m_CurrentState = State::START;
 
     std::shared_ptr<SettingScreen> m_SettingScreen;
-    bool setting = false;
+    inline static bool setting = false;
 
     bool direct_playground = false;
 };

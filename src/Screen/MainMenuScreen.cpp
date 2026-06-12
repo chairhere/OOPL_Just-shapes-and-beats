@@ -20,6 +20,7 @@ MainMenuScreen::MainMenuScreen() {
     m_ButtonPlay->SetFocusImage("../Resources/Image/MainScreenButton/SongListButton(Selected).png");
 
     m_ButtonPlay->SetOnHovering([this]() {
+        if (freeze) return;
         if (m_SFXSelect != m_ButtonPlay) {
             MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::BtSelect);
             this->m_SFXSelect = m_ButtonPlay;
@@ -27,6 +28,7 @@ MainMenuScreen::MainMenuScreen() {
         this->m_NowSelect = m_ButtonPlay;
     });
     m_ButtonPlay->SetOnFocus([this]() {
+        if (freeze) return;
         if (m_SFXSelect != m_ButtonPlay) {
             MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::BtSelect);
             this->m_SFXSelect = m_ButtonPlay;
@@ -34,10 +36,12 @@ MainMenuScreen::MainMenuScreen() {
         this->m_NowSelect = m_ButtonPlay;
     });
     m_ButtonPlay->SetOffEvent([this]() {
+        if (freeze) return;
         this->m_SFXSelect = nullptr;
         this->m_NowSelect = nullptr;
     });
     m_ButtonPlay->SetOnClick([this]() {
+        if (freeze) return;
         MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::BtClick);
         playlist = true;
     });
@@ -52,6 +56,7 @@ MainMenuScreen::MainMenuScreen() {
     m_ButtonExit->SetFocusImage("../Resources/Image/MainScreenButton/ExitButton(Selected).png");
 
     m_ButtonExit->SetOnHovering([this]() {
+        if (freeze) return;
         if (m_SFXSelect != m_ButtonExit) {
             MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::BtSelect);
             this->m_SFXSelect = m_ButtonExit;
@@ -59,6 +64,7 @@ MainMenuScreen::MainMenuScreen() {
         this->m_NowSelect = m_ButtonExit;
     });
     m_ButtonExit->SetOnFocus([this]() {
+        if (freeze) return;
         if (m_SFXSelect != m_ButtonExit) {
             MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::BtSelect);
             this->m_SFXSelect = m_ButtonExit;
@@ -66,10 +72,12 @@ MainMenuScreen::MainMenuScreen() {
         this->m_NowSelect = m_ButtonExit;
     });
     m_ButtonExit->SetOffEvent([this]() {
+        if (freeze) return;
         this->m_SFXSelect = nullptr;
         this->m_NowSelect = nullptr;
     });
     m_ButtonExit->SetOnClick([this]() {
+        if (freeze) return;
         MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::BtClick);
         // 發送 SDL 退出事件
         SDL_Event quitEvent;
@@ -96,72 +104,75 @@ MainMenuScreen::MainMenuScreen() {
 }
 
 ScreenState MainMenuScreen::Update() {
-    //防Hover與Focus衝突
-    if (Util::Input::IsMouseMoving()) {
-        Button::s_IsKeyboardMode = false;
-        SDL_ShowCursor(SDL_ENABLE);
 
-        if (m_NowSelect) {
-            m_NowSelect->Unfocus();
-        }
-    }
+    if (not freeze) {
+        //防Hover與Focus衝突
+        if (Util::Input::IsMouseMoving()) {
+            Button::s_IsKeyboardMode = false;
+            SDL_ShowCursor(SDL_ENABLE);
 
-    // 檢查導航鍵
-    if (Util::Input::IsKeyDown(Util::Keycode::W) ||
-        Util::Input::IsKeyDown(Util::Keycode::S) ||
-        Util::Input::IsKeyDown(Util::Keycode::UP) ||
-        Util::Input::IsKeyDown(Util::Keycode::DOWN) ||
-        Util::Input::IsKeyDown(Util::Keycode::RETURN)) {
-
-        Button::s_IsKeyboardMode = true;
-        SDL_ShowCursor(SDL_DISABLE);
-
-        if (m_NowSelect) {
-            m_NowSelect->Unfocus();
-            if (Util::Input::IsKeyDown(Util::Keycode::W) ||
-                Util::Input::IsKeyDown(Util::Keycode::S) ||
-                Util::Input::IsKeyDown(Util::Keycode::UP) ||
-                Util::Input::IsKeyDown(Util::Keycode::DOWN)) {
-                if (m_NowSelect == m_ButtonPlay) {
-                    m_NowSelect = m_ButtonExit;
-                }else if (m_NowSelect == m_ButtonExit) {
-                    m_NowSelect = m_ButtonPlay;
-                }
-            }
-            m_NowSelect->Focus();
-        }else {
-            if (Util::Input::IsKeyDown(Util::Keycode::W) ||
-                Util::Input::IsKeyDown(Util::Keycode::S) ||
-                Util::Input::IsKeyDown(Util::Keycode::UP) ||
-                Util::Input::IsKeyDown(Util::Keycode::DOWN)) {
-                m_ButtonPlay->Focus();
+            if (m_NowSelect) {
+                m_NowSelect->Unfocus();
             }
         }
-    }
 
-    if (m_FadeLayerIn && !m_FadeLayerIn->IsFinished()) {
-        m_FadeLayerIn->Update(); // 推進 1.5 秒的計時與透明度變化
-        //LOG_DEBUG("Fade Layer Updated");
+        // 檢查導航鍵
+        if (Util::Input::IsKeyDown(Util::Keycode::W) ||
+            Util::Input::IsKeyDown(Util::Keycode::S) ||
+            Util::Input::IsKeyDown(Util::Keycode::UP) ||
+            Util::Input::IsKeyDown(Util::Keycode::DOWN) ||
+            Util::Input::IsKeyDown(Util::Keycode::RETURN)) {
+
+            Button::s_IsKeyboardMode = true;
+            SDL_ShowCursor(SDL_DISABLE);
+
+            if (m_NowSelect) {
+                m_NowSelect->Unfocus();
+                if (Util::Input::IsKeyDown(Util::Keycode::W) ||
+                    Util::Input::IsKeyDown(Util::Keycode::S) ||
+                    Util::Input::IsKeyDown(Util::Keycode::UP) ||
+                    Util::Input::IsKeyDown(Util::Keycode::DOWN)) {
+                    if (m_NowSelect == m_ButtonPlay) {
+                        m_NowSelect = m_ButtonExit;
+                    }else if (m_NowSelect == m_ButtonExit) {
+                        m_NowSelect = m_ButtonPlay;
+                    }
+                    }
+                m_NowSelect->Focus();
+            }else {
+                if (Util::Input::IsKeyDown(Util::Keycode::W) ||
+                    Util::Input::IsKeyDown(Util::Keycode::S) ||
+                    Util::Input::IsKeyDown(Util::Keycode::UP) ||
+                    Util::Input::IsKeyDown(Util::Keycode::DOWN)) {
+                    m_ButtonPlay->Focus();
+                    }
+            }
+            }
+
+        if (m_FadeLayerIn && !m_FadeLayerIn->IsFinished()) {
+            m_FadeLayerIn->Update(); // 推進 1.5 秒的計時與透明度變化
+            //LOG_DEBUG("Fade Layer Updated");
+        }
+        // 當動畫播完後，將其從渲染清單移除並釋放資源
+        else if (m_FadeLayerIn && m_FadeLayerIn->IsFinished()) {
+            m_Renderer.RemoveChild(m_FadeLayerIn); // 從畫面中剔除 [5]
+            m_FadeLayerIn = nullptr;               // 清空指標，釋放記憶體
+            //LOG_DEBUG("Fade Layer finished");
+        }
+        /*
+        else if (m_FadeLayerOut && !m_FadeLayerOut->IsFinished()) {
+            m_FadeLayerOut->Update(); // 推進 1.5 秒的計時與透明度變化
+            //LOG_DEBUG("Fade Layer Updated");
+        }
+        // 當動畫播完後，將其從渲染清單移除並釋放資源
+        else if (m_FadeLayerOut && m_FadeLayerOut->IsFinished()) {
+            m_Renderer.RemoveChild(m_FadeLayerOut); // 從畫面中剔除 [5]
+            m_Renderer.RemoveChild(m_WarningImage);
+            m_FadeLayerOut = nullptr;               // 清空指標，釋放記憶體
+            //LOG_DEBUG("Fade Layer finished");
+        }
+    // */
     }
-    // 當動畫播完後，將其從渲染清單移除並釋放資源
-    else if (m_FadeLayerIn && m_FadeLayerIn->IsFinished()) {
-        m_Renderer.RemoveChild(m_FadeLayerIn); // 從畫面中剔除 [5]
-        m_FadeLayerIn = nullptr;               // 清空指標，釋放記憶體
-        //LOG_DEBUG("Fade Layer finished");
-    }
-     /*
-     else if (m_FadeLayerOut && !m_FadeLayerOut->IsFinished()) {
-         m_FadeLayerOut->Update(); // 推進 1.5 秒的計時與透明度變化
-         //LOG_DEBUG("Fade Layer Updated");
-     }
-     // 當動畫播完後，將其從渲染清單移除並釋放資源
-     else if (m_FadeLayerOut && m_FadeLayerOut->IsFinished()) {
-         m_Renderer.RemoveChild(m_FadeLayerOut); // 從畫面中剔除 [5]
-         m_Renderer.RemoveChild(m_WarningImage);
-         m_FadeLayerOut = nullptr;               // 清空指標，釋放記憶體
-         //LOG_DEBUG("Fade Layer finished");
-     }
-// */
 
     // 更新畫面與按鈕邏輯
     m_Renderer.Update();
