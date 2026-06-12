@@ -12,6 +12,8 @@ public:
     //20格 一格0.05
     DiscreteSlider(float startX, float startY, float space = 5.0f);
 
+    glm::vec2 GetSize();
+
     void SetOnValueChange(std::function<void(int)> event);
     void SetValue(int step);
 

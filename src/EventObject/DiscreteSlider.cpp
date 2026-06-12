@@ -4,6 +4,8 @@
 
 #include "EventObject/DiscreteSlider.hpp"
 
+#include "Manager/MusicPlayerManager.hpp"
+
 DiscreteSlider::DiscreteSlider(float startX, float startY, float space) {
     m_Transform.translation = glm::vec2(startX, startY);
     float currentX = startX;
@@ -13,20 +15,31 @@ DiscreteSlider::DiscreteSlider(float startX, float startY, float space) {
         m_Blocks.push_back(block);
         block->SetOnClick([this, i]() {
             SetValue(i);
-            m_IsDragging = true;
+            if (not m_IsDragging) {
+                m_IsDragging = true;
+                MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::Choose);
+            }
         });
         block->SetOnHovering([this, i]() {
             if (m_IsDragging) {
                 SetValue(i);
             }
         });
+        block->FocusEnable(false);
+        block->HoverEnable(false);
         block->m_Transform.translation = glm::vec2(currentX, currentY);
-        currentX += block->m_Transform.scale.x + space;
+        currentX += block->GetScaledSize().x + space;
         m_Children.push_back(block);
     }
 
     m_MemStep = m_CurrentStep;
+    UpdateVisuals();
 }
+
+glm::vec2 DiscreteSlider::GetSize() {
+    return m_Blocks[0]->GetScaledSize();
+}
+
 
 void DiscreteSlider::SetOnValueChange(std::function<void(int)> event) {
     m_OnValueChanged = event;
@@ -38,7 +51,7 @@ void DiscreteSlider::SetValue(int step) {
 }
 
 void DiscreteSlider::UpdateVisuals() {
-    for (int i = 1 ; i <= m_TotalSteps ; i++) {
+    for (int i = 0 ; i < m_TotalSteps ; i++) {
         if (i < m_CurrentStep) {
             m_Blocks.at(i)->SetImage(b_red);
         }else if (i == m_CurrentStep) {
@@ -51,6 +64,27 @@ void DiscreteSlider::UpdateVisuals() {
 
 
 void DiscreteSlider::Update() {
+    const bool hovering = isHovering();
+    const bool focused = isFocus();
+
+    // ==========================================
+    // 1. 處理互動邏輯 (獨立於視覺狀態之外！)
+    // ==========================================
+    if (hovering) {
+        if (m_OnHover) m_OnHover();
+        // 只要滑鼠在上面，不管 HoverEnable 是不是 false，都可以點擊！
+        if (Util::Input::IsKeyDown(Util::Keycode::MOUSE_LB)) {
+            if (m_OnClick) m_OnClick();
+        }
+    } else if (focused) {
+        if (m_OnFocus) m_OnFocus();
+        if (Util::Input::IsKeyDown(Util::Keycode::RETURN)) {
+            if (m_OnClick) m_OnClick();
+        }
+    }
+    for (auto block : m_Blocks) {
+        block->Update();
+    }
     if (m_MemStep != m_CurrentStep) {
         m_MemStep = m_CurrentStep;
         UpdateVisuals();

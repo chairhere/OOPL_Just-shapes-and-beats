@@ -15,6 +15,7 @@ MergeButton::MergeButton(glm::vec2 startPos, int fontSize, const std::string &te
     m_BackgroundImage = std::make_shared<ImageObject>(imagePath);
     m_BackgroundImage->SetZIndex(0);
     m_BackgroundImage->m_Transform.translation = startPos;
+    m_BackgroundImage->m_Transform.scale = glm::vec2(1.0,0.1);
     m_Children.push_back(m_BackgroundImage);
 }
 
@@ -53,6 +54,11 @@ void MergeButton::SetFocusImage(const std::string &imagePath) {
 
 glm::vec2 MergeButton::GetSize() {
     return m_BackgroundImage->GetScaledSize();
+}
+
+void MergeButton::SetShow(bool enable) {
+    m_Text->SetVisible(enable);
+    m_BackgroundImage->SetVisible(enable);
 }
 
 

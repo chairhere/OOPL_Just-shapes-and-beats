@@ -37,10 +37,18 @@ private:
     static constexpr float gap = 10.0f;
 
     std::shared_ptr<MergeButton> m_VolumePage;
-    std::shared_ptr<TextObject> m_VolumeLable;
+    std::shared_ptr<MergeButton> m_Return;
+    std::shared_ptr<MergeButton> m_Restart;
+    std::shared_ptr<MergeButton> m_LeaveToList;
+
+    std::shared_ptr<TextObject> m_VolumeLabel;
+    std::shared_ptr<TextObject> m_BGMLabel, m_SFXLabel;
     std::shared_ptr<DiscreteSlider> m_BGMSlider, m_SFXSlider;
 
     std::shared_ptr<Button> m_QuitGamePlay;
+
+    const std::string none = "../Resources/Image/OptionBackground/None.png";
+    const std::string selected = "../Resources/Image/OptionBackground/Selected.png";
 };
 
 #endif //JUST_SHAPES_AND_BEATS_SETTINGSCREEN_HPP

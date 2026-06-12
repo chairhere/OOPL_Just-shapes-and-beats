@@ -25,6 +25,8 @@ public:
 
     glm::vec2 GetSize();
 
+    void SetShow(bool enable);
+
     void Update() override;
 
 private:

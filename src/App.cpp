@@ -79,7 +79,6 @@ void App::Update() {
 
     if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE)) {
         if (setting) {
-            // m_Root.RemoveChild(SettingScreen);
             setting = false;
         }else {
             switch (m_CurrentLevel) {
