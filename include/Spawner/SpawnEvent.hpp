@@ -41,17 +41,9 @@ struct SpawnEvent {
         glm::vec2 PausePos;//停頓位置
 
         bool Spawnable;//是否有召喚需求
+        bool Shakable = false;
 
     } SpecialData;
 };
-
-struct RR {
-    SpawnEvent SpawnEvent;
-
-    glm::vec2 Velocity;
-    float AngularVelocity;
-};
-
-
 
 #endif //JUST_SHAPES_AND_BEATS_SPAWN_EVENT_HPP
