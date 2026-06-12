@@ -60,114 +60,124 @@ PlaygroundScreen::PlaygroundScreen(Levels level){
 ScreenState PlaygroundScreen::Update() {
     m_PlayerDie = m_Player->Moving();
 
-    if (Util::Input::IsKeyDown(Util::Keycode::TAB)) {
-        debug ^= 1;
-        if (debug) {
-            SDL_ShowCursor(SDL_ENABLE);
+    if (Util::Input::IsKeyDown(Util::Keycode::ESCAPE)) {
+        freeze ^= true;
+        if (MusicPlayerManager::Setting().IsPause()) {
+            MusicPlayerManager::Setting().Play();
         }else {
-            SDL_ShowCursor(SDL_DISABLE);
-            if (not debugLock) {
+            MusicPlayerManager::Setting().Pause();
+        }
+    }
+
+    if (not freeze) {
+        if (Util::Input::IsKeyDown(Util::Keycode::TAB)) {
+            debug ^= 1;
+            if (debug) {
+                SDL_ShowCursor(SDL_ENABLE);
+            }else {
+                SDL_ShowCursor(SDL_DISABLE);
+                if (not debugLock) {
+                    if (MusicPlayerManager::Setting().IsPause()) {
+                        MusicPlayerManager::Setting().Play();
+                    }
+                    m_Player->SetSteady(false);
+                    m_Player->SetFirm(false);
+                }
+            }
+        }
+        if (m_PlayerDie) {
+            switch (m_DieStage) {
+                case DieStage::Alive:
+                    m_Player->Die();  //死亡
+                    m_DieStage = DieStage::SlowDown;
+                    break;
+                case DieStage::SlowDown:
+                    if (m_MusicSpeed > 0.01) {  //音樂速度放慢
+                        m_MusicSpeed -= 0.01f;
+                        MusicPlayerManager::Setting().SetSpeed(m_MusicSpeed);
+                    }else {  //音樂速度停了
+                        MusicPlayerManager::Setting().ReverseAt(MusicPlayerManager::Setting().GetBeats());
+                        m_DieStage = DieStage::Rewinding;
+                    }
+                    break;
+                case DieStage::Rewinding:
+                    if (m_MusicSpeed < 1.7f) {
+                        m_MusicSpeed += 0.02;
+                        MusicPlayerManager::Setting().SetSpeed(m_MusicSpeed);
+                    }else {
+                        m_LevelSpawner->Start(m_StartBeat);
+                        m_MusicSpeed = 1.0f;
+                        MusicPlayerManager::Setting().SetSpeed(m_MusicSpeed);
+                        MusicPlayerManager::Setting().PlayAt(m_StartBeat);
+                        m_Player->Revive();
+                        m_DieStage = DieStage::Alive;
+                    }
+                    break;
+            }
+        }
+        if (debug) {
+            if (Util::Input::IsKeyDown(Util::Keycode::SPACE)) {
                 if (MusicPlayerManager::Setting().IsPause()) {
                     MusicPlayerManager::Setting().Play();
-                }
-                m_Player->SetSteady(false);
-                m_Player->SetFirm(false);
-            }
-        }
-    }
-    if (m_PlayerDie) {
-        switch (m_DieStage) {
-            case DieStage::Alive:
-                m_Player->Die();  //死亡
-                m_DieStage = DieStage::SlowDown;
-                break;
-            case DieStage::SlowDown:
-                if (m_MusicSpeed > 0.01) {  //音樂速度放慢
-                    m_MusicSpeed -= 0.01f;
-                    MusicPlayerManager::Setting().SetSpeed(m_MusicSpeed);
-                }else {  //音樂速度停了
-                    MusicPlayerManager::Setting().ReverseAt(MusicPlayerManager::Setting().GetBeats());
-                    m_DieStage = DieStage::Rewinding;
-                }
-                break;
-            case DieStage::Rewinding:
-                if (m_MusicSpeed < 1.7f) {
-                    m_MusicSpeed += 0.02;
-                    MusicPlayerManager::Setting().SetSpeed(m_MusicSpeed);
                 }else {
-                    m_LevelSpawner->Start(m_StartBeat);
-                    m_MusicSpeed = 1.0f;
-                    MusicPlayerManager::Setting().SetSpeed(m_MusicSpeed);
-                    MusicPlayerManager::Setting().PlayAt(m_StartBeat);
-                    m_Player->Revive();
-                    m_DieStage = DieStage::Alive;
+                    MusicPlayerManager::Setting().Pause();
                 }
-                break;
-        }
-    }
-    if (debug) {
-        if (Util::Input::IsKeyDown(Util::Keycode::SPACE)) {
-            if (MusicPlayerManager::Setting().IsPause()) {
-                MusicPlayerManager::Setting().Play();
-            }else {
-                MusicPlayerManager::Setting().Pause();
             }
+            if (Util::Input::IsKeyDown(Util::Keycode::P)) {
+                std::string log = "current_beat: ";
+                log.append(std::to_string(MusicPlayerManager::Setting().GetBeats()));
+                LOG_DEBUG(log);
+            }
+            m_Player->SetSteady(steady);
+            m_Player->SetFirm(firm);
         }
-        if (Util::Input::IsKeyDown(Util::Keycode::P)) {
-            std::string log = "current_beat: ";
-            log.append(std::to_string(MusicPlayerManager::Setting().GetBeats()));
+
+
+        m_LevelSpawner->Update(MusicPlayerManager::Setting().GetBeats(), m_Player->GetPosition());
+        m_Player->Shake(m_LevelSpawner->GetCurrentShakeOffset());
+
+        m_LevelSpawner->DrawAll();
+
+        if (m_LevelSpawner->IsColliding()) {
+            m_Player->Hit();
+        }
+        if (m_LevelSpawner->IsChecked()) {
+            m_WhichCheckPoint += 1;
+            m_StartBeat = m_CheckPoints[m_WhichCheckPoint];
+            if (m_StartBeat == m_CheckPoints.back()) {
+                LOG_DEBUG("Last!");
+                m_LevelSpawner->Update(m_StartBeat, m_Player->GetPosition());
+            }
+            std::string log = "Checked!, ";
+            log.append(std::to_string(m_StartBeat));
             LOG_DEBUG(log);
+            MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::Save);
         }
-        m_Player->SetSteady(steady);
-        m_Player->SetFirm(firm);
-    }
 
+        // ==========================================
+        // 3. 節拍顯示debug用
+        // ==========================================
 
-    m_LevelSpawner->Update(MusicPlayerManager::Setting().GetBeats(), m_Player->GetPosition());
-    m_Player->Shake(m_LevelSpawner->GetCurrentShakeOffset());
-
-    m_LevelSpawner->DrawAll();
-
-    if (m_LevelSpawner->IsColliding()) {
-        m_Player->Hit();
-    }
-    if (m_LevelSpawner->IsChecked()) {
-        m_WhichCheckPoint += 1;
-        m_StartBeat = m_CheckPoints[m_WhichCheckPoint];
-        if (m_StartBeat == m_CheckPoints.back()) {
-            LOG_DEBUG("Last!");
-            m_LevelSpawner->Update(m_StartBeat, m_Player->GetPosition());
+        if (debug) {
+            ImGui::Begin("test");
+            ImGui::SetWindowPos({200, 300});
+            ImGui::Text("Beats:%f", MusicPlayerManager::Setting().GetBeats());
+            static float v = 0.0f;
+            ImGui::SliderFloat("Beats", &v, 0.0f, MusicPlayerManager::Setting().GetTotalBeats());
+            if (ImGui::Button("Play at", ImVec2(50, 20))) {
+                MusicPlayerManager::Setting().PlayAt(v);
+                m_LevelSpawner->Start(v);
+            }
+            ImGui::Checkbox("Steady", &steady);
+            ImGui::Checkbox("Firm", &firm);
+            ImGui::Checkbox("Debug Lock", &debugLock);
+            ImGui::Separator();
+            ImGui::Text("FPS:%f", 1000.0F / Util::Time::GetDeltaTimeMs());
+            ImGui::Text("Obstacles:%d", m_LevelSpawner->GetObstaclesCount());
+            ImGui::Text("WaitingObstacles:%d", m_LevelSpawner->GetWaitingObstacleIndex());
+            ImGui::End();
         }
-        std::string log = "Checked!, ";
-        log.append(std::to_string(m_StartBeat));
-        LOG_DEBUG(log);
-        MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::Save);
     }
-
-    // ==========================================
-    // 3. 節拍顯示debug用
-    // ==========================================
-
-    if (debug) {
-        ImGui::Begin("test");
-        ImGui::SetWindowPos({200, 300});
-        ImGui::Text("Beats:%f", MusicPlayerManager::Setting().GetBeats());
-        static float v = 0.0f;
-        ImGui::SliderFloat("Beats", &v, 0.0f, MusicPlayerManager::Setting().GetTotalBeats());
-        if (ImGui::Button("Play at", ImVec2(50, 20))) {
-            MusicPlayerManager::Setting().PlayAt(v);
-            m_LevelSpawner->Start(v);
-        }
-        ImGui::Checkbox("Steady", &steady);
-        ImGui::Checkbox("Firm", &firm);
-        ImGui::Checkbox("Debug Lock", &debugLock);
-        ImGui::Separator();
-        ImGui::Text("FPS:%f", 1000.0F / Util::Time::GetDeltaTimeMs());
-        ImGui::Text("Obstacles:%d", m_LevelSpawner->GetObstaclesCount());
-        ImGui::Text("WaitingObstacles:%d", m_LevelSpawner->GetWaitingObstacleIndex());
-        ImGui::End();
-    }
-
 
     //m_LevelSpawner->Draw();
     m_Renderer.Update();

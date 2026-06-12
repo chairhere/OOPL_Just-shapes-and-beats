@@ -47,6 +47,8 @@ private:
     bool debugLock = false;
     bool steady = true;
     bool firm = true;
+
+    bool freeze = false;
 };
 
 #endif //JUST_SHAPES_AND_BEATS_PLAYGROUNDSCREEN_HPP

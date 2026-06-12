@@ -13,7 +13,7 @@
 class MergeButton : public EventObject {
     // A button can custom background and text at the same time.
 public:
-    MergeButton(int fontSize, const std::string& text, const std::string& imagePath, Util::Color color = Util::Color(255, 255, 255));
+    MergeButton(glm::vec2 startPos, int fontSize, const std::string& text, const std::string& imagePath, Util::Color color = Util::Color(255, 255, 255));
 
     void SetText(const std::string &text);
     void SetImage(const std::string &imagePath);

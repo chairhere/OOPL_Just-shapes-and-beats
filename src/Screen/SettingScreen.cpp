@@ -18,14 +18,16 @@ SettingScreen::SettingScreen() {
         line->m_Transform.scale = glm::vec2(15.0f, 0.1f);
     }
 
-    m_VolumePage = std::make_shared<MergeButton>(25, "音量", "../Resources/Image/OptionBackground/None.png");
-    m_VolumePage->m_Transform.translation = LeftWhere;
+    m_VolumePage = std::make_shared<MergeButton>(LeftWhere, 25, "音量", "../Resources/Image/OptionBackground/None.png");
     LeftWhere += m_VolumePage->GetSize().y + gap;
     m_Renderer.AddChild(m_VolumePage);
 
     m_VolumeLable = std::make_shared<TextObject>(25, "聲音", Util::Color(0, 255, 255));
     m_VolumeLable->m_Transform.translation = RightWhere;
     RightWhere += m_VolumeLable->GetScaledSize().y + gap;
+    m_Renderer.AddChild(m_VolumeLable);
+
+
 
 }
 
@@ -38,7 +40,7 @@ void SettingScreen::HangUp() {
 }
 
 ScreenState SettingScreen::Update() {
-
+    m_Renderer.Update();
     // 它不應該被畫面選擇器接收
     return ScreenState::Exit;
 }

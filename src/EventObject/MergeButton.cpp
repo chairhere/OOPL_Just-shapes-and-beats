@@ -6,13 +6,15 @@
 
 #include "Util/Input.hpp"
 
-MergeButton::MergeButton(int fontSize, const std::string &text, const std::string &imagePath, Util::Color color) {
+MergeButton::MergeButton(glm::vec2 startPos, int fontSize, const std::string &text, const std::string &imagePath, Util::Color color) {
     m_Text = std::make_shared<TextObject>(fontSize, text, color);
     m_Text->SetZIndex(1);
+    m_Text->m_Transform.translation = startPos;
     m_Children.push_back(m_Text);
 
     m_BackgroundImage = std::make_shared<ImageObject>(imagePath);
     m_BackgroundImage->SetZIndex(0);
+    m_BackgroundImage->m_Transform.translation = startPos;
     m_Children.push_back(m_BackgroundImage);
 }
 

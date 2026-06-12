@@ -5,6 +5,7 @@
 #include "Material/Player.hpp"
 #include "Screen/PlaygroundScreen.hpp"
 #include "Screen/PlaygroundScreen.hpp"
+#include "Screen/SettingScreen.hpp"
 #include "Screen/SongListScreen.hpp"
 #include "Tool/SongsBPM.hpp"
 #include "Util/Image.hpp"
@@ -34,6 +35,8 @@ void App::Start() {
         m_CurrentLevel = ScreenState::Main;
     }
 
+    m_SettingScreen = std::make_shared<SettingScreen>();
+
     SDL_StopTextInput();
 
     m_CurrentState = State::UPDATE;
@@ -56,6 +59,9 @@ void App::Update() {
     // Render all game objects managed by the root renderer.
     if (m_CurrentScreen) {
         ScreenState newLevel = m_CurrentScreen->Update();
+        if (setting) {
+            m_SettingScreen->Update();
+        }
 
         if (newLevel != m_CurrentLevel) {
             ChangeLevel(newLevel);
@@ -86,10 +92,12 @@ void App::Update() {
                     MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::Return);
                     break;
                 case ScreenState::Playground:
-                    ChangeLevel(ScreenState::Main);
-                    MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::Return);
-                    // pause game
-                    // Root.AddChild(SettingScreen);
+                    if (setting) {
+                        m_SettingScreen->HangUp();
+                    }else {
+                        m_SettingScreen->Call(ScreenState::Playground);
+                    }
+                    setting ^= true;
                     break;
                 default:
                     break;
@@ -101,12 +109,20 @@ void App::Update() {
     if (Util::Input::IsKeyUp(Util::Keycode::O)) {
         switch (m_CurrentLevel) {
             case ScreenState::Main:
-                // Root.AddChild(SettingScreen);
-                // setting = true;
+                if (setting) {
+                    m_SettingScreen->HangUp();
+                }else {
+                    m_SettingScreen->Call(ScreenState::Main);
+                }
+                setting ^= true;
                 break;
             case ScreenState::LevelList:
-                // Root.AddChild(SettingScreen);
-                // setting = true;
+                if (setting) {
+                    m_SettingScreen->HangUp();
+                }else {
+                    m_SettingScreen->Call(ScreenState::LevelList);
+                }
+                setting ^= true;
                 break;
             default:
                 break;

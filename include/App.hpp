@@ -9,6 +9,7 @@
 #include "Util/Renderer.hpp"
 #include "Material/FadeLayer.hpp"
 #include "Screen/PlaygroundScreen.hpp"
+#include "Screen/SettingScreen.hpp"
 
 class App {
 public:
@@ -32,11 +33,13 @@ private:
     std::shared_ptr<Screen> m_CurrentScreen;
     ScreenState m_CurrentLevel = ScreenState::Main;
     void ChangeLevel(ScreenState newLevel);
-    bool setting = false;
 
     std::shared_ptr<FadeLayer> m_FadeLayer;
 
     State m_CurrentState = State::START;
+
+    std::shared_ptr<SettingScreen> m_SettingScreen;
+    bool setting = false;
 
     bool direct_playground = false;
 };
