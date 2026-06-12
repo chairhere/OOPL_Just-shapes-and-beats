@@ -55,11 +55,15 @@ PlaygroundScreen::PlaygroundScreen(Levels level){
     //m_Player->SetVisible(false);
     m_Renderer.AddChild(m_Player);
     MusicPlayerManager::Setting().Play();
+    m_TestingPower = std::make_shared<FadeLayer>(First_Color, First_Duration, First_Position, First_Rotation, First_Scale, First_Vertices, false);
+    m_TestingPower->SetZIndex(70);
+    m_Renderer.AddChild(m_TestingPower);
 }
 
 ScreenState PlaygroundScreen::Update() {
     if (freeze) {
         m_PlayerDie = m_Player->Moving();
+        Ending();
 
         if (Util::Input::IsKeyDown(Util::Keycode::TAB)) {
             debug ^= 1;
@@ -138,6 +142,7 @@ ScreenState PlaygroundScreen::Update() {
             if (m_StartBeat == m_CheckPoints.back()) {
                 LOG_DEBUG("Last!");
                 m_LevelSpawner->Update(m_StartBeat, m_Player->GetPosition());
+                Is_End = true;
             }
             std::string log = "Checked!, ";
             log.append(std::to_string(m_StartBeat));
@@ -191,5 +196,18 @@ ScreenState PlaygroundScreen::Update() {
     }
 */
 
-    return ScreenState::Playground;
+    return m_NextState;
+}
+
+void PlaygroundScreen::Ending() {
+    if (!Is_End) {
+        return;
+    }
+    if (m_TestingPower && !m_TestingPower->IsFinished()) {
+        m_TestingPower->Update();
+    }
+    else if (m_TestingPower && m_TestingPower->IsFinished()) {
+        Is_End = false;
+        m_NextState = ScreenState::Main;
+    }
 }
