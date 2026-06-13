@@ -12,12 +12,11 @@ SettingScreen::SettingScreen() {
 
     m_Background = std::make_shared<ImageObject>("../Resources/Image/Setting/Background.png");
     m_Background->m_Transform.scale = glm::vec2(50, 25);
-    m_Background->SetZIndex(0);
+    m_Background->SetZIndex(-50);
     m_Renderer.AddChild(m_Background);
 
     m_VolumePage = std::make_shared<MergeButton>(LeftWhere, 25, "音量", selected);
     m_VolumePage->SetFocusImage(selected);
-
     LeftWhere.y -= m_VolumePage->GetSize().y + gap;
     m_Renderer.AddChild(m_VolumePage);
 

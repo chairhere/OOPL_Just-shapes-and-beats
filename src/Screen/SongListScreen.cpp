@@ -74,7 +74,9 @@ SongListScreen::SongListScreen() {
     m_Renderer.AddChild(m_RandomOrder);
     MusicPlayerManager::Setting().Switch(m_SongsOrder.at(0));
 
-    //TODO: MainMenu Hint
+    m_Hint = std::make_shared<ImageObject>("../Resources/Image/MainScreenButton/Hint.png");
+    m_Hint->m_Transform.translation = glm::vec2(400, -370);
+    m_Renderer.AddChild(m_Hint);
 }
 
 ScreenState SongListScreen::Update() {

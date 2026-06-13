@@ -29,6 +29,7 @@ private:
         Levels::MilkyWay,
         Levels::CheatCodes
     };
+    std::shared_ptr<ImageObject> m_Hint;
 
     bool play = false;
 };
