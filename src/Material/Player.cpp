@@ -169,6 +169,7 @@ void Player::Shake(glm::vec2 movement) {
 void Player::Die() {
     MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::PlrDie);
     m_Health = 0;
+    m_Stun = true;
     this->SetVisible(false);
 }
 
@@ -179,6 +180,7 @@ void Player::Revive() {
     this->SetVisible(true);
     m_NoDamage = true;
     m_NoDamageTimeLeft = 1000.0f;
+    m_Stun = false;
     ChangeImage();
 }
 
@@ -189,6 +191,11 @@ void Player::SetSteady(bool isSteady) {
 void Player::SetFirm(bool isFirm) {
     m_Firm = isFirm;
 }
+
+void Player::SetFreeze(bool isFreeze) {
+    m_Stun = isFreeze;
+}
+
 
 void Player::ChangeImage() {
     if (m_MaxHealth == 3) {

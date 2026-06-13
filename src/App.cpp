@@ -161,6 +161,10 @@ void App::ChangeLevel(ScreenState newLevel) {
         case ScreenState::Playground:
             m_CurrentScreen = std::make_shared<PlaygroundScreen>(MusicPlayerManager::Setting().GetCurrentLevel());
             break;
+        default:
+            LOG_DEBUG("ScreenState Error");
+            m_CurrentState = State::END;
+            break;
     }
 }
 
@@ -169,7 +173,7 @@ void App::SettingBehavior(ScreenState settingCommand) {
         case ScreenState::Exit:
             break;
         case ScreenState::Playground:
-            //TODO: restart
+            std::dynamic_pointer_cast<PlaygroundScreen>(m_CurrentScreen)->RestartRequire();
             break;
         case ScreenState::LevelList:
             m_CurrentScreen = std::make_shared<SongListScreen>();

@@ -73,6 +73,8 @@ SongListScreen::SongListScreen() {
     m_RandomOrder->HoverEnable(false);
     m_Renderer.AddChild(m_RandomOrder);
     MusicPlayerManager::Setting().Switch(m_SongsOrder.at(0));
+
+    //TODO: MainMenu Hint
 }
 
 ScreenState SongListScreen::Update() {

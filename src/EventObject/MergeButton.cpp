@@ -82,7 +82,6 @@ void MergeButton::Update() {
 
         // 觸發自定義的特效或點擊事件
         if (hovering) {
-            LOG_DEBUG("HOVERING");
             if (m_OnHover) m_OnHover();
             if (Util::Input::IsKeyDown(Util::Keycode::MOUSE_LB)) {
                 if (m_OnClick) m_OnClick();

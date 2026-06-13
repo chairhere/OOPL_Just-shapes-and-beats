@@ -20,6 +20,8 @@ public:
 
     explicit PlaygroundScreen(Levels level);
 
+    void RestartRequire();
+
     ScreenState Update() override;
 private:
     Util::Color m_ObstacleColor = {255, 33, 111};

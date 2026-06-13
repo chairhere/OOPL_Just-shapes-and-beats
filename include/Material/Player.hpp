@@ -38,6 +38,7 @@ public:
 
     void SetSteady(bool isSteady);
     void SetFirm(bool isFirm);
+    void SetFreeze(bool isFreeze);
 
 protected:
     int m_MaxHealth = 3;

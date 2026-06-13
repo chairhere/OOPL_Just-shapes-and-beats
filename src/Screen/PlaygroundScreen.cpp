@@ -57,10 +57,24 @@ PlaygroundScreen::PlaygroundScreen(Levels level){
     MusicPlayerManager::Setting().Play();
 }
 
+void PlaygroundScreen::RestartRequire() {
+    m_Player->Die();
+    m_StartBeat = 0.0f;
+    m_WhichCheckPoint = 0;
+}
+
+
 ScreenState PlaygroundScreen::Update() {
+    if (Util::Input::IsKeyDown(Util::Keycode::ESCAPE)) {
+        if (not debug) {
+            SDL_ShowCursor(SDL_DISABLE);
+        }
+        if (not freeze and not debug) {
+            SDL_ShowCursor(SDL_ENABLE);
+        }
+    }
     if (not freeze) {
         m_PlayerDie = m_Player->Moving();
-
         if (Util::Input::IsKeyDown(Util::Keycode::TAB)) {
             debug ^= 1;
             if (debug) {
