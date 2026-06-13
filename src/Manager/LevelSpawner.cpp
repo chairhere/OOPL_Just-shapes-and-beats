@@ -11,7 +11,17 @@ void LevelSpawner::Start(float StartBeat) {
     m_StartShakeBeat = 0.0f;
     t1 = Util::Time::GetElapsedTimeMs();
     m_PendingEvents = std::queue<SpawnEvent>();
+    m_WaitingEvets = std::priority_queue<SpawnEvent, std::vector<SpawnEvent>, CompareEvent>();
     g = std::mt19937(rd());
+
+    for (auto it = m_ActiveObstacles.begin(); it != m_ActiveObstacles.end(); ) {
+        if (it->IsDead() || !it->IsActive()) {
+            ++it;
+            continue;
+        }
+
+        it->ClearEvent();
+    }
 
     std::ifstream file(m_BeatMap);
     if (!file.is_open()) {
@@ -862,7 +872,7 @@ void LevelSpawner::CreateObstacle(SpawnEvent m_SpawnEvent, glm::vec2 PlayerPos) 
         WarningBall.StartPos = m_SpawnEvent.StartPos;
         WarningBall.Bullet = BulletType::WarningExpendingBall;
         WarningBall.StartBeat = m_SpawnEvent.StartBeat;
-        WarningBall.EndBeat = m_SpawnEvent.EndBeat;
+        WarningBall.EndBeat = m_SpawnEvent.SpecialData.SpawnBeat;
         WarningBall.Scale = m_SpawnEvent.Scale;
 
         CreateObstacle(WarningBall, PlayerPos);

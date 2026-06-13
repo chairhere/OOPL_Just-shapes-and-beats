@@ -72,6 +72,8 @@ public:
 
     void TurnOffCollidable(){m_Collidable = false;}
 
+    void ClearEvent();
+
 
 };
 
