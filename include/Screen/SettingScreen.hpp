@@ -45,7 +45,9 @@ private:
     std::shared_ptr<TextObject> m_BGMLabel, m_SFXLabel;
     std::shared_ptr<DiscreteSlider> m_BGMSlider, m_SFXSlider;
 
-    std::shared_ptr<Button> m_QuitGamePlay;
+    std::shared_ptr<Util::GameObject> nowSelect;
+
+    int renum = 0;
 
     const std::string none = "../Resources/Image/OptionBackground/None.png";
     const std::string selected = "../Resources/Image/OptionBackground/Selected.png";

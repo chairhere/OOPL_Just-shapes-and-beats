@@ -17,7 +17,6 @@ DiscreteSlider::DiscreteSlider(float startX, float startY, float space) {
             SetValue(i);
             if (not m_IsDragging) {
                 m_IsDragging = true;
-                MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::Choose);
             }
         });
         block->SetOnHovering([this, i]() {

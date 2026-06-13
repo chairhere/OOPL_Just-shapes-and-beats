@@ -60,7 +60,10 @@ void App::Update() {
     if (m_CurrentScreen) {
         ScreenState newLevel =  m_CurrentScreen->Update();
         if (setting) {
-            m_SettingScreen->Update();
+            ScreenState command = m_SettingScreen->Update();
+            if (command != ScreenState::Main) {
+                SettingBehavior(command);
+            }
         }
 
         if (newLevel != m_CurrentLevel) {
@@ -165,4 +168,21 @@ void App::ChangeLevel(ScreenState newLevel) {
             m_CurrentScreen = std::make_shared<PlaygroundScreen>(MusicPlayerManager::Setting().GetCurrentLevel());
             break;
     }
+}
+
+void App::SettingBehavior(ScreenState settingCommand) {
+    switch (settingCommand) {
+        case ScreenState::Exit:
+            break;
+        case ScreenState::Playground:
+            //restart
+            break;
+        case ScreenState::LevelList:
+            m_CurrentScreen = std::make_shared<SongListScreen>();
+            break;
+        default:
+            return;
+    }
+    m_SettingScreen->HangUp();
+    setting = false;
 }

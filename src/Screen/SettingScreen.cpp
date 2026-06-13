@@ -16,18 +16,38 @@ SettingScreen::SettingScreen() {
     m_Renderer.AddChild(m_Background);
 
     m_VolumePage = std::make_shared<MergeButton>(LeftWhere, 25, "音量", selected);
+    m_VolumePage->SetFocusImage(selected);
+
     LeftWhere.y -= m_VolumePage->GetSize().y + gap;
     m_Renderer.AddChild(m_VolumePage);
 
     m_Return = std::make_shared<MergeButton>(LeftWhere, 25, "返回", none);
+    m_Return->SetFocusImage(selected);
+    m_Return->SetOnClick([this]() {
+        MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::BtClick);
+        renum = 1;
+    });
+    m_Return->SetOnFocus([this]() {
+        MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::BtSelect);
+    });
     LeftWhere.y -= m_Return->GetSize().y + gap;
     m_Renderer.AddChild(m_Return);
 
     m_Restart = std::make_shared<MergeButton>(LeftWhere, 25, "重新開始", none);
+    m_Restart->SetFocusImage(selected);
+    m_Restart->SetOnClick([this]() {
+        MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::BtSelect);
+        renum = 2;
+    });
     LeftWhere.y -= m_Restart->GetSize().y + gap;
     m_Renderer.AddChild(m_Restart);
 
     m_LeaveToList = std::make_shared<MergeButton>(LeftWhere, 25, "離開", none);
+    m_LeaveToList->SetFocusImage(selected);
+    m_LeaveToList->SetOnClick([this]() {
+        MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::BtSelect);
+        renum = 3;
+    });
     LeftWhere.y -= m_LeaveToList->GetSize().y + gap;
     m_Renderer.AddChild((m_LeaveToList));
 
@@ -86,6 +106,24 @@ ScreenState SettingScreen::Update() {
     m_BGMSlider->Update();
     m_SFXSlider->Update();
     m_Renderer.Update();
-    // 它不應該被畫面選擇器接收
-    return ScreenState::Exit;
+
+    if (Util::Input::IsKeyDown(Util::Keycode::TAB)) {
+        std::string log = "button pos(" + std::to_string(m_Return->m_Transform.translation.x) + ", " + std::to_string(m_Return->m_Transform.translation.y) + ")\nHovering: ";
+        log.append(m_Return->isHovering() ? "true" : "false");
+        LOG_DEBUG(log);
+    }
+
+    switch (renum) {
+        case 1:
+            renum = 0;
+            return ScreenState::Exit;
+        case 2:
+            renum = 0;
+            return ScreenState::Playground;
+        case 3:
+            renum = 0;
+            return ScreenState::LevelList;
+        default:
+            return ScreenState::Main;
+    }
 }

@@ -8,6 +8,8 @@
 #include "Util/Input.hpp"
 
 MergeButton::MergeButton(glm::vec2 startPos, int fontSize, const std::string &text, const std::string &imagePath, Util::Color color) {
+    m_Transform.translation = startPos;
+
     m_Text = std::make_shared<TextObject>(fontSize, text, color);
     m_Text->SetZIndex(1);
     m_Text->m_Transform.translation = startPos;
@@ -16,7 +18,7 @@ MergeButton::MergeButton(glm::vec2 startPos, int fontSize, const std::string &te
     m_BackgroundImage = std::make_shared<ImageObject>(imagePath);
     m_BackgroundImage->SetZIndex(0);
     m_BackgroundImage->m_Transform.translation = startPos;
-    m_BackgroundImage->m_Transform.scale = glm::vec2(1.0,0.1);
+    m_BackgroundImage->m_Transform.scale = glm::vec2(1.0f, 0.1f);
     m_Children.push_back(m_BackgroundImage);
 }
 
@@ -29,7 +31,7 @@ void MergeButton::SetImage(const std::string &imagePath) {
 }
 
 bool MergeButton::isHovering() const {
-    if (m_Drawable == nullptr) return false;
+    if (m_BackgroundImage == nullptr) return false;
 
     // 【防護】如果是鍵盤模式，一律無視滑鼠 Hover
     if (s_IsKeyboardMode) return false;
@@ -68,6 +70,7 @@ void MergeButton::Update() {
     const bool focused = isFocus();
     const bool isCurrentlyActive = isActive();
 
+
     if (isCurrentlyActive) {
         // 【剛碰到的第一幀】進行狀態快照與自動換圖
         if (!m_WasActive) {
@@ -79,6 +82,7 @@ void MergeButton::Update() {
 
         // 觸發自定義的特效或點擊事件
         if (hovering) {
+            LOG_DEBUG("HOVERING");
             if (m_OnHover) m_OnHover();
             if (Util::Input::IsKeyDown(Util::Keycode::MOUSE_LB)) {
                 if (m_OnClick) m_OnClick();

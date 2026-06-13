@@ -20,7 +20,7 @@ public:
     void UpdateVisuals(); // 統一處理方格亮起/熄滅的視覺更新
     void Update() override;
 private:
-    int m_TotalSteps = 20;
+    int m_TotalSteps = 21;
     int m_CurrentStep = 0;
     int m_MemStep;
     bool m_IsDragging = false;

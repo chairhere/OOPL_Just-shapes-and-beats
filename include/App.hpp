@@ -33,6 +33,7 @@ private:
     std::shared_ptr<Screen> m_CurrentScreen;
     ScreenState m_CurrentLevel = ScreenState::Main;
     void ChangeLevel(ScreenState newLevel);
+    void SettingBehavior(ScreenState settingCommand);
 
     std::shared_ptr<FadeLayer> m_FadeLayer;
 
