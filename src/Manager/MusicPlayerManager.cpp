@@ -112,12 +112,10 @@ void MusicPlayerManager::Switch(Levels music) {;
     if (IsEmpty()) {
         m_MusicList.push_back(music);
     }else {
-        if (music == m_MusicList[0]) return;
         m_MusicList[0] = music;
     }
     SongData data = SongList::GetSongByName(music);
     m_BGM.load(data.AudioPath.c_str());
-    SetBGMVolume(BGMVolume);
     Play();
 }
 
@@ -134,6 +132,7 @@ void MusicPlayerManager::PlayAtTime(float sec) {
 void MusicPlayerManager::SetSFXVolume(float volume) {
     // 0.0 ~ 1.0
     volume = std::clamp(volume, 0.0f, 1.0f);
+    SFXVolume = volume;
     for (auto& pair : m_SFXLibrary) {
         pair.second.setVolume(volume);
     }
@@ -142,6 +141,7 @@ void MusicPlayerManager::SetSFXVolume(float volume) {
 void MusicPlayerManager::SetBGMVolume(float volume) {
     // 0.0 ~ 1.0
     volume = std::clamp(volume, 0.0f, 1.0f);
+    BGMVolume = volume;
     m_BGM.setVolume(volume);
     if (m_MusicPlayer.isValidVoiceHandle(m_BGMHandler))
         m_MusicPlayer.setVolume(m_BGMHandler, volume);

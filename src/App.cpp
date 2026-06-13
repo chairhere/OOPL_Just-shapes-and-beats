@@ -82,6 +82,7 @@ void App::Update() {
 
     if (Util::Input::IsKeyUp(Util::Keycode::ESCAPE)) {
         if (setting) {
+            m_SettingScreen->HangUp();
             setting = false;
         }else {
             switch (m_CurrentLevel) {
@@ -94,13 +95,8 @@ void App::Update() {
                     MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::Return);
                     break;
                 case ScreenState::Playground:
-                    if (setting) {
-                        m_SettingScreen->HangUp();
-                        MusicPlayerManager::Setting().Play();
-                    }else {
-                        m_SettingScreen->Call(ScreenState::Playground);
-                        MusicPlayerManager::Setting().Pause();
-                    }
+                    MusicPlayerManager::Setting().Pause();
+                    m_SettingScreen->Call(ScreenState::Playground);
                     setting ^= true;
                     break;
                 default:
@@ -111,25 +107,23 @@ void App::Update() {
     }
 
     if (Util::Input::IsKeyUp(Util::Keycode::O)) {
-        switch (m_CurrentLevel) {
-            case ScreenState::Main:
-                if (setting) {
-                    m_SettingScreen->HangUp();
-                }else {
+        if (setting) {
+            m_SettingScreen->HangUp();
+            setting = false;
+        }else {
+            switch (m_CurrentLevel) {
+                case ScreenState::Main:
                     m_SettingScreen->Call(ScreenState::Main);
-                }
-                setting ^= true;
-                break;
-            case ScreenState::LevelList:
-                if (setting) {
-                    m_SettingScreen->HangUp();
-                }else {
+                    setting ^= true;
+                    break;
+                case ScreenState::LevelList:
                     m_SettingScreen->Call(ScreenState::LevelList);
-                }
-                setting ^= true;
-                break;
-            default:
-                break;
+                    MusicPlayerManager::Setting().Pause();
+                    setting ^= true;
+                    break;
+                default:
+                    break;
+            }
         }
     }
 
@@ -175,7 +169,7 @@ void App::SettingBehavior(ScreenState settingCommand) {
         case ScreenState::Exit:
             break;
         case ScreenState::Playground:
-            //restart
+            //TODO: restart
             break;
         case ScreenState::LevelList:
             m_CurrentScreen = std::make_shared<SongListScreen>();

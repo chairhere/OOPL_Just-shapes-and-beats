@@ -22,7 +22,6 @@ SettingScreen::SettingScreen() {
     m_Renderer.AddChild(m_VolumePage);
 
     m_Return = std::make_shared<MergeButton>(LeftWhere, 25, "返回", none);
-    m_Return->SetFocusImage(selected);
     m_Return->SetOnClick([this]() {
         MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::BtClick);
         renum = 1;
@@ -34,7 +33,6 @@ SettingScreen::SettingScreen() {
     m_Renderer.AddChild(m_Return);
 
     m_Restart = std::make_shared<MergeButton>(LeftWhere, 25, "重新開始", none);
-    m_Restart->SetFocusImage(selected);
     m_Restart->SetOnClick([this]() {
         MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::BtSelect);
         renum = 2;
@@ -43,7 +41,6 @@ SettingScreen::SettingScreen() {
     m_Renderer.AddChild(m_Restart);
 
     m_LeaveToList = std::make_shared<MergeButton>(LeftWhere, 25, "離開", none);
-    m_LeaveToList->SetFocusImage(selected);
     m_LeaveToList->SetOnClick([this]() {
         MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::BtSelect);
         renum = 3;
@@ -83,6 +80,8 @@ SettingScreen::SettingScreen() {
 
 void SettingScreen::Call(ScreenState WhoCalls) {
     freeze = true;
+    m_BGMSlider->SetValue(MusicPlayerManager::Setting().GetBGMBolume()*100/5);
+    m_SFXSlider->SetValue(MusicPlayerManager::Setting().GetSFXVolume()*100/5);
     if (WhoCalls == ScreenState::Playground) {
         m_Restart->SetShow(true);
         m_LeaveToList->SetShow(true);
@@ -93,7 +92,8 @@ void SettingScreen::Call(ScreenState WhoCalls) {
 }
 
 void SettingScreen::HangUp() {
-    freeze = false;
+    Screen::freeze = false;
+    MusicPlayerManager::Setting().Play();
 }
 
 

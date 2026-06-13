@@ -18,7 +18,6 @@ SongListScreen::SongListScreen() {
         std::shared_ptr<SongListItem> item = std::make_shared<SongListItem>(data, currentX, currentY);
         m_Items.push_back(item);
         item->SetOnClick([this, item, i]() {
-            if (freeze) return;
             this->m_NowSelect->Unfocus();
             this->m_SelectedIndex = i;
             this->m_NowSelect = item;
@@ -33,7 +32,6 @@ SongListScreen::SongListScreen() {
             }
         });
         m_Items.at(i)->SetOnFocus([this, item, i]() {
-            if (freeze) return;
             if (m_SFXSelect != item) {
                 MusicPlayerManager::Setting().Switch(m_SongsOrder.at(i));
                 this->m_SFXSelect = item;
@@ -46,7 +44,6 @@ SongListScreen::SongListScreen() {
     m_SelectedIndex = 0;
     m_NowSelect = m_Items.at(0);
     m_Items.at(0)->Focus();
-    MusicPlayerManager::Setting().SetBGMVolume(0.2);
 
     //==隨機按鈕==
     m_RandomOrder = std::make_shared<Button>("../Resources/Image/OptionBackground/None.png");
@@ -54,7 +51,6 @@ SongListScreen::SongListScreen() {
     m_RandomOrder->SetFocusImage("../Resources/Image/OptionBackground/Selected.png");
     m_RandomOrder->m_Transform.translation = glm::vec2(0, 250);
     m_RandomOrder->SetOnClick([this]() {
-        if (freeze) return;
         if (m_SFXSelect != m_RandomOrder) {
             MusicPlayerManager::Setting().CleanList();
             this->m_SFXSelect = m_RandomOrder;
@@ -66,7 +62,6 @@ SongListScreen::SongListScreen() {
         this->m_NowSelect->Focus();
     });
     m_RandomOrder->SetOnFocus([this]() {
-        if (freeze) return;
         if (m_SFXSelect != m_RandomOrder) {
             MusicPlayerManager::Setting().CleanList();
             this->m_SFXSelect = m_RandomOrder;
@@ -77,6 +72,7 @@ SongListScreen::SongListScreen() {
     });
     m_RandomOrder->HoverEnable(false);
     m_Renderer.AddChild(m_RandomOrder);
+    MusicPlayerManager::Setting().Switch(m_SongsOrder.at(0));
 }
 
 ScreenState SongListScreen::Update() {
@@ -138,13 +134,13 @@ ScreenState SongListScreen::Update() {
             Button::s_IsKeyboardMode = true;
             SDL_ShowCursor(SDL_DISABLE);
         }
+        m_RandomOrder->Update();
+        for (int i = 0 ; i < ListLength ; i++) {
+            m_Items.at(i)->Update();
+        }
     }
 
     m_Renderer.Update();
-    m_RandomOrder->Update();
-    for (int i = 0 ; i < ListLength ; i++) {
-        m_Items.at(i)->Update();
-    }
 
     return ScreenState::LevelList;
 }

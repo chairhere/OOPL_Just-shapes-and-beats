@@ -58,7 +58,7 @@ PlaygroundScreen::PlaygroundScreen(Levels level){
 }
 
 ScreenState PlaygroundScreen::Update() {
-    if (freeze) {
+    if (not freeze) {
         m_PlayerDie = m_Player->Moving();
 
         if (Util::Input::IsKeyDown(Util::Keycode::TAB)) {
