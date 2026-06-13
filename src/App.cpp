@@ -39,6 +39,9 @@ void App::Start() {
 
     SDL_StopTextInput();
 
+    m_FadeLayer = std::make_shared<FadeLayer>(First_Color, First_Duration, First_Position, First_Rotation, First_Scale, First_Vertices, false);
+
+
     m_CurrentState = State::UPDATE;
 }
 
@@ -66,7 +69,11 @@ void App::Update() {
             }
         }
 
-        if (newLevel != m_CurrentLevel) {
+        if (newLevel != m_CurrentLevel && m_CurrentLevel == ScreenState::Playground && newLevel == ScreenState::Main) {
+            conversion = true;
+            ChangeLevel(newLevel);
+        }
+        else if (newLevel != m_CurrentLevel){
             ChangeLevel(newLevel);
         }
     }
@@ -137,10 +144,26 @@ void App::Update() {
         log.append(")");
         LOG_DEBUG(log);
     }
+    Conversion_animate();
 }
 
 void App::End() { // NOLINT(this method will mutate members in the future)
     LOG_TRACE("End");
+}
+
+void App::Conversion_animate() {
+    if (!conversion) {
+        return;
+    }
+    if (m_FadeLayer && !m_FadeLayer->IsFinished()) {
+        m_FadeLayer->Update();
+    }
+    else if (m_FadeLayer && m_FadeLayer->IsFinished()) {
+        conversion = false;
+        m_FadeLayer->Reset();
+    }
+    m_FadeLayer->Draw();
+
 }
 
 void App::ChangeLevel(ScreenState newLevel) {

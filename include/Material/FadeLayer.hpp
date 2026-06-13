@@ -59,6 +59,8 @@ public:
 
     void State_Update();
 
+    void Reset();
+
 
     // 讓遊戲主迴圈判斷是否可以將其從 Renderer 中移除
     bool IsFinished() const { return m_IsFinished; }

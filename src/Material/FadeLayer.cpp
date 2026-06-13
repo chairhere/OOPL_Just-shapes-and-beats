@@ -160,3 +160,35 @@ void FadeLayer::State_Update() {
     ImGui::ColorConvertRGBtoHSV(m_Color.r, m_Color.g, m_Color.b, m_H, m_S, m_V);
     ImGui::ColorConvertRGBtoHSV(m_FinishedColor.r, m_FinishedColor.g, m_FinishedColor.b, m_FinishedH, m_FinishedS, m_FinishedV);
 }
+
+void FadeLayer::Reset() {
+    m_Counter = 0;
+    m_Color = m_Colors[0];
+    m_FinishedColor = m_Colors[1];
+
+    m_DurationMs = m_Durations[1] - m_Durations[0];
+
+    m_Position = m_Positions[0];
+    m_FinishedPosition = m_Positions[1];
+
+    m_Scale = m_Scales[0];
+    m_FinishedScale = m_Scales[1];
+
+    m_Rotation = m_Rotations[0];
+    m_FinishedRotation = m_Rotations[1];
+
+    ImGui::ColorConvertRGBtoHSV(m_Color.r, m_Color.g, m_Color.b, m_H, m_S, m_V);
+    ImGui::ColorConvertRGBtoHSV(m_FinishedColor.r, m_FinishedColor.g, m_FinishedColor.b, m_FinishedH, m_FinishedS, m_FinishedV);
+
+    // 3. 利用 Transform 將其完美拉伸至全螢幕
+    // 新版的形狀能接收 Transform 矩陣，因此這行程式碼會確實把 1x1 紋理放大到整個視窗大小
+    m_Transform.scale = m_Scale;
+
+    // 4. 確保它在畫面的正中央
+    m_Transform.translation = m_Position;
+
+    m_Transform.rotation = m_Rotation;
+
+    m_ElapsedTime = 0.0f;
+
+}

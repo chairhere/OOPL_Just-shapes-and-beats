@@ -25,7 +25,7 @@ CustomColorShape::CustomColorShape(const Util::Color& color, const std::vector<f
 
         // 2. 建立索引與 VertexArray
     std::vector<unsigned int> indices;
-        for (int i = 0; i < static_cast<int>(positions.size()/2); ++i) {
+        for (int i = 0; i < static_cast<int>(positions.size()/4); ++i) {
             //indices.push_back(i);
             indices.push_back(0);
             indices.push_back(i + 1);
