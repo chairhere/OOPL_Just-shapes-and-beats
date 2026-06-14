@@ -63,9 +63,13 @@ void App::Update() {
     if (m_CurrentScreen) {
         ScreenState newLevel =  m_CurrentScreen->Update();
         if (setting) {
-            ScreenState command = m_SettingScreen->Update();
-            if (command != ScreenState::Main) {
-                SettingBehavior(command);
+            if (setting_restrict) {
+                setting = false;
+            }else{
+                ScreenState command = m_SettingScreen->Update();
+                if (command != ScreenState::Main) {
+                    SettingBehavior(command);
+                }
             }
         }
 
@@ -102,6 +106,7 @@ void App::Update() {
                     MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::Return);
                     break;
                 case ScreenState::Playground:
+                    if (setting_restrict) break;
                     MusicPlayerManager::Setting().Pause();
                     m_SettingScreen->Call(ScreenState::Playground);
                     setting ^= true;
@@ -164,6 +169,10 @@ void App::Conversion_animate() {
     }
     m_FadeLayer->Draw();
 
+}
+
+void App::RestrictSetting(bool need_restrict) {
+    setting_restrict = need_restrict;
 }
 
 void App::ChangeLevel(ScreenState newLevel) {

@@ -29,6 +29,8 @@ public:
 
     void Conversion_animate();
 
+    static void RestrictSetting(bool need_restrict);
+
 private:
 
     Util::Renderer m_Root;
@@ -44,6 +46,7 @@ private:
 
     std::shared_ptr<SettingScreen> m_SettingScreen;
     inline static bool setting = false;
+    inline static bool setting_restrict = false;
 
     bool direct_playground = false;
 
