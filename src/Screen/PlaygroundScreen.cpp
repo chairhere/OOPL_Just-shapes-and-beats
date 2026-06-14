@@ -156,6 +156,7 @@ ScreenState PlaygroundScreen::Update() {
             m_StartBeat = m_CheckPoints[m_WhichCheckPoint];
             if (m_StartBeat == m_CheckPoints.back()) {
                 LOG_DEBUG("Last!");
+                m_LevelSpawner->EndGame();
                 m_LevelSpawner->Update(m_StartBeat, m_Player->GetPosition());
                 Is_End = true;
             }
@@ -177,6 +178,7 @@ ScreenState PlaygroundScreen::Update() {
             ImGui::SliderFloat("Beats", &v, 0.0f, MusicPlayerManager::Setting().GetTotalBeats());
             if (ImGui::Button("Play at", ImVec2(50, 20))) {
                 MusicPlayerManager::Setting().PlayAt(v);
+                m_LevelSpawner->EndGame();
                 m_LevelSpawner->Start(v);
             }
             ImGui::Checkbox("Steady", &steady);
