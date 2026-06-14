@@ -32,6 +32,14 @@ void MusicPlayerManager::Pause() {
 }
 
 void MusicPlayerManager::Play() {
+    // LOG_DEBUG("Play Called!");
+    // std::string log = "[";
+    // for (unsigned long long i = 0 ; i < m_MusicList.size() ; i++) {
+    //     log += to_string(m_MusicList[i]);
+    //     log.append(", ");
+    // }
+    // log.append("]");
+    // LOG_DEBUG("Now list: "+log);
     if (m_MusicPlayer.isValidVoiceHandle(m_BGMHandler)) {
         if (m_MusicPlayer.getPause(m_BGMHandler)) {
             m_MusicPlayer.setPause(m_BGMHandler, false);
@@ -157,7 +165,7 @@ void MusicPlayerManager::SetSpeed(float speed) {
 void MusicPlayerManager::InfLoop(bool inf) {
     m_BGM.setLooping(inf);
     if (m_MusicPlayer.isValidVoiceHandle(m_BGMHandler)) {
-        m_MusicPlayer.setLooping(m_BGMHandler, true);
+        m_MusicPlayer.setLooping(m_BGMHandler, inf);
     }
 }
 
