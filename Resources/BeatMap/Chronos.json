@@ -1534,7 +1534,7 @@
     "ObstacleType": "BiggerLaser"
   },
   {
-    "StartBeat": 242.5,
+    "StartBeat": 240.5,
     "ObstacleType": "CheckPointLine"
   }
 ]

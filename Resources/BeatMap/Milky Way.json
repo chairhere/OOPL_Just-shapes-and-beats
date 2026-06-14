@@ -2216,7 +2216,7 @@
     "SpawnGap": 0.1
   },
   {
-    "StartBeat": 299.0,
+    "StartBeat": 298.0,
     "ObstacleType": "SpawnerLinearRectangle",
     "StartRotation": 3.14,
     "Scale": 30.0,
@@ -2570,7 +2570,7 @@
     }
   },
   {
-    "StartBeat": 315.5,
+    "StartBeat": 313.5,
     "ObstacleType": "CheckPointLine"
   }
 ]

@@ -4,6 +4,7 @@
 
 #include "Screen/PlaygroundScreen.hpp"
 
+#include "App.hpp"
 #include "Manager/MusicPlayerManager.hpp"
 #include "Tool/SongData.hpp"
 #include "Tool/SongList.hpp"
@@ -50,7 +51,7 @@ PlaygroundScreen::PlaygroundScreen(Levels level){
     //m_Renderer.AddChild(m_LevelSpawner);
 
     m_Player = std::make_shared<Player>();
-    m_Player->SetPosition(glm::vec2(0.0f, 0.0f));
+    m_Player->SetPosition(glm::vec2(-500.0f, 0.0f));
     m_Player->SetZIndex(50);
     //m_Player->SetVisible(false);
     m_Renderer.AddChild(m_Player);
@@ -100,6 +101,7 @@ ScreenState PlaygroundScreen::Update() {
                 case DieStage::Alive:
                     m_Player->Die();  //死亡
                     m_DieStage = DieStage::SlowDown;
+                    App::RestrictSetting(true);
                     break;
                 case DieStage::SlowDown:
                     if (m_MusicSpeed > 0.01) {  //音樂速度放慢
@@ -121,6 +123,7 @@ ScreenState PlaygroundScreen::Update() {
                         MusicPlayerManager::Setting().PlayAt(m_StartBeat);
                         m_Player->Revive();
                         m_DieStage = DieStage::Alive;
+                        App::RestrictSetting(false);
                     }
                     break;
             }
