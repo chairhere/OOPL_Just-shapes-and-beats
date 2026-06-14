@@ -13,16 +13,6 @@ void LevelSpawner::Start(float StartBeat) {
     m_PendingEvents = std::queue<SpawnEvent>();
     m_WaitingEvets = std::priority_queue<SpawnEvent, std::vector<SpawnEvent>, CompareEvent>();
     g = std::mt19937(rd());
-
-    for (auto it = m_ActiveObstacles.begin(); it != m_ActiveObstacles.end(); ) {
-        if (it->IsDead() || !it->IsActive()) {
-            ++it;
-            continue;
-        }
-
-        it->ClearEvent();
-    }
-
     std::ifstream file(m_BeatMap);
     if (!file.is_open()) {
         LOG_DEBUG("找不到譜面檔案：{}", m_BeatMap);
@@ -178,8 +168,6 @@ void LevelSpawner::Start(float StartBeat) {
         }
 
         m_PendingEvents.push(m_LoadEvent);
-        m_ObstaclesCount++;
-        LOG_DEBUG("{}step", m_ObstaclesCount);
     }
     t3 = Util::Time::GetElapsedTimeMs();
     S_PoolSize  = static_cast<int>(m_ActiveObstacles.size());
@@ -199,6 +187,13 @@ void LevelSpawner::Start(float StartBeat) {
 
 void LevelSpawner::EndGame() {
 
+    for (auto it = m_ActiveObstacles.begin(); it != m_ActiveObstacles.end(); ) {
+        if (it->IsDead() || !it->IsActive()) {
+            ++it;
+            continue;
+        }
+        it->ClearEvent();
+    }
 }
 
 Obstacle* LevelSpawner::GetActiveObstacle() {
