@@ -179,6 +179,13 @@ ScreenState PlaygroundScreen::Update() {
                 MusicPlayerManager::Setting().PlayAt(v);
                 m_LevelSpawner->Start(v);
             }
+            static float sp = 1.0f;
+            static float now_sp = sp;
+            ImGui::SliderFloat("Music Speed", &sp, 1.0f, 10.0f);
+            if (now_sp != sp) {
+                now_sp = sp;
+                MusicPlayerManager::Setting().SetSpeed(now_sp);
+            }
             ImGui::Checkbox("Steady", &steady);
             ImGui::Checkbox("Firm", &firm);
             ImGui::Checkbox("Debug Lock", &debugLock);
@@ -223,6 +230,8 @@ void PlaygroundScreen::Ending() {
     }
     else if (m_TestingPower && m_TestingPower->IsFinished()) {
         Is_End = false;
+        debug = false;
+        MusicPlayerManager::Setting().SetSpeed(1.0f);
         m_NextState = ScreenState::Main;
     }
 }
