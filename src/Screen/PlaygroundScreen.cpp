@@ -12,8 +12,13 @@
 
 PlaygroundScreen::PlaygroundScreen(Levels level){
     glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DEBUG_SEVERITY_NOTIFICATION, 0, nullptr, GL_FALSE);
-    if (not debug)
+    if (not debug) {
         SDL_ShowCursor(SDL_DISABLE);
+        EventObject::s_IsKeyboardMode = true;
+    }else {
+        SDL_ShowCursor(SDL_ENABLE);
+        EventObject::s_IsKeyboardMode = false;
+    }
     LOG_DEBUG("PlaygroundScreen::PlaygroundScreen");
     SongData data;
     switch (level) {
