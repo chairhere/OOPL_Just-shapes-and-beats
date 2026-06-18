@@ -136,9 +136,9 @@ ScreenState MainMenuScreen::Update() {
                     Util::Input::IsKeyDown(Util::Keycode::UP) ||
                     Util::Input::IsKeyDown(Util::Keycode::DOWN)) {
                     m_ButtonPlay->Focus();
-                    }
+                }
             }
-            }
+        }
 
         // if (m_FadeLayerIn && !m_FadeLayerIn->IsFinished()) {
         //     m_FadeLayerIn->Update(); // 推進 1.5 秒的計時與透明度變化

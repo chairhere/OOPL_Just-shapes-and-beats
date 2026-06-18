@@ -118,7 +118,7 @@ ScreenState SongListScreen::Update() {
                             m_SelectedIndex += 1;
                             m_NowSelect = m_Items.at(m_SelectedIndex);
                         }
-                            }
+                    }
                 m_NowSelect->Focus();
             }else {
                 LOG_ERROR("觸發空白項目");
@@ -132,11 +132,12 @@ ScreenState SongListScreen::Update() {
 
         if (play || Util::Input::IsKeyDown(Util::Keycode::RETURN)) {
             // if (m_NowSelect != m_RandomOrder) {
-            //     return ScreenState::Playground;
+                return ScreenState::Playground;
             // }
-            MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::PlrHit);
-            Button::s_IsKeyboardMode = true;
-            SDL_ShowCursor(SDL_DISABLE);
+            // MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::PlrHit);
+            // Button::s_IsKeyboardMode = true;
+            // SDL_ShowCursor(SDL_DISABLE);
+            // play = false;
         }
         // m_RandomOrder->Update();
         for (int i = 0 ; i < ListLength ; i++) {

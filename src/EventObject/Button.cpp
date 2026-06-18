@@ -32,6 +32,19 @@ void Button::Update() {
     const bool focused = isFocus();
     const bool isCurrentlyActive = isActive();
 
+    // 觸發自定義的特效或點擊事件
+    if (hovering) {
+        if (m_OnHover) m_OnHover();
+        if (Util::Input::IsKeyDown(Util::Keycode::MOUSE_LB)) {
+            if (m_OnClick) m_OnClick();
+        }
+    } else if (focused) {
+        if (m_OnFocus) m_OnFocus();
+        if (Util::Input::IsKeyDown(Util::Keycode::RETURN)) {
+            if (m_OnClick) m_OnClick();
+        }
+    }
+
     if (isCurrentlyActive) {
         // 【剛碰到的第一幀】進行狀態快照與自動換圖
         if (!m_WasActive) {
@@ -40,18 +53,6 @@ void Button::Update() {
             m_WasActive = true;
         }
 
-        // 觸發自定義的特效或點擊事件
-        if (hovering) {
-            if (m_OnHover) m_OnHover();
-            if (Util::Input::IsKeyDown(Util::Keycode::MOUSE_LB)) {
-                if (m_OnClick) m_OnClick();
-            }
-        } else if (focused) {
-            if (m_OnFocus) m_OnFocus();
-            if (Util::Input::IsKeyDown(Util::Keycode::RETURN)) {
-                if (m_OnClick) m_OnClick();
-            }
-        }
     } else {
         // 【離開的第一幀】還原所有狀態
         if (m_WasActive) {
