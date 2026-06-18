@@ -26,8 +26,8 @@ private:
     int m_SelectedIndex = 0;
     std::vector<Levels> m_SongsOrder = {
         Levels::Chronos,
-        Levels::MilkyWay,
-        Levels::CheatCodes
+        Levels::MilkyWay
+        // Levels::CheatCodes
     };
     std::shared_ptr<ImageObject> m_Hint;
 
