@@ -47,7 +47,7 @@ private:
 
     float BPM;
 
-    bool debug = true;
+    bool debug = false;
     bool debugLock = false;
     bool steady = true;
     bool firm = true;
