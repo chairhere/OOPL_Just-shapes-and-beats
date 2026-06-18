@@ -19,7 +19,7 @@ public:
 
     ScreenState Update() override;
 private:
-    std::shared_ptr<Button> m_RandomOrder;
+    // std::shared_ptr<Button> m_RandomOrder;
     std::vector<std::shared_ptr<SongListItem>> m_Items;
     std::shared_ptr<EventObject> m_NowSelect = nullptr;
     std::shared_ptr<EventObject> m_SFXSelect = nullptr;
