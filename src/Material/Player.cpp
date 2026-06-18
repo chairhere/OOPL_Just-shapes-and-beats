@@ -260,7 +260,7 @@ void Player::Squash() {
         targetScale = glm::vec2(1.2f*normalScale, 0.8f*normalScale);
     }
 
-    float dt = Util::Time::GetDeltaTimeMs() / 1000.0f;
+    float dt = std::min(static_cast<int>(Util::Time::GetDeltaTimeMs()), 100) / 1000.0f;
 
     // 可自行微調的彈簧參數：
     float tension = 500.0f; // 拉力：數值越大，回彈力道越猛烈
@@ -293,7 +293,7 @@ void Player::Turn() {
     while (diff < -PI) diff += 2*PI;
 
     float omega = 0.02;
-    float step = omega * Util::Time::GetDeltaTimeMs();
+    float step = omega * std::min(static_cast<int>(Util::Time::GetDeltaTimeMs()), 100);
     if (std::abs(diff) <= step) {
         m_Transform.rotation = targetAngle;
     }else {
