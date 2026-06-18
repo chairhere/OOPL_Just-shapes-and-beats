@@ -167,6 +167,7 @@ void Player::Shake(glm::vec2 movement) {
 }
 
 void Player::Die() {
+    m_Transform.translation.x = -10000;
     MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::PlrDie);
     m_Health = 0;
     m_Stun = true;

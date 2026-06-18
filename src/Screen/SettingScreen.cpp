@@ -149,6 +149,7 @@ SettingScreen::SettingScreen() {
 
 void SettingScreen::Call(ScreenState WhoCalls) {
     freeze = true;
+    this->WhoCalls = WhoCalls;
     m_BGMSlider->SetValue(MusicPlayerManager::Setting().GetBGMBolume()*100/5);
     m_SFXSlider->SetValue(MusicPlayerManager::Setting().GetSFXVolume()*100/5);
     if (m_NowSelect != m_VolumePage) {
@@ -203,9 +204,9 @@ ScreenState SettingScreen::Update() {
                 Util::Input::IsKeyDown(Util::Keycode::DOWN)) {
                 if (m_NowSelect == m_VolumePage) {
                     m_NowSelect = m_Return;
-                }else if (m_NowSelect == m_Return) {
+                }else if (m_NowSelect == m_Return and WhoCalls == ScreenState::Playground) {
                     m_NowSelect = m_Restart;
-                }else if (m_NowSelect == m_Restart) {
+                }else if (m_NowSelect == m_Restart and WhoCalls == ScreenState::Playground) {
                     m_NowSelect = m_LeaveToList;
                 }
             }
