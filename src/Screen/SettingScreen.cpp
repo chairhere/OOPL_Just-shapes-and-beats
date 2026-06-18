@@ -15,35 +15,100 @@ SettingScreen::SettingScreen() {
     m_Background->SetZIndex(-50);
     m_Renderer.AddChild(m_Background);
 
-    m_VolumePage = std::make_shared<MergeButton>(LeftWhere, 25, "音量", selected);
+    m_VolumePage = std::make_shared<MergeButton>(LeftWhere, 25, "音量", none);
     m_VolumePage->SetFocusImage(selected);
+    m_VolumePage->SetOnClick([this]() {
+        if (m_NowSelect != m_VolumePage) {
+            MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::BtSelect);
+            this->m_NowSelect->Unfocus();
+            this->m_NowSelect = m_VolumePage;
+            this->m_NowSelect->Focus();
+            this->m_SFXSelect = m_NowSelect;
+        }
+    });
+    m_VolumePage->SetOnFocus([this]() {
+        if (m_SFXSelect != m_VolumePage) {
+            MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::BtSelect);
+        }
+        this->m_NowSelect = m_VolumePage;
+        this->m_SFXSelect = m_NowSelect;
+    });
+    m_VolumePage->HoverEnable(false);
     LeftWhere.y -= m_VolumePage->GetSize().y + gap;
     m_Renderer.AddChild(m_VolumePage);
 
     m_Return = std::make_shared<MergeButton>(LeftWhere, 25, "返回", none);
+    m_Return->SetFocusImage(selected);
     m_Return->SetOnClick([this]() {
-        MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::BtClick);
-        renum = 1;
+        if (m_NowSelect != m_Return) {
+            MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::BtSelect);
+            this->m_NowSelect->Unfocus();
+            this->m_NowSelect = m_Return;
+            this->m_NowSelect->Focus();
+            this->m_SFXSelect = m_NowSelect;
+        }else {
+            MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::BtClick);
+            renum = 1;
+        }
     });
     m_Return->SetOnFocus([this]() {
-        MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::BtSelect);
+        if (m_SFXSelect != m_Return) {
+            MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::BtSelect);
+        }
+        this->m_NowSelect = m_Return;
+        this->m_SFXSelect = m_NowSelect;
     });
+    m_Return->HoverEnable(false);
     LeftWhere.y -= m_Return->GetSize().y + gap;
     m_Renderer.AddChild(m_Return);
 
     m_Restart = std::make_shared<MergeButton>(LeftWhere, 25, "重新開始", none);
+    m_Restart->SetFocusImage(selected);
     m_Restart->SetOnClick([this]() {
-        MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::BtSelect);
-        renum = 2;
+        if (m_NowSelect != m_Restart) {
+            MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::BtSelect);
+            this->m_NowSelect->Unfocus();
+            this->m_NowSelect = m_Restart;
+            this->m_NowSelect->Focus();
+            this->m_SFXSelect = m_NowSelect;
+        }else {
+            MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::BtClick);
+            renum = 2;
+        }
     });
+    m_Restart->SetOnFocus([this]() {
+        if (m_SFXSelect != m_Restart) {
+            MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::BtSelect);
+        }
+        this->m_NowSelect = m_Restart;
+        this->m_SFXSelect = m_NowSelect;
+    });
+    m_Restart->HoverEnable(false);
     LeftWhere.y -= m_Restart->GetSize().y + gap;
     m_Renderer.AddChild(m_Restart);
 
     m_LeaveToList = std::make_shared<MergeButton>(LeftWhere, 25, "離開", none);
+    m_LeaveToList->SetFocusImage(selected);
     m_LeaveToList->SetOnClick([this]() {
-        MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::BtSelect);
-        renum = 3;
+        if (m_NowSelect != m_LeaveToList) {
+            MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::BtSelect);
+            this->m_NowSelect->Unfocus();
+            this->m_NowSelect = m_LeaveToList;
+            this->m_NowSelect->Focus();
+            this->m_SFXSelect = m_NowSelect;
+        }else {
+            MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::BtClick);
+            renum = 3;
+        }
     });
+    m_LeaveToList->SetOnFocus([this]() {
+        if (m_SFXSelect != m_LeaveToList) {
+            MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::BtSelect);
+        }
+        this->m_NowSelect = m_LeaveToList;
+        this->m_SFXSelect = m_NowSelect;
+    });
+    m_LeaveToList->HoverEnable(false);
     LeftWhere.y -= m_LeaveToList->GetSize().y + gap;
     m_Renderer.AddChild((m_LeaveToList));
 
@@ -59,6 +124,7 @@ SettingScreen::SettingScreen() {
     m_BGMSlider = std::make_shared<DiscreteSlider>(RightWhere.x+150, RightWhere.y);
     m_BGMSlider->SetOnValueChange([](int i) {
         MusicPlayerManager::Setting().SetBGMVolume(static_cast<float>(i)*5.0f/100.0f);
+        MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::BtSelect);
     });
     m_BGMSlider->SetValue(MusicPlayerManager::Setting().GetBGMBolume()*100/5);
     RightWhere.y -= m_BGMLabel->GetScaledSize().y + gap;
@@ -71,16 +137,25 @@ SettingScreen::SettingScreen() {
     m_SFXSlider = std::make_shared<DiscreteSlider>(RightWhere.x+150, RightWhere.y);
     m_SFXSlider->SetOnValueChange([](int i) {
         MusicPlayerManager::Setting().SetSFXVolume(static_cast<float>(i)*5.0f/100.0f);
+        MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::BtSelect);
     });
     m_SFXSlider->SetValue(MusicPlayerManager::Setting().GetSFXVolume()*100/5);
     RightWhere.y -= m_SFXLabel->GetScaledSize().y + gap;
     m_Renderer.AddChild(m_SFXSlider);
+
+    m_NowSelect = m_Restart;
+
 }
 
 void SettingScreen::Call(ScreenState WhoCalls) {
     freeze = true;
     m_BGMSlider->SetValue(MusicPlayerManager::Setting().GetBGMBolume()*100/5);
     m_SFXSlider->SetValue(MusicPlayerManager::Setting().GetSFXVolume()*100/5);
+    if (m_NowSelect != m_VolumePage) {
+        m_NowSelect->Unfocus();
+        m_NowSelect = m_VolumePage;
+        m_NowSelect->Focus();
+    }
     if (WhoCalls == ScreenState::Playground) {
         m_Restart->SetShow(true);
         m_LeaveToList->SetShow(true);
@@ -91,12 +166,55 @@ void SettingScreen::Call(ScreenState WhoCalls) {
 }
 
 void SettingScreen::HangUp() {
-    Screen::freeze = false;
+    freeze = false;
     MusicPlayerManager::Setting().Play();
 }
 
 
 ScreenState SettingScreen::Update() {
+
+    //防Hover與Focus衝突
+    if (Util::Input::IsMouseMoving()) {
+        Button::s_IsKeyboardMode = false;
+        SDL_ShowCursor(SDL_ENABLE);
+    }
+    if (Util::Input::IsKeyDown(Util::Keycode::W) ||
+            Util::Input::IsKeyDown(Util::Keycode::S) ||
+            Util::Input::IsKeyDown(Util::Keycode::UP) ||
+            Util::Input::IsKeyDown(Util::Keycode::DOWN) ||
+            Util::Input::IsKeyDown(Util::Keycode::RETURN)) {
+
+        Button::s_IsKeyboardMode = true;
+        SDL_ShowCursor(SDL_DISABLE);
+
+        if (m_NowSelect) {
+            m_NowSelect->Unfocus();
+            if (Util::Input::IsKeyDown(Util::Keycode::W) ||
+                Util::Input::IsKeyDown(Util::Keycode::UP)) {
+                if (m_NowSelect == m_Return) {
+                    m_NowSelect = m_VolumePage;
+                }else if (m_NowSelect == m_Restart) {
+                    m_NowSelect = m_Return;
+                }else if (m_NowSelect == m_LeaveToList) {
+                    m_NowSelect = m_Restart;
+                }
+            }else if (
+                Util::Input::IsKeyDown(Util::Keycode::S) ||
+                Util::Input::IsKeyDown(Util::Keycode::DOWN)) {
+                if (m_NowSelect == m_VolumePage) {
+                    m_NowSelect = m_Return;
+                }else if (m_NowSelect == m_Return) {
+                    m_NowSelect = m_Restart;
+                }else if (m_NowSelect == m_Restart) {
+                    m_NowSelect = m_LeaveToList;
+                }
+            }
+            m_NowSelect->Focus();
+        }else {
+            LOG_ERROR("觸發空白項目");
+            throw std::invalid_argument("The list should NOT be without selected items.");
+        }
+    }
 
     m_VolumePage->Update();
     m_Return->Update();

@@ -45,33 +45,33 @@ SongListScreen::SongListScreen() {
     m_NowSelect = m_Items.at(0);
     m_Items.at(0)->Focus();
 
-    //==隨機按鈕==
-    m_RandomOrder = std::make_shared<Button>("../Resources/Image/OptionBackground/None.png");
-    m_RandomOrder->m_Transform.scale = glm::vec2(1.5, 0.1);
-    m_RandomOrder->SetFocusImage("../Resources/Image/OptionBackground/Selected.png");
-    m_RandomOrder->m_Transform.translation = glm::vec2(0, 250);
-    m_RandomOrder->SetOnClick([this]() {
-        if (m_SFXSelect != m_RandomOrder) {
-            MusicPlayerManager::Setting().CleanList();
-            this->m_SFXSelect = m_RandomOrder;
-            MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::Choose);
-        }
-        this->m_NowSelect->Unfocus();
-        this->m_SelectedIndex = -1;
-        this->m_NowSelect = m_RandomOrder;
-        this->m_NowSelect->Focus();
-    });
-    m_RandomOrder->SetOnFocus([this]() {
-        if (m_SFXSelect != m_RandomOrder) {
-            MusicPlayerManager::Setting().CleanList();
-            this->m_SFXSelect = m_RandomOrder;
-            MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::BtSelect);
-        }
-        this->m_SelectedIndex = -1;
-        this->m_NowSelect = m_RandomOrder;
-    });
-    m_RandomOrder->HoverEnable(false);
-    m_Renderer.AddChild(m_RandomOrder);
+    //==隨機按鈕==目前尚無此功能
+    // m_RandomOrder = std::make_shared<Button>("../Resources/Image/OptionBackground/None.png");
+    // m_RandomOrder->m_Transform.scale = glm::vec2(1.5, 0.1);
+    // m_RandomOrder->SetFocusImage("../Resources/Image/OptionBackground/Selected.png");
+    // m_RandomOrder->m_Transform.translation = glm::vec2(0, 250);
+    // m_RandomOrder->SetOnClick([this]() {
+    //     if (m_SFXSelect != m_RandomOrder) {
+    //         MusicPlayerManager::Setting().CleanList();
+    //         this->m_SFXSelect = m_RandomOrder;
+    //         MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::Choose);
+    //     }
+    //     this->m_NowSelect->Unfocus();
+    //     this->m_SelectedIndex = -1;
+    //     this->m_NowSelect = m_RandomOrder;
+    //     this->m_NowSelect->Focus();
+    // });
+    // m_RandomOrder->SetOnFocus([this]() {
+    //     if (m_SFXSelect != m_RandomOrder) {
+    //         MusicPlayerManager::Setting().CleanList();
+    //         this->m_SFXSelect = m_RandomOrder;
+    //         MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::BtSelect);
+    //     }
+    //     this->m_SelectedIndex = -1;
+    //     this->m_NowSelect = m_RandomOrder;
+    // });
+    // m_RandomOrder->HoverEnable(false);
+    // m_Renderer.AddChild(m_RandomOrder);
     MusicPlayerManager::Setting().Switch(m_SongsOrder.at(0));
 
     m_Hint = std::make_shared<ImageObject>("../Resources/Image/MainScreenButton/Hint.png");
@@ -102,43 +102,44 @@ ScreenState SongListScreen::Update() {
                 m_NowSelect->Unfocus();
                 if (Util::Input::IsKeyDown(Util::Keycode::W) ||
                     Util::Input::IsKeyDown(Util::Keycode::UP)) {
-                    if (m_SelectedIndex == 0) {
-                        m_SelectedIndex = -1;
-                        m_NowSelect = m_RandomOrder;
-                    }else if (m_SelectedIndex > 0) {
+                    /*if (m_SelectedIndex == 0) {
+                         m_SelectedIndex = -1;
+                         m_NowSelect = m_RandomOrder;
+                    }else */if (m_SelectedIndex > 0) {
                         m_SelectedIndex -= 1;
                         m_NowSelect = m_Items.at(m_SelectedIndex);
                     }
                     }else if (Util::Input::IsKeyDown(Util::Keycode::S) ||
                             Util::Input::IsKeyDown(Util::Keycode::DOWN)) {
-                        if (m_SelectedIndex == -1) {
+                        /*if (m_SelectedIndex == -1) {
                             m_SelectedIndex = 0;
                             m_NowSelect = m_Items.at(0);
-                        }else if (m_SelectedIndex < ListLength-1) {
+                        }else */if (m_SelectedIndex < ListLength-1) {
                             m_SelectedIndex += 1;
                             m_NowSelect = m_Items.at(m_SelectedIndex);
                         }
-                            }
+                    }
                 m_NowSelect->Focus();
             }else {
                 LOG_ERROR("觸發空白項目");
                 throw std::invalid_argument("The list should NOT be without selected items.");
             }
 
-            if (((m_SelectedIndex == -1) ^ (m_NowSelect == m_RandomOrder)) or (m_SelectedIndex != -1 and m_NowSelect != m_Items.at(m_SelectedIndex))) {
+            if (/*((m_SelectedIndex == -1) ^ (m_NowSelect == m_RandomOrder)) or */(m_SelectedIndex != -1 and m_NowSelect != m_Items.at(m_SelectedIndex))) {
                 LOG_WARN("SelectedIndex doesn't match NowSelect");
             }
-            }
+        }
 
         if (play || Util::Input::IsKeyDown(Util::Keycode::RETURN)) {
-            if (m_NowSelect != m_RandomOrder) {
+            // if (m_NowSelect != m_RandomOrder) {
                 return ScreenState::Playground;
-            }
-            MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::PlrHit);
-            Button::s_IsKeyboardMode = true;
-            SDL_ShowCursor(SDL_DISABLE);
+            // }
+            // MusicPlayerManager::Setting().PlayEffect(MusicPlayerManager::PlrHit);
+            // Button::s_IsKeyboardMode = true;
+            // SDL_ShowCursor(SDL_DISABLE);
+            // play = false;
         }
-        m_RandomOrder->Update();
+        // m_RandomOrder->Update();
         for (int i = 0 ; i < ListLength ; i++) {
             m_Items.at(i)->Update();
         }

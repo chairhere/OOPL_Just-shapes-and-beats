@@ -45,7 +45,7 @@ private:
     std::shared_ptr<TextObject> m_BGMLabel, m_SFXLabel;
     std::shared_ptr<DiscreteSlider> m_BGMSlider, m_SFXSlider;
 
-    std::shared_ptr<Util::GameObject> nowSelect;
+    std::shared_ptr<EventObject> m_NowSelect, m_SFXSelect;
 
     int renum = 0;
 

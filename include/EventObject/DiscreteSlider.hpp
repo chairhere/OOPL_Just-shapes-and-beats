@@ -16,6 +16,7 @@ public:
 
     void SetOnValueChange(std::function<void(int)> event);
     void SetValue(int step);
+    int GetValue();
 
     void UpdateVisuals(); // 統一處理方格亮起/熄滅的視覺更新
     void Update() override;
