@@ -125,11 +125,21 @@ bool Obstacle::CheckCollision(glm::vec2 PlayerPos) const {
     float dx = std::abs(PlayerPos.x - m_Transform.translation.x);
     float dy = std::abs(PlayerPos.y - m_Transform.translation.y);
 
-    if (m_Transform.rotation == 0.0f || (m_Transform.rotation >= 3.0f && m_Transform.rotation <= 3.2f) || (m_Transform.rotation >= 1.5f && m_Transform.rotation <= 1.6f) || (m_Transform.rotation >= 4.65f && m_Transform.rotation <= 4.8f)) {
+    if (m_Transform.rotation == 0.0f || (m_Transform.rotation >= 3.0f && m_Transform.rotation <= 3.2f) ) {
 
         // 2. 【取得範圍】：假設子彈原本是置中的 1x1 正方形，實際碰撞寬高直接取決於 Scale
         float halfWidth = m_Transform.scale.x / 2.0f;
         float halfHeight = m_Transform.scale.y / 2.0f;
+
+        // 3. 【AABB 範圍檢查】：直接判斷是否落入無旋轉矩形的邊界內
+        if (dx <= halfWidth && dy <= halfHeight) {
+            return true;
+        }
+    }
+    else if ((m_Transform.rotation >= 1.5f && m_Transform.rotation <= 1.6f) || (m_Transform.rotation >= 4.65f && m_Transform.rotation <= 4.8f)){
+
+        float halfWidth = m_Transform.scale.y / 2.0f;
+        float halfHeight = m_Transform.scale.x / 2.0f;
 
         // 3. 【AABB 範圍檢查】：直接判斷是否落入無旋轉矩形的邊界內
         if (dx <= halfWidth && dy <= halfHeight) {
