@@ -49,6 +49,11 @@ void DiscreteSlider::SetValue(int step) {
     m_CurrentStep = step;
 }
 
+int DiscreteSlider::GetValue() {
+    return m_CurrentStep;
+}
+
+
 void DiscreteSlider::UpdateVisuals() {
     for (int i = 0 ; i < m_TotalSteps ; i++) {
         if (i < m_CurrentStep) {
