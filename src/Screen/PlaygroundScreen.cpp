@@ -122,6 +122,7 @@ ScreenState PlaygroundScreen::Update() {
                         m_MusicSpeed += 0.02;
                         MusicPlayerManager::Setting().SetSpeed(m_MusicSpeed);
                     }else {
+                        m_LevelSpawner->EndGame();
                         m_LevelSpawner->Start(m_StartBeat);
                         m_MusicSpeed = 1.0f;
                         MusicPlayerManager::Setting().SetSpeed(m_MusicSpeed);
@@ -202,7 +203,7 @@ ScreenState PlaygroundScreen::Update() {
             ImGui::Separator();
             ImGui::Text("FPS:%f", 1000.0F / Util::Time::GetDeltaTimeMs());
             ImGui::Text("Obstacles:%d", m_LevelSpawner->GetObstaclesCount());
-            ImGui::Text("WaitingObstacles:%d", m_LevelSpawner->GetWaitingObstacleIndex());
+            ImGui::Text("NextObstacleIndex:%d", m_LevelSpawner->GetWaitingObstacleIndex());
             ImGui::End();
         }
     }
