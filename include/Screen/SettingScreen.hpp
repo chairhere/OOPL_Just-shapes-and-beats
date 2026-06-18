@@ -48,6 +48,7 @@ private:
     std::shared_ptr<EventObject> m_NowSelect, m_SFXSelect;
 
     int renum = 0;
+    ScreenState WhoCalls;
 
     const std::string none = "../Resources/Image/OptionBackground/None.png";
     const std::string selected = "../Resources/Image/OptionBackground/Selected.png";
